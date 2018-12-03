@@ -3,7 +3,7 @@
 We will play with means (averages) to explore some of the most fundamental aspects of R programming.
 
 Slides, exercises and data are in the compressed file:
-[https://github.com/timotheenivalis/Rcode-Stats-Bubbles/blob/master/02.TheMean/SlidesAndExercises.zip](https://github.com/timotheenivalis/Rcode-Stats-Bubbles/blob/master/02.TheMean/SlidesAndExercises.zip)
+[https://github.com/timotheenivalis/RSB-R-Stats-Biology/blob/master/02.TheMean/SlidesAndExercises.zip](https://github.com/timotheenivalis/RSB-R-Stats-Biology/blob/master/02.TheMean/SlidesAndExercises.zip)
 
 The code from during the workshop:
-[https://github.com/timotheenivalis/Rcode-Stats-Bubbles/blob/master/02.TheMean/scriptingduringworkshop.R](https://github.com/timotheenivalis/Rcode-Stats-Bubbles/blob/master/02.TheMean/scriptingduringworkshop.R)
+[https://github.com/timotheenivalis/RSB-R-Stats-Biology/blob/master/02.TheMean/scriptingduringworkshop.R](https://github.com/timotheenivalis/RSB-R-Stats-Biology/blob/master/02.TheMean/scriptingduringworkshop.R)
