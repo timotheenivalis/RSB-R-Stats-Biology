@@ -271,10 +271,17 @@ Less uncertainty with
 \begin{frame}[fragile]{When do we know it is different? Simulations}
 
 \begin{block}{Simulations in R}
+  \begin{itemize}
+    \item Pseudo-random generator
+    \item Deterministic chain starting from a number calculated from computer time and R processus ID (the "seed")
+    \item Hence reproducible using \texttt{set.seed()}
+    \item Default algorithm: Mersenne-Twister
+  \end{itemize}
+
 \begin{knitrout}
 \definecolor{shadecolor}{rgb}{0.843, 0.867, 0.922}\color{fgcolor}\begin{kframe}
 \begin{alltt}
-  \hlkwd{rnorm}\hlstd{()}
+  \hlkwd{rnorm}\hlstd{(}\hlkwc{n} \hlstd{= ,} \hlkwc{mean} \hlstd{= ,} \hlkwc{sd} \hlstd{= )}
 \end{alltt}
 \end{kframe}
 \end{knitrout}
@@ -282,6 +289,7 @@ Less uncertainty with
 \end{block}
 
 \end{frame}
+%%%%%%%%%%%
   
 \begin{frame}[fragile]{When do we know it is different? Simulations}
 \pause
@@ -357,7 +365,50 @@ Check the effect of {\color{orange}{smaller variability}} and/or {\color{blue}{l
 \end{frame}
 %%%%%%%%%%%
 
-\begin{frame}{}
+\begin{frame}[fragile]{Playing with loops and p-values}
+
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.843, 0.867, 0.922}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlkwd{set.seed}\hlstd{(}\hlnum{1234}\hlstd{)}
+\hlstd{x} \hlkwb{<-} \hlkwd{rnorm}\hlstd{(}\hlnum{100}\hlstd{)}
+\hlstd{y} \hlkwb{<-} \hlkwd{rnorm}\hlstd{(}\hlnum{100}\hlstd{)}
+\hlkwd{summary}\hlstd{(}\hlkwd{lm}\hlstd{(y}\hlopt{~}\hlstd{x))}
+\end{alltt}
+\begin{verbatim}
+
+Call:
+lm(formula = y ~ x)
+
+Residuals:
+     Min       1Q   Median       3Q      Max 
+-2.88626 -0.61401  0.00236  0.58645  2.98774 
+
+Coefficients:
+            Estimate Std. Error t value Pr(>|t|)
+(Intercept)  0.03715    0.10498   0.354    0.724
+x           -0.02608    0.10378  -0.251    0.802
+
+Residual standard error: 1.037 on 98 degrees of freedom
+Multiple R-squared:  0.0006443,	Adjusted R-squared:  -0.009553 
+F-statistic: 0.06318 on 1 and 98 DF,  p-value: 0.8021
+\end{verbatim}
+\end{kframe}
+\end{knitrout}
+\end{frame}
+
+
+\begin{frame}[fragile]{Playing with loops and p-values}
+
+\begin{alertblock}{While-loop}
+Are we every going to find a significant p-value with two sets of random numbers? Write a while loop to find out. How many iterations until you find a p-value below 0.05?
+
+\end{alertblock}
+
+\begin{alertblock}{For-loop}
+How often do you observe a significant test with randomly drawn numbers?
+
+\end{alertblock}
 
 \end{frame}
 %%%%%%%%%%%
@@ -526,7 +577,7 @@ mean of x mean of y
 \centering
 \begin{knitrout}
 \definecolor{shadecolor}{rgb}{0.843, 0.867, 0.922}\color{fgcolor}
-\includegraphics[width=0.8\textwidth,height=0.6\textwidth]{figure/unnamed-chunk-12-1} 
+\includegraphics[width=0.8\textwidth,height=0.6\textwidth]{figure/unnamed-chunk-15-1} 
 
 \end{knitrout}
 \end{frame}
@@ -562,7 +613,7 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 \centering
 \begin{knitrout}
 \definecolor{shadecolor}{rgb}{0.843, 0.867, 0.922}\color{fgcolor}
-\includegraphics[width=0.8\textwidth,height=0.6\textwidth]{figure/unnamed-chunk-14-1} 
+\includegraphics[width=0.8\textwidth,height=0.6\textwidth]{figure/unnamed-chunk-17-1} 
 
 \end{knitrout}
 \end{frame}
@@ -606,7 +657,7 @@ F-statistic: 10.73 on 1 and 33 DF,  p-value: 0.002485
 \centering
 \begin{knitrout}
 \definecolor{shadecolor}{rgb}{0.843, 0.867, 0.922}\color{fgcolor}
-\includegraphics[width=0.8\textwidth,height=0.6\textwidth]{figure/unnamed-chunk-16-1} 
+\includegraphics[width=0.8\textwidth,height=0.6\textwidth]{figure/unnamed-chunk-19-1} 
 
 \end{knitrout}
 \end{frame}
@@ -683,13 +734,9 @@ F-statistic: 10.73 on 1 and 33 DF,  p-value: 0.002485
 \begin{knitrout}
 \definecolor{shadecolor}{rgb}{0.843, 0.867, 0.922}\color{fgcolor}\begin{kframe}
 \begin{alltt}
-  \hlstd{Ans} \hlkwb{<-} \hlkwd{read.csv}\hlstd{(}\hlkwc{file} \hlstd{=} \hlstr{"Anscombe.csv"}\hlstd{)}
+  \hlstd{Ans} \hlkwb{<-} \hlkwd{read.csv}\hlstd{(}\hlkwc{file} \hlstd{=} \hlstr{"Data/Anscombe.csv"}\hlstd{)}
 \end{alltt}
-
-
-{\ttfamily\noindent\color{warningcolor}{Warning in file(file, "{}rt"{}): cannot open file 'Anscombe.csv': No such file or directory}}
-
-{\ttfamily\noindent\bfseries\color{errorcolor}{Error in file(file, "{}rt"{}): cannot open the connection}}\end{kframe}
+\end{kframe}
 \end{knitrout}
   
 \begin{knitrout}
@@ -712,7 +759,7 @@ F-statistic: 10.73 on 1 and 33 DF,  p-value: 0.002485
  \begin{itemize}
    \item Fit a linear model $y \sim x$for each of the four ``distri"
    \item Plot the relationship  $ y \sim x $ for each of the four ``distri"
-   \item Can we trust these models? For what? \textit{\tiny I expect more than ``it's all bullshit"}
+   \item Can we trust these models? For what? 
   \end{itemize}
  \end{alertblock}
 
@@ -767,15 +814,9 @@ Not necessarily wrong, but typical interpretation assumes:
 \definecolor{shadecolor}{rgb}{0.843, 0.867, 0.922}\color{fgcolor}\begin{kframe}
 \begin{alltt}
  \hlstd{lm1} \hlkwb{<-} \hlkwd{lm}\hlstd{(y} \hlopt{~} \hlstd{x ,} \hlkwc{data}\hlstd{=Ans[Ans}\hlopt{$}\hlstd{distri}\hlopt{==}\hlnum{1}\hlstd{,])}
-\end{alltt}
-
-
-{\ttfamily\noindent\bfseries\color{errorcolor}{Error in is.data.frame(data): object 'Ans' not found}}\begin{alltt}
  \hlstd{lm2} \hlkwb{<-} \hlkwd{lm}\hlstd{(y} \hlopt{~} \hlstd{x ,} \hlkwc{data}\hlstd{=Ans[Ans}\hlopt{$}\hlstd{distri}\hlopt{==}\hlnum{2}\hlstd{,])}
 \end{alltt}
-
-
-{\ttfamily\noindent\bfseries\color{errorcolor}{Error in is.data.frame(data): object 'Ans' not found}}\end{kframe}
+\end{kframe}
 \end{knitrout}
   
   
@@ -806,29 +847,16 @@ Not necessarily wrong, but typical interpretation assumes:
 \definecolor{shadecolor}{rgb}{0.843, 0.867, 0.922}\color{fgcolor}\begin{kframe}
 \begin{alltt}
 \hlstd{pred2} \hlkwb{<-} \hlkwd{predict}\hlstd{(lm2,} \hlkwc{se.fit} \hlstd{=} \hlnum{TRUE}\hlstd{,} \hlkwc{interval} \hlstd{=} \hlstr{"confidence"}\hlstd{)}
-\end{alltt}
-
-
-{\ttfamily\noindent\bfseries\color{errorcolor}{Error in predict(lm2, se.fit = TRUE, interval = "{}confidence"{}): object 'lm2' not found}}\begin{alltt}
 \hlstd{pred2} \hlkwb{<-} \hlkwd{cbind}\hlstd{(Ans[Ans}\hlopt{$}\hlstd{distri}\hlopt{==}\hlnum{2}\hlstd{,], pred2)}
 \end{alltt}
-
-
-{\ttfamily\noindent\bfseries\color{errorcolor}{Error in cbind(Ans[Ans\$distri == 2, ], pred2): object 'Ans' not found}}\end{kframe}
+\end{kframe}
 \end{knitrout}
 
 \pause
 \begin{knitrout}
-\definecolor{shadecolor}{rgb}{0.843, 0.867, 0.922}\color{fgcolor}\begin{kframe}
+\definecolor{shadecolor}{rgb}{0.843, 0.867, 0.922}\color{fgcolor}
+\includegraphics[width=0.8\textwidth,height=0.6\textwidth]{figure/pred2-1} 
 
-
-{\ttfamily\noindent\bfseries\color{errorcolor}{Error in plot(pred2\$x, pred2\$y, ylim = c(0, 12), col = "{}red"{}, pch = 16, : object 'pred2' not found}}
-
-{\ttfamily\noindent\bfseries\color{errorcolor}{Error in lines(pred2\$x, pred2\$fit.fit): object 'pred2' not found}}
-
-{\ttfamily\noindent\bfseries\color{errorcolor}{Error in arrows(x0 = pred2\$x, y0 = pred2\$fit.lwr, y1 = pred2\$fit.upr, : object 'pred2' not found}}
-
-{\ttfamily\noindent\bfseries\color{errorcolor}{Error in strwidth(legend, units = "{}user"{}, cex = cex, font = text.font): plot.new has not been called yet}}\end{kframe}
 \end{knitrout}
 \end{frame}
 %%%%%%%%%%%

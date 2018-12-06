@@ -275,7 +275,51 @@ Check the effect of {\color{orange}{smaller variability}} and/or {\color{blue}{l
 \end{frame}
 %%%%%%%%%%%
 
-\begin{frame}{}
+\begin{frame}[fragile]{Playing with loops and p-values}
+
+<<>>=
+set.seed(1234)
+x <- rnorm(100)
+y <- rnorm(100)
+summary(lm(y~x))
+@
+\end{frame}
+
+
+\begin{frame}[fragile]{Playing with loops and p-values}
+
+\begin{alertblock}{While-loop}
+Are we every going to find a significant p-value with two sets of random numbers? Write a while loop to find out. How many iterations until you find a p-value below 0.05?
+<<eval=FALSE, echo=FALSE>>=
+pvs <- FALSE
+count <- 0
+while(pvs == FALSE)
+{
+  count <- count + 1
+  x <- rnorm(100)
+  y <- rnorm(100)
+  slm <- summary(lm(y~x))
+  pvs <- slm$coefficients[2,4]<0.05
+}
+slm
+plot(x,y)
+@
+\end{alertblock}
+
+\begin{alertblock}{For-loop}
+How often do you observe a significant test with randomly drawn numbers? Use a for-loop to record the distribution of p-values.
+<<eval=FALSE, echo=FALSE>>=
+pval <- vector(length = 1000)
+for (i in 1:1000)
+{
+  x <- rnorm(100)
+  y <- rnorm(100)
+  slm <- summary(lm(y~x))
+  pval[i] <- slm$coefficients[2,4]
+}
+hist(pval)
+@
+\end{alertblock}
 
 \end{frame}
 %%%%%%%%%%%
@@ -562,7 +606,7 @@ anova(fitlm)
 \begin{frame}[fragile]{Interpretation}
 
   <<>>=
-    Ans <- read.csv(file = "Anscombe.csv")
+    Ans <- read.csv(file = "Data/Anscombe.csv")
   @
   
   <<eval=FALSE>>=
@@ -581,7 +625,7 @@ anova(fitlm)
  \begin{itemize}
    \item Fit a linear model $y \sim x$for each of the four ``distri"
    \item Plot the relationship  $ y \sim x $ for each of the four ``distri"
-   \item Can we trust these models? For what? \textit{\tiny I expect more than ``it's all bullshit"}
+   \item Can we trust these models? For what? 
   \end{itemize}
  \end{alertblock}
 
