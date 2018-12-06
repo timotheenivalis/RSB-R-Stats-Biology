@@ -193,6 +193,25 @@ Less uncertainty with
 
 \end{frame}
 %%%%%%%%%%%
+
+\begin{frame}[fragile]{When do we know it is different? Simulations}
+
+\begin{block}{Simulations in R}
+  \begin{itemize}
+    \item Pseudo-random generator
+    \item Deterministic chain starting from a number calculated from computer time and R processus ID (the "seed")
+    \item Hence reproducible using \texttt{set.seed()}
+    \item Default algorithm: Mersenne-Twister
+  \end{itemize}
+
+  <<eval=FALSE>>=
+    rnorm(n = , mean = , sd = )
+  @
+
+\end{block}
+
+\end{frame}
+%%%%%%%%%%%
   
 \begin{frame}[fragile]{When do we know it is different? Simulations}
 \pause

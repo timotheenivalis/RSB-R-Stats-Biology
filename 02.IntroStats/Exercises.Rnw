@@ -13,6 +13,8 @@
 \usepackage{multicol}
 \usepackage{booktabs}
 
+\usepackage{exercise}
+
 \usepackage[autostyle, english = american]{csquotes}
 \MakeOuterQuote{"}
 
@@ -36,6 +38,9 @@
 \maketitle
 
 \tableofcontents
+\ListOfExerciseInToc
+\ExerciseLevelInToc{subsection}
+
 
 \section{Statistical inference and random numbers}
 
@@ -54,9 +59,13 @@ Some datasets are shipped with R (in R-base or in packages) and you can load the
           drop = TRUE, ylab="Sepal length", xlab="Species")
   @
 
+\begin{Exercise}[difficulty=1]
 \textbf{If you like ggplot, redo a boxplot of the iris data using that package.}
+\end{Exercise}
 
-
+\begin{Exercise}[difficulty=2]
+\textbf{Do species differ in their Sepal length? Use a t-test, an anova, and a linear model to answer.}
+\end{Exercise}
 
 \section{R-studio tricks}
 
@@ -66,13 +75,13 @@ Some datasets are shipped with R (in R-base or in packages) and you can load the
 
 \section{Linear models}
 
-
+\begin{Exercise}[difficulty=2]
 \begin{enumerate}
     \item Load Cdata.csv, fit models of y predited by x1 and x2, or x2 and x3. Something is weird, what is going on? What to do?
     \item For model that can be fitted with t.test, aov, and lm, is one of the function faster?
     \item Write your own code to obtain a prediction from a lm (that is, a simpler version of the predict function), with confidence interval. (extra toughness: do it using the matrix formulation of the analytical solution to a linear model)
   \end{enumerate}
-
+\end{Exercise}
 \section{While-loop}
 
 \subsection{What you need to know}

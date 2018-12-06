@@ -267,6 +267,21 @@ Less uncertainty with
 
 \end{frame}
 %%%%%%%%%%%
+
+\begin{frame}[fragile]{When do we know it is different? Simulations}
+
+\begin{block}{Simulations in R}
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.843, 0.867, 0.922}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+  \hlkwd{rnorm}\hlstd{()}
+\end{alltt}
+\end{kframe}
+\end{knitrout}
+
+\end{block}
+
+\end{frame}
   
 \begin{frame}[fragile]{When do we know it is different? Simulations}
 \pause
@@ -321,6 +336,7 @@ Check the effect of {\color{orange}{smaller variability}} and/or {\color{blue}{l
 \end{alertblock}
 \end{frame}
 %%%%%%%%%%%
+
 
 \begin{frame}{By the way, what are these p-values?}%focus on p-value criticized
 
@@ -510,7 +526,7 @@ mean of x mean of y
 \centering
 \begin{knitrout}
 \definecolor{shadecolor}{rgb}{0.843, 0.867, 0.922}\color{fgcolor}
-\includegraphics[width=0.8\textwidth,height=0.6\textwidth]{figure/unnamed-chunk-11-1} 
+\includegraphics[width=0.8\textwidth,height=0.6\textwidth]{figure/unnamed-chunk-12-1} 
 
 \end{knitrout}
 \end{frame}
@@ -546,7 +562,7 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 \centering
 \begin{knitrout}
 \definecolor{shadecolor}{rgb}{0.843, 0.867, 0.922}\color{fgcolor}
-\includegraphics[width=0.8\textwidth,height=0.6\textwidth]{figure/unnamed-chunk-13-1} 
+\includegraphics[width=0.8\textwidth,height=0.6\textwidth]{figure/unnamed-chunk-14-1} 
 
 \end{knitrout}
 \end{frame}
@@ -590,7 +606,7 @@ F-statistic: 10.73 on 1 and 33 DF,  p-value: 0.002485
 \centering
 \begin{knitrout}
 \definecolor{shadecolor}{rgb}{0.843, 0.867, 0.922}\color{fgcolor}
-\includegraphics[width=0.8\textwidth,height=0.6\textwidth]{figure/unnamed-chunk-15-1} 
+\includegraphics[width=0.8\textwidth,height=0.6\textwidth]{figure/unnamed-chunk-16-1} 
 
 \end{knitrout}
 \end{frame}
@@ -834,29 +850,6 @@ Not necessarily wrong, but typical interpretation assumes:
   
 \end{frame}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Bonus fun}
-\begin{frame}{Extra exercises}
-
-
-
-\begin{alertblock}{General R coding}
-  \begin{enumerate}
-    \item What is the fastest way to get row averages in a data-frame?
-    \item Create a function called colVars, like colMeans but for variance
-    \item Create nice plots to visualize iris data (ideally journal-quality)
-  \end{enumerate}
-\end{alertblock}
-
-\begin{alertblock}{Linear models}
-  \begin{enumerate}
-    \item Load Cdata.csv, fit models of y predited by x1 and x2, or x2 and x3. Something is weird, what is going on? What to do?
-    \item For model that can be fitted with t.test, aov, and lm, is one of the function faster?
-    \item Write your own code to obtain a prediction from a lm (that is, a simpler version of the predict function), with confidence interval. (extra toughness: do it using the matrix formulation of the analytical solution to a linear model)
-  \end{enumerate}
-\end{alertblock}
-\end{frame}
-%%%%%%%%%%%
 
 
 \end{document}
