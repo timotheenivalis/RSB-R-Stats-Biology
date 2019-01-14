@@ -66,19 +66,42 @@ We study how a membrane protein intakes external molecules in frog eggs. The tar
 \end{Exercise}
 
 
+\subsection{Broken models?}
 
-\subsection{Experimental design}
+Let's look at models with data from the an experiment similar to the mice example.
+\begin{Exercise}[difficulty=1, title={lm vs. lmer vs. lm+}]
 
+Load the dataset "challenge2.csv", and test the effect of the vaccine treatment ("Group") on the immune response ("Percent.loss"). 
+First fit a fixed-effect only linear model and/or an anova. Is there a clear effect of treatment?\\
+Now add a random effect for Cage (e.g., using the package lme4), what happens to the effect of treatment?\\
+Finally, fit Cage and Group as fixed effects in a simple linear model and/or anova. What happens, why?\\
+Which of the three models should you trust or not?
 
-\begin{Exercise}[difficulty=1]
-\textbf{Use a for loop and an if-else statement to do that.}
 \end{Exercise}
+
+<<echo=FALSE, eval=FALSE>>=
+mice <- read.csv("Data/challenge2.csv")
+library(lme4)
+summary(lm(Percent.loss ~ 1 + Group, data=mice))
+anova(lm(Percent.loss ~ 1 + Group, data=mice))
+
+summary(lmer(Percent.loss ~ 1 + Group + (1|Cage), data=mice))
+anova(lmer(Percent.loss ~ 1 + Group + (1|Cage), data=mice))
+
+summary(lm(Percent.loss ~ 1 + Group + Cage, data=mice))
+anova(lm(Percent.loss ~ 1 + Group + Cage, data=mice))
+@
 
 
 \section{Interpreting simple mixed models}
 
+
+
 \section{Flexible variance structures}
 
+<<echo=FALSE, eval=FALSE>>=
+respi <- read.csv("Data/Prac4respiration data.csv")
 
+@
 
 \end{document}
