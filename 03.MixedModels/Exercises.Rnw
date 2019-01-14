@@ -41,11 +41,36 @@
 \ListOfExerciseInToc
 \ExerciseLevelInToc{subsubsection}
 
+\clearpage
 
 \section{Understanding error structure}
 
+\subsection{Broken experiments}
 
-\begin{Exercise}[difficulty=2]
+\begin{Exercise}[difficulty=1, title={A significant result?}]
+We carry out a vaccine challenge experiment. There are three experimental groups (saline control / low vaccine dose / high vaccine dose), with 6 mice in each group. For each group all mice are housed together in the same cage (so there are three cages). All mice are challenged with \emph{Shigella}, their symptom intensity is scored on day 8. A one-way ANOVA identifies an effect of the treatment, and pair-wise Bonferroni tests show the low-dose to be statistically significant different from the two other groups:
+
+\includegraphics[width=0.4\textwidth]{Figures/message1}
+
+\textbf{What is suspicious in the result? What part of the design may explain the result? How to improve the design (there are at least two different ways)?}
+\end{Exercise}
+
+
+\begin{Exercise}[difficulty=1, title={A better experimental design}]
+We study how a membrane protein intakes external molecules in frog eggs. The target molecules are radioactively labelled so we can measure intake. We created five mutant lines to test what part of the protein controls intake. We propose to measure six tubes of ten eggs every week. Each week we will test a different genotype (i.e., the control or one of the five mutants):
+
+\includegraphics[width=0.8\textwidth]{Figures/expdes2}
+
+\textbf{How much information about mutants can we extract from this experiment? How to improve the design?}
+
+\end{Exercise}
+
+
+
+\subsection{Experimental design}
+
+
+\begin{Exercise}[difficulty=1]
 \textbf{Use a for loop and an if-else statement to do that.}
 \end{Exercise}
 
