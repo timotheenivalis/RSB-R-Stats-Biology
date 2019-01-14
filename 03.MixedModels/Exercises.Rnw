@@ -1,0 +1,59 @@
+\documentclass[12pt,a4paper]{scrartcl}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath}
+\usepackage{graphicx}
+\usepackage{tikz}
+%\usepackage{silence}
+\usepackage{mdframed}
+%\WarningFilter{mdframed}{You got a bad break}
+\usepackage[colorinlistoftodos]{todonotes}
+\usepackage{listings}
+\usepackage{color}
+\colorlet{exampcol}{blue!10}
+\usepackage{multicol}
+\usepackage{booktabs}
+
+\usepackage{exercise}
+
+\usepackage[autostyle, english = american]{csquotes}
+\MakeOuterQuote{"}
+
+\usepackage{hyperref}
+\hypersetup{
+    colorlinks,
+    citecolor=black,
+    filecolor=black,
+    linkcolor=blue,
+    urlcolor=black
+}
+
+\title{Exercises for statistical inference and stuff}
+\date{\today}
+\author{Timoth\'ee Bonnet}
+
+
+\begin{document}
+
+
+\maketitle
+
+\tableofcontents
+\ListOfExerciseInToc
+\ExerciseLevelInToc{subsubsection}
+
+
+\section{Understanding error structure}
+
+
+\begin{Exercise}[difficulty=2]
+\textbf{Use a for loop and an if-else statement to do that.}
+\end{Exercise}
+
+
+\section{Interpreting simple mixed models}
+
+\section{Flexible variance structures}
+
+
+
+\end{document}
