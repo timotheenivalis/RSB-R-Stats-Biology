@@ -117,11 +117,36 @@ summary(lmer(y ~ 1 + x + (1|loc), data=dt))
 summary(lmer(y ~ 1 + x + (1|loc) + (1|years), data=dt))
 @
 
+<<echo=FALSE, eval=FALSE>>=
+smm <- read.csv("Data/smm.csv")
+summary(lmm0 <- lmer(y ~ 1 + x + (1|location) + (1|year), data=smm))
+VarCorr(lmm0)
+fixef(lmm0)
+ranef(lmm0)
+sigma(lmm0)
+
+plot(lmm0)
+library(lme4)
+plot( predict( lmm0, re.form=~0 ), x=smm$x)
+plot( predict( lmm0, re.form=~(1|location) ), x=smm$x)
+plot( predict( lmm0, re.form=~(1|year) ), x=smm$x)
+
+predict( lmm0, re.form=~0,)
+
+@
 
 \begin{Exercise}[difficulty=1, title={Reading a summary in lme4}]
 Load the dataset "smm.csv" to fit a linear mixed model of y as a function of x, with years as a random intercept. 
 Does x have a significant effect on y?
 How much variation is explained by differences among years? Is there a measure of uncertainty for this estimate?
+\end{Exercise}
+
+\begin{Exercise}[difficulty=1, title={Extracting the right number}]
+After you fit a linear mixed model in lme4, look at the structure of the model (\texttt{str(model)}). It is very complicated, and notoriously dangerous to try and extract numbers from there. Fortunately, \texttt{summary(), VarCorr(), fixef(), sigma() and ranef()} should give you most of what you need. Try to understand what numbers these functions return.
+\end{Exercise}
+
+\begin{Exercise}[difficulty=2, title={Prediction}]
+Use the function predict to plot model predictions. Because you predict from a mixed model, you have an option called \texttt{re.form} to control what random effects are included in the prediction. What is the meaning of the predictions from re.form=$\sim 0$, $\sim(1|location)$ and $\sim (1|location) + (1|year)$ ?
 \end{Exercise}
 
 
@@ -178,7 +203,9 @@ How do the variance component for plantID change when you account for it? Why?
 
 
 \begin{Exercise}[difficulty=1, title={PCR plate}]
-
+What can affect results on a PCR plate? What is the difference between accounting for such effects with the two following random structures?\\
+\textbf{Crossed:} \texttt{(1|plate) + (1|row) + (1|column)}\\
+\textbf{Nested:} \texttt{(1|plate) + (1|plate:row) + (1|plate:column)}
 
 \includegraphics[width=\textwidth]{Figures/nestedplates}
 \end{Exercise}
@@ -209,9 +236,39 @@ head(anob)
 summary(lmer(mass ~ 1 + environment + (1+environment|parent) + (1|cage), data = anob))
 summary(lmer(mass ~ 1 + environment + (0+environment|parent) + (1|cage), data = anob))
 
+summary(lmm2 <- lmer(mass ~ 1 + environment + (0+environment|parent) + (1|cage), data = anob))
+
+plot(ranef(lmm2)$parent)
+
+trs <- matrix(c(1,1, 0,1), nrow = 2)
+covie <- -0.58*sqrt(1.0830*6.4103)
+vcovie <- matrix(c(6.4103, covie, covie, 1.0830), nrow = 2)
+
+newvcov <- trs %*% vcovie %*% t(trs)
+newcor <- newvcov[1,2]/sqrt(newvcov[1,1]*newvcov[2,2])
+
 write.csv(anob, "Data/beetles.csv", row.names = FALSE, quote = FALSE)
 @
 
+
+
+\begin{Exercise}[difficulty=2, title={Beetles: build a model}]
+Load the dataset "beetles.csv". It contains (fake) data from an (real) experiment on gene-by-environment interactions. The variable of interest is the mass of beetles born in two different environments, from different parents, and in different cages. Assuming that we can measure genetic varition with parent random effects, we wonder if different genomes respond differently to different environments.
+\textbf{Build the model corresponding to this question in lme4.}
+
+(hints: you could start from a lm() of mass modeled by environment, then add random intercepts, and finally a little something more).
+\end{Exercise}
+
+\begin{Exercise}[difficulty=2, title={Beetles: look at the model}]
+What are the variances related to genetic differences? How are they correlated? Does genetic variation explain a lot of the total variation we observe? Try and draw a representation of genetic variation in the two environments. 
+\end{Exercise}
+
+\begin{Exercise}[difficulty=3, title={Beetles: interpret}]
+Interpret model outputs (use raw numbers and / or graphes) to answer the following:
+Is there evidence for genetic variation? Do the two environment differ in their effects on beetles? \\
+Is there evidence for genetic variation in the response to the environment? \\
+Does that mean that genomes good at environment 1 are bad at environment 2?
+\end{Exercise}
 
 \subsection{Correlated random effects}
 
