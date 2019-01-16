@@ -131,17 +131,64 @@ Which of the three models should you trust or not?
 
 
 
-\subsection{Experimental design}
+\section{Interpreting simple mixed models}
+
+\subsection{Summary}
 
 
-\begin{Exercise}[difficulty=1]
-\textbf{Use a for loop and an if-else statement to do that.}
+
+\begin{Exercise}[difficulty=1, title={Reading a summary in lme4}]
+Load the dataset "smm.csv" to fit a linear mixed model of y as a function of x, with years as a random intercept. 
+Does x have a significant effect on y?
+How much variation is explained by differences among years? Is there a measure of uncertainty for this estimate?
 \end{Exercise}
 
 
-\section{Interpreting simple mixed models}
+\subsection{Tests}
+Sometimes random effects are part of the experimental design and are in the models only to control for confounding effects. But sometimes we care about their value or their statistical significance.
+
+\begin{Exercise}[difficulty=2, title={Testing variance components in lme4}]
+Use the function anova to test the statistical significance of the random effect "years" and "location". What are the p-values?
+How are the p-values calculated here and should you trust this calculation?
+\end{Exercise}
+
+\begin{Exercise}[difficulty=1, title={CI for variance components in lme4}]
+Use the function confint to estimate confidence intervals for the variance components for "year" and "location".
+\end{Exercise}
+
+
+
+\begin{Exercise}[difficulty=2, title={Testing variance components in MCMCglmm}]
+lme4 can have difficulties estimating random effect parameters when models get a bit complex. An very powerful alternative, I recommend MCMCglmm. Try and fit a model of y with x as a fixed effect, and year and location as random effects. Use summary and plot to discuss the importance of the random effects.
+\end{Exercise}
+
 
 \section{Flexible variance structures}
+
+\subsection{Crossed or nested?}
+
+
+
+\begin{Exercise}[difficulty=2, title={Plants and shelters}]
+Load the dataset "respi.csv". We are interested in the interactive effect of genotype and temperature on dark respiration (rrarea1). Plants were measured several time in different temperatures, and we need to control for that.
+Fit a mixed model to test the interaction temperature-genotype. Does plantID matter? What if you include shelter as an additional random effect?\\
+Plants with the same name in different shelters were not the same plants. How to account for that?\\
+How do the variance component for plantID change when you account for it? Why?
+\end{Exercise}
+
+
+\begin{Exercise}[difficulty=1, title={PCR plate}]
+\includegraphics[width=\textwidth]{Figures/nestedplates}
+\end{Exercise}
+
+\subsection{Beyond random intercepts}
+
+So far we have considered random effects around intercepts only (that is the meaning of the "1" in the lme4 syntax (1$\mid$ re)). But random effects can be around fixed effects. You may have heard of "random interactions", "random slopes", "random regressions"\dots
+
+
+\subsection{Correlated random effects}
+
+If we have time, ask me to talk or give examples of models with genetic or phylogenetic effects, or spatial auto-correlation.
 
 
 

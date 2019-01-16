@@ -301,6 +301,8 @@ In mice and frog experiments, $\epsilon$ are non-independent
 \end{frame}
 %%%%%%%%%%%
 
+
+
 \begin{frame}{Understanding different variance structure: \textbf{Nested and Crossed structures}} 
 \textbf{Crossed:} \texttt{(1|plate) + (1|row) + (1|column)}\\
 \vspace{0.2cm}
@@ -313,6 +315,33 @@ What is the difference?
  \end{center}
 
  \textit{crossed random effects: one level of a random effect can appear in conjunction with more than one level of another random effect}
+\end{frame}
+%%%%%%%%%%%
+
+
+
+\begin{frame}{Beyond random intercepts}
+
+
+\begin{alertblock}{Right-hand side = what groups observations}
+Nested, crossed et al. on the right hand side of the \texttt{|}: \texttt{(1|something)}\\
+How are data related to each other, what groups them\\
+Does not tell what parameter vary accoring to group
+\end{alertblock}
+
+
+\pause
+\begin{alertblock}{Left-hand side = what varies according to grouping}
+The \texttt{1} stands for \textbf{intercept}\\
+But many things can go to the left hand side. 
+\end{alertblock}
+
+\pause
+
+\begin{exampleblock}{Random interactions, random regressions, random slopes\dots}
+ e.g., $y \sim 1 + x + (1 + x|something)$
+\end{exampleblock}
+ 
 \end{frame}
 %%%%%%%%%%%
 
