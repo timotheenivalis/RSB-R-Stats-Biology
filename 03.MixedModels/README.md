@@ -5,5 +5,5 @@ This session introduces linear mixed models (that is, models that contain random
 Slides, exercises and data are here: [https://github.com/timotheenivalis/RSB-R-Stats-Biology/blob/master/03.MixedModels/SlidesExercisesData.zip](https://github.com/timotheenivalis/RSB-R-Stats-Biology/blob/master/03.MixedModels/SlidesExercisesData.zip).
 
 
-![Google is partly confused, partly only:](mixmodels)
+![Google is partly confused, partly only:](https://github.com/timotheenivalis/RSB-R-Stats-Biology/blob/master/03.MixedModels/mixmodels.jpg)
 
