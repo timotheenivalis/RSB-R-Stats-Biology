@@ -160,9 +160,15 @@ plot(iris)
     
     
    # To fill: make an empty single continuous variable plot called base_cont
+      base_cont <- ggplot(data=iris, aes(x=Sepal.Length))
+      plot(base_cont)   
+      base_cont+geom_bar()
       
-   # To fill: make an empty two continuous variable plot called base_cont_cont 
-      
+      # To fill: make an empty two continuous variable plot called base_cont_cont 
+   base_cont_cont <- ggplot(data=iris, aes(x=Sepal.Length, y=Petal.Width))
+   base_cont_cont+geom_bin2d()
+   plot(base_cont_cont)   
+   
    # To fill: make an empty continuous by categorical variable plot called base_cont_cat 
       
     square<-data.frame(x=c(1,2,2,1,1),
