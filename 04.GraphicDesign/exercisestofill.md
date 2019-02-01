@@ -12,9 +12,9 @@ Questions? erin.walsh@anu.edu.au
  First variable is X axis, second variable is Y axis
  Most plots can be built up in layers
 
-########################## Exercise 01: Base R
+# Exercise 01: Base R
 
-# Load example dataset
+## Load example dataset
 ```{r}
   data("iris")
   
@@ -27,7 +27,7 @@ Questions? erin.walsh@anu.edu.au
 ## Base plots
   
 ### Single variable
-    
+```{r}    
   # To fill: Histogram
   hist(iris$Sepal.Length)
     
@@ -35,9 +35,10 @@ Questions? erin.walsh@anu.edu.au
     
   # To fill: Strip chart
   stripchart(iris$Sepal.Length)
-  
+```
+
 ### Multi-variable
-  
+```{r}  
   # To fill: Scatter plot 
 plot(iris$Petal.Length, iris$Petal.Width)    
   # To fill: Line plot
@@ -52,9 +53,10 @@ plot(iris)
   # To fill: Box plot
   
   # To fill: Notched box plot
-    
+```
+
 ### Output of other functions or operations
-  
+```{r}  
   # To fill: Density plot
   
   # To fill: Linear model diagnostics
@@ -67,25 +69,27 @@ plot(iris)
 
   # To fill if you really must: pie chart (friends don't let friends use pie charts)
 
+```
 ### Multiplots
-  
+```{r}  
   # To fill: par and mfrow
    
   # clear changed options with dev.off()  
-
+```
 ### Annotation
+```{r}
     plot(iris$Petal.Length, iris$Petal.Width)
     
    # To fill: adding text!
+```    
     
-    
-########################## Exercise 02: ggplots can be used just like base graphics    
-    
+# Exercise 02: ggplots can be used just like base graphics    
+ ```{r}   
     # To fill: always note the version of the package you have loaded, and what you have loaded it for
     library(ggplot2) 
-    
+```    
 ### Single variable
-    
+```{r}    
     # hist(iris$Sepal.Length)
     # To fill: ggplot histogram
     
@@ -93,10 +97,10 @@ plot(iris)
     # To fill: ggplot dotchart    
     
     # There is no ggplot version of a strip chart.
-    
+```    
     
 ### Multi-variable
-    
+```{r}    
     # plot(iris$Petal.Length, iris$Petal.Width)
     # To fill: ggplot scatterplot
     
@@ -109,9 +113,9 @@ plot(iris)
     
     # plot(iris$Species, iris$Sepal.Length, type="b")
     # To fill: ggplot box plot
-    
+```    
 ### Output of other functions or operations
-    
+```{r}    
     # sepal_density<-density(iris$Sepal.Length)
     # plot(sepal_density)
     # To fill: ggplot density plot
@@ -131,9 +135,9 @@ plot(iris)
     # To fill: ggplot stacked bar chart
     
     # To fill: ggplot pie chart (why??)
-        
+```        
 ### Multiplots
-
+```{r}
     # To fill: ggplot facets
     
     # To fill: ggplot gridextra
@@ -148,23 +152,24 @@ plot(iris)
                                                aes(x=Petal.Length, y=Petal.Width)) + geom_point()}
     
       # To fill: do call with gridextra (and associated tweaks)
-    
+```    
 ### Annotation
-    
+```{r}    
     # plot(iris$Petal.Length, iris$Petal.Width)
     # text(5,0.5, labels="Text")  
     # To fill: ggplot with annotations
     
+```    
     
-    
-########################## Exercise 03: ggplots and the grammar of graphics
-    
+# Exercise 03: ggplots and the grammar of graphics
+```{r}    
       # To fill: build that plot!
       
-      
-########################## Exercise 04: the plot thickens
+```      
+# Exercise 04: the plot thickens
     
-    
+```{r}
+
    # To fill: make an empty single continuous variable plot called base_cont
       
    # To fill: make an empty two continuous variable plot called base_cont_cont 
@@ -174,9 +179,10 @@ plot(iris)
     square<-data.frame(x=c(1,2,2,1,1),
                        y=c(2,2,1,1,2))
     base_cont_shape<-ggplot(data=square, aes(x=x, y=y))
-
+```
     
-## Geoms    
+## Geoms
+```{r}
   ## Continuous
     # To fill: add these to base_cont: geom_bar()  geom_histogram()  geom_density()  geom_freqpoly()
     
@@ -211,8 +217,10 @@ plot(iris)
       # To fill: add these to bar_base: geom_errorbar()   geom_linerange()   geom_pointrange()   geom_crossbar()
       
     
-    
+```
+
   ## Scales and axes
+```{r}
       # To fill: add new xlim() and ylim() to base_cont_cont
       
       # To fill: add new scale_x_continuous() and scale_y_continuous() to base_cont_cont
@@ -221,18 +229,21 @@ plot(iris)
     
       # To fill: add these to base_cont_cont: scale_y_log10()    scale_y_sqrt()   coord_trans(x="log10", y="sqrt")
       
-    
+```    
   ## Coords
+  ```{r}
       # To fill: add these to base_cont_cont: coord_flip()   coord_equal()   coord_polar()
-
+```
     
   ## Adding and changing text
+```{r}
       # To fill: add these to bar_base:   geom_text(label="hello")  geom_text(label="hello", x=1)  
       #  geom_text(label="hello", x=1,y=1, colour="white")
       # Also have a play with position and colour
-    
+```    
 
-  ## Themes   
+  ## Themes 
+  ```{r}
       # To fill: add these to base_cont_cont: theme_grey()   theme_bw()  theme_linedraw()  theme_light()
       #                                       theme_dark()  theme_minimal()  theme_classic()  theme_void()
 
@@ -246,27 +257,20 @@ plot(iris)
                               )
   
         # To fill: add your custom theme to base_cont_cont!
+  ```    
         
-        
-########################## Recommended further reading      
-#
-#   Broad grounding:    
-#       Tufte, E., & Graves-Morris, P. (2014). The visual display of quantitative information.; 1983
-#       Johnston, S. (2014) R Base graphics: an Idiot's guide http://rpubs.com/SusanEJohnston/7953 
-#       Wilkinson, L. (2007) The grammar of graphics. Journal of statistical software 17(3). doi: 10.1002/wics.118
-#       Wickham, H. (2016). ggplot2: elegant graphics for data analysis. Springer. 
-#    
-#   Topic specific:    
-#       https://www.r-graph-gallery.com/ 
-#       http://sape.inf.usi.ch/quick-reference/ggplot2/geom
-#       https://bookdown.org/rdpeng/RProgDA/building-a-new-theme.html
-        
-        
-        
-You can also embed plots, for example:
+# Recommended further reading      
 
-```{r pressure, echo=FALSE}
-plot(pressure)
-```
 
-Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
+*Broad grounding:*    
+       Tufte, E., & Graves-Morris, P. (2014). The visual display of quantitative information.; 1983
+       Johnston, S. (2014) R Base graphics: an Idiot's guide http://rpubs.com/SusanEJohnston/7953 
+       Wilkinson, L. (2007) The grammar of graphics. Journal of statistical software 17(3). doi: 10.1002/wics.118
+       Wickham, H. (2016). ggplot2: elegant graphics for data analysis. Springer. 
+    
+   Topic specific:    
+       https://www.r-graph-gallery.com/ 
+       http://sape.inf.usi.ch/quick-reference/ggplot2/geom
+       https://bookdown.org/rdpeng/RProgDA/building-a-new-theme.html
+        
+        
