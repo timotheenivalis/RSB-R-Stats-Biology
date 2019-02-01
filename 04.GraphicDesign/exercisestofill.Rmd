@@ -1,22 +1,28 @@
+---
+title: " Rstats Friday 1/2/2019 Visulisation in R (focus on ggplots) -- companion script (worksheet)"
+author: "Erin Walsh (layout by Timothee Bonnet)"
+date: "1 February 2019"
+output: html_document
+---
 
+Questions? erin.walsh@anu.edu.au
 
-# Rstats Friday 1/2/2019 Visulisation in R (focus on ggplots) -- companion script (worksheet)
-# Questions? erin.walsh@anu.edu.au
+# General things
 
-########################## General things
-
-# First variable is X axis, second variable is Y axis
-# Most plots can be built up in layers
+ First variable is X axis, second variable is Y axis
+ Most plots can be built up in layers
 
 ########################## Exercise 01: Base R
 
 # Load example dataset
+```{r}
   data("iris")
   
   # Check categorical varible is in correct format
   iris$Species<-as.factor(iris$Species)
   
   head(iris)
+```
 
 ## Base plots
   
@@ -257,3 +263,10 @@ plot(iris)
         
         
         
+You can also embed plots, for example:
+
+```{r pressure, echo=FALSE}
+plot(pressure)
+```
+
+Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
