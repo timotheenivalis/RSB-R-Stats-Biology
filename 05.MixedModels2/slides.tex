@@ -224,7 +224,33 @@ Does not measure uncertainty in site variance. Does ``site'' matter?
 \end{frame}
 %%%%%%%
 
+\begin{frame}{Issue with null-hypothesis testing for random effects}
+\begin{alertblock}{Why??}
+    A variance cannot be negative. Anova doesn't know.\\
+    P-value computed as \texttt{1-pchisq(LRT0\$Chisq[2],df=1)} but there is LESS than one degree of freedom.
+\end{alertblock}
+\pause
+\begin{exampleblock}{Solutions, from worse to best:}
+    \begin{itemize}
+     \item Acknowledge test is conservative (i.e., too rarely significant) 
+     \item Divide p-value by 2
+     \item Use half a degree of freedom \texttt{1-pchisq(LRT0\$Chisq[2],df=0.5)} 
+    \end{itemize}
+
+\end{exampleblock}
+
+\pause
+NB: same problem with AIC, a random intercept should maybe count as 0.5 parameter, but R always count 1 parameter. Actually it is more complicated and there is no definitive answer yet! 
+
+\end{frame}
+%%%%%%%
+
 \begin{frame}{Example of application: repeatability}
+ Do e-kangaroos have personality = repeatable behaviour?\\(inspired by Weliton's work)
+ \begin{figure}
+ \includegraphics[width=0.5\textwidth]{figure/roo}
+ \end{figure}
+ 
  
 \end{frame}
 %%%%%%%
