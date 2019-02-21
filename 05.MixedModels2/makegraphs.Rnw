@@ -1,0 +1,75 @@
+\documentclass[12pt,a4paper]{scrartcl}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath}
+\usepackage{graphicx}
+\usepackage{tikz}
+%\usepackage{silence}
+\usepackage{mdframed}
+%\WarningFilter{mdframed}{You got a bad break}
+\usepackage[colorinlistoftodos]{todonotes}
+\usepackage{listings}
+\usepackage{color}
+\colorlet{exampcol}{blue!10}
+\usepackage{multicol}
+\usepackage{booktabs}
+
+\usepackage{exercise}
+
+\usepackage[autostyle, english = american]{csquotes}
+\MakeOuterQuote{"}
+
+\usepackage{hyperref}
+\hypersetup{
+    colorlinks,
+    citecolor=black,
+    filecolor=black,
+    linkcolor=blue,
+    urlcolor=black
+}
+
+\title{Exercises for statistical inference and stuff}
+\date{\today}
+\author{Timoth\'ee Bonnet}
+
+
+\begin{document}
+
+<<>>=
+library(lme4)
+thorns <- read.table(file = "thorndata.txt", header=TRUE)
+thornLMM <- lmer(response ~ predictor + (1|block), data = thorns)
+setpar <- function()
+{
+par(las=1, cex=1.2)  
+}
+
+@
+
+<<graph0, dev='tikz', fig.width=6, fig.height=4>>=
+setpar()
+plot(thorns$response, x=thorns$predictor, ylab = "Herbivory load", xlab= "Thorn density")
+abline(lm(response~ predictor, data=thorns), lwd=5, col="gray")#this is a shortcut to draw a regression line
+@
+
+<<graph1, dev='tikz', fig.width=6, fig.height=4>>=
+setpar()
+plot(thorns$predictor, thorns$response, col=thorns$block, ylab = "Herbivory load", xlab= "Thorn density")
+abline(lm(response~ predictor, data=thorns), lwd=5, col="gray")
+@
+
+<<graph2, dev='tikz', fig.width=6, fig.height=4>>=
+setpar()
+plot(thorns$predictor, thorns$response, col=thorns$block, ylab = "Herbivory load", xlab= "Thorn density")
+slp <- fixef(thornLMM)[2]
+inter <- fixef(thornLMM)[1]
+re <- ranef(thornLMM)$block[,1]
+
+abline(a = inter+re[1], b=slp, lwd=5)
+abline(a = inter+re[2], b=slp, lwd=5, col="red")
+abline(a = inter+re[3], b=slp, lwd=5, col="green")
+abline(a = inter+re[4], b=slp, lwd=5, col="blue")
+abline(a = inter+re[5], b=slp, lwd=5, col="cyan")
+@
+
+
+\end{document}
