@@ -192,27 +192,95 @@ least 5-6, preferably more than that).
 \end{frame}
 %%%%%%%%%%%
 
-\begin{frame}{Beyond random intercepts}
+\section{Uncertainty in random effects}
 
+\begin{frame}{Uncertainty in random effects}
+ 
+ \texttt{lmm1 <- lmer(herbivory $\sim$ thorndensity + (1|site), data=thorns)}\\
+ \texttt{summary(lmm1)}\\
+ 
+Does not measure uncertainty in site variance. Does ``site'' matter?
+ 
+ \pause
+ \begin{exampleblock}{How to?}
+ \begin{itemize}
+  \item Confidence interval: far from zero? How does it compare to residual variance or total variance?
+  \item Null-hypothesis testing: p-value.
+ \end{itemize}
+ \textbf{Exercises 2 and 3}
+\end{exampleblock}
+\end{frame}
+%%%%%%%
+
+\begin{frame}{Issue with null-hypothesis testing for random effects}
+ 
+ \textbf{What is a p-value?}\\
+ \pause
+ \textbf{How do we know whether a test works?}\\
+ 
+ \pause
+ \vfill
+ \textbf{Let's check with \color{blue} Exercise 4}
+\end{frame}
+%%%%%%%
+
+\begin{frame}{Example of application: repeatability}
+ 
+\end{frame}
+%%%%%%%
+
+%%%%%%
+\begin{frame}{Should you test and remove non-significant random effects}
+ 
+ \begin{block}{Test?}
+    \begin{itemize}
+     \item \textbf{Yes if effect of interest}
+     \item Optional if ``nuisance'' parameter part of experimental design
+    \end{itemize}
+\end{block}
+\pause
+ \begin{block}{Remove non-significant?}
+    \begin{itemize}
+     \item No if clearly part of experimental design
+     \item But doesn't matter if estimated variance is zero
+     \item Maybe remove if model too complex (i.e., difficult to interpret or convergence issues) but acknowledge assumptions!
+    \end{itemize}
+\end{block}
+ 
+\end{frame}
+%%%%%%%
+
+
+\section{Beyond random intercepts}
+
+\begin{frame}{Not only intercept vary!}
+\centering
+    \only<1>{
+    Assume parallel slopes:
+    
+    \includegraphics[width=0.9\textwidth]{figure/graph2-1}}
+    \only<2>{
+    Allow slopes to vary:
+    
+    \includegraphics[width=0.9\textwidth]{figure/graphrslopes-1}}
+\end{frame}
+%%%%%%%
+
+\begin{frame}{How to?}
 
 \begin{alertblock}{Right-hand side = what groups observations}
 Nested, crossed et al. on the right hand side of the \texttt{|}: \texttt{(1|something)}\\
 How are data related to each other, what groups them\\
-Does not tell what parameter vary accoring to group
 \end{alertblock}
 
 
 \pause
-\begin{alertblock}{Left-hand side = what varies according to grouping}
+\begin{alertblock}{\textbf{Left-hand side = what varies according to grouping}}
 The \texttt{1} stands for \textbf{intercept}\\
-But many things can go to the left hand side. 
+But many things can go to the left hand side. \\
+Random interactions, random regressions, random slopes\dots
+ e.g., $y \sim 1 + x + (1 + x | something)$
 \end{alertblock}
-
-\pause
-
-\begin{exampleblock}{Random interactions, random regressions, random slopes\dots}
- e.g., $y \sim 1 + x + (1 + x|something)$
-\end{exampleblock}
  
 \end{frame}
 %%%%%%%%%%%

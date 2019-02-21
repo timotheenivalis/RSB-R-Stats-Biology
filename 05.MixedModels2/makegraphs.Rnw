@@ -72,4 +72,19 @@ abline(a = inter+re[5], b=slp, lwd=5, col="cyan")
 @
 
 
+<<graphrslopes, dev='tikz', fig.width=6, fig.height=4>>=
+setpar()
+plot(thorns$predictor, thorns$response, col=thorns$block, ylab = "Herbivory load", xlab= "Thorn density")
+thornLMM2 <- lmer(response ~ 1 + predictor + (1+predictor|block), data=thorns)
+slp <- fixef(thornLMM2)[2]
+inter <- fixef(thornLMM2)[1]
+reint <- ranef(thornLMM2)$block[,1]
+resl <- ranef(thornLMM2)$block[,2]
+
+abline(a = inter+reint[1], b=slp+resl[1], lwd=5)
+abline(a = inter+reint[2], b=slp+resl[2], lwd=5, col="red")
+abline(a = inter+reint[3], b=slp+resl[3], lwd=5, col="green")
+abline(a = inter+reint[4], b=slp+resl[4], lwd=5, col="blue")
+abline(a = inter+reint[5], b=slp+resl[5], lwd=5, col="cyan")
+@
 \end{document}

@@ -52,8 +52,8 @@ options(digits = 4)
 
 \begin{Exercise}[difficulty=1, title={Reading a summary in lme4}]
 \begin{enumerate}
-  \item Load the dataset "thorndata.txt" to fit a linear model of "reponse" as a function of "predictor". What is the estimate for the slope?\\
-  \item Add a random effect for block. How does the estimate for the slope changes?\\
+  \item Load the dataset "thorndata.txt" to fit a linear model of "herbivory" as a function of "thorndensity". What is the estimate for the slope?\\
+  \item Add a random effect for site How does the estimate for the slope changes?\\
   \item How much variation is explained by differences among blocks? Is there a measure of uncertainty for this estimate?
 \end{enumerate}
 \end{Exercise}
@@ -62,56 +62,132 @@ options(digits = 4)
 Part 1.
 <<>>=
 thorns <- read.table("thorndata.txt", header = TRUE)
-lm(response ~ predictor, data=thorns)
+lm(herbivory ~ thorndensity, data=thorns)
 @
-The slope is \Sexpr{coef(lm(response ~ predictor, data=thorns))[2]}.\\
+The slope is \Sexpr{coef(lm(herbivory ~ thorndensity, data=thorns))[2]}.\\
 
 Part 2.
 <<>>=
 library(lme4)
-summary(lmer(response ~ predictor + (1|block), data=thorns))
+summary(lmer(herbivory ~ thorndensity + (1|site), data=thorns))
 @
-The slope is now \Sexpr{coef(lmer(response ~ predictor + (1|block), data=thorns))[2]}.\\
+The slope is now \Sexpr{coef(lmer(herbivory ~ thorndensity + (1|site), data=thorns))[2]}.\\
 
 Part 3.
 <<eval=FALSE>>=
-summary(lmer(response ~ predictor + (1|block), data=thorns))
-as.numeric(VarCorr(lmer(response ~ predictor + (1|block), data=thorns))$block)
+summary(lmer(herbivory ~ thorndensity + (1|site), data=thorns))
+as.numeric(VarCorr(lmer(herbivory ~ thorndensity + (1|site), data=thorns))$site)
 @
-The variance explained by block is \Sexpr{as.numeric(VarCorr(lmer(response ~ predictor + (1|block), data=thorns))$block)} (careful, if you extract the standard deviation (Std.Dev.) you need to square it to obtain a variance.). There is no measure of uncertainty for the estimate of variance in block. In the \texttt{summmary} the \texttt{Std.Dev.} is simply the square root of \texttt{Variance}.
+The variance explained by block is \Sexpr{as.numeric(VarCorr(lmer(herbivory ~ thorndensity + (1|site), data=thorns))$block)} (careful, if you extract the standard deviation (Std.Dev.) you need to square it to obtain a variance.). There is no measure of uncertainty for the estimate of variance in block. In the \texttt{summmary} the \texttt{Std.Dev.} is simply the square root of \texttt{Variance}.
 \end{Answer}
 
-\subsection{Tests}
+\subsection{Confidence intervals and Tests}
 Sometimes random effects are part of the experimental design and are in the models only to control for confounding effects. But sometimes we care about their value or their statistical significance.
 
 
-\begin{Exercise}[difficulty=1, title={Testing variance components in lme4}]
-Use the function anova to test the statistical significance of the random effect "block" in the thorn dataset. What is the p-values you get?
+\begin{Exercise}[difficulty=1, title={CI for variance components in lme4}]
+Use the function \texttt{confint} to estimate confidence intervals for the variance component for "site".
 \end{Exercise}
 \begin{Answer}
-
+<<>>=
+lmm1 <- lmer(herbivory ~ thorndensity + (1|site), data=thorns)
+conf <- confint(lmm1)
+conf[1,]^2
+@
 \end{Answer}
 
 
-\begin{Exercise}[difficulty=2, title={Testing variance components in lme4}]
+
+\begin{Exercise}[difficulty=1, title={Testing variance components in lme4}]
+Use the function anova to test the statistical significance of the random effect "site" in the thorn dataset. 
+\end{Exercise}
+\begin{Answer}
+<<>>=
+lm0 <- lm(herbivory ~ thorndensity , data=thorns)
+lmm1 <- lmer(herbivory ~ thorndensity + (1|site), data=thorns)
+
+anova(lm0, lmm1)#doesn't work!
+anova(lmm1, lm0)# mixed model must go first!
+@
+The p-value you get is \Sexpr{ anova(lmm1, lm0)$`Pr(>Chisq)`[2]}, however, be aware this is a conservative estimate!
+\end{Answer}
+
+\begin{Exercise}[difficulty=3, title={Does null-hypothesis testing work for random effect?}]
+In principle we want p-values to follow a uniform distribution under the null-hypothesis; in particular the frequency of p-values below 0.05 should be 0.05 when the effect tested for is absent. Is it the case for tests of random intercepts?
+Simulate some data sets with a random intercept that has a variance of zero,  test the significance of this random effect with anova and record the p-values.
+You can use the following simulation template:
+
+<<eval=FALSE>>=
+RandomVariance <- 0
+sampsize <- 500
+nbblocks <- 30
+
+pvals <- vector(length = 1000)
+
+for (i in 1:1000)
+{
+  x <- rnorm(sampsize,mean = 4, sd=0.25)
+  block <- sample(x = 1:nbblocks, size = sampsize, replace = TRUE)
+  blockvalues <- rnorm(n = nbblocks, mean = 0, sd = sqrt(RandomVariance))
+  y <- 8 - x + blockvalues[block] + rnorm(sampsize,0,1)
+  dat <- data.frame(response = y, predictor = x, block=block)
+  
+  XXX <- lm(XXX)
+  XXX <- lmer(XXX)
+  XXX <- anova(XXX)
+  XXX
+}
+@
+
+
+\end{Exercise}
+\begin{Answer}
+<<eval=FALSE>>=
+
+set.seed(1234)
+RandomVariance <- 0
+sampsize <- 500
+nbblocks <- 30
+
+pvals <- vector(length = 1000)
+altpvals <- vector(length = 1000)
+for (i in 1:1000)
+{
+  x <- rnorm(sampsize,mean = 4, sd=0.25)
+block <- sample(x = 1:nbblocks, size = sampsize, replace = TRUE)
+blockvalues <- rnorm(n = nbblocks, mean = 0, sd = sqrt(RandomVariance))
+y <- 8 - x + blockvalues[block] + rnorm(sampsize,0,1)
+dat <- data.frame(response = y, predictor = x, block=block)
+lm0 <- lm(response ~ 1 + predictor, data=dat)
+lmm0 <- lmer(response ~ 1 + predictor + (1|block), data=dat )
+(LRT0 <- anova(lmm0, lm0)) #mixed model must come first!
+pvals[i] <- LRT0$`Pr(>Chisq)`[2] # the p-value
+altpvals[i] <- 1-pchisq(LRT0$Chisq[2],0.5) # a better p-value
+}
+hist(pvals)
+hist(altpvals)
+
+mean(pvals<0.05)
+mean(altpvals<0.05)
+@
+\end{Answer}
+
+
+\begin{Exercise}[difficulty=2, title={Do kangaroos have personalities?}]
+<<echo=FALSE>>=
+
+@
+
 Use the function anova to test the statistical significance of the random effect "years" and "location". What are the p-values?
 How are the p-values calculated here and should you trust this calculation?
 \end{Exercise}
-
-\begin{Exercise}[difficulty=1, title={CI for variance components in lme4}]
-Use the function confint to estimate confidence intervals for the variance components for "year" and "location".
-\end{Exercise}
-
-<<eval=FALSE, echo=FALSE>>=
-anova(lmer(y ~ 1 + x + (1|year), data=dt), lm(y~1 + x, data=dt))
-anova(lmer(y ~ 1 + x + (1|location), data=dt), lm(y~1 + x, data=dt))
-
-confint(object = lmer(y ~ 1 + x + (1|year), data=dt) )
-confint(object = lmer(y ~ 1 + x + (1|location), data=dt) )
-
-library(MCMCglmm)
-summary(MCMCglmm(y ~ 1 + x, random = ~year, data=dt))
+\begin{Answer}
+<<>>=
+smm <- read.csv("Data/smm.csv")
+head(smm)
+summary(lmm0 <- lmer(y ~ 1+x + (1+x|year)+ (1|location), data=smm))
 @
+\end{Answer}
 
 \begin{Exercise}[difficulty=2, title={Testing variance components in MCMCglmm}]
 lme4 can have difficulties estimating random effect parameters when models get a bit complex. An very powerful alternative, I recommend MCMCglmm. Try and fit a model of y with x as a fixed effect, and year and location as random effects. Use summary and plot to discuss the importance of the random effects.
