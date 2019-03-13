@@ -1,0 +1,85 @@
+\documentclass[12pt,a4paper]{scrartcl}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath}
+\usepackage{graphicx}
+\usepackage{tikz}
+%\usepackage{silence}
+\usepackage{mdframed}
+%\WarningFilter{mdframed}{You got a bad break}
+\usepackage[colorinlistoftodos]{todonotes}
+\usepackage{listings}
+\usepackage{color}
+\colorlet{exampcol}{blue!10}
+\usepackage{multicol}
+\usepackage{booktabs}
+
+\usepackage[noanswer]{exercise}%[noanswer]
+
+\usepackage[autostyle, english = american]{csquotes}
+\MakeOuterQuote{"}
+
+\usepackage{hyperref}
+\hypersetup{
+    colorlinks,
+    citecolor=black,
+    filecolor=black,
+    linkcolor=blue,
+    urlcolor=black
+}
+
+\title{Exercises for progamming with functions}
+\date{\today}
+\author{Timoth\'ee Bonnet}
+
+
+\begin{document}
+
+<<echo=FALSE>>=
+options(digits = 4) 
+@
+
+\maketitle
+
+\tableofcontents
+\ListOfExerciseInToc
+\ExerciseLevelInToc{subsubsection}
+
+\clearpage
+
+
+\section{Output}
+\subsection{Implicit and explicit return}
+
+\subsection{The \texttt{<<-} operator}
+
+\begin{Exercise}[difficulty=1, title={Understand the \texttt{<<-}}]
+We create to almost identical functions, f0 and f1 and add their output to an object \texttt{x}. Compare the output and explain what happens. What does \texttt{<<-} mean?
+
+<<eval=FALSE>>=
+f0 <- function(x=2){
+  x <- x
+  y <- x+2
+  return(y)
+}
+
+f1 <- function(x=2){
+  x <<- x
+  y <- x+2
+  return(y)
+}
+
+x <- rnorm(1000)
+f0()+x
+
+x <- rnorm(1000)
+f1()+x
+
+@
+
+\end{Exercise}
+
+\begin{Answer}
+
+\end{Answer}
+
+\end{document}

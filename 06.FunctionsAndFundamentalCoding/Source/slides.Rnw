@@ -1,0 +1,59 @@
+\documentclass{beamer}
+
+\usepackage{alltt}%
+\usetheme{Boadilla}
+\usecolortheme{seahorse}
+
+\usepackage[utf8]{inputenc}
+\usepackage{default}
+
+\usepackage{xcolor}%for color mixing
+
+\usepackage{amsmath}%
+\usepackage{amsfonts}%
+\usepackage{amssymb}%
+\usepackage{graphicx}
+
+\usepackage{tikz}
+\usepackage{multirow}
+\usepackage{booktabs}
+
+\setbeamertemplate{itemize/enumerate body begin}{\small}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\title{Programming with functions}
+%\subtitle{}
+\author{Timoth\'ee Bonnet}
+\date{\today}
+
+\begin{document}
+
+%\lstset{language=R}%code
+
+\AtBeginSection[]
+{
+  \begin{frame}<beamer>
+    \frametitle{}
+    \tableofcontents[currentsection,sectionstyle=show/show,subsectionstyle=show/shaded/hide]% down vote\tableofcontents[currentsection,currentsubsection,hideothersubsections,sectionstyle=show/hide,subsectionstyle=show/shaded/hide] 
+  \end{frame}
+}
+
+\begin{frame}[fragile]{Fun things}
+
+<<>>=
+funs <- list(
+  half = function(x) x / 2,
+  double = function(x) x * 2
+)
+funs$double(10)
+@
+\end{frame}
+
+\begin{frame}{To go further}
+Everything you (didn't) want to know about functions in R: \url{https://adv-r.hadley.nz/functions.html#introduction-5}
+
+
+\end{frame}
+
+\end{document}
