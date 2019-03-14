@@ -11,5 +11,6 @@ Topics covered so far this year:
 * [Linear mixed models Part 1](https://github.com/timotheenivalis/RSB-R-Stats-Biology/tree/master/03.MixedModels)
 * [Linear mixed models Part 2](https://github.com/timotheenivalis/RSB-R-Stats-Biology/tree/master/05.MixedModels2)
 * [Graphics philosophy and ggplot](https://github.com/timotheenivalis/RSB-R-Stats-Biology/tree/master/04.GraphicDesign)
+* [Functions in R](https://github.com/timotheenivalis/RSB-R-Stats-Biology/tree/master/06.FunctionsAndFundamentalCoding)
 
 What other topics would you like covered? Just ask and I will try to make it happen!
