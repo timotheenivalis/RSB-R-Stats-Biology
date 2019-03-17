@@ -15,7 +15,7 @@
 
 
 \usepackage{setspace}
-\doublespacing
+%\doublespacing
 
 \usepackage[noanswer]{exercise}%[noanswer]
 
@@ -364,10 +364,14 @@ tree(0,0,2,0,8,8)
 The file \texttt{wrongpedigree.csv} contains a pedigree (a family tree) containing a mistake: a function we tried to apply on this dataset informed us that the family tree was impossible without more information. We suspect that we have assigned an individual as its own ancestor (this can happen with genetic reconstruction of parentage). Use a self-referencing function to scan the tree and find where the problem is.
 \end{Exercise}
 \begin{Answer}
+I found a solution using two functions: a recursive one, and one going using a for loop to go across incidivuals. Clearly that is not efficient. Feel free to think of a better way!
+
 <<>>=
-checkp <- function(iniind, focalind, ped, level=1, maxlevel=3, idname = "animal")
+checkp <- function(iniind, focalind, ped, level=1, maxlevel=3,
+                   idname = "animal")
 {
-  parents <- ped[as.character(ped[,idname])==as.character(focalind),c(2,3)]
+  parents <- ped[as.character(ped[,idname])==
+                   as.character(focalind),c(2,3)]
   circular <- 0
   for(j in 1:2)
   {
@@ -376,31 +380,40 @@ checkp <- function(iniind, focalind, ped, level=1, maxlevel=3, idname = "animal"
       if(as.character(iniind)==as.character(parents[j]))
       {
         circular <- circular+1
-        warning("Individual", iniind, " is its own ancestor at level ", level, " (pair ", parents[1],";", parents[2], ")")
+        warning("Individual", iniind, " is its own ancestor at level ",
+                level,  " (pair ", parents[1],";", parents[2], ")")
       }else{
         if(level<maxlevel)
         {level <- level+1
-        circular <- circular + checkp(iniind=iniind, focalind=parents[j], ped = ped, level=level)
+        circular <- circular + checkp(iniind=iniind, focalind=parents[j], 
+                                      ped = ped, level=level)
         }
       }
     }
   }
   return(circular)
 }
+@
 
-
+<<>>=
 checkpedwrap <- function(ped, idname="animal", maxlevel=3)
 {
   ped$circularity <- NA
   for (i in 1:nrow(ped))
   {
-    ped$circularity[i] <- checkp(iniind=ped[i, idname], focalind = ped[i, idname], ped=ped, level =1, maxlevel=maxlevel, idname=idname)
+    ped$circularity[i] <- checkp(iniind=ped[i, idname], 
+                                 focalind = ped[i, idname], 
+                                 ped=ped, level =1, 
+                                 maxlevel=maxlevel, idname=idname)
   }
   return(ped)
 }
+@
 
+
+<<>>=
+ped <- read.csv("wrongpedigree.csv", stringsAsFactors = FALSE)
 pedchecked <- checkpedwrap(ped=ped, idname = "animal", maxlevel = 3)
-
 @
 \end{Answer}
 

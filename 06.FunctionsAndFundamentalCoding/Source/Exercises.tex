@@ -65,7 +65,7 @@
 
 
 \usepackage{setspace}
-\doublespacing
+%\doublespacing
 
 \usepackage[noanswer]{exercise}%[noanswer]
 
@@ -297,7 +297,7 @@ We may want to use a for loop. We could include also a plot or a statistical tes
 ## 	Shapiro-Wilk normality test
 ## 
 ## data:  res
-## W = 1, p-value = 0.3
+## W = 1, p-value = 0.4
 \end{verbatim}
 \end{kframe}
 \end{knitrout}
@@ -495,12 +495,16 @@ This is a self-referencing function, it calls itself! Each call to the function 
 The file \texttt{wrongpedigree.csv} contains a pedigree (a family tree) containing a mistake: a function we tried to apply on this dataset informed us that the family tree was impossible without more information. We suspect that we have assigned an individual as its own ancestor (this can happen with genetic reconstruction of parentage). Use a self-referencing function to scan the tree and find where the problem is.
 \end{Exercise}
 \begin{Answer}
+I found a solution using two functions: a recursive one, and one going using a for loop to go across incidivuals. Clearly that is not efficient. Feel free to think of a better way!
+
 \begin{knitrout}
 \definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
 \begin{alltt}
-\hlstd{checkp} \hlkwb{<-} \hlkwa{function}\hlstd{(}\hlkwc{iniind}\hlstd{,} \hlkwc{focalind}\hlstd{,} \hlkwc{ped}\hlstd{,} \hlkwc{level}\hlstd{=}\hlnum{1}\hlstd{,} \hlkwc{maxlevel}\hlstd{=}\hlnum{3}\hlstd{,} \hlkwc{idname} \hlstd{=} \hlstr{"animal"}\hlstd{)}
+\hlstd{checkp} \hlkwb{<-} \hlkwa{function}\hlstd{(}\hlkwc{iniind}\hlstd{,} \hlkwc{focalind}\hlstd{,} \hlkwc{ped}\hlstd{,} \hlkwc{level}\hlstd{=}\hlnum{1}\hlstd{,} \hlkwc{maxlevel}\hlstd{=}\hlnum{3}\hlstd{,}
+                   \hlkwc{idname} \hlstd{=} \hlstr{"animal"}\hlstd{)}
 \hlstd{\{}
-  \hlstd{parents} \hlkwb{<-} \hlstd{ped[}\hlkwd{as.character}\hlstd{(ped[,idname])}\hlopt{==}\hlkwd{as.character}\hlstd{(focalind),}\hlkwd{c}\hlstd{(}\hlnum{2}\hlstd{,}\hlnum{3}\hlstd{)]}
+  \hlstd{parents} \hlkwb{<-} \hlstd{ped[}\hlkwd{as.character}\hlstd{(ped[,idname])}\hlopt{==}
+                   \hlkwd{as.character}\hlstd{(focalind),}\hlkwd{c}\hlstd{(}\hlnum{2}\hlstd{,}\hlnum{3}\hlstd{)]}
   \hlstd{circular} \hlkwb{<-} \hlnum{0}
   \hlkwa{for}\hlstd{(j} \hlkwa{in} \hlnum{1}\hlopt{:}\hlnum{2}\hlstd{)}
   \hlstd{\{}
@@ -509,34 +513,52 @@ The file \texttt{wrongpedigree.csv} contains a pedigree (a family tree) containi
       \hlkwa{if}\hlstd{(}\hlkwd{as.character}\hlstd{(iniind)}\hlopt{==}\hlkwd{as.character}\hlstd{(parents[j]))}
       \hlstd{\{}
         \hlstd{circular} \hlkwb{<-} \hlstd{circular}\hlopt{+}\hlnum{1}
-        \hlkwd{warning}\hlstd{(}\hlstr{"Individual"}\hlstd{, iniind,} \hlstr{" is its own ancestor at level "}\hlstd{, level,} \hlstr{" (pair "}\hlstd{, parents[}\hlnum{1}\hlstd{],}\hlstr{";"}\hlstd{, parents[}\hlnum{2}\hlstd{],} \hlstr{")"}\hlstd{)}
+        \hlkwd{warning}\hlstd{(}\hlstr{"Individual"}\hlstd{, iniind,} \hlstr{" is its own ancestor at level "}\hlstd{,}
+                \hlstd{level,}  \hlstr{" (pair "}\hlstd{, parents[}\hlnum{1}\hlstd{],}\hlstr{";"}\hlstd{, parents[}\hlnum{2}\hlstd{],} \hlstr{")"}\hlstd{)}
       \hlstd{\}}\hlkwa{else}\hlstd{\{}
         \hlkwa{if}\hlstd{(level}\hlopt{<}\hlstd{maxlevel)}
         \hlstd{\{level} \hlkwb{<-} \hlstd{level}\hlopt{+}\hlnum{1}
-        \hlstd{circular} \hlkwb{<-} \hlstd{circular} \hlopt{+} \hlkwd{checkp}\hlstd{(}\hlkwc{iniind}\hlstd{=iniind,} \hlkwc{focalind}\hlstd{=parents[j],} \hlkwc{ped} \hlstd{= ped,} \hlkwc{level}\hlstd{=level)}
+        \hlstd{circular} \hlkwb{<-} \hlstd{circular} \hlopt{+} \hlkwd{checkp}\hlstd{(}\hlkwc{iniind}\hlstd{=iniind,} \hlkwc{focalind}\hlstd{=parents[j],}
+                                      \hlkwc{ped} \hlstd{= ped,} \hlkwc{level}\hlstd{=level)}
         \hlstd{\}}
       \hlstd{\}}
     \hlstd{\}}
   \hlstd{\}}
   \hlkwd{return}\hlstd{(circular)}
 \hlstd{\}}
+\end{alltt}
+\end{kframe}
+\end{knitrout}
 
-
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\begin{alltt}
 \hlstd{checkpedwrap} \hlkwb{<-} \hlkwa{function}\hlstd{(}\hlkwc{ped}\hlstd{,} \hlkwc{idname}\hlstd{=}\hlstr{"animal"}\hlstd{,} \hlkwc{maxlevel}\hlstd{=}\hlnum{3}\hlstd{)}
 \hlstd{\{}
   \hlstd{ped}\hlopt{$}\hlstd{circularity} \hlkwb{<-} \hlnum{NA}
   \hlkwa{for} \hlstd{(i} \hlkwa{in} \hlnum{1}\hlopt{:}\hlkwd{nrow}\hlstd{(ped))}
   \hlstd{\{}
-    \hlstd{ped}\hlopt{$}\hlstd{circularity[i]} \hlkwb{<-} \hlkwd{checkp}\hlstd{(}\hlkwc{iniind}\hlstd{=ped[i, idname],} \hlkwc{focalind} \hlstd{= ped[i, idname],} \hlkwc{ped}\hlstd{=ped,} \hlkwc{level} \hlstd{=}\hlnum{1}\hlstd{,} \hlkwc{maxlevel}\hlstd{=maxlevel,} \hlkwc{idname}\hlstd{=idname)}
+    \hlstd{ped}\hlopt{$}\hlstd{circularity[i]} \hlkwb{<-} \hlkwd{checkp}\hlstd{(}\hlkwc{iniind}\hlstd{=ped[i, idname],}
+                                 \hlkwc{focalind} \hlstd{= ped[i, idname],}
+                                 \hlkwc{ped}\hlstd{=ped,} \hlkwc{level} \hlstd{=}\hlnum{1}\hlstd{,}
+                                 \hlkwc{maxlevel}\hlstd{=maxlevel,} \hlkwc{idname}\hlstd{=idname)}
   \hlstd{\}}
   \hlkwd{return}\hlstd{(ped)}
 \hlstd{\}}
+\end{alltt}
+\end{kframe}
+\end{knitrout}
 
+
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlstd{ped} \hlkwb{<-} \hlkwd{read.csv}\hlstd{(}\hlstr{"wrongpedigree.csv"}\hlstd{,} \hlkwc{stringsAsFactors} \hlstd{=} \hlnum{FALSE}\hlstd{)}
 \hlstd{pedchecked} \hlkwb{<-} \hlkwd{checkpedwrap}\hlstd{(}\hlkwc{ped}\hlstd{=ped,} \hlkwc{idname} \hlstd{=} \hlstr{"animal"}\hlstd{,} \hlkwc{maxlevel} \hlstd{=} \hlnum{3}\hlstd{)}
 \end{alltt}
 
 
-{\ttfamily\noindent\bfseries\color{errorcolor}{\#\# Error in checkpedwrap(ped = ped, idname = "{}animal"{}, maxlevel = 3): object 'ped' not found}}\end{kframe}
+{\ttfamily\noindent\color{warningcolor}{\#\# Warning in checkp(iniind = iniind, focalind = parents[j], ped = ped, level = level): IndividualCN15-053 is its own ancestor at level 3 (pair CN15-F7;CN15-053)}}\end{kframe}
 \end{knitrout}
 \end{Answer}
 
