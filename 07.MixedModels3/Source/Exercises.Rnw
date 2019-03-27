@@ -1,0 +1,228 @@
+\documentclass[12pt,a4paper]{scrartcl}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath}
+\usepackage{graphicx}
+\usepackage{tikz}
+%\usepackage{silence}
+\usepackage{mdframed}
+%\WarningFilter{mdframed}{You got a bad break}
+\usepackage[colorinlistoftodos]{todonotes}
+\usepackage{listings}
+\usepackage{color}
+\colorlet{exampcol}{blue!10}
+\usepackage{multicol}
+\usepackage{booktabs}
+
+\usepackage[]{exercise}%[noanswer]
+
+\usepackage[autostyle, english = american]{csquotes}
+\MakeOuterQuote{"}
+
+\usepackage{hyperref}
+\hypersetup{
+    colorlinks,
+    citecolor=black,
+    filecolor=black,
+    linkcolor=blue,
+    urlcolor=black
+}
+
+\title{Exercises for linear mixed effect models, part 2}
+\date{\today}
+\author{Timoth\'ee Bonnet}
+
+
+\begin{document}
+
+<<echo=FALSE>>=
+options(digits = 4) 
+@
+
+\maketitle
+
+\tableofcontents
+\ListOfExerciseInToc
+\ExerciseLevelInToc{subsubsection}
+
+\clearpage
+
+
+
+\section{Random interactions}
+
+\subsection{Random slopes}
+
+<<eval=FALSE, echo=FALSE>>=
+set.seed(123)
+id <- 1:50
+idint <- rnorm(length(id),0,0.5)
+idslo <- rnorm(length(id),0,0.08)
+idslo[50] <- 0.4
+obs <- 1:10
+
+dat <- rbind(expand.grid(obs=obs, id=id),data.frame(obs=NA, id=rep(50,times=500)))
+
+dat$x <- rnorm(1000, mean = 3,sd = 1)
+dat$y <- 1.9 + idint[dat$id] + dat$x*(-0.2 + idslo[dat$id]) + rnorm(nrow(dat), 0, 0.2)
+
+dat <- dat[,c("x", "y", "id")]
+names(dat) <- c("darkness", "detectability", "location")
+
+summary(lm(detectability ~ 1 + darkness, data = dat) )
+summary(lmer(detectability ~ 1 + darkness + (1|location), data = dat) )
+summary(lmer(detectability ~ 1 + darkness + (1+darkness|location), data = dat) )
+plot(dat$darkness, dat$detectability)
+
+write.csv(x = dat, file = "hares.csv", quote = FALSE, row.names = FALSE)
+@
+
+\begin{Exercise}[difficulty=1, title={Random slopes and unbalanced data}]
+Load the dataset \texttt{hares.csv}. It contains (fake) measurements of snowshoe hare color (darkness) and their detectability against the background where they live. Measurements were taken in 50 different locations. We want to know whether darkness has an effect on detectability. 
+\begin{enumerate}
+  \item Fit a simple linear model of detectability on darkness. What is the effect?
+  \item Add a random intercept to the previous model. Does it change the result quantitatively?
+  \item Add a random slope. What do you see now?
+\end{enumerate}
+\end{Exercise}
+\begin{Answer}
+<<>>=
+read.csv("hares.csv")
+summary(lm(detectability ~ 1 + darkness, data = dat) )
+summary(lmer(detectability ~ 1 + darkness + (1|location), data = dat) )
+summary(lmer(detectability ~ 1 + darkness + (1+darkness|location), data = dat) )
+@
+\end{Answer}
+
+\begin{Exercise}[difficulty=2, title={Visualize a random slopes}]
+Visualize the effect from the random slope model.
+
+Why did the fixed effect of darkness changed so much when you added the random slope? 
+\end{Exercise}
+\begin{Answer}
+\end{Answer}
+
+
+
+\begin{Exercise}[difficulty=2, title={Does natural selection vary?}]
+Load the dataset \texttt{AllM.txt}. It contains true data from the long term monitoring of a wild animal population. We are interested in quantifying natural selection on Weight. To simplify let's assume natural selection is the slope of \texttt{fitnessR} on \texttt{Weight}. 
+\begin{enumerate}
+  \item Fit a linear regression of fitnessR on Weight. Include \texttt{Age} as a predictor Is there evidence for selection?
+  \item Change your model to a mixed model with year as a random intercept. Do you think fitnessR varies a lot among years?
+  \item Now add a random slope on weight. How much variation is there in selection?
+  \item Make a graph to visualize selection on different years (the function \texttt{ranef()} extract random effects) (you can make the graph for adults, for juveniles, or both).
+  \item Looking at the estimated variance for the intercept and for Weight, which one looks more important? Is that your impression graphically? Why?
+  \item Bonus: test for the statistical significance of the variation in selection (you can use \texttt{anova()} to compare two models).
+\end{enumerate}
+\end{Exercise}
+\begin{Answer}
+<<>>=
+library(lme4)
+allm <- read.table("AllM.txt", header = TRUE)
+summary(allm)
+@
+
+1. Simple linear regression
+<<>>=
+mlr <- lm(fitnessR ~ 1 + Age + Weight, data = allm)
+summary(mlr)
+@
+It looks like there is selection for heavier individuals.\\
+
+2. Random intercept
+<<>>=
+mri <- lmer(fitnessR ~ 1+ Age  + Weight + (1|Year), data = allm)
+summary(mri)
+@
+Some years have much higher or much lower fitness on average.\\
+
+3.Random slope
+<<>>=
+mrs <- lmer(fitnessR ~ 1+ Age  + Weight  + (1+ Weight|Year), data = allm)
+summary(mrs)
+@
+Selection may fluctuate (the variance component for the slope of Weight is not null), but it looks small and it is very correlated to the random intercept. So it is difficult to tell.\\
+
+4.Visualize
+<<>>=
+wgt <- seq(10,50, by=0.1)
+fixef(mrs)
+plot(x=wgt, y=fixef(mrs)[1] + fixef(mrs)[3]* wgt, ylim = c(0,5),
+     xlab="Weight", ylab="Fitness")
+rde <- ranef(mrs)$Year
+for (i in 1:nrow(rde))
+{
+  lines(x=wgt, y=fixef(mrs)[1]+  rde[i,1] + (fixef(mrs)[3]+rde[i,2])* wgt)
+}
+@
+
+5. Statistical test
+<<>>=
+anova(mri,mrs)
+@
+You can compare the random intercept only model to the random intercept and random slope model to see if adding the latter improves the fit. The p-value is approximate only, but that doesn't matter because it is tiny anyways. 
+
+\end{Answer}
+
+\subsection{Beetle dataset}
+<<echo=FALSE, eval=FALSE>>=
+modb <- read.table("modbeetles.txt", header = T)
+head(modb)
+
+
+library(lme4)
+
+summary(lmer(Wo ~ 1 + host + (1|IDf), data = modb))
+
+summary(lmer(Wo ~ 1 + host + (1+host|IDf), data = modb))
+
+anob <- modb[,c("IDf", "host", "Wo", "date.mated")]
+names(anob) <- c("parent", "environment", "mass", "cage")
+
+anob$parent <- as.numeric(anob$parent)
+anob$cage <- as.numeric(anob$cage)
+anob$mass <- (anob$mass - 1) *10 +rnorm(nrow(anob), 0, 0.1)
+head(anob)
+
+summary(lmer(mass ~ 1 + environment + (1+environment|parent) + (1|cage), data = anob))
+summary(lmer(mass ~ 1 + environment + (0+environment|parent) + (1|cage), data = anob))
+
+summary(lmm2 <- lmer(mass ~ 1 + environment + (0+environment|parent) + (1|cage), data = anob))
+
+plot(ranef(lmm2)$parent)
+
+trs <- matrix(c(1,1, 0,1), nrow = 2)
+covie <- -0.58*sqrt(1.0830*6.4103)
+vcovie <- matrix(c(6.4103, covie, covie, 1.0830), nrow = 2)
+
+newvcov <- trs %*% vcovie %*% t(trs)
+newcor <- newvcov[1,2]/sqrt(newvcov[1,1]*newvcov[2,2])
+
+write.csv(anob, "Data/beetles.csv", row.names = FALSE, quote = FALSE)
+@
+
+
+
+\begin{Exercise}[difficulty=2, title={Beetles: build a model}]
+Load the dataset "beetles.csv". It contains (fake) data from an (real) experiment on gene-by-environment interactions. The variable of interest is the mass of beetles born in two different environments, from different parents, and in different cages. Assuming that we can measure genetic varition with parent random effects, we wonder if different genomes respond differently to different environments.
+\textbf{Build the model corresponding to this question in lme4.}
+
+(hints: you could start from a lm() of mass modeled by environment, then add random intercepts, and finally a little something more).
+\end{Exercise}
+
+\begin{Exercise}[difficulty=2, title={Beetles: look at the model}]
+What are the variances related to genetic differences? How are they correlated? Does genetic variation explain a lot of the total variation we observe? Try and draw a representation of genetic variation in the two environments. 
+\end{Exercise}
+
+\begin{Exercise}[difficulty=3, title={Beetles: interpret}]
+Interpret model outputs (use raw numbers and / or graphes) to answer the following:
+Is there evidence for genetic variation? Do the two environment differ in their effects on beetles? \\
+Is there evidence for genetic variation in the response to the environment? \\
+Does that mean that genomes good at environment 1 are bad at environment 2?
+\end{Exercise}
+
+\section{Correlated random effects}
+In all of the above, we have assumed that random effect levels to be perfectly correlated (e.g., observations from the same year) or not at all correlated (e.g., observations from different years). It can be very interesting to allow for intermediate values, in particular for models of spatio-temporal autocorrelation, phylogenetics, quantitative genetics.
+
+
+
+\end{document}
