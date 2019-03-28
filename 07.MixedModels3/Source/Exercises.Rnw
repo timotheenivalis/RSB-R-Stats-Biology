@@ -13,7 +13,7 @@
 \usepackage{multicol}
 \usepackage{booktabs}
 
-\usepackage[]{exercise}%[noanswer]
+\usepackage[noanswer]{exercise}%[noanswer]
 
 \usepackage[autostyle, english = american]{csquotes}
 \MakeOuterQuote{"}
@@ -34,8 +34,9 @@
 
 \begin{document}
 
-<<echo=FALSE>>=
+<<echo=FALSE, results='hide', message=FALSE>>=
 options(digits = 4) 
+library(lme4)
 @
 
 \maketitle
@@ -53,6 +54,7 @@ options(digits = 4)
 \subsection{Random slopes}
 
 <<eval=FALSE, echo=FALSE>>=
+
 set.seed(123)
 id <- 1:50
 idint <- rnorm(length(id),0,0.5)
@@ -86,19 +88,54 @@ Load the dataset \texttt{hares.csv}. It contains (fake) measurements of snowshoe
 \end{Exercise}
 \begin{Answer}
 <<>>=
-read.csv("hares.csv")
+dat <- read.csv("hares.csv")
 summary(lm(detectability ~ 1 + darkness, data = dat) )
 summary(lmer(detectability ~ 1 + darkness + (1|location), data = dat) )
 summary(lmer(detectability ~ 1 + darkness + (1+darkness|location), data = dat) )
 @
 \end{Answer}
 
-\begin{Exercise}[difficulty=2, title={Visualize a random slopes}]
-Visualize the effect from the random slope model.
-
-Why did the fixed effect of darkness changed so much when you added the random slope? 
+\begin{Exercise}[difficulty=2, title={Visualize random slopes}]
+Visualize the effect from the random slope model, that is, plot the relationship detectability over darkness for every location. Add the overall relationship (for instance extracted from a simple linear regression). You can use the functions \texttt{ranef()} and \texttt{fixef()}. Why did the fixed effect of darkness changed so much when you added the random slope? 
 \end{Exercise}
 \begin{Answer}
+<<>>=
+mhar <- lmer(detectability ~ 1 + darkness + (1+darkness|location), data = dat)
+
+rhar <- ranef(mhar)$location
+fhar <- fixef(mhar)
+
+dark<- seq(from=min(dat$darkness), to=max(dat$darkness), length.out = 100)
+#first we plot the MEDIAN relationship, that is, the slope to the 
+# hypothetical location with random effects of zero
+
+plot(x=dark, y=fhar[1]+dark*fhar[2], ylim=c(0,4), type="l", 
+     lwd=5, lty=2, main="Mean effect (dotted),
+     Median effect (dashed) and location slopes")
+
+#then we plot slopes for each locations
+cls <- rainbow(n = nrow(rhar))
+for(i in 1:nrow(rhar))
+{
+  lines(x=dark, y=(fhar[1]+rhar[i,1])+#intercept for location i
+          dark*(fhar[2]+rhar[i,2]),# slope for location i
+    col=cls[i])
+}
+
+m0har <- lm(detectability ~ 1 + darkness, data = dat) 
+abline(m0har, lwd=5, lty=3)
+
+legend(x = "topleft", legend = c("Simple regression", "Random slope"),
+       lwd=5, lty = c(3,2))
+@
+
+The problem with the simple regression comes from the imbalance in the data! One location has a positive relationship, while the 49 others have a negative relationship. The simple regression is also positive. Why does one location have so much weight?
+Let's look at sample sizes per location:
+<<>>=
+table(dat$location)
+@
+
+510 observations come from location 50! That is why it weights so much in the simple regression. In contrast the random slope can tell the mean effect from the mediam slope.
 \end{Answer}
 
 
@@ -224,5 +261,88 @@ Does that mean that genomes good at environment 1 are bad at environment 2?
 In all of the above, we have assumed that random effect levels to be perfectly correlated (e.g., observations from the same year) or not at all correlated (e.g., observations from different years). It can be very interesting to allow for intermediate values, in particular for models of spatio-temporal autocorrelation, phylogenetics, quantitative genetics.
 
 
+\subsection{Quantitative genetics}
+Genes are transmitted from parents to offspring in a very predictable way: their genes have a correlation of 50\%. Therefore it is possible to estimate the genetic variance without any DNA sequencing when a dataset contains parents and offspring.
+Going back to the long term monitoring of the wild animal population, let's load the population pedigree (ped.txt) and calculate this relatedness matrix:
+<<Gmatrix, dev='tikz'>>=
+library(MCMCglmm)
+ped <- read.table("ped.txt", header = TRUE)
+ainv <- inverseA(ped)$Ainv #the inverse of relatedness matrix
+image(solve(ainv)[500:600,500:600], useRaster=T) #the relatedness matrix
+@
+
+Is there genetic variation in weight? Here is a demonstration of fitting a quantitative genetic model.
+<<message=FALSE, cache=TRUE>>=
+allm <- read.table("AllM.txt", header = TRUE)
+
+mweight <- MCMCglmm(Weight ~ 1 + Age*Sex, random=~Year + id, 
+                    ginverse = list(id=ainv), data=allm)
+summary(mweight)
+@
+The effect "id" has a large variance attached to it, suggesting the presence of a lot of genetic variation.
+
+\begin{Exercise}[difficulty=1, title={Is it really genetic?}]
+However that was a bit cheating, because individuals had several observations, so the "genetic" random effect may be just repeated measurements. Let's add another random effect for individual, but not connected to the relatedness matrix (you can use the variable "animal" which is a duplicate of "id"). 
+
+\end{Exercise}
+\begin{Answer}
+<<message=FALSE, eval=FALSE>>=
+mweightG <- MCMCglmm(Weight ~ 1 + Age*Sex, random=~Year + id + animal,
+                     ginverse = list(animal=ainv), data=allm, nitt = 30000)
+summary(mweightG)
+@
+
+\end{Answer}
+
+
+\subsection{Phylogenetic model}
+
+In a phylogenetic tree some species have a longer common evolutionary history than others. What those species look like may be influenced by the common evolutionary history. We can model that by considering phylogenetic correlations between two lineage as the time of common evolution relative to their outgroup. 
+
+
+\begin{Exercise}[difficulty=1, title={Demo of Phylogeny and correlated phenotypes}]
+Load a phylogeny of bird families and some bird phenoypes:
+<<>>=
+load("birdfamilies") #phylogeny. Loading creates the object bird.families
+birds <- read.csv("birdpheno.csv") #family phenotypes
+@
+
+To start, we subset the phylogeny to a few families
+<<>>=
+bird.families <- makeNodeLabel(bird.families)
+some.families <- c("Certhiidae", "Paridae", "Gruidae",
+"Struthionidae")
+Nphylo <- drop.tip(bird.families, setdiff(bird.families$tip.label,
+some.families))
+@
+So we can easily visualize it:
+<<>>=
+plot(Nphylo)
+@
+Which families will tend to have more similar phenotypes do you think?\\
+
+We can calculate the variance covariance matrix of that tree as:
+<<>>=
+library(MCMCglmm)
+INphylo <- inverseA(Nphylo)
+sA <- as.matrix(solve(INphylo$Ainv))
+colnames(sA) <- rownames(sA) <- rownames(INphylo$Ainv)
+sA
+@
+What are the zero?\\
+
+Coming back to the full dataset, we can fit a phylogenetic model as:
+<<message=FALSE>>=
+INphylofull <- inverseA(bird.families) # Object contains inverse relatedness matrix, pedigree, inbreeding...
+prior0 <- list(G=list(G1=list(V=1, nu=1, alpha.mu=0, alpha.V=100)),
+               R=list(V=1, nu=0.002))
+m1 <- MCMCglmm(y ~ 1, random = ~id, ginverse = list(id=INphylofull$Ainv), 
+               data = birds, prior = prior0)
+summary(m1)
+@
+\end{Exercise}
+\begin{Answer}
+
+\end{Answer}
 
 \end{document}
