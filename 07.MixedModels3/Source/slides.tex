@@ -203,11 +203,37 @@
 
 \begin{frame}{Random interaction with a factor}
  %the same, but think about it slightly differently
- 
+Individuals measured multiple times across two treatments
+ \centering
+ \includegraphics[width=0.6\textwidth]{figure/randfactor-1}
 \end{frame}
 %%%%%%%%
 
-\begin{frame}{Beetles}
+\begin{frame}{Random interaction with a factor}
+ %the same, but think about it slightly differently
+ Thinking about it as random intercept and random slopes
+ \centering
+ \includegraphics[height=0.6\textheight]{figure/reacnorm1-1}
+ \includegraphics[height=0.6\textheight]{figure/reacnorm2-1}
+
+ \texttt{lmer(y $\sim$ 1 + treat + (1 + treat|id)}
+\end{frame}
+%%%%%%%%
+
+\begin{frame}{Random interaction with a factor}
+ %the same, but think about it slightly differently
+ Or thinking about it as two correlated traits
+ \centering
+ \includegraphics[height=0.6\textheight]{figure/charst1-1}
+ \includegraphics[height=0.6\textheight]{figure/charst2-1}
+
+ \texttt{lmer(y $\sim$ 1 + treat + (0 + treat|id)}\\
+ \pause
+ \textbf{Exercise 4!}
+\end{frame}
+%%%%%%%%
+
+\begin{frame}{Beetle exercises 5, 6, 7}
  
 \end{frame}
 %%%%%%%%
@@ -288,6 +314,16 @@ $\mathbf{G}$ is the random effect variance covariance:
     \end{center}    
 \end{frame}
 %%%%%%%
+
+\begin{frame}{Phylogenetic model: section 2.2}
+    \begin{center}
+        \includegraphics[width=0.49\textwidth]{figure/phylogeny}
+        \includegraphics[width=0.49\textwidth]{figure/matphylo}
+    \end{center}    
+\end{frame}
+%%%%%%%
+
+
 
 \begin{frame}{Everything you need to know about mixed models}
 

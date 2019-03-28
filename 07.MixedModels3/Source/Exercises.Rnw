@@ -200,7 +200,94 @@ You can compare the random intercept only model to the random intercept and rand
 
 \end{Answer}
 
-\subsection{Beetle dataset}
+\subsection{Random factor interaction}
+
+<<randfactor, dev="tikz", fig.keep='last', echo=FALSE, results='hide', eval=FALSE>>=
+set.seed(12356)
+dat <- expand.grid(id=1:50, x=0:1, obs=1:5)
+idi <- rnorm(50,3,0.4)
+idb <- rnorm(50,-0.2,0.2)+0.2*idi
+dat$y <- idi[dat$id] + dat$x*idb[dat$id] + rnorm(nrow(dat),0,0.01)
+plot(dat$x,dat$y, xlim=c(-0.5,1.5), xaxt="n" , ylab="Response", xlab="")
+axis(side = 1, at = 0:1, labels = c("Control", "Treatment"))
+dat$treat <- c("control", "treatment")[dat$x+1]
+write.csv(dat, file = "interfactor.csv", row.names = FALSE, quote = FALSE)
+@
+
+<<reacnorm1, dev="tikz", fig.keep='last', fig.width=6, fig.height=5, echo=FALSE, results='hide', eval=FALSE>>=
+plot(dat$x,dat$y, xlim=c(-0.5,1.5), xaxt="n" , ylab="Response", xlab="",
+     main="reaction norm view: variances")
+axis(side = 1, at = 0:1, labels = c("Control", "Treatment"))
+abline(v=0)
+for(i in 1:50)
+{
+  segments(x0 = -0.05, x1=0, y0 = idi[i], col=rgb(0.7,0,1,0.7))
+  lines(x=0:1, y= c(idi[i], idi[i]+idb[i]), col=rgb(0,0,1,0.7))
+}
+text(x = c(-0.3, 0.5), y = c(2.5, 2.5), 
+     labels = c("\\rotatebox{90}{\\Large \\textbf{\\color{purple} Intercepts}}", 
+                "\\rotatebox{90}{\\Large \\textbf{\\color{blue} Slopes}}"))
+@
+
+<<reacnorm2, dev="tikz", fig.keep='last', fig.width=4, fig.height=5, echo=FALSE, results='hide', eval=FALSE>>=
+plot(idi, idb, xlab="\\Large \\color{purple} Intercept RE", 
+     ylab="\\Large \\color{blue} Slope RE", main="Reaction norm view: correlation")
+
+@
+
+<<charst1, dev="tikz", fig.keep='last', fig.width=6, fig.height=5, echo=FALSE, results='hide', eval=FALSE>>=
+plot(dat$x,dat$y, xlim=c(-0.5,1.5), xaxt="n" , ylab="Response", xlab="", 
+     col=c("red", "orange")[dat$x+1], main="character state view: variances")
+axis(side = 1, at = 0:1, labels = c("Control", "Treatment"))
+for(i in 1:50)
+{
+  lines(x=0:1, y= c(idi[i], idi[i]+idb[i]))
+}
+text(x = c(-0.1, 1.1), y = c(2, 2), 
+     labels = c("\\rotatebox{90}{\\Large \\textbf{\\color{red} Variance control}}", 
+                "\\rotatebox{90}{\\Large \\textbf{\\color{orange} Variance treatment}}"))
+@
+
+<<charst2, dev="tikz", fig.keep='last', fig.width=4, fig.height=5, echo=FALSE, results='hide', eval=FALSE>>=
+plot(3+idi, 3+idi+idb, xlab="\\Large \\color{red} Control RE", 
+     ylab="\\Large \\color{orange} Treatment RE", main="Character state view: correlation")
+@
+
+
+\begin{Exercise}[difficulty=1, title={Random interaction with a factor}]
+Load the file \texttt{interfactor.csv} and fit two random interaction modelw of y as a function of treat, using both the reaction norm and the character state approach. How do the estimate differ?
+Use the functions \texttt{AIC()}, \texttt{fitted()} and \texttt{resid()} to compare the fit of the two models? What can you conclude?
+\end{Exercise}
+\begin{Answer}
+<<>>=
+dat <- read.csv("interfactor.csv")
+library(lme4)
+summary(mf1 <- lmer(y ~ 1 + treat + (1+treat|id), data = dat))
+
+summary(mf2 <- lmer(y ~ 1 + treat + (0+treat|id), data = dat))
+
+plot(fitted(mf1), fitted(mf2))
+plot(resid(mf1), resid(mf2))
+AIC(mf1)
+AIC(mf2)
+@
+The two models are equivalent. Actually you can convert one into the other:
+
+<<>>=
+vc1 <- VarCorr(mf1)
+vm1 <- matrix(vc1$id[1:4], nrow = 2)
+
+vc2 <- VarCorr(mf2)
+vm2 <- matrix(vc2$id[1:4], nrow = 2)
+
+trs <- matrix(c(1,1, 0,1), nrow = 2)
+
+trs %*% vm1 %*% t(trs)
+vm2
+@
+\end{Answer}
+
+
 <<echo=FALSE, eval=FALSE>>=
 modb <- read.table("modbeetles.txt", header = T)
 head(modb)
@@ -272,7 +359,7 @@ image(solve(ainv)[500:600,500:600], useRaster=T) #the relatedness matrix
 @
 
 Is there genetic variation in weight? Here is a demonstration of fitting a quantitative genetic model.
-<<message=FALSE, cache=TRUE>>=
+<<message=FALSE, cache=TRUE, eval=FALSE>>=
 allm <- read.table("AllM.txt", header = TRUE)
 
 mweight <- MCMCglmm(Weight ~ 1 + Age*Sex, random=~Year + id, 
@@ -332,7 +419,7 @@ sA
 What are the zero?\\
 
 Coming back to the full dataset, we can fit a phylogenetic model as:
-<<message=FALSE>>=
+<<message=FALSE, eval=FALSE>>=
 INphylofull <- inverseA(bird.families) # Object contains inverse relatedness matrix, pedigree, inbreeding...
 prior0 <- list(G=list(G1=list(V=1, nu=1, alpha.mu=0, alpha.V=100)),
                R=list(V=1, nu=0.002))
