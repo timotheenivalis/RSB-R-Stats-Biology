@@ -27,7 +27,7 @@
     urlcolor=black
 }
 
-\title{Exercises for linear mixed effect models, part 2}
+\title{Exercises for linear mixed effect models, part 3}
 \date{\today}
 \author{Timoth\'ee Bonnet}
 
@@ -87,12 +87,13 @@ Load the dataset \texttt{hares.csv}. It contains (fake) measurements of snowshoe
 \end{enumerate}
 \end{Exercise}
 \begin{Answer}
-<<>>=
+<<eval=FALSE>>=
 dat <- read.csv("hares.csv")
 summary(lm(detectability ~ 1 + darkness, data = dat) )
 summary(lmer(detectability ~ 1 + darkness + (1|location), data = dat) )
 summary(lmer(detectability ~ 1 + darkness + (1+darkness|location), data = dat) )
 @
+The direction of the slope changes when you add a random slope (but not when you add a random intercept).
 \end{Answer}
 
 \begin{Exercise}[difficulty=2, title={Visualize random slopes}]
@@ -152,10 +153,10 @@ Load the dataset \texttt{AllM.txt}. It contains true data from the long term mon
 \end{enumerate}
 \end{Exercise}
 \begin{Answer}
+Careful here! The dataset is a text file, not a csv file! You need to load the data using \texttt(read.table()) with the argument \texttt{header=TRUE}!
 <<>>=
 library(lme4)
 allm <- read.table("AllM.txt", header = TRUE)
-summary(allm)
 @
 
 1. Simple linear regression
@@ -263,7 +264,9 @@ Use the functions \texttt{AIC()}, \texttt{fitted()} and \texttt{resid()} to comp
 dat <- read.csv("interfactor.csv")
 library(lme4)
 summary(mf1 <- lmer(y ~ 1 + treat + (1+treat|id), data = dat))
+@
 
+<<>>=
 summary(mf2 <- lmer(y ~ 1 + treat + (0+treat|id), data = dat))
 
 plot(fitted(mf1), fitted(mf2))
