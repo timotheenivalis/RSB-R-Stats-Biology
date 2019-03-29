@@ -10,7 +10,7 @@ Topics covered so far this year:
 * [Statistical inference](https://github.com/timotheenivalis/RSB-R-Stats-Biology/tree/master/02.IntroStats)
 * [Linear mixed models Part 1 (estimation)](https://github.com/timotheenivalis/RSB-R-Stats-Biology/tree/master/03.MixedModels)
 * [Linear mixed models Part 2 (tests)](https://github.com/timotheenivalis/RSB-R-Stats-Biology/tree/master/05.MixedModels2)
-* [Linear mixed models Part 3 (tests)](https://github.com/timotheenivalis/RSB-R-Stats-Biology/tree/master/07.MixedModels3)
+* [Linear mixed models Part 3 (random interactions)](https://github.com/timotheenivalis/RSB-R-Stats-Biology/tree/master/07.MixedModels3)
 * [Graphics philosophy and ggplot](https://github.com/timotheenivalis/RSB-R-Stats-Biology/tree/master/04.GraphicDesign)
 * [Functions in R](https://github.com/timotheenivalis/RSB-R-Stats-Biology/tree/master/06.FunctionsAndFundamentalCoding)
 
