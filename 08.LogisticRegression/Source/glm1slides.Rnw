@@ -266,4 +266,36 @@ segments(x0=x, y1 = pres, y0=obs, col="gray")
 \end{frame}
 %%%%%%%%%%%%%%%%%%%%%%%
 
+\begin{frame}{Exercise 1}
+
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{frame}{Model assumptions?}
+
+Exercise 2!
+
+\pause
+\begin{block}{Logistic regression assumes:}
+\begin{itemize}[<+->]
+  \item \textbf{Binary data}
+  \item No unaccounted source of correlations in the date (e.g., pseudo-replication, spatial autocorrelations, phylogenetic signal\dots)
+  \item (no error in the predictors)
+\end{itemize}
+\end{block}
+
+\pause
+
+NO assumptions about the distribution of residuals (Normality, homoscedasticity).\\
+BUT more assumptions in non-binary GLMs (proportions and count data)!!
+
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{frame}{Back-transformation}
+
+
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%
+
 \end{document}

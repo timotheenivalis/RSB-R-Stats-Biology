@@ -71,7 +71,7 @@ dat <- dat[,c("x", "y", "id")]
 names(dat) <- c("darkness", "detectability", "location")
 
 summary(lm(detectability ~ 1 + darkness, data = dat) )
-summary(lmer(detectability ~ 1 + darkness + (1|location), data = dat) )
+summary(lmm0 <-lmer(detectability ~ 1 + darkness + (1|location), data = dat) )
 summary(lmer(detectability ~ 1 + darkness + (1+darkness|location), data = dat) )
 plot(dat$darkness, dat$detectability)
 

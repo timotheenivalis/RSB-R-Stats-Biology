@@ -45,22 +45,70 @@ library(lme4)
 \ListOfExerciseInToc
 \ExerciseLevelInToc{subsubsection}
 
-\clearpage
+\clearpage 
 
 
 
 \section{Logistic regression basics}
 
 \begin{Exercise}[difficulty=1, title={Fit with glm()}]
-Load the dataset \texttt{survivalsize.csv}. It contains 
+Load the dataset \texttt{survivalsize.csv}. It contains fake data of individual-based measurements of body size and of survival from the time of measurement to the next year. Look at a summary of the data and plot them. Do you think size affects survival?
+Use the function glm() to fit a logistic regression. What should the \texttt{family} argument be? What is the direction of the effect of size on survival?
 \end{Exercise}
 \begin{Answer}
 <<>>=
 survdat <- read.csv("survivalsize.csv") 
+summary(survdat)
 plot(survdat)
-hist(survdat$survival)
+glmsurvsize0 <- glm(survival ~ 1 + size, data = survdat, family = "binomial")
+summary(glmsurvsize0)
 @
 \end{Answer}
+
+\begin{Exercise}[difficulty=1, title={Model assumptions}]
+In R some model assumptions of linear models are routinely checked using plot(lm()): residual normality, independance and homogeneous variance, and legerage. If you know about these diagnostics (and what the plots should ideally look like) check them for your glm. Should you worry?
+\end{Exercise}
+\begin{Answer}
+<<>>=
+plot(glmsurvsize0)
+@
+No. A binary logistic regression makes much less stringent assumptions than a linear model. The one thing you can easily check if that data are binary. The assumptions that may be violated (non-independance and no measurement error) would generally not be visible on these plots. The definition of a logistic regression means that the residuals will generally not follow a normal distribution, but will be dependent on the predictors, and will have changing variance; that is perfectly okay.
+\end{Answer}
+
+\begin{Exercise}[difficulty=2, title={Making sense of model estimates}]
+Consider the model estimates for the intercept and slope.  How to recover the mean survival from these two numbers? You will need to use the back-transformation inverse logit: probability = $\frac{1}{1+\exp(-y)}$ where $y$ is a model prediction on the logit-scale.
+\end{Exercise}
+\begin{Answer}
+<<>>=
+@
+
+The data mean survival is:
+<<>>=
+mean(survdat$survival)
+@
+
+You CANNOT recover the mean data survival by back-transforming the predicted mean on the logit-scale, because the back-transformation is not linear:
+<<>>=
+meanlogit <- mean(coefficients(glmsurvsize0)[1]+
+coefficients(glmsurvsize0)[2]*survdat$size)
+
+1/(1+exp(-meanlogit))
+@
+
+You must back-transform individual data points and THEN calculate the mean:
+<<>>=
+preddat <- coefficients(glmsurvsize0)[1]+
+coefficients(glmsurvsize0)[2]*(survdat$size)
+mean(1/(1+exp(-preddat)))
+@
+The function predict with \texttt{type} argument set to \texttt{response} can help with the back-transformation:
+<<>>=
+mean(predict(glmsurvsize0, type = "response"))
+@
+\end{Answer}
+
+
+
 
 \section{Classification}
 
