@@ -1,0 +1,72 @@
+\documentclass[12pt,a4paper]{scrartcl}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath}
+\usepackage{graphicx}
+\usepackage{tikz}
+%\usepackage{silence}
+\usepackage{mdframed}
+%\WarningFilter{mdframed}{You got a bad break}
+\usepackage[colorinlistoftodos]{todonotes}
+\usepackage{listings}
+\usepackage{color}
+\colorlet{exampcol}{blue!10}
+\usepackage{multicol}
+\usepackage{booktabs}
+
+\usepackage[]{exercise}%[noanswer]
+
+\usepackage[autostyle, english = american]{csquotes}
+\MakeOuterQuote{"}
+
+\usepackage{hyperref}
+\hypersetup{
+    colorlinks,
+    citecolor=black,
+    filecolor=black,
+    linkcolor=blue,
+    urlcolor=black
+}
+
+\title{Exercises for linear mixed effect models, part 3}
+\date{\today}
+\author{Timoth\'ee Bonnet}
+
+
+\begin{document}
+
+<<echo=FALSE, results='hide', message=FALSE>>=
+options(digits = 4) 
+library(lme4)
+@
+
+\maketitle
+
+\tableofcontents
+\ListOfExerciseInToc
+\ExerciseLevelInToc{subsubsection}
+
+\clearpage
+
+
+
+\section{Logistic regression basics}
+
+\begin{Exercise}[difficulty=1, title={Fit with glm()}]
+Load the dataset \texttt{survivalsize.csv}. It contains 
+\end{Exercise}
+\begin{Answer}
+<<>>=
+survdat <- read.csv("survivalsize.csv") 
+plot(survdat)
+hist(survdat$survival)
+@
+\end{Answer}
+
+\section{Classification}
+
+\section{Repeatability}
+
+
+
+
+\end{document}
