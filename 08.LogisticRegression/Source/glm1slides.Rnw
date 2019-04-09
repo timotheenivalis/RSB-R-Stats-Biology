@@ -298,4 +298,7 @@ BUT more assumptions in non-binary GLMs (proportions and count data)!!
 \end{frame}
 %%%%%%%%%%%%%%%%%%%%%%%
 
+\begin{frame}{Take pictures!}
+BDSI would like some pictures to illustrate their website. Is everybody okay with pictures?
+\end{frame}
 \end{document}
