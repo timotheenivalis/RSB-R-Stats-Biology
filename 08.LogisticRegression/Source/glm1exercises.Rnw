@@ -153,20 +153,6 @@ polygon(x=c(newdat$size,rev(newdat$size)), y=c(newdat$ciu,rev(newdat$cil)), col 
 
 \section{Classification}
 
-
-\begin{Exercise}[difficulty=2, title={Genetic risk?}]
-<<echo=FALSE, eval=FALSE>>=
-
-
-@ 
-
-\end{Exercise}
-\begin{Answer}
-
-
-\end{Answer}
-
-
 \begin{Exercise}[difficulty=2, title={What populations are at risk?}]
 Researchers are currently trying to predict animal population collapses in advance, by finding metrics that changed before historic populations collapsed. Let's imagine we have measured the time-autocorrelation in phenotypes (what that means does not matter) in 200 populations, some of which have collapsed in the past decades. We want to konw whether autocorrelation is related to collapse, and whether it could be used to predict which population will collapse in the future. 
 
@@ -225,7 +211,7 @@ plot.roc(predictor = predict(glmcoll0, type = "response"), x = decline$popcollap
 @
 
 Adding another predictor helps improve the prediction:
-<<>>=
+<<rocplot, dev='tikz', fig.width=6, fig.height=5>>=
 glmcoll1 <- glm(popcollapse~pheno_autocorr+variance, data = decline, family = "binomial")
 
 plot.roc(predictor = predict(glmcoll1, type = "response"), x = decline$popcollapse)

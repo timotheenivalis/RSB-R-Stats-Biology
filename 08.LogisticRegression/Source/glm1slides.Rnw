@@ -36,6 +36,7 @@
 
 \title[Logistic regression]{Generalized linear models and the logistic regression}
 \author{Timoth\'ee Bonnet}
+\institute{Thanks to BDSI for support!}
 \date{\today}
 
 \begin{document}
@@ -215,9 +216,9 @@ GLMs fit continuous expected response; we observe discrete realizations
 \only<1-2>{\includegraphics[width=0.5\textwidth]{figure/logreg1-1.pdf}}
 
 \only<3>{
-<<logreg2, dev='tikz', echo=FALSE, fig.keep='last', fig.width=8, fig.height=6, out.width="0.5\\textwidth">>=
-par(las=1)
-plot(x, obs, ylim = c(-0.5,1.5), xlim=c(-3,3), xlab="Predictor", ylab="Response")
+<<logreg2, dev='tikz', echo=FALSE, fig.keep='last', fig.width=8, fig.height=6, out.width="0.5\\textwidth",out.height="0.5\\textheight">>=
+setPar()
+plot(x, obs, xlab="\\color{orange}{Predictor}", ylab="\\color{purple}{Response}", xlim = c(-3,3), ylim=c(-0.5,1.5))
 abline(h=c(0,1))
 abline(v=0)
 ybt <- 1/(1+exp(-prlrm0$fit))
@@ -235,9 +236,9 @@ segments(x0=x, y1 = pres, y0=obs, col="gray")
 }
 
 \only<4>{
-<<logreg3, dev='tikz', echo=FALSE, fig.keep='last', fig.width=8, fig.height=6, out.width="0.5\\textwidth">>=
-par(las=1)
-plot(x, obs, ylim = c(-0.5,1.5), xlim=c(-3,3), xlab="Predictor", ylab="Response")
+<<logreg3, dev='tikz', echo=FALSE, fig.keep='last', fig.width=8, fig.height=6, out.width="0.5\\textwidth",out.height="0.5\\textheight">>=
+setPar()
+plot(x, obs, xlab="\\color{orange}{Predictor}", ylab="\\color{purple}{Response}", xlim = c(-3,3), ylim=c(-0.5,1.5))
 abline(h=c(0,1))
 abline(v=0)
 ybt <- 1/(1+exp(-prlrm0$fit))
@@ -260,22 +261,27 @@ segments(x0=x, y1 = pres, y0=obs, col="gray")
 \begin{enumerate}[<+->]
   \item Response increase/decrease with increasing predictor?
   \item Estimate probability of 0/1 given a predictor value
-  \item Predict 0/1 and classify predictor values (Machine Learning)
+  \item Predict 0/1 and classify predictor values ($\rightarrow$ Machine Learning)
 \end{enumerate}
 \end{block}
 \end{frame}
 %%%%%%%%%%%%%%%%%%%%%%%
 
-\begin{frame}{Exercise 1}
+\begin{frame}{Exercise 1, fit a glm}
+
+Load the dataset \texttt{survivalsize.csv}. It contains fake data of individual-based measurements of body size and of survival from the time of measurement to the next year. Look at a summary of the data and plot them. Do you think size affects survival?
+Use the function glm() to fit a logistic regression. What should the \texttt{family} argument be? What is the direction of the effect of size on survival?
 
 \end{frame}
 %%%%%%%%%%%%%%%%%%%%%%%
 
-\begin{frame}{Model assumptions?}
+\begin{frame}{Exercise 2, Model assumptions?}
 
-Exercise 2!
+In R some model assumptions of linear models are routinely checked using plot(lm()): residual normality, independance and homogeneous variance, and legerage. If you know about these diagnostics (and what the plots should ideally look like) check them for your glm. Should you worry?
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%
 
-\pause
+\begin{frame}{Model assumptions}
 \begin{block}{Logistic regression assumes:}
 \begin{itemize}[<+->]
   \item \textbf{Binary data}
@@ -298,7 +304,63 @@ BUT more assumptions in non-binary GLMs (proportions and count data)!!
 \end{frame}
 %%%%%%%%%%%%%%%%%%%%%%%
 
+\begin{frame}{Exercise 3, interpretation}
+
+
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%
+
 \begin{frame}{Take pictures!}
 BDSI would like some pictures to illustrate their website. Is everybody okay with pictures?
 \end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{frame}{Clustering}
+
+\includegraphics[width=0.8\textwidth]{figure/logreg3-1}
+
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{frame}{Clustering: what threshold?}
+<<logreg4, dev='tikz', echo=FALSE, fig.keep='last', fig.width=8, fig.height=6, out.width="0.5\\textwidth", out.height="0.5\\textheight", fig.align='center'>>=
+setPar()
+plot(x, obs, xlab="\\color{orange}{Predictor}", ylab="\\color{purple}{Response}", xlim = c(-3,3), ylim=c(-0.5,1.5))
+abline(h=c(0,1))
+abline(v=0)
+ybt <- 1/(1+exp(-prlrm0$fit))
+lines(x = prlrm0$x, ybt, lwd=5, col='red')
+
+ybtCIu <- 1/(1+exp(-(prlrm0$fit+2*prlrm0$se.fit)))
+ybtCIl <- 1/(1+exp(-(prlrm0$fit-2*prlrm0$se.fit)))
+
+polygon(x=c(prlrm0$x,rev(prlrm0$x)), y=c(ybtCIl,rev(ybtCIu)), col = rgb(0.8,0,0,0.2), border =NA)
+abline(v=-0.5, lwd=3, lty=2)
+rect(xleft = c(-4, -0.5), ybottom = c(0,0.5), xright = c(-0.5,4), ytop = c(0.5,1), angle = 45, density = 10, col = "green")
+rect(xleft = c(-4, -0.5), ybottom = c(0.5,0), xright = c(-0.5,4), ytop = c(1,0.5), angle = 135, density = 10, col = "red")
+pres <- predict(lrm0, type = "response")
+segments(x0=x, y1 = pres, y0=obs, col="gray")
+
+@
+
+
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%
+ 
+ \begin{frame}{Exercise 5}
+ 
+ \pause
+ 
+ \begin{exampleblock}{How good is the classification? What threshold to use?}
+   \begin{itemize}
+     \item Receiver Operating Characteristic and Area Under the Curve (ROC / AUC)
+     \item E.g., \texttt{library(pROC)}
+   \end{itemize}
+   \includegraphics[width=0.3\textwidth]{figure/rocplot-1}
+ \end{exampleblock}
+%
+ \end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%
+
+
 \end{document}
