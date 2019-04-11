@@ -287,6 +287,7 @@ In R some model assumptions of linear models are routinely checked using plot(lm
   \item \textbf{Binary data}
   \item No unaccounted source of correlations in the date (e.g., pseudo-replication, spatial autocorrelations, phylogenetic signal\dots)
   \item (no error in the predictors)
+  \item (no complete separation = only 0s or only 1s for some predictor level)
 \end{itemize}
 \end{block}
 
@@ -298,9 +299,91 @@ BUT more assumptions in non-binary GLMs (proportions and count data)!!
 \end{frame}
 %%%%%%%%%%%%%%%%%%%%%%%
 
+\begin{frame}[fragile]{Back-transformation}
+<<echo=FALSE>>=
+survdat <- read.csv("survivalsize.csv") 
+@
+
+<<size='footnotesize'>>=
+summary(glm(survival ~ 1 + size, data = survdat, family = "binomial"))
+@
+
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%
+
+
 \begin{frame}{Back-transformation}
+\begin{center}
+\begin{tikzpicture}
+\node (sc) at (-6, 1) {\textbf{Scales:}};
+\uncover<2->{
+  \node (mininf) at (-4,0) {$- \infty $};
+  \node (maxinf) at (4,0) {$+ \infty $};
+  \node (binf) at (-3,0) {};
+  \node (tinf) at (3,0) {};
+  \node (zer) at (0,0) {$0$};
+  \draw (binf) -- (zer) -- (tinf);
+  \draw[dashed] (binf)--(mininf);
+  \draw[dashed] (tinf)--(maxinf);
+  \node (modest) at (-6,0) {Model estimates};
+}
+\uncover<3->{
+  \node (prb) at (-6,-2) {Probabilities};
+  \node (minpr) at (-4,-2) {0};
+  \node (maxpr) at (4,-2) {1};
+  \node (zerp) at (0,-2) {$0.5$};
+  \draw (minpr)-- (zerp) -- (maxpr);
+}
+\uncover<4->{
+  \node (dat) at (-6,-4) {Data};
+  \node (mind) at (-4,-4) {\large \textbf{0}};
+  \node (maxd) at (4,-4) {\large \textbf{1}};
+  \draw[dashed] (mind)--(maxd);
+}
+
+\uncover<5->{
+
+\draw[->, draw=red] (zer) -- (zerp);
+\draw[->, draw=red] (mininf) -- (minpr);
+\draw[->, draw=red] (maxinf) -- (maxpr);
+
+\draw[->, draw=red, shorten <= 2pt, shorten >= 2pt] (-0.5,0) -- (-0.7,-2);
+\draw[->, draw=red, shorten <= 2pt, shorten >= 2pt] (0.5,0) -- (0.7,-2);
+
+\draw[->, draw=red, shorten <= 2pt, shorten >= 2pt] (-1,0) -- (-2,-2);
+\draw[->, draw=red, shorten <= 2pt, shorten >= 2pt] (1,0) -- (2,-2);
 
 
+\draw[->, draw=red, shorten <= 2pt, shorten >= 2pt] (-1.5,0) -- (-3.8,-2);
+\draw[->, draw=red, shorten <= 2pt, shorten >= 2pt] (1.5,0) -- (3.8,-2);
+
+}
+
+\uncover<6->{
+\draw[->, draw=red, dashed, line width=2pt] (zerp) -- (mind);
+\draw[->, draw=red, dashed, line width=2pt] (zerp) -- (maxd);
+
+\draw[->, draw=red, dashed, line width=4pt] (minpr) -- (mind);
+\draw[->, draw=red, dashed, line width=4pt] (maxpr) -- (maxd);
+
+\draw[->, draw=red, dashed, line width=3pt] (-3,-2) -- (mind);
+\draw[->, draw=red, dashed, line width=0.5pt] (-3,-2) -- (maxd);
+
+\draw[->, draw=red, dashed, line width=3pt] (3,-2) -- (maxd);
+\draw[->, draw=red, dashed, line width=0.5pt] (3,-2) -- (mind);
+}
+\end{tikzpicture}
+\end{center}
+
+\uncover<7->{
+\begin{block}{Conversion:}
+\begin{itemize}
+  \item from model to probability: $p=\frac{1}{1+\exp(-x)}$
+  \item probability and data on same scale, but continuous/discrete
+  \item $\exp(slope)$ = odd-ratio
+\end{itemize}
+\end{block}
+}
 \end{frame}
 %%%%%%%%%%%%%%%%%%%%%%%
 
@@ -323,9 +406,16 @@ BDSI would like some pictures to illustrate their website. Is everybody okay wit
 %%%%%%%%%%%%%%%%%%%%%%
 
 \begin{frame}{Clustering: what threshold?}
+\centering
+\only<1>{\includegraphics[width=0.5\textwidth]{figure/logreg3-1}}
+
+\only<2>{
 <<logreg4, dev='tikz', echo=FALSE, fig.keep='last', fig.width=8, fig.height=6, out.width="0.5\\textwidth", out.height="0.5\\textheight", fig.align='center'>>=
 setPar()
-plot(x, obs, xlab="\\color{orange}{Predictor}", ylab="\\color{purple}{Response}", xlim = c(-3,3), ylim=c(-0.5,1.5))
+brpt <- -1
+trbrpt <- 1/(1+exp(-coef(lrm0)[1]-brpt*coef(lrm0)[2]))
+
+plot(x, obs, xlab="\\color{orange}{Predictor}", ylab="\\color{purple}{Response}", xlim = c(-3,3), ylim=c(-0.5,1.5), main=paste0("p(break)=", round(trbrpt,3)))
 abline(h=c(0,1))
 abline(v=0)
 ybt <- 1/(1+exp(-prlrm0$fit))
@@ -335,19 +425,51 @@ ybtCIu <- 1/(1+exp(-(prlrm0$fit+2*prlrm0$se.fit)))
 ybtCIl <- 1/(1+exp(-(prlrm0$fit-2*prlrm0$se.fit)))
 
 polygon(x=c(prlrm0$x,rev(prlrm0$x)), y=c(ybtCIl,rev(ybtCIu)), col = rgb(0.8,0,0,0.2), border =NA)
-abline(v=-0.5, lwd=3, lty=2)
-rect(xleft = c(-4, -0.5), ybottom = c(0,0.5), xright = c(-0.5,4), ytop = c(0.5,1), angle = 45, density = 10, col = "green")
-rect(xleft = c(-4, -0.5), ybottom = c(0.5,0), xright = c(-0.5,4), ytop = c(1,0.5), angle = 135, density = 10, col = "red")
+abline(v=brpt, lwd=3, lty=2)
+rect(xleft = c(-4, brpt), ybottom = c(0,trbrpt), xright = c(brpt,4), ytop = c(trbrpt,1), angle = 45, density = 10, col = "green")
+rect(xleft = c(-4, brpt), ybottom = c(trbrpt,0), xright = c(brpt,4), ytop = c(1,trbrpt), angle = 135, density = 10, col = "red")
 pres <- predict(lrm0, type = "response")
 segments(x0=x, y1 = pres, y0=obs, col="gray")
 
 @
+}
 
+\only<3>{
+<<logreg5, dev='tikz', echo=FALSE, fig.keep='last', fig.width=8, fig.height=6, out.width="0.5\\textwidth", out.height="0.5\\textheight", fig.align='center'>>=
+setPar()
+brpt <- 1
+trbrpt <- 1/(1+exp(-coef(lrm0)[1]-brpt*coef(lrm0)[2]))
+
+plot(x, obs, xlab="\\color{orange}{Predictor}", ylab="\\color{purple}{Response}", xlim = c(-3,3), ylim=c(-0.5,1.5), main=paste0("p(break)=", round(trbrpt,3)))
+abline(h=c(0,1))
+abline(v=0)
+ybt <- 1/(1+exp(-prlrm0$fit))
+lines(x = prlrm0$x, ybt, lwd=5, col='red')
+
+ybtCIu <- 1/(1+exp(-(prlrm0$fit+2*prlrm0$se.fit)))
+ybtCIl <- 1/(1+exp(-(prlrm0$fit-2*prlrm0$se.fit)))
+
+polygon(x=c(prlrm0$x,rev(prlrm0$x)), y=c(ybtCIl,rev(ybtCIu)), col = rgb(0.8,0,0,0.2), border =NA)
+abline(v=brpt, lwd=3, lty=2)
+rect(xleft = c(-4, brpt), ybottom = c(0,trbrpt), xright = c(brpt,4), ytop = c(trbrpt,1), angle = 45, density = 10, col = "green")
+rect(xleft = c(-4, brpt), ybottom = c(trbrpt,0), xright = c(brpt,4), ytop = c(1,trbrpt), angle = 135, density = 10, col = "red")
+pres <- predict(lrm0, type = "response")
+segments(x0=x, y1 = pres, y0=obs, col="gray")
+
+@
+}
+\begin{block}{}
+\begin{itemize}[<+->]
+  \item Break at 50\% probability?
+  \item Never miss a case? (but false positives!) e.g., Epidemic prevention
+  \item Never false positive? (but miss some positives!) e.g., Presumption of innocence
+\end{itemize}
+\end{block}
 
 \end{frame}
 %%%%%%%%%%%%%%%%%%%%%%%%%
  
- \begin{frame}{Exercise 5}
+ \begin{frame}{Exercise 5 }
  
  \pause
  
@@ -363,4 +485,25 @@ segments(x0=x, y1 = pres, y0=obs, col="gray")
 %%%%%%%%%%%%%%%%%%%%%%%
 
 
+\begin{frame}{Mixed effect logistic regression}
+
+ \end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%
+
+
+\begin{frame}{Mixed effect logistic regression}
+\begin{columns}
+\begin{column}{0.5\textwidth}
+\includegraphics[height=0.8\textheight]{figure/backtransformation.pdf}
+\end{column}
+\begin{column}{0.5\textwidth}
+\begin{itemize}
+  \item Random effect variance is distorted by logit
+  \item AND lots of variance from random process on top of expected values
+\end{itemize}
+\end{column}
+\end{columns}
+
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%
 \end{document}
