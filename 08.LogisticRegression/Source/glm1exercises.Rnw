@@ -13,7 +13,7 @@
 \usepackage{multicol}
 \usepackage{booktabs}
 
-\usepackage[]{exercise}%[noanswer]
+\usepackage[noanswer]{exercise}%[noanswer]
 
 \usepackage[autostyle, english = american]{csquotes}
 \MakeOuterQuote{"}
@@ -60,7 +60,8 @@ Use the function glm() to fit a logistic regression. What should the \texttt{fam
 survdat <- read.csv("survivalsize.csv") 
 summary(survdat)
 plot(survdat)
-glmsurvsize0 <- glm(survival ~ 1 + size, data = survdat, family = "binomial")
+glmsurvsize0 <- glm(survival ~ 1 + size, data = survdat, 
+                    family = "binomial")
 summary(glmsurvsize0)
 @
 \end{Answer}
@@ -116,8 +117,10 @@ exp(coefficients(glmsurvsize0)[2])
 
 You can check this by comparing two predictions
 <<>>=
-survprob5 <- 1/(1+exp(-(coefficients(glmsurvsize0)[1]+ 5*coefficients(glmsurvsize0)[2])))
-survprob6 <- 1/(1+exp(-(coefficients(glmsurvsize0)[1]+ 6*coefficients(glmsurvsize0)[2])))
+survprob5 <- 1/(1+exp(-(coefficients(glmsurvsize0)[1]+ 
+                          5*coefficients(glmsurvsize0)[2])))
+survprob6 <- 1/(1+exp(-(coefficients(glmsurvsize0)[1]+ 
+                          6*coefficients(glmsurvsize0)[2])))
 
 #definition of odd-ratio:
 (survprob6/(1-survprob6))/(survprob5/(1-survprob5))
@@ -132,8 +135,10 @@ Use the function \texttt{predict()} to make a graph of the relationship between 
 <<>>=
 plot(survdat$size, survdat$survival, xlab="Size", ylab="Survival")
 
-newdat <- data.frame(size=seq(min(survdat$size),max(survdat$size), length.out = 100))
-newdat <- cbind(newdat, predict(glmsurvsize0, newdata = newdat, type = "link", se.fit = TRUE))
+newdat <- data.frame(size=seq(min(survdat$size),max(survdat$size),
+                              length.out = 100))
+newdat <- cbind(newdat, predict(glmsurvsize0, newdata = newdat,
+                                type = "link", se.fit = TRUE))
 newdat$ciu <- 1/(1+exp(-(newdat$fit + 1.96*newdat$se.fit)))
 newdat$cil <- 1/(1+exp(-(newdat$fit - 1.96*newdat$se.fit)))
 newdat$prob <- 1/(1+exp(-(newdat$fit)))
@@ -144,7 +149,9 @@ lines(x = newdat$size, newdat$ciu, lwd=3, col='red', lty=2)
 lines(x = newdat$size, newdat$cil, lwd=3, col='red', lty=2)
 
 #or with polygon:
-polygon(x=c(newdat$size,rev(newdat$size)), y=c(newdat$ciu,rev(newdat$cil)), col = rgb(0.8,0,0,0.2), border =NA)
+polygon(x=c(newdat$size,rev(newdat$size)),
+        y=c(newdat$ciu,rev(newdat$cil)),
+        col = rgb(0.8,0,0,0.2), border =NA)
 
 @
 \end{Answer}
@@ -161,17 +168,22 @@ Load the dataset \texttt{decline.csv}, it contains fake data of past collapses a
 set.seed(1234)
 atcor <- runif(200, min = -1, max = 1)
 y <- -2 + atcor*0.95
-popcollapse <- sapply(y, FUN=function(x) rbinom(1, 1, prob = 1/(1+exp(-x))))
+popcollapse <- sapply(y, FUN=function(x) rbinom(1, 1, 
+                                      prob = 1/(1+exp(-x))))
 plot(atcor, popcollapse)
 summary(glm(popcollapse~atcor, family = "binomial"))
 
-decline <- data.frame(popcollapse=popcollapse, pheno_autocorr=atcor)
+decline <- data.frame(popcollapse=popcollapse, 
+                      pheno_autocorr=atcor)
 
-decline$futurecollapse <- sapply(-2 + atcor*0.95, FUN=function(x) rbinom(1, 1, prob = 1/(1+exp(-x))))
+decline$futurecollapse <- sapply(-2 + atcor*0.95,
+                          FUN=function(x) rbinom(1, 1, 
+                                    prob = 1/(1+exp(-x))))
 decline$futurecollapse[decline$popcollapse==1] <- NA
 
 decline$variance <- rnorm(200,6,1)+decline$popcollapse
-write.csv(decline, file = "decline.csv", quote = FALSE, row.names = FALSE)
+write.csv(decline, file = "decline.csv", quote = FALSE,
+          row.names = FALSE)
 
 @ 
 
@@ -179,9 +191,11 @@ write.csv(decline, file = "decline.csv", quote = FALSE, row.names = FALSE)
 \begin{Answer}
 <<>>=
 decline <- read.csv("decline.csv")
-summary(glmcoll0 <- glm(popcollapse~pheno_autocorr, data = decline, family = "binomial"))
+summary(glmcoll0 <- glm(popcollapse~pheno_autocorr,
+                      data = decline, family = "binomial"))
 newdat <- data.frame(pheno_autocorr=seq(-1,1,length.out = 100))
-newdat <- cbind(newdat, pred = predict(glmcoll0, type = "response", newdata = newdat))
+newdat <- cbind(newdat, pred = predict(glmcoll0, 
+                          type = "response", newdata = newdat))
 
 plot(decline$pheno_autocorr, decline$popcollapse)
 lines(newdat$pheno_autocorr, newdat$pred, col="red")
@@ -189,32 +203,39 @@ lines(newdat$pheno_autocorr, newdat$pred, col="red")
 
 Using a threshold of 0.5 would be correct for 5 at-risk populations:
 <<>>=
-sum(decline$futurecollapse[decline$pheno_autocorr>=0.5], na.rm=TRUE)
+sum(decline$futurecollapse[decline$pheno_autocorr>=0.5],
+    na.rm=TRUE)
 @
 
 and 116 safe populations:
 <<>>=
-sum(1-decline$futurecollapse[decline$pheno_autocorr<0.5], na.rm=TRUE)
+sum(1-decline$futurecollapse[decline$pheno_autocorr<0.5], 
+    na.rm=TRUE)
 @
 
 But would be incorrect for 19 at-risk populations and 30 safe populations:
 <<>>=
-sum(decline$futurecollapse[decline$pheno_autocorr<0.5], na.rm=TRUE)
-sum(1-decline$futurecollapse[decline$pheno_autocorr>=0.5], na.rm=TRUE)
+sum(decline$futurecollapse[decline$pheno_autocorr<0.5],
+    na.rm=TRUE)
+sum(1-decline$futurecollapse[decline$pheno_autocorr>=0.5],
+    na.rm=TRUE)
 @
 
 As could have been expected, this is a pretty bad performance. The result can be obtained more formally looking at a Receiver Operating Characteristic plot:
 <<>>=
 library(pROC) #need to install this package!
 
-plot.roc(predictor = predict(glmcoll0, type = "response"), x = decline$popcollapse)
+plot.roc(predictor = predict(glmcoll0, type = "response"), 
+         x = decline$popcollapse)
 @
 
 Adding another predictor helps improve the prediction:
 <<rocplot, dev='tikz', fig.width=6, fig.height=5>>=
-glmcoll1 <- glm(popcollapse~pheno_autocorr+variance, data = decline, family = "binomial")
+glmcoll1 <- glm(popcollapse~pheno_autocorr+variance, 
+                data = decline, family = "binomial")
 
-plot.roc(predictor = predict(glmcoll1, type = "response"), x = decline$popcollapse)
+plot.roc(predictor = predict(glmcoll1, type = "response"), 
+         x = decline$popcollapse)
 @
 
 \end{Answer}
@@ -232,19 +253,26 @@ dat <- expand.grid(obs=obs, id=id)
 dat$x <- rnorm(nrow(dat), mean = 3,sd = 1)
 dat$year <- rep(rep(2012+1:5, each=2),500)
 
-dat$y <- 1.9 + idint[dat$id] + dat$x*(-0.2) + rnorm(nrow(dat), 0, 0.2) + rnorm(n = 5, 0, 0.15)[dat$year-2012]
+dat$y <- 1.9 + idint[dat$id] + dat$x*(-0.2) +
+  rnorm(nrow(dat), 0, 0.2) +
+  rnorm(n = 5, 0, 0.15)[dat$year-2012]
 
 plot(dat$x, dat$y)
-dat$bin <- sapply(dat$y, FUN=function(x){rbinom(n = 1, 1, prob = 1/(1+exp(-x)))})
+dat$bin <- sapply(dat$y, FUN=function(x){
+  rbinom(n = 1, 1, prob = 1/(1+exp(-x)))})
 
 plot(dat$x, dat$bin)
 library(lme4)
-summary(glmer(bin ~ 1 + x +(1|id) + (1|year), data = dat, family = "binomial"))
+summary(glmer(bin ~ 1 + x +(1|id) + (1|year),
+              data = dat, family = "binomial"))
 
-names(dat) <- c("repeats", "individual", "distance", "year", "y", "RunAway")
-dat <- dat[,c("repeats", "individual", "distance", "year", "RunAway")]
+names(dat) <- c("repeats", "individual", "distance",
+                "year", "y", "RunAway")
+dat <- dat[,c("repeats", "individual", "distance", 
+              "year", "RunAway")]
 
-write.csv(dat, file = "runaway.csv", quote = FALSE, row.names = FALSE)
+write.csv(dat, file = "runaway.csv", quote = FALSE,
+          row.names = FALSE)
 @
 
 \begin{Exercise}[difficulty=2, title={Repeatability, on what scale?}]
@@ -259,7 +287,7 @@ This model suggests a repeatability of:
 <<>>=
 (0.0663^2)/(0.0663^2+0.0159^2+0.4139^2)
 @
-That is not a lot, and we wonder whether the small number is due to the lack of fit of the model. Fortunately it is possible to fit a logistic mixed model by changing \texttt{lmer} to \texttt{glmer} and specifying \texttt{family="binomial"}. If you do so, what repeatibility do you find? Where does the difference come from? What is right?
+That is not a lot, and we wonder whether the small number is due to the lack of fit of the model. Fortunately it is possible to fit a logistic mixed model by changing \texttt{lmer} to \texttt{glmer} and specifying \texttt{family=`binomial'}. If you do so, what repeatibility do you find? Where does the difference come from? What is right?
 \end{Exercise}
 \begin{Answer}
 <<>>=

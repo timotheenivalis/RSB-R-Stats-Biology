@@ -87,6 +87,8 @@ The ``logit" function/unit/transform comes from the contraction of \textbf{log}i
 %%%%%%%%%%%%%%%%%%%%%%%
 
 \begin{frame}[fragile]{A simple linear model}
+\centering
+
   \textbf{{\color{purple}{Response}} = {\color{blue}{Intercept}} + {\color{red}{Slope}} $\times$ {\color{orange}{Predictor}} + {\color{gray}{Error}}} \\
 
   <<lmprinc, echo=FALSE, dev='tikz'>>=
@@ -112,6 +114,7 @@ The ``logit" function/unit/transform comes from the contraction of \textbf{log}i
 %%%%%%%%%%%
 
 \begin{frame}[fragile]{A simple linear model failure: binary data}
+\centering
 
   <<binlmprinc, echo=FALSE, dev='tikz'>>=
     setPar()
@@ -313,9 +316,10 @@ summary(glm(survival ~ 1 + size, data = survdat, family = "binomial"))
 
 
 \begin{frame}{Back-transformation}
+\vspace{-0.5cm}
 \begin{center}
 \begin{tikzpicture}
-\node (sc) at (-6, 1) {\textbf{Scales:}};
+\node (sc) at (-6, 0.5) {\textbf{Scales:}};
 \uncover<2->{
   \node (mininf) at (-4,0) {$- \infty $};
   \node (maxinf) at (4,0) {$+ \infty $};
@@ -378,7 +382,7 @@ summary(glm(survival ~ 1 + size, data = survdat, family = "binomial"))
 \uncover<7->{
 \begin{block}{Conversion:}
 \begin{itemize}
-  \item from model to probability: $p=\frac{1}{1+\exp(-x)}$
+  \item from model to probability: $p=\frac{1}{1+\exp(-x)}$ or \texttt{plogis(x)}
   \item probability and data on same scale, but continuous/discrete
   \item $\exp(slope)$ = odd-ratio
 \end{itemize}
@@ -388,6 +392,11 @@ summary(glm(survival ~ 1 + size, data = survdat, family = "binomial"))
 %%%%%%%%%%%%%%%%%%%%%%%
 
 \begin{frame}{Exercise 3, interpretation}
+
+
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}{Exercise 4, visualize model}
 
 
 \end{frame}
@@ -485,25 +494,53 @@ segments(x0=x, y1 = pres, y0=obs, col="gray")
 %%%%%%%%%%%%%%%%%%%%%%%
 
 
-\begin{frame}{Mixed effect logistic regression}
+\begin{frame}[fragile]{Mixed effect logistic regression}
+GLM + random effect = GLMM\\
+\pause
+<<eval=FALSE>>=
+library(lme4)
+glmer(response ~ 1 + predictor + (1|group), family="binomial",
+          data=dat)
+@
 
- \end{frame}
+\end{frame}
 %%%%%%%%%%%%%%%%%%%%%%%
 
 
 \begin{frame}{Mixed effect logistic regression}
 \begin{columns}
-\begin{column}{0.5\textwidth}
+\begin{column}{0.3\textwidth}
 \includegraphics[height=0.8\textheight]{figure/backtransformation.pdf}
 \end{column}
-\begin{column}{0.5\textwidth}
+\begin{column}{0.7\textwidth}
 \begin{itemize}
-  \item Random effect variance is distorted by logit
-  \item AND lots of variance from random process on top of expected values
+  \item There is no meaningful residual variance
+  \item Random effect variance distorted by logit
+  \item Lots of variance from random process on top of expected values
 \end{itemize}
 \end{column}
 \end{columns}
 
 \end{frame}
 %%%%%%%%%%%%%%%%%%%%%
+
+\begin{frame}{Repeatability in GLMM}
+
+In LMM: repeatability = variance random effect / (variance random effect + residual variance)\\
+
+\pause
+
+\begin{alertblock}{but in GLMM, especially logistic:}
+\begin{itemize}
+  \item On what scale to take the random effect?
+  \item No residual variance! Is repeatability always 1??
+\end{itemize}
+\end{alertblock}
+
+\vfill
+
+\textbf{Exercise 6}
+
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%
 \end{document}
