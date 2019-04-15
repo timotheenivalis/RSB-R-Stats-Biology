@@ -13,7 +13,7 @@ Download all the material here: [https://github.com/timotheenivalis/RSB-R-Stats-
 
 Answers to exercises are here: [https://github.com/timotheenivalis/RSB-R-Stats-Biology/raw/master/08.LogisticRegression/Source/glm1exercisesANSWERS.pdf](https://github.com/timotheenivalis/RSB-R-Stats-Biology/raw/master/08.LogisticRegression/Source/glm1exercisesANSWERS.pdf). 
 
-The code written during the workshop is here: [https://github.com/timotheenivalis/RSB-R-Stats-Biology/raw/master/08.LogisticRegression/script.R](https://github.com/timotheenivalis/RSB-R-Stats-Biology/raw/master/08.LogisticRegression/script.R). 
+The code written during the workshop is here: [https://github.com/timotheenivalis/RSB-R-Stats-Biology/blob/master/08.LogisticRegression/Script.R](https://github.com/timotheenivalis/RSB-R-Stats-Biology/blob/master/08.LogisticRegression/Script.R). 
 
 
 
