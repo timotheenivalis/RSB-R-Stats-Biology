@@ -11,4 +11,9 @@ Exercises will cover:
 
 Download all the material here: [https://github.com/timotheenivalis/RSB-R-Stats-Biology/raw/master/08.LogisticRegression/Material.zip](https://github.com/timotheenivalis/RSB-R-Stats-Biology/raw/master/08.LogisticRegression/Material.zip). 
 
+Answers to exercises are here: [https://github.com/timotheenivalis/RSB-R-Stats-Biology/raw/master/08.LogisticRegression/Source/glm1exercisesANSWERS.pdf](https://github.com/timotheenivalis/RSB-R-Stats-Biology/raw/master/08.LogisticRegression/Source/glm1exercisesANSWERS.pdf). 
+
+The code written during the workshop is here: [https://github.com/timotheenivalis/RSB-R-Stats-Biology/raw/master/08.LogisticRegression/script.R](https://github.com/timotheenivalis/RSB-R-Stats-Biology/raw/master/08.LogisticRegression/script.R). 
+
+
 

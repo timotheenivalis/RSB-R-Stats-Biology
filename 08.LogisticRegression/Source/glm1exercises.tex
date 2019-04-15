@@ -583,7 +583,7 @@ This huge difference comes from two things: first, the logit transformation is n
   \hlkwd{var}\hlstd{(}\hlnum{1}\hlopt{/}\hlstd{(}\hlnum{1}\hlopt{+}\hlkwd{exp}\hlstd{(}\hlopt{-}\hlstd{(}\hlkwd{rnorm}\hlstd{(}\hlnum{1000000}\hlstd{,} \hlnum{1.7448}\hlopt{-}\hlnum{0.1621}\hlopt{*}\hlnum{3}\hlstd{,} \hlnum{0.0716}\hlopt{+}\hlnum{0.3707}\hlstd{)))))}
 \end{alltt}
 \begin{verbatim}
-## [1] 0.7008
+## [1] 0.7006
 \end{verbatim}
 \end{kframe}
 \end{knitrout}
@@ -597,14 +597,14 @@ Also, notice that the repeatability is not the same for all values of \texttt{di
   \hlkwd{var}\hlstd{(}\hlnum{1}\hlopt{/}\hlstd{(}\hlnum{1}\hlopt{+}\hlkwd{exp}\hlstd{(}\hlopt{-}\hlstd{(}\hlkwd{rnorm}\hlstd{(}\hlnum{1000000}\hlstd{,} \hlnum{1.7448}\hlopt{-}\hlnum{0.1621}\hlopt{*}\hlnum{0}\hlstd{,} \hlnum{0.0716}\hlopt{+}\hlnum{0.3707}\hlstd{)))))}
 \end{alltt}
 \begin{verbatim}
-## [1] 0.686
+## [1] 0.685
 \end{verbatim}
 \begin{alltt}
 \hlkwd{var}\hlstd{(}\hlnum{1}\hlopt{/}\hlstd{(}\hlnum{1}\hlopt{+}\hlkwd{exp}\hlstd{(}\hlopt{-}\hlstd{(}\hlkwd{rnorm}\hlstd{(}\hlnum{1000000}\hlstd{,} \hlnum{1.7448}\hlopt{-}\hlnum{0.1621}\hlopt{*}\hlnum{6}\hlstd{,} \hlnum{0.3707}\hlstd{)))))} \hlopt{/}
   \hlkwd{var}\hlstd{(}\hlnum{1}\hlopt{/}\hlstd{(}\hlnum{1}\hlopt{+}\hlkwd{exp}\hlstd{(}\hlopt{-}\hlstd{(}\hlkwd{rnorm}\hlstd{(}\hlnum{1000000}\hlstd{,} \hlnum{1.7448}\hlopt{-}\hlnum{0.1621}\hlopt{*}\hlnum{6}\hlstd{,} \hlnum{0.0716}\hlopt{+}\hlnum{0.3707}\hlstd{)))))}
 \end{alltt}
 \begin{verbatim}
-## [1] 0.711
+## [1] 0.7115
 \end{verbatim}
 \end{kframe}
 \end{knitrout}
@@ -621,7 +621,7 @@ To see what it does, lets draw random Bernouilli numbers around our expected bac
                         \hlstd{\}))}
 \end{alltt}
 \begin{verbatim}
-## [1] 0.0313
+## [1] 0.0308
 \end{verbatim}
 \end{kframe}
 \end{knitrout}
