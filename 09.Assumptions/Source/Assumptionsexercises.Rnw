@@ -24,10 +24,10 @@
     citecolor=black,
     filecolor=black,
     linkcolor=blue,
-    urlcolor=black
+    urlcolor=blue
 }
 
-\title{Exercises for "When assumptions are not met"}
+\title{Exercises for ``When assumptions are not met"}
 \date{\today}
 \author{Timoth\'ee Bonnet}
 
@@ -40,6 +40,8 @@ library(lme4)
 @
 
 \maketitle
+
+Find the content for today and previous workshops at \href{https://github.com/timotheenivalis/RSB-R-Stats-Biology}{https://github.com/timotheenivalis/RSB-R-Stats-Biology}.
 
 \tableofcontents
 \ListOfExerciseInToc
@@ -135,18 +137,71 @@ Very nice!
 \section{Non-independence}
 
 \begin{Exercise}[difficulty=1, title={Simpson's paradox}]
+Load the dataset \texttt{thorndata.txt}. According to simple linear models, does thorns have an effect on herbivory? Is the effect consistent across sites (fit models on subsets)? 
 \end{Exercise}
 \begin{Answer}
 <<>>=
+thorns <- read.table("thorndata.txt", header = TRUE)
+summary(lm0 <- lm(data = thorns, formula = herbivory ~ 1+thorndensity ))
+plot(lm0)
+summary(lm1 <- lm(data = thorns , formula = herbivory ~ 1+thorndensity+ site ))
+#or using a mixed model
+library(lme4)
+summary(lmm2 <- lmer(data = thorns , formula = herbivory ~ 1+thorndensity+ (1|site )))
+@
+
+<<>>=
+library(ggplot2)
+ggplot(data=thorns, aes(y=herbivory, x=thorndensity, color=as.factor(site))) + geom_point()
 @
 \end{Answer}
 
 
-\begin{Exercise}[difficulty=2, title={Genetic isolation distance}]
+\begin{Exercise}[difficulty=2, title={Genetic isolation distance or adaptation?}]
+<<eval=FALSE, echo=FALSE>>=
+nobs <- 50
+xcoor <- runif(n = nobs, min = 150, max=220)
+ycoor <- runif(n = nobs, min = -60, max=-45)
+temper <- 13 + 0.05*ycoor+rnorm(nobs,0,0.05)
+genot <- 1/(1+exp(-(0.5*scale(xcoor) + 0.5*scale(ycoor) + rnorm(nobs,0,0.1)) ))
+plot(genot,temper)
+summary(lm(genot ~ temper + xcoor + ycoor))
+summary(lm(genot ~ temper ))
+
+plot(ycoor,temper)
+plot(xcoor, ycoor)
+
+dat <- data.frame(xcoor=xcoor, ycoor=ycoor, temperature=temper, AllFreq=genot)
+write.csv(dat, "genotype.csv", quote = FALSE, row.names = FALSE)
+@
+
+Load the dataset \texttt{genotype.csv}. Let's imagine that in a tree species we have measured allele frequencies at a gene that we suspect is related to thermal adaptation. Fit a simple linear model of AllFreq as a function of temperature. Check model assumptions. Are you confident this gene controls local adaptation to temperature?
 \end{Exercise}
 \begin{Answer}
 <<>>=
+genot <- read.csv("genotype.csv")
+lm0 <- lm(AllFreq ~ 1 + temperature, data=genot)
+summary(lm0)
+plot(lm0)
 @
+
+The residual distribution is not nice. Maybe we can try a logit transform:
+
+<<>>=
+genot$logitFreq <- log(genot$AllFreq/(1-genot$AllFreq))
+lm1 <- lm(logitFreq ~ 1 + temperature, data=genot)
+summary(lm1)
+plot(lm1)
+@
+Still not great, but that is not the worst. The dataset contains geographic coordinates... what if genetic differences just reflect geographic isolation, which happens to correlate with temperature...
+
+<<>>=
+lm2 <- lm(logitFreq ~ 1 + temperature + xcoor + ycoor, data=genot)
+summary(lm2)
+plot(lm2)
+@
+Indeed, the effect of temperature disappears once we correct for geography, and also, the residuals now look Normal!
+The deeper problem here was non-independence of observations, with non-normality of residuals being more of a decoy...
 \end{Answer}
 
 \section{DIY for complex issues}
