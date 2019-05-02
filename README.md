@@ -14,5 +14,6 @@ Topics covered so far this year:
 * [Graphics philosophy and ggplot](https://github.com/timotheenivalis/RSB-R-Stats-Biology/tree/master/04.GraphicDesign)
 * [Functions in R](https://github.com/timotheenivalis/RSB-R-Stats-Biology/tree/master/06.FunctionsAndFundamentalCoding)
 * [Generalized linear models Part 1 (logistic regression)](https://github.com/timotheenivalis/RSB-R-Stats-Biology/tree/master/08.LogisticRegression)
+* [Model assumptions](https://github.com/timotheenivalis/RSB-R-Stats-Biology/tree/master/09.Assumptions)
 
 What other topics would you like covered? Just ask and I will try to make it happen!
