@@ -13,7 +13,7 @@
 \usepackage{multicol}
 \usepackage{booktabs}
 
-\usepackage[noanswer]{exercise}%[noanswer]
+\usepackage[]{exercise}%[noanswer]
 
 \usepackage[autostyle, english = american]{csquotes}
 \MakeOuterQuote{"}
@@ -79,6 +79,7 @@ Load the dataset \texttt{norm.csv}. It contains three response variables and one
 \end{Exercise}
 \begin{Answer}
 <<>>=
+dat <- read.csv("norm.csv")
 lm1 <- lm(response1~predictor, data=dat)
 lm2 <- lm(response2~predictor, data=dat)
 lm3 <- lm(response3~predictor, data=dat)
@@ -262,7 +263,7 @@ The model you are after is called a "mixture model". There are relatively easy t
 What if the current state of your response variable depends heavily on the previous state. For instance, you study kangaroo movements and have GPS locations every 2 minutes. You try to model habitat selection, but realize residuals are far from independent in your model... How to relax assumptions, what new assumptions would you make?
 \end{Exercise}
 \begin{Answer}
-
+We may use a model of spatial or time autocorrelation. We may assume that the current location is constrained by the previous location (which assumes that the second time step in the past does not directly matters; which could be wrong). We may also assume that individuals move independently of each others, which could be relaxed using groups as random effects.
 \end{Answer}
 
 \end{document}
