@@ -4,3 +4,4 @@ Whenever we do statistical inference we rely on models that rely on specific ass
 
 All the material is here: [https://github.com/timotheenivalis/RSB-R-Stats-Biology/blob/master/09.Assumptions/SlidesExercisesData.zip](https://github.com/timotheenivalis/RSB-R-Stats-Biology/blob/master/09.Assumptions/SlidesExercisesData.zip)
 
+Exercises with answers are there: [https://github.com/timotheenivalis/RSB-R-Stats-Biology/blob/master/09.Assumptions/AnswerAssumptionsexercises.pdf](https://github.com/timotheenivalis/RSB-R-Stats-Biology/blob/master/09.Assumptions/AnswerAssumptionsexercises.pdf)
