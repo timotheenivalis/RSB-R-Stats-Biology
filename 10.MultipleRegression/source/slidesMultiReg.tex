@@ -370,9 +370,9 @@ Order does \textbf{not} matter:
 
 \begin{frame}[fragile]{Conditional estimation}
 
-\begin{exampleblock}{Exercise}
+\begin{exampleblock}{Exercise 1}
   \begin{enumerate}
-    \item load jumpingdistance.csv
+    \item load \texttt{jumpingdistance.csv}
     \item Use plots and lm() to test whether mass increases jumping distance
   \end{enumerate}
 \end{exampleblock}
@@ -445,46 +445,18 @@ The direct (causal) effect of mass is negative, as revealed by a multiple regres
 \begin{frame}[fragile]{Conditional estimation}
 
   
-  \begin{exampleblock}{Exercise}
+  \begin{exampleblock}{Exercise 2}
     \begin{enumerate}
-      \item Load babies.csv
+      \item Load \texttt{babies.csv}
       \item What drives change in number of babies born?
     \end{enumerate}
   \end{exampleblock}
   
-\begin{knitrout}\small
-\definecolor{shadecolor}{rgb}{0.843, 0.867, 0.922}\color{fgcolor}\begin{kframe}
-\begin{alltt}
-\hlstd{babies} \hlkwb{<-} \hlkwd{read.csv}\hlstd{(}\hlstr{"babies.csv"}\hlstd{)}
-\end{alltt}
-\end{kframe}
-\end{knitrout}
-  
-  Marginal (=total) effects of storks and temperature
-\begin{knitrout}\small
-\definecolor{shadecolor}{rgb}{0.843, 0.867, 0.922}\color{fgcolor}\begin{kframe}
-\begin{alltt}
-  \hlkwd{plot}\hlstd{(babies)}
-\hlkwd{summary}\hlstd{(}\hlkwd{lm}\hlstd{(babies_born} \hlopt{~} \hlstd{number_of_storks,} \hlkwc{data}\hlstd{=babies))}
-\hlkwd{summary}\hlstd{(}\hlkwd{lm}\hlstd{(babies_born} \hlopt{~} \hlstd{mean_temperature,} \hlkwc{data}\hlstd{=babies))}
-\end{alltt}
-\end{kframe}
-\end{knitrout}
-  
-  But this is a spurious effect due to time covariation. Adding year as a covariate shows that there is no evidence of an effect of storks and temperatures on number of births. 
-\begin{knitrout}\small
-\definecolor{shadecolor}{rgb}{0.843, 0.867, 0.922}\color{fgcolor}\begin{kframe}
-\begin{alltt}
-  \hlkwd{summary}\hlstd{(}\hlkwd{lm}\hlstd{(babies_born} \hlopt{~} \hlstd{mean_temperature} \hlopt{+} \hlstd{year,} \hlkwc{data}\hlstd{=babies))}
-  \hlkwd{summary}\hlstd{(}\hlkwd{lm}\hlstd{(babies_born} \hlopt{~} \hlstd{number_of_storks} \hlopt{+} \hlstd{year,} \hlkwc{data}\hlstd{=babies))}
-\end{alltt}
-\end{kframe}
-\end{knitrout}
   
 \end{frame}
 %%%%%%%%%%%
 
-\begin{frame}[fragile]{Conditional estimation final warning: more is not always better}
+\begin{frame}[fragile]{Conditional estimation warning: more covariates is not always better}
 
   
   \textbf{Are more innovative papers less rigorous?}
@@ -553,7 +525,10 @@ innovativeness 0.38804729 0.03210760 12.085841 1.758144e-31
 \end{frame}
 %%%%%%%%%%%
 
+\begin{frame}{}
 
+\end{frame}
+%%%%%%%%%%%
 
 \begin{frame}{Want more on multiple regression?}
 
