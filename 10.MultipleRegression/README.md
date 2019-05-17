@@ -9,5 +9,3 @@ Slides, exercises and data can be downloaded as a .zip file here:
 Or see the files individually here:
 [https://github.com/timotheenivalis/RSB-R-Stats-Biology/tree/master/10.MultipleRegression/SlidesExData](https://github.com/timotheenivalis/RSB-R-Stats-Biology/tree/master/10.MultipleRegression/SlidesExData)
 
-Answers to exercises should appear here after the workshop...
-
