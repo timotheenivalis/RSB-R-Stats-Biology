@@ -7,6 +7,11 @@
 05.MixedModels2/figure
 07.MixedModels3/SlidesExeData/
 
+*source/figure/
+*Source/figure/
+
+
+
 ## Core latex/pdflatex auxiliary files:
 *.aux
 *.lof
@@ -22,7 +27,7 @@
 .*.lb
 
 *.Rhistory
-
+*.RData
 
 ## Intermediate documents:
 *.dvi
