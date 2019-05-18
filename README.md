@@ -16,4 +16,4 @@ Topics covered so far this year:
 * [Generalized linear models Part 1 (logistic regression)](https://github.com/timotheenivalis/RSB-R-Stats-Biology/tree/master/08.LogisticRegression)
 * [Model assumptions](https://github.com/timotheenivalis/RSB-R-Stats-Biology/tree/master/09.Assumptions)
 
-What other topics would you like covered? Just ask and I will try to make it happen!
+What other topics would you like covered? Just ask and I will try to make it happen! 
