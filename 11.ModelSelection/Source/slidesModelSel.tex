@@ -1,4 +1,54 @@
-\documentclass[10pt]{beamer}%
+\documentclass[10pt]{beamer}\usepackage[]{graphicx}\usepackage[]{color}
+%% maxwidth is the original width if it is less than linewidth
+%% otherwise use linewidth (to make sure the graphics do not exceed the margin)
+\makeatletter
+\def\maxwidth{ %
+  \ifdim\Gin@nat@width>\linewidth
+    \linewidth
+  \else
+    \Gin@nat@width
+  \fi
+}
+\makeatother
+
+\definecolor{fgcolor}{rgb}{0.345, 0.345, 0.345}
+\newcommand{\hlnum}[1]{\textcolor[rgb]{0.686,0.059,0.569}{#1}}%
+\newcommand{\hlstr}[1]{\textcolor[rgb]{0.192,0.494,0.8}{#1}}%
+\newcommand{\hlcom}[1]{\textcolor[rgb]{0.678,0.584,0.686}{\textit{#1}}}%
+\newcommand{\hlopt}[1]{\textcolor[rgb]{0,0,0}{#1}}%
+\newcommand{\hlstd}[1]{\textcolor[rgb]{0.345,0.345,0.345}{#1}}%
+\newcommand{\hlkwa}[1]{\textcolor[rgb]{0.161,0.373,0.58}{\textbf{#1}}}%
+\newcommand{\hlkwb}[1]{\textcolor[rgb]{0.69,0.353,0.396}{#1}}%
+\newcommand{\hlkwc}[1]{\textcolor[rgb]{0.333,0.667,0.333}{#1}}%
+\newcommand{\hlkwd}[1]{\textcolor[rgb]{0.737,0.353,0.396}{\textbf{#1}}}%
+\let\hlipl\hlkwb
+
+\usepackage{framed}
+\makeatletter
+\newenvironment{kframe}{%
+ \def\at@end@of@kframe{}%
+ \ifinner\ifhmode%
+  \def\at@end@of@kframe{\end{minipage}}%
+  \begin{minipage}{\columnwidth}%
+ \fi\fi%
+ \def\FrameCommand##1{\hskip\@totalleftmargin \hskip-\fboxsep
+ \colorbox{shadecolor}{##1}\hskip-\fboxsep
+     % There is no \\@totalrightmargin, so:
+     \hskip-\linewidth \hskip-\@totalleftmargin \hskip\columnwidth}%
+ \MakeFramed {\advance\hsize-\width
+   \@totalleftmargin\z@ \linewidth\hsize
+   \@setminipage}}%
+ {\par\unskip\endMakeFramed%
+ \at@end@of@kframe}
+\makeatother
+
+\definecolor{shadecolor}{rgb}{.97, .97, .97}
+\definecolor{messagecolor}{rgb}{0, 0, 0}
+\definecolor{warningcolor}{rgb}{1, 0, 1}
+\definecolor{errorcolor}{rgb}{1, 0, 0}
+\newenvironment{knitrout}{}{} % an empty environment to be redefined in TeX
+
+\usepackage{alltt}%
 \setbeamersize{text margin left=0.5cm, text margin right=0.5cm}
 
 \usepackage{alltt}%
@@ -34,25 +84,10 @@
 \date{\today}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
 \begin{document}
 
-<<Plot Options, echo=FALSE, message=FALSE>>=
-#load(file = ".RData")
-library(knitr)
-library(xtable)
-opts_knit$set(width=60)
-opts_chunk$set(comment=NA, fig.width=8, fig.height=6, out.width='0.8\\textwidth',
-               out.height='0.6\\textwidth',background='#D7DDEB', size="small")
 
-
-szgr <- 2
-szax <- 1.3
-marr <- c(4, 4, 1, 1) + 0.1
-setPar<-function(){
-par(las=1,mar=marr, cex=szgr, cex.lab=szax , cex.axis=szax, lwd=2 ,pch=1, las=1)
-}
-setPar()
-@
 
 \begin{frame}
   \begin{quote}
@@ -92,16 +127,7 @@ Burnham and Anderson, 2002, Model Selection and Multimodel Inference: A Practica
 
 \begin{frame}{}
 
-<<echo=FALSE, eval=FALSE>>=
-allmass <- read.table("AllM.txt", header = TRUE)
-str(allmass)
-allmass <- allmass[,c("id", "Weight", "Body_Length", "Tail_Length", "Sex", "Year", "Age", "Xpos", "Ypos", "Julian", "Mother", "f")]
-names(allmass)[10] <- "inbreeding"
-allmass$temperature <- round(rnorm(n = nrow(allmass), mean = 13, sd = 4), 1)
-allmass$humidity <- 100/(1+exp(-scale(allmass$Weight) + rnorm(nrow(allmass), 0, 1)))
-allmass$Birds_seen <- rpois(n=nrow(allmass), lambda = 3)
-write.csv(allmass, file = "VoleWeight.csv", quote = FALSE, row.names = FALSE)
-@
+
 
 
 \end{frame}
@@ -109,82 +135,64 @@ write.csv(allmass, file = "VoleWeight.csv", quote = FALSE, row.names = FALSE)
 
 \begin{frame}[fragile]{Overfitting}
 
-<<echo=FALSE>>=
-set.seed(12345)
-x <-1 + rnorm(20)
-y <- 2 + 0.5*x + 0.1*x^2 + rnorm(20)
-@
+
 
 \only<1>{
-<<model1, dev='tikz', echo=FALSE>>=
-setPar()
-plot(x, y, main= "")
-@
+\begin{knitrout}\small
+\definecolor{shadecolor}{rgb}{0.843, 0.867, 0.922}\color{fgcolor}
+\includegraphics[width=0.8\textwidth,height=0.6\textwidth]{figure/model1-1} 
+
+\end{knitrout}
 }
 
 \only<2>{
-<<model2, dev='tikz', echo=FALSE>>=
-setPar()
-m1<-lm(y ~ x)
-plot(x, y, main= paste("y = a + bx, $R^2=$", round(summary(m1)$r.squared , 2)))
-abline(m1)
-@
+\begin{knitrout}\small
+\definecolor{shadecolor}{rgb}{0.843, 0.867, 0.922}\color{fgcolor}
+\includegraphics[width=0.8\textwidth,height=0.6\textwidth]{figure/model2-1} 
+
+\end{knitrout}
 }
 
 \only<3>{
-<<model3, dev='tikz', echo=FALSE>>=
-setPar()
-m2<-lm(y ~ poly(x, 2, raw = TRUE))
-plot(x, y, main= paste("$y = a + bx + cx^2$, $R^2=$", round(summary(m2)$r.squared , 2)))
-newdat <- data.frame(x=seq(min(x), max(x), length.out = 100))
-newdat$y <- predict(m2, newdata = newdat)
-lines(newdat$x, newdat$y)
-@
+\begin{knitrout}\small
+\definecolor{shadecolor}{rgb}{0.843, 0.867, 0.922}\color{fgcolor}
+\includegraphics[width=0.8\textwidth,height=0.6\textwidth]{figure/model3-1} 
+
+\end{knitrout}
 }
 
 \only<4>{
-<<model4, dev='tikz', echo=FALSE>>=
-setPar()
-m3<-lm(y ~ poly(x, 3, raw = TRUE))
-plot(x, y, main= paste("$y = a + bx + cx^2 + dx^3$, $R^2=$", round(summary(m3)$r.squared , 2)))
-newdat <- data.frame(x=seq(min(x), max(x), length.out = 100))
-newdat$y <- predict(m3, newdata = newdat)
-lines(newdat$x, newdat$y)
-@
+\begin{knitrout}\small
+\definecolor{shadecolor}{rgb}{0.843, 0.867, 0.922}\color{fgcolor}
+\includegraphics[width=0.8\textwidth,height=0.6\textwidth]{figure/model4-1} 
+
+\end{knitrout}
 }
 
 
 \only<5>{
-<<model5, dev='tikz', echo=FALSE>>=
-setPar()
-m4<-lm(y ~ poly(x, 6, raw = TRUE))
-plot(x, y, main= paste("$y = f(x,6)$, $R^2=$", round(summary(m4)$r.squared , 2)))
-newdat <- data.frame(x=seq(min(x), max(x), length.out = 100))
-newdat$y <- predict(m4, newdata = newdat)
-lines(newdat$x, newdat$y)
-@
+\begin{knitrout}\small
+\definecolor{shadecolor}{rgb}{0.843, 0.867, 0.922}\color{fgcolor}
+\includegraphics[width=0.8\textwidth,height=0.6\textwidth]{figure/model5-1} 
+
+\end{knitrout}
 }
 
 
 \only<6>{
-<<model6, dev='tikz', echo=FALSE, warning=FALSE>>=
-setPar()
-m5<-lm(y ~ poly(x, 10, raw = TRUE))
-plot(x, y, main= paste("$y = f(x,10)$, $R^2=$", round(summary(m5)$r.squared , 2)))
-newdat <- data.frame(x=seq(min(x), max(x), length.out = 100))
-newdat$y <- predict(m5, newdata = newdat)
-lines(newdat$x, newdat$y)
-@
+\begin{knitrout}\small
+\definecolor{shadecolor}{rgb}{0.843, 0.867, 0.922}\color{fgcolor}
+\includegraphics[width=0.8\textwidth,height=0.6\textwidth]{figure/model6-1} 
+
+\end{knitrout}
 }
 
 \only<7>{
-<<model7, dev='tikz', echo=FALSE, warning=FALSE>>=
-setPar()
-m6<-lm(y ~ as.factor(x))
-plot(x, y, main= paste("$y = f(x,20)$, $R^2=$", round(summary(m6)$r.squared , 2)))
+\begin{knitrout}\small
+\definecolor{shadecolor}{rgb}{0.843, 0.867, 0.922}\color{fgcolor}
+\includegraphics[width=0.8\textwidth,height=0.6\textwidth]{figure/model7-1} 
 
-lines(x=x[order(x)], predict(m6)[order(x)])
-@
+\end{knitrout}
 }
 \end{frame}
 %%%%%%%%%%%%%
@@ -192,48 +200,48 @@ lines(x=x[order(x)], predict(m6)[order(x)])
 \begin{frame}[fragile]{Overfitting: What is wrong? Part 1}
 
 \only<1>{
-<<model6b, dev='tikz', echo=FALSE, warning=FALSE>>=
-setPar()
-m5<-lm(y ~ poly(x, 10, raw = TRUE))
-plot(x, y, main= paste("$y = f(x,10)$, $R^2=$", round(summary(m5)$r.squared , 2)))
-newdat <- data.frame(x=seq(min(x), max(x), length.out = 100))
-newdat$y <- predict(m5, newdata = newdat)
-lines(newdat$x, newdat$y)
-@
+\begin{knitrout}\small
+\definecolor{shadecolor}{rgb}{0.843, 0.867, 0.922}\color{fgcolor}
+\includegraphics[width=0.8\textwidth,height=0.6\textwidth]{figure/model6b-1} 
+
+\end{knitrout}
 }
 
 \only<2>{
-<<model6c, dev='tikz', echo=FALSE, warning=FALSE>>=
-set.seed(123)
-setPar()
-m5<-lm(y ~ poly(x, 10, raw = TRUE))
-plot(x, y, main= paste("$y = f(x,10)$, \\color{red}new data from same population"))
-newdat <- data.frame(x=seq(min(x), max(x), length.out = 100))
-newdat$y <- predict(m5, newdata = newdat)
-lines(newdat$x, newdat$y)
+\begin{knitrout}\small
+\definecolor{shadecolor}{rgb}{0.843, 0.867, 0.922}\color{fgcolor}
+\includegraphics[width=0.8\textwidth,height=0.6\textwidth]{figure/model6c-1} 
 
-x2 <-1 + rnorm(20)
-y2 <- 2 + 0.5*x2 + 0.1*x2^2 + rnorm(20)
-points(x=x2, y=y2, col="red")
-newdat <- data.frame(x=x2)
-pre <- predict(m5,newdata=newdat)
-
-r2nd <- 1 - sum((y2 -pre)^2)/sum((y2-mean(y))^2)
-
- legend(x="topleft", legend = c(paste("Initial $R^2=", round(summary(m5)$r.squared , 2), "$"),
-                                    paste("New data $R^2=",round(r2nd ,0), "$")), col=c("black", "red"))
-@
+\end{knitrout}
 }
 \end{frame}
 %%%%%%%%%%
 
 \begin{frame}{Overfitting: What is wrong? Part 2}
 
-<<echo=FALSE, results='asis'>>=
- sumcoe <- summary(m5)$coefficients
- colnames(sumcoe)[4] <- "p.value"
-xtable(sumcoe)
-@
+% latex table generated in R 3.6.0 by xtable 1.8-4 package
+% Thu May 30 22:22:35 2019
+\begin{table}[ht]
+\centering
+\begin{tabular}{rrrrr}
+  \hline
+ & Estimate & Std. Error & t value & p.value \\ 
+  \hline
+(Intercept) & -6.06 & 8.44 & -0.72 & 0.49 \\ 
+  poly(x, 10, raw = TRUE)1 & 149.34 & 155.39 & 0.96 & 0.36 \\ 
+  poly(x, 10, raw = TRUE)2 & -855.96 & 901.62 & -0.95 & 0.37 \\ 
+  poly(x, 10, raw = TRUE)3 & 1984.17 & 2164.20 & 0.92 & 0.38 \\ 
+  poly(x, 10, raw = TRUE)4 & -1647.96 & 1928.23 & -0.85 & 0.41 \\ 
+  poly(x, 10, raw = TRUE)5 & -1070.35 & 1116.87 & -0.96 & 0.36 \\ 
+  poly(x, 10, raw = TRUE)6 & 3444.36 & 3796.44 & 0.91 & 0.39 \\ 
+  poly(x, 10, raw = TRUE)7 & -3113.36 & 3503.16 & -0.89 & 0.40 \\ 
+  poly(x, 10, raw = TRUE)8 & 1416.27 & 1611.35 & 0.88 & 0.40 \\ 
+  poly(x, 10, raw = TRUE)9 & -328.50 & 376.33 & -0.87 & 0.41 \\ 
+  poly(x, 10, raw = TRUE)10 & 30.84 & 35.50 & 0.87 & 0.41 \\ 
+   \hline
+\end{tabular}
+\end{table}
+
 
 \end{frame}
 %%%%%%%%%%
@@ -254,16 +262,11 @@ xtable(sumcoe)
 
 \begin{frame}{``Less bias = More uncertainty"}
 \centering
-<<dev='tikz', echo=FALSE, fig.keep='last'>>=
-setPar()
-par(mar=c(5,4,4,4))
-plot(curve(expr = 1/x, from = 0.01, to =0.5), xaxt='n', yaxt="n", type='l', xlab="Number of parameters", ylab="", ylim=c(0, 30), col="red")
-axis(side = 1, at = c(0, 0.5), labels = c("Few", "Many"))
-mtext(text = "\\color{blue}Uncertainty", side = 4, line = 0 , las=0, cex= szgr)
-mtext(text = "\\color{red}\\text{Bias}", side = 2, line = 0, las=0, cex = szgr)
-lines(x= seq(0,0.49, length.out = 100),y=2/(0.5-seq(0,0.49, length.out = 100)), col="blue")
+\begin{knitrout}\small
+\definecolor{shadecolor}{rgb}{0.843, 0.867, 0.922}\color{fgcolor}
+\includegraphics[width=0.8\textwidth,height=0.6\textwidth]{figure/unnamed-chunk-4-1} 
 
-@
+\end{knitrout}
 
 \textbf{What is the best compromise?}
 
@@ -287,65 +290,54 @@ lines(x= seq(0,0.49, length.out = 100),y=2/(0.5-seq(0,0.49, length.out = 100)), 
 %%%%%%%%%%%
 
 \begin{frame}[fragile]{Try stepwise regression}
-<<echo=FALSE, eval=FALSE>>=
-set.seed(1234)
-nobs <- 80
-x1 <- rnorm(nobs)
-x2 <- rnorm(nobs)
-x3 <- rnorm(nobs)
-x4 <- rnorm(nobs)
-y <- rnorm(nobs, sd = 0.4) + 0.25*x4 -0.3*x2
 
-dat <- data.frame(x1,x2,x3,x4, y)
-dat1 <- dat[1:20,]
-dat2 <- dat[21:40,]
-summary(m0 <- lm(y ~ x1 + x2 + x3 + x4, data = dat1))
 
-write.csv(dat1, file = "datsub1.csv", quote = FALSE, row.names = FALSE)
-write.csv(dat2, file = "datsub2.csv", quote = FALSE, row.names = FALSE)
-
-summary(lm(y ~ x1))
-summary(lm(y ~ x2))
-summary(lm(y ~ x3))
-summary(lm(y ~ x4))
-summary(lm(y ~ x1 + x2))
-summary(lm(y ~ x1 + x2))
-
-plot(dat1$y, predict(m0, newdata = dat1))
-plot(dat2$y, predict(m0, newdata = dat2))
-
-@
-
-<<eval=FALSE>>=
-datsub1 <- read.csv("datsub1.csv")
-str(datsub1)
-@
+\begin{knitrout}\small
+\definecolor{shadecolor}{rgb}{0.843, 0.867, 0.922}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlstd{datsub1} \hlkwb{<-} \hlkwd{read.csv}\hlstd{(}\hlstr{"datsub1.csv"}\hlstd{)}
+\hlkwd{str}\hlstd{(datsub1)}
+\end{alltt}
+\end{kframe}
+\end{knitrout}
 
 \pause 
 
 Stepwise selection part 1:\vspace{-0.1cm}
-<<eval=FALSE>>=
-summary(lm(y ~ x1, data = datsub1))
-summary(lm(y ~ x2, data = datsub1))
-summary(lm(y ~ x3, data = datsub1))
-summary(lm(y ~ x4, data = datsub1))
-@
+\begin{knitrout}\small
+\definecolor{shadecolor}{rgb}{0.843, 0.867, 0.922}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlkwd{summary}\hlstd{(}\hlkwd{lm}\hlstd{(y} \hlopt{~} \hlstd{x1,} \hlkwc{data} \hlstd{= datsub1))}
+\hlkwd{summary}\hlstd{(}\hlkwd{lm}\hlstd{(y} \hlopt{~} \hlstd{x2,} \hlkwc{data} \hlstd{= datsub1))}
+\hlkwd{summary}\hlstd{(}\hlkwd{lm}\hlstd{(y} \hlopt{~} \hlstd{x3,} \hlkwc{data} \hlstd{= datsub1))}
+\hlkwd{summary}\hlstd{(}\hlkwd{lm}\hlstd{(y} \hlopt{~} \hlstd{x4,} \hlkwc{data} \hlstd{= datsub1))}
+\end{alltt}
+\end{kframe}
+\end{knitrout}
 
 \pause
 
 Stepwise selection part 2:\vspace{-0.1cm}
-<<eval=FALSE>>=
-summary(lm(y ~ x2 + x1, data = datsub1))
-summary(lm(y ~ x2 + x3, data = datsub1))
-summary(lm(y ~ x2 + x4, data = datsub1))
-@
+\begin{knitrout}\small
+\definecolor{shadecolor}{rgb}{0.843, 0.867, 0.922}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlkwd{summary}\hlstd{(}\hlkwd{lm}\hlstd{(y} \hlopt{~} \hlstd{x2} \hlopt{+} \hlstd{x1,} \hlkwc{data} \hlstd{= datsub1))}
+\hlkwd{summary}\hlstd{(}\hlkwd{lm}\hlstd{(y} \hlopt{~} \hlstd{x2} \hlopt{+} \hlstd{x3,} \hlkwc{data} \hlstd{= datsub1))}
+\hlkwd{summary}\hlstd{(}\hlkwd{lm}\hlstd{(y} \hlopt{~} \hlstd{x2} \hlopt{+} \hlstd{x4,} \hlkwc{data} \hlstd{= datsub1))}
+\end{alltt}
+\end{kframe}
+\end{knitrout}
 
 \pause
 Stepwise selection part 3: \vspace{-0.1cm}
-<<eval=FALSE>>=
-summary(lm(y ~ x2 + x4 + x1, data = datsub1))
-summary(lm(y ~ x2 + x4 + x3, data = datsub1))
-@
+\begin{knitrout}\small
+\definecolor{shadecolor}{rgb}{0.843, 0.867, 0.922}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlkwd{summary}\hlstd{(}\hlkwd{lm}\hlstd{(y} \hlopt{~} \hlstd{x2} \hlopt{+} \hlstd{x4} \hlopt{+} \hlstd{x1,} \hlkwc{data} \hlstd{= datsub1))}
+\hlkwd{summary}\hlstd{(}\hlkwd{lm}\hlstd{(y} \hlopt{~} \hlstd{x2} \hlopt{+} \hlstd{x4} \hlopt{+} \hlstd{x3,} \hlkwc{data} \hlstd{= datsub1))}
+\end{alltt}
+\end{kframe}
+\end{knitrout}
 
 
 \end{frame}
@@ -354,14 +346,22 @@ summary(lm(y ~ x2 + x4 + x3, data = datsub1))
 
 \begin{frame}[fragile]{Try stepwise regression}
 Based on this approach the best model is:
-<<eval=FALSE>>=
-summary(lm(y ~ x2 + x4, data = datsub1))
-@
+\begin{knitrout}\small
+\definecolor{shadecolor}{rgb}{0.843, 0.867, 0.922}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlkwd{summary}\hlstd{(}\hlkwd{lm}\hlstd{(y} \hlopt{~} \hlstd{x2} \hlopt{+} \hlstd{x4,} \hlkwc{data} \hlstd{= datsub1))}
+\end{alltt}
+\end{kframe}
+\end{knitrout}
 
 Compare this to the full model:
-<<eval=FALSE>>=
-summary(lm(y ~ x1 + x2 + x3 + x4, data = datsub1))
-@
+\begin{knitrout}\small
+\definecolor{shadecolor}{rgb}{0.843, 0.867, 0.922}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlkwd{summary}\hlstd{(}\hlkwd{lm}\hlstd{(y} \hlopt{~} \hlstd{x1} \hlopt{+} \hlstd{x2} \hlopt{+} \hlstd{x3} \hlopt{+} \hlstd{x4,} \hlkwc{data} \hlstd{= datsub1))}
+\end{alltt}
+\end{kframe}
+\end{knitrout}
 
 Which is best at predicting $y$ ? (you can use the function \texttt{predict() or look at the R-squared in summary()})
 
@@ -375,20 +375,17 @@ The full model explains more variation in $y$ in \texttt{datsub1}. But can we tr
 The dataset \texttt{datsub2} comes from the same population. Make predictions of $y$ in \texttt{datsub2} based on the best and the full models, and compare them to the true values of $y$ in \texttt{datsub2}. You could use the function \texttt{predict}, \texttt{plot}, and \texttt{cor}.
 
 Start for the full model:
-<<eval=FALSE>>=
-datsub2 <- read.csv("datsub2.csv")
-predictedy <- predict(lm(y ~ x1 + x2 + x3 + x4, data = datsub1), 
-                      newdata = datsub2)
-@
+\begin{knitrout}\small
+\definecolor{shadecolor}{rgb}{0.843, 0.867, 0.922}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlstd{datsub2} \hlkwb{<-} \hlkwd{read.csv}\hlstd{(}\hlstr{"datsub2.csv"}\hlstd{)}
+\hlstd{predictedy} \hlkwb{<-} \hlkwd{predict}\hlstd{(}\hlkwd{lm}\hlstd{(y} \hlopt{~} \hlstd{x1} \hlopt{+} \hlstd{x2} \hlopt{+} \hlstd{x3} \hlopt{+} \hlstd{x4,} \hlkwc{data} \hlstd{= datsub1),}
+                      \hlkwc{newdata} \hlstd{= datsub2)}
+\end{alltt}
+\end{kframe}
+\end{knitrout}
 
-<<eval=FALSE, echo=FALSE>>=
-datsub2 <- read.csv("datsub2.csv")
-plot(predict(lm(y ~ x1 + x2 + x3 + x4, data = datsub1), newdata = datsub2), datsub2$y)
-plot(predict(lm(y ~ x2 + x4, data = datsub1), newdata = datsub2), datsub2$y)
 
-cor(predict(lm(y ~ x1 + x2 + x3 + x4, data = datsub1), newdata = datsub2),  datsub2$y)^2
-cor(predict(lm(y ~ x2  + x4, data = datsub1), newdata = datsub2),  datsub2$y)^2
-@
 
 \end{frame}
 %%%%%%%%%%%%
@@ -415,50 +412,23 @@ cor(predict(lm(y ~ x2  + x4, data = datsub1), newdata = datsub2),  datsub2$y)^2
 \begin{frame}[fragile]{Model selection aims to balance fit and generalisation: How?}
   Stepwise regression is an option. But not very good.
   
-<<echo=FALSE, eval=FALSE>>=
-set.seed(1234)
-nobs <- 40
-x0 <- rnorm(nobs)
-x1 <- x0 + rnorm(nobs)
-x2 <- 0.9*x1 + rnorm(nobs)
-x3 <- 2*x1 + rnorm(nobs)
-y <- 1+ x0 + 0.5*x3 + 0.3*x2 +rnorm(nobs, 0, 1)
 
-summary(lm(y ~ x0))
-summary(lm(y ~ x1))
-summary(lm(y ~ x2))
-summary(lm(y ~ x3))
-
-summary(lm(y ~ x1 + x2))
-summary(lm(y ~ x1 + x3))
-
-summary(lm(y ~ x2 + x3))
-
-dat <- data.frame(response = y, pred1=x1, pred2=x2, pred3=x3)
-write.csv(dat, file = "threepreddat.csv", row.names = FALSE, quote = FALSE)
-@
   
 Load \texttt{threepreddat.csv} and apply the previous stepwise regression method to model selection. What is the best model to predict the response?
 
-<<echo=FALSE,eval=TRUE>>=
-threepreddat <- read.csv("threepreddat.csv")
-@
 
-<<echo=FALSE,eval=FALSE>>=
-summary(lm(response ~ pred1, data = threepreddat))
-summary(lm(response ~ pred2, data = threepreddat))
-summary(lm(response ~ pred3, data = threepreddat))
 
-summary(lm(response ~ pred1 + pred2, data = threepreddat))
-summary(lm(response ~ pred1 + pred3, data = threepreddat))
 
-@
   
 \pause
 Compare your best model to:
-<<eval=FALSE>>=
-summary(lm(response ~ pred2 + pred3, data = threepreddat))
-@
+\begin{knitrout}\small
+\definecolor{shadecolor}{rgb}{0.843, 0.867, 0.922}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlkwd{summary}\hlstd{(}\hlkwd{lm}\hlstd{(response} \hlopt{~} \hlstd{pred2} \hlopt{+} \hlstd{pred3,} \hlkwc{data} \hlstd{= threepreddat))}
+\end{alltt}
+\end{kframe}
+\end{knitrout}
   
 \end{frame}
 %%%%%%%%%%%
@@ -492,9 +462,16 @@ summary(lm(response ~ pred2 + pred3, data = threepreddat))
 
 Find the best AIC-model from \texttt{threepreddat}. For instance:
 
-<<>>=
-AIC(lm(response ~ pred1, data = threepreddat))
-@
+\begin{knitrout}\small
+\definecolor{shadecolor}{rgb}{0.843, 0.867, 0.922}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlkwd{AIC}\hlstd{(}\hlkwd{lm}\hlstd{(response} \hlopt{~} \hlstd{pred1,} \hlkwc{data} \hlstd{= threepreddat))}
+\end{alltt}
+\begin{verbatim}
+[1] 151.1339
+\end{verbatim}
+\end{kframe}
+\end{knitrout}
 
 \end{frame}
 %%%%%%%%%%
@@ -551,22 +528,7 @@ Load \texttt{VoleWeight.csv}. We want to understand what factors explain variati
 \section{Model selection and causal inference}
 
 \begin{frame}[fragile]{Competing hypotheses}
-<<echo=FALSE, eval=FALSE>>=
-set.seed(123)
-nobs <- 350
-mass <- abs(rnorm(nobs, 2, 2))
-roundness <- runif(n =nobs, 0.2,0.9)
-respiration <- (mass^(3/4)) + rnorm(nobs,0,0.2)
-metabo <- data.frame(respiration=respiration, mass=mass, roundness=roundness)
 
-write.csv(metabo, file = "metabo.csv", quote = FALSE, row.names = FALSE)
-
-summary(lm(respiration ~ I(mass^(3/4)), data = metabo))
-AIC(lm(respiration ~ I(mass^(3/4)), data = metabo))
-AIC(lm(respiration ~ I(mass^(2/3)), data = metabo))
-AIC(lm(respiration ~ I(mass), data = metabo))
-AIC(lm(respiration ~ roundness, data = metabo))
-@
 
 
 How does respiration rate scale with body mass in mammals? For a while researchers fought over two ideas, respiration could increase as a function of $mass^{2/3}$ or as a function of $mass^{3/4}$; while maybe the shape of the animals played a role. Let's find out!.
@@ -574,9 +536,13 @@ How does respiration rate scale with body mass in mammals? For a while researche
 Load \texttt{metabo.csv} and compare models through AIC selection.
 
 NB: you can fit exponents of a predictors using the function \texttt{I()}. For instance, for the exponent 0.5 of x:
-<<eval=FALSE>>=
-lm(y ~ I(x^(1/2)))
-@
+\begin{knitrout}\small
+\definecolor{shadecolor}{rgb}{0.843, 0.867, 0.922}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlkwd{lm}\hlstd{(y} \hlopt{~} \hlkwd{I}\hlstd{(x}\hlopt{^}\hlstd{(}\hlnum{1}\hlopt{/}\hlnum{2}\hlstd{)))}
+\end{alltt}
+\end{kframe}
+\end{knitrout}
 
 \end{frame}
 %%%%%%%%%%%
@@ -584,10 +550,14 @@ lm(y ~ I(x^(1/2)))
 \begin{frame}{Useful tools}
 Package \texttt{MuMIn} useful for model selection
 
-<<eval=FALSE>>=
-install.packages("MuMIn")
-library(MuMIn)
-@
+\begin{knitrout}\small
+\definecolor{shadecolor}{rgb}{0.843, 0.867, 0.922}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlkwd{install.packages}\hlstd{(}\hlstr{"MuMIn"}\hlstd{)}
+\hlkwd{library}\hlstd{(MuMIn)}
+\end{alltt}
+\end{kframe}
+\end{knitrout}
 
 \pause
 
@@ -617,9 +587,13 @@ library(MuMIn)
 Try to use \texttt{dredge()}, with selection based on \texttt{AICc}, to automate model selection on the vole data. 
 
 For some reason you first need to run:
-<<eval=FALSE>>=
-options(na.action="na.fail")
-@
+\begin{knitrout}\small
+\definecolor{shadecolor}{rgb}{0.843, 0.867, 0.922}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlkwd{options}\hlstd{(}\hlkwc{na.action}\hlstd{=}\hlstr{"na.fail"}\hlstd{)}
+\end{alltt}
+\end{kframe}
+\end{knitrout}
 
 
 Do you find the same result?
@@ -637,45 +611,25 @@ Let's see for ourselves that it does not work if we do model selection first!
 
 The code below creates one dataset with a response variable independent of the ``mainpredictor'' (the thing we want to test) and of control variables. We fit a full model, test many control variable combinations with \texttt{dredge()} and extract the p-value for ``mainpredictor''. Create a for-loop to look at the frequency of significant p-values!
 
-<<eval=FALSE>>=
-nobs <- 60
-mainpredictor <- rnorm(nobs)
-control1 <- rnorm(nobs) ; control2 <- rnorm(nobs)
-control3 <- rnorm(nobs) ; control4 <- rnorm(nobs)
-control5 <- rnorm(nobs) ; response <- rnorm(nobs)
+\begin{knitrout}\small
+\definecolor{shadecolor}{rgb}{0.843, 0.867, 0.922}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlstd{nobs} \hlkwb{<-} \hlnum{60}
+\hlstd{mainpredictor} \hlkwb{<-} \hlkwd{rnorm}\hlstd{(nobs)}
+\hlstd{control1} \hlkwb{<-} \hlkwd{rnorm}\hlstd{(nobs) ; control2} \hlkwb{<-} \hlkwd{rnorm}\hlstd{(nobs)}
+\hlstd{control3} \hlkwb{<-} \hlkwd{rnorm}\hlstd{(nobs) ; control4} \hlkwb{<-} \hlkwd{rnorm}\hlstd{(nobs)}
+\hlstd{control5} \hlkwb{<-} \hlkwd{rnorm}\hlstd{(nobs) ; response} \hlkwb{<-} \hlkwd{rnorm}\hlstd{(nobs)}
 
-mfull <- lm(response ~ mainpredictor + 
-              control1*control2*control3 + control4*control5)
+\hlstd{mfull} \hlkwb{<-} \hlkwd{lm}\hlstd{(response} \hlopt{~} \hlstd{mainpredictor} \hlopt{+}
+              \hlstd{control1}\hlopt{*}\hlstd{control2}\hlopt{*}\hlstd{control3} \hlopt{+} \hlstd{control4}\hlopt{*}\hlstd{control5)}
 
-modall <- dredge(mfull, fixed = "mainpredictor")
-summary(get.models(modall, 1)[[1]])$coefficients[2,4]#the pvalue
-@
+\hlstd{modall} \hlkwb{<-} \hlkwd{dredge}\hlstd{(mfull,} \hlkwc{fixed} \hlstd{=} \hlstr{"mainpredictor"}\hlstd{)}
+\hlkwd{summary}\hlstd{(}\hlkwd{get.models}\hlstd{(modall,} \hlnum{1}\hlstd{)[[}\hlnum{1}\hlstd{]])}\hlopt{$}\hlstd{coefficients[}\hlnum{2}\hlstd{,}\hlnum{4}\hlstd{]}\hlcom{#the pvalue}
+\end{alltt}
+\end{kframe}
+\end{knitrout}
 
-<<eval=FALSE, echo=FALSE>>=
 
-options(na.action="na.fail")
-
-pval <- vector(length=100)
-for (i in 1:100)
-{
-  nobs <- 60
-main_predictor <- rnorm(nobs)
-control1 <- rnorm(nobs)
-control2 <- rnorm(nobs)
-control3 <- rnorm(nobs)
-control4 <- rnorm(nobs)
-control5 <- rnorm(nobs)
-response <- rnorm(nobs)
-mfull <- lm(response ~ main_predictor + 
-              control1*control2*control3 + control4*control5)
-
-modall <- dredge(mfull, fixed = "main_predictor")
-
-pval[i] <- summary(get.models(modall, 1)[[1]])$coefficients[2,4]
-}
-hist(pval)
-mean(pval<0.05)
-@
 \end{frame}
 %%%%%%%%%%%
 
