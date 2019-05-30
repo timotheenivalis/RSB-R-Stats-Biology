@@ -1,5 +1,7 @@
 # Introduction to Model Selection in R
 
+Download the workshop material at [https://timotheenivalis.github.io/RSB-R-Stats-Biology/11.ModelSelection/SlidesData.zip](https://timotheenivalis.github.io/RSB-R-Stats-Biology/11.ModelSelection/SlidesData.zip).
+
 In this workshop we will discuss and practice with:
 
 * Why to use model selection
