@@ -16,7 +16,8 @@ Topics covered so far this year (2018-2019):
 * [Generalized linear models Part 1 (logistic regression)](https://timotheenivalis.github.io/RSB-R-Stats-Biology/08.LogisticRegression)
 * [Model assumptions](https://timotheenivalis.github.io/RSB-R-Stats-Biology/09.Assumptions)
 * [Multiple regression and conditional effects](https://timotheenivalis.github.io/RSB-R-Stats-Biology/10.MultipleRegression)
-* [Model selection](https://timotheenivalis.github.io/RSB-R-Stats-Biology/11.ModelSelection/)
+* [Model selection Part 1](https://timotheenivalis.github.io/RSB-R-Stats-Biology/11.ModelSelection/)
+* [Model selection Part 2](https://timotheenivalis.github.io/RSB-R-Stats-Biology/12.ModelSelection2/)
 
 
 What other topics would you like covered? Just ask and I will try to make it happen!
