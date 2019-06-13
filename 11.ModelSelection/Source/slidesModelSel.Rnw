@@ -1,0 +1,750 @@
+\documentclass[10pt]{beamer}%
+\setbeamersize{text margin left=0.5cm, text margin right=0.5cm}
+
+\usepackage{alltt}%
+\usetheme[background=light]{metropolis} 
+\usecolortheme{seahorse}
+
+\usepackage[utf8]{inputenc}%
+
+
+\usepackage[normalem]{ulem}%strikeout
+ 
+
+% graphics
+%% Figures %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage{graphicx}
+\usepackage{xcolor}%for color mixing
+
+\usepackage{amsmath}%
+\usepackage{amsfonts}%
+\usepackage{amssymb}%
+\usepackage{graphicx}
+
+\usepackage{tikz}
+\usetikzlibrary{calc}
+
+\usepackage{hyperref}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%% Doc info %%%%%%%%%%%%%%%%%%%
+\title{Introduction to model selection in R}
+\author{Timoth\'ee Bonnet}
+\institute{BDSI / RSB}
+\date{\today}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{document}
+
+<<Plot Options, echo=FALSE, message=FALSE>>=
+#load(file = ".RData")
+library(knitr)
+library(xtable)
+opts_knit$set(width=60)
+opts_chunk$set(comment=NA, fig.width=8, fig.height=6, out.width='0.8\\textwidth',
+               out.height='0.6\\textwidth',background='#D7DDEB', size="small")
+
+
+szgr <- 2
+szax <- 1.3
+marr <- c(4, 4, 1, 1) + 0.1
+setPar<-function(){
+par(las=1,mar=marr, cex=szgr, cex.lab=szax , cex.axis=szax, lwd=2 ,pch=1, las=1)
+}
+setPar()
+@
+
+\begin{frame}
+  \begin{quote}
+  ``If a particular model (parametrization) does not make biological sense,
+this is reason to exclude it from the set of candidate models, particularly
+in the case where causation is of interest. In developing the set of candidate
+models, one must recognize a certain balance between keeping the set small
+and focused on plausible hypotheses, while making it big enough to guard
+against omitting a very good a priori model."
+  \end{quote}
+
+Burnham and Anderson, 2002, Model Selection and Multimodel Inference: A Practical Information-theoretic Approach
+
+\end{frame}
+%%%%%%%%%%%
+
+\begin{frame}
+\maketitle
+\end{frame}
+%%%%%%%%%%%
+
+
+\AtBeginSection[]
+{
+  \begin{frame}<beamer>
+    \Large
+    \frametitle{}
+    \tableofcontents[currentsection,hideothersubsections,subsectionstyle=hide]% down vote\tableofcontents[currentsection,currentsubsection,hideothersubsections,sectionstyle=show/hide,subsectionstyle=show/shaded/hide]
+  \end{frame}
+}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Why model selection?}
+
+\begin{frame}{}
+
+<<echo=FALSE, eval=FALSE>>=
+allmass <- read.table("AllM.txt", header = TRUE)
+str(allmass)
+allmass <- allmass[,c("id", "Weight", "Body_Length", "Tail_Length", "Sex", "Year", "Age", "Xpos", "Ypos", "Julian", "Mother", "f")]
+names(allmass)[10] <- "inbreeding"
+allmass$temperature <- round(rnorm(n = nrow(allmass), mean = 13, sd = 4), 1)
+allmass$humidity <- 100/(1+exp(-scale(allmass$Weight) + rnorm(nrow(allmass), 0, 1)))
+allmass$Birds_seen <- rpois(n=nrow(allmass), lambda = 3)
+write.csv(allmass, file = "VoleWeight.csv", quote = FALSE, row.names = FALSE)
+@
+
+
+\end{frame}
+%%%%%%%%%%%
+
+\begin{frame}[fragile]{Overfitting}
+
+<<echo=FALSE>>=
+set.seed(12345)
+x <-1 + rnorm(20)
+y <- 2 + 0.5*x + 0.1*x^2 + rnorm(20)
+@
+
+\only<1>{
+<<model1, dev='tikz', echo=FALSE>>=
+setPar()
+plot(x, y, main= "")
+@
+}
+
+\only<2>{
+<<model2, dev='tikz', echo=FALSE>>=
+setPar()
+m1<-lm(y ~ x)
+plot(x, y, main= paste("y = a + bx, $R^2=$", round(summary(m1)$r.squared , 2)))
+abline(m1)
+@
+}
+
+\only<3>{
+<<model3, dev='tikz', echo=FALSE>>=
+setPar()
+m2<-lm(y ~ poly(x, 2, raw = TRUE))
+plot(x, y, main= paste("$y = a + bx + cx^2$, $R^2=$", round(summary(m2)$r.squared , 2)))
+newdat <- data.frame(x=seq(min(x), max(x), length.out = 100))
+newdat$y <- predict(m2, newdata = newdat)
+lines(newdat$x, newdat$y)
+@
+}
+
+\only<4>{
+<<model4, dev='tikz', echo=FALSE>>=
+setPar()
+m3<-lm(y ~ poly(x, 3, raw = TRUE))
+plot(x, y, main= paste("$y = a + bx + cx^2 + dx^3$, $R^2=$", round(summary(m3)$r.squared , 2)))
+newdat <- data.frame(x=seq(min(x), max(x), length.out = 100))
+newdat$y <- predict(m3, newdata = newdat)
+lines(newdat$x, newdat$y)
+@
+}
+
+
+\only<5>{
+<<model5, dev='tikz', echo=FALSE>>=
+setPar()
+m4<-lm(y ~ poly(x, 6, raw = TRUE))
+plot(x, y, main= paste("$y = f(x,6)$, $R^2=$", round(summary(m4)$r.squared , 2)))
+newdat <- data.frame(x=seq(min(x), max(x), length.out = 100))
+newdat$y <- predict(m4, newdata = newdat)
+lines(newdat$x, newdat$y)
+@
+}
+
+
+\only<6>{
+<<model6, dev='tikz', echo=FALSE, warning=FALSE>>=
+setPar()
+m5<-lm(y ~ poly(x, 10, raw = TRUE))
+plot(x, y, main= paste("$y = f(x,10)$, $R^2=$", round(summary(m5)$r.squared , 2)))
+newdat <- data.frame(x=seq(min(x), max(x), length.out = 100))
+newdat$y <- predict(m5, newdata = newdat)
+lines(newdat$x, newdat$y)
+@
+}
+
+\only<7>{
+<<model7, dev='tikz', echo=FALSE, warning=FALSE>>=
+setPar()
+m6<-lm(y ~ as.factor(x))
+plot(x, y, main= paste("$y = f(x,20)$, $R^2=$", round(summary(m6)$r.squared , 2)))
+
+lines(x=x[order(x)], predict(m6)[order(x)])
+@
+}
+\end{frame}
+%%%%%%%%%%%%%
+
+\begin{frame}[fragile]{Overfitting: What is wrong? Part 1}
+
+\only<1>{
+<<model6b, dev='tikz', echo=FALSE, warning=FALSE>>=
+setPar()
+m5<-lm(y ~ poly(x, 10, raw = TRUE))
+plot(x, y, main= paste("$y = f(x,10)$, $R^2=$", round(summary(m5)$r.squared , 2)))
+newdat <- data.frame(x=seq(min(x), max(x), length.out = 100))
+newdat$y <- predict(m5, newdata = newdat)
+lines(newdat$x, newdat$y)
+@
+}
+
+\only<2>{
+<<model6c, dev='tikz', echo=FALSE, warning=FALSE>>=
+set.seed(123)
+setPar()
+m5<-lm(y ~ poly(x, 10, raw = TRUE))
+plot(x, y, main= paste("$y = f(x,10)$, \\color{red}new data from same population"))
+newdat <- data.frame(x=seq(min(x), max(x), length.out = 100))
+newdat$y <- predict(m5, newdata = newdat)
+lines(newdat$x, newdat$y)
+
+x2 <-1 + rnorm(20)
+y2 <- 2 + 0.5*x2 + 0.1*x2^2 + rnorm(20)
+points(x=x2, y=y2, col="red")
+newdat <- data.frame(x=x2)
+pre <- predict(m5,newdata=newdat)
+
+r2nd <- 1 - sum((y2 -pre)^2)/sum((y2-mean(y))^2)
+
+ legend(x="topleft", legend = c(paste("Initial $R^2=", round(summary(m5)$r.squared , 2), "$"),
+                                    paste("New data $R^2=",round(r2nd ,0), "$")), col=c("black", "red"))
+@
+}
+\end{frame}
+%%%%%%%%%%
+
+\begin{frame}{Overfitting: What is wrong? Part 2}
+
+<<echo=FALSE, results='asis'>>=
+ sumcoe <- summary(m5)$coefficients
+ colnames(sumcoe)[4] <- "p.value"
+xtable(sumcoe)
+@
+
+\end{frame}
+%%%%%%%%%%
+
+\begin{frame}{Overfitting: What is wrong}
+
+\begin{alertblock}{Very good fit, but model USELESS}
+\begin{itemize}
+  \item Worse prediction than just taking the mean
+  \item No biological interpretation
+  \item Huge standar error, large p-values
+\end{itemize}
+\end{alertblock}
+
+\end{frame}
+%%%%%%%%%%%%%
+
+
+\begin{frame}{``Less bias = More uncertainty"}
+\centering
+<<dev='tikz', echo=FALSE, fig.keep='last'>>=
+setPar()
+par(mar=c(5,4,4,4))
+plot(curve(expr = 1/x, from = 0.01, to =0.5), xaxt='n', yaxt="n", type='l', xlab="Number of parameters", ylab="", ylim=c(0, 30), col="red")
+axis(side = 1, at = c(0, 0.5), labels = c("Few", "Many"))
+mtext(text = "\\color{blue}Uncertainty", side = 4, line = 0 , las=0, cex= szgr)
+mtext(text = "\\color{red}\\text{Bias}", side = 2, line = 0, las=0, cex = szgr)
+lines(x= seq(0,0.49, length.out = 100),y=2/(0.5-seq(0,0.49, length.out = 100)), col="blue")
+
+@
+
+\textbf{What is the best compromise?}
+
+\end{frame}
+%%%%%%%%%%
+
+\begin{frame}{What is the best compromise?}
+
+\begin{block}{Stepwise regression, one of multiple approaches:}
+  Start from a simple model
+  \begin{enumerate}
+    \item Add covariates, once at the time, fit the models
+    \item Keep the "most significant" covariate
+    \item If no covariate is significant, stop
+  \end{enumerate}
+\end{block}
+
+
+
+\end{frame}
+%%%%%%%%%%%
+
+\begin{frame}[fragile]{Try stepwise regression}
+<<echo=FALSE, eval=FALSE>>=
+set.seed(1234)
+nobs <- 80
+x1 <- rnorm(nobs)
+x2 <- rnorm(nobs)
+x3 <- rnorm(nobs)
+x4 <- rnorm(nobs)
+y <- rnorm(nobs, sd = 0.4) + 0.25*x4 -0.3*x2
+
+dat <- data.frame(x1,x2,x3,x4, y)
+dat1 <- dat[1:20,]
+dat2 <- dat[21:40,]
+summary(m0 <- lm(y ~ x1 + x2 + x3 + x4, data = dat1))
+
+write.csv(dat1, file = "datsub1.csv", quote = FALSE, row.names = FALSE)
+write.csv(dat2, file = "datsub2.csv", quote = FALSE, row.names = FALSE)
+
+summary(lm(y ~ x1))
+summary(lm(y ~ x2))
+summary(lm(y ~ x3))
+summary(lm(y ~ x4))
+summary(lm(y ~ x1 + x2))
+summary(lm(y ~ x1 + x2))
+
+plot(dat1$y, predict(m0, newdata = dat1))
+plot(dat2$y, predict(m0, newdata = dat2))
+
+@
+
+<<eval=FALSE>>=
+datsub1 <- read.csv("datsub1.csv")
+str(datsub1)
+@
+
+\pause 
+
+Stepwise selection part 1:\vspace{-0.1cm}
+<<eval=FALSE>>=
+summary(lm(y ~ x1, data = datsub1))
+summary(lm(y ~ x2, data = datsub1))
+summary(lm(y ~ x3, data = datsub1))
+summary(lm(y ~ x4, data = datsub1))
+@
+
+\pause
+
+Stepwise selection part 2:\vspace{-0.1cm}
+<<eval=FALSE>>=
+summary(lm(y ~ x2 + x1, data = datsub1))
+summary(lm(y ~ x2 + x3, data = datsub1))
+summary(lm(y ~ x2 + x4, data = datsub1))
+@
+
+\pause
+Stepwise selection part 3: \vspace{-0.1cm}
+<<eval=FALSE>>=
+summary(lm(y ~ x2 + x4 + x1, data = datsub1))
+summary(lm(y ~ x2 + x4 + x3, data = datsub1))
+@
+
+
+\end{frame}
+%%%%%%%%%%%%
+
+
+\begin{frame}[fragile]{Try stepwise regression}
+Based on this approach the best model is:
+<<eval=FALSE>>=
+summary(lm(y ~ x2 + x4, data = datsub1))
+@
+
+Compare this to the full model:
+<<eval=FALSE>>=
+summary(lm(y ~ x1 + x2 + x3 + x4, data = datsub1))
+@
+
+Which is best at predicting $y$ ? (you can use the function \texttt{predict() or look at the R-squared in summary()})
+
+\end{frame}
+%%%%%%%%%%%
+
+\begin{frame}[fragile]{Try stepwise regression}
+The full model explains more variation in $y$ in \texttt{datsub1}. But can we trust the full model for new data?
+\pause
+
+The dataset \texttt{datsub2} comes from the same population. Make predictions of $y$ in \texttt{datsub2} based on the best and the full models, and compare them to the true values of $y$ in \texttt{datsub2}. You could use the function \texttt{predict}, \texttt{plot}, and \texttt{cor}.
+
+Start for the full model:
+<<eval=FALSE>>=
+datsub2 <- read.csv("datsub2.csv")
+predictedy <- predict(lm(y ~ x1 + x2 + x3 + x4, data = datsub1), 
+                      newdata = datsub2)
+@
+
+<<eval=FALSE, echo=FALSE>>=
+datsub2 <- read.csv("datsub2.csv")
+plot(predict(lm(y ~ x1 + x2 + x3 + x4, data = datsub1), newdata = datsub2), datsub2$y)
+plot(predict(lm(y ~ x2 + x4, data = datsub1), newdata = datsub2), datsub2$y)
+
+cor(predict(lm(y ~ x1 + x2 + x3 + x4, data = datsub1), newdata = datsub2),  datsub2$y)^2
+cor(predict(lm(y ~ x2  + x4, data = datsub1), newdata = datsub2),  datsub2$y)^2
+@
+
+\end{frame}
+%%%%%%%%%%%%
+
+\begin{frame}{Summary: Why model selection}
+
+  \begin{exampleblock}{}
+    \begin{itemize}
+      \item Adding predictors increases fit to the response, in the current data
+      \item But too many predictors:
+        \begin{itemize}
+          \item DECREASE fit in new data (from the same population)
+          \item Hinder biological interpretation
+          \item Increases esimtation uncertainty (larger SE and p-values)
+        \end{itemize}
+      \item Model selection aims to balance fit and generalisation 
+    \end{itemize}
+  \end{exampleblock}
+\end{frame}
+%%%%%%%%%%%
+
+\section{Information criteria vs. stepwise selection}
+
+\begin{frame}[fragile]{Model selection aims to balance fit and generalisation: How?}
+  Stepwise regression is an option. But not very good.
+  
+<<echo=FALSE, eval=FALSE>>=
+set.seed(1234)
+nobs <- 40
+x0 <- rnorm(nobs)
+x1 <- x0 + rnorm(nobs)
+x2 <- 0.9*x1 + rnorm(nobs)
+x3 <- 2*x1 + rnorm(nobs)
+y <- 1+ x0 + 0.5*x3 + 0.3*x2 +rnorm(nobs, 0, 1)
+
+summary(lm(y ~ x0))
+summary(lm(y ~ x1))
+summary(lm(y ~ x2))
+summary(lm(y ~ x3))
+
+summary(lm(y ~ x1 + x2))
+summary(lm(y ~ x1 + x3))
+
+summary(lm(y ~ x2 + x3))
+
+dat <- data.frame(response = y, pred1=x1, pred2=x2, pred3=x3)
+write.csv(dat, file = "threepreddat.csv", row.names = FALSE, quote = FALSE)
+@
+  
+Load \texttt{threepreddat.csv} and apply the previous stepwise regression method to model selection. What is the best model to predict the response?
+
+<<echo=FALSE,eval=TRUE>>=
+threepreddat <- read.csv("threepreddat.csv")
+@
+
+<<echo=FALSE,eval=FALSE>>=
+summary(lm(response ~ pred1, data = threepreddat))
+summary(lm(response ~ pred2, data = threepreddat))
+summary(lm(response ~ pred3, data = threepreddat))
+
+summary(lm(response ~ pred1 + pred2, data = threepreddat))
+summary(lm(response ~ pred1 + pred3, data = threepreddat))
+
+@
+  
+\pause
+Compare your best model to:
+<<eval=FALSE>>=
+summary(lm(response ~ pred2 + pred3, data = threepreddat))
+@
+  
+\end{frame}
+%%%%%%%%%%%
+
+\begin{frame}{Information criteria}
+
+\begin{alertblock}{Do NOT use stepwise regression for model selection}
+  \begin{itemize}
+    \item Different version of stepwise regression often disagree
+    \item Only nested models are compared 
+    \item Sometimes the best models cannot be discovered stepwise
+  \end{itemize}
+\end{alertblock}
+
+\pause
+
+\begin{exampleblock}{Instead, use Information Criteria}
+  \begin{itemize}[<+->]
+    \item Akaike information criterion (AIC), invented in the 1970s, maximizes prediction
+    \item Later BIC, DIC, TIC\dots maximizes different aspects of model performance
+    \item AIC = 2$\times$Number of parameters - 2$\times \log(\text{model likelihood})$
+    \item Smaller is better
+    \item Only relative measure, no absolute meaning
+  \end{itemize}
+\end{exampleblock}
+
+\end{frame}
+%%%%%%%%%%%
+
+\begin{frame}[fragile]{AIC in R}
+
+Find the best AIC-model from \texttt{threepreddat}. For instance:
+
+<<>>=
+AIC(lm(response ~ pred1, data = threepreddat))
+@
+
+\end{frame}
+%%%%%%%%%%
+
+\begin{frame}{AIC best practice:}
+  
+  False positives happen $\rightarrow$ \\ \hfill if you compare many models, ``spurious'' one can be best by pure chance
+  
+  \pause
+  
+  \begin{exampleblock}{Minimize the risks:}
+  \begin{itemize}[<+->]
+    \item Compare only models that make biological sense (e.g., avoid complex interactions)
+    \item If you know enough, pre-select small set of models representing competing hypotheses
+    \item \textbf{Confirmation:} AIC-model selection on half your dataset, then fit best model on the second half
+    \item Acknowledge results are inconlusive is AIC-difference below 2 (or below 5)
+  \end{itemize}
+  \end{exampleblock}
+
+\end{frame}
+%%%%%%%%%%%
+
+\begin{frame}{Practice: form groups of 2-3 people}
+
+\begin{center}
+  \includegraphics[width=0.4\textwidth]{Figures/vole}
+\end{center}
+
+Load \texttt{VoleWeight.csv}. We want to understand what factors explain variation in individual body weight. Think about what models could make sense. Use half the dataset for AIC comparison of those models. Check model performance on the second half.
+
+\end{frame}
+%%%%%%%%%%%
+
+\begin{frame}{Summary: Information criteria vs. stepwise selection}
+  \begin{exampleblock}{}
+    \begin{itemize}[<+->]
+      \item Stepwise 
+        \begin{itemize}
+          \item Different approches give inconsistent results
+          \item compares only nested models
+          \item \textbf{does NOT find the ``best'' model}
+        \end{itemize}
+      \item AIC 
+        \begin{itemize}
+          \item Compare all models, nested or not
+          \item finds model best at predicting the response
+          \item works better if competing models are pre-selected
+        \end{itemize}
+    \end{itemize}
+  \end{exampleblock}
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section{Model selection and causal inference}
+
+\begin{frame}[fragile]{Competing hypotheses}
+<<echo=FALSE, eval=FALSE>>=
+set.seed(123)
+nobs <- 350
+mass <- abs(rnorm(nobs, 2, 2))
+roundness <- runif(n =nobs, 0.2,0.9)
+respiration <- (mass^(3/4)) + rnorm(nobs,0,0.2)
+metabo <- data.frame(respiration=respiration, mass=mass, roundness=roundness)
+
+write.csv(metabo, file = "metabo.csv", quote = FALSE, row.names = FALSE)
+
+summary(lm(respiration ~ I(mass^(3/4)), data = metabo))
+AIC(lm(respiration ~ I(mass^(3/4)), data = metabo))
+AIC(lm(respiration ~ I(mass^(2/3)), data = metabo))
+AIC(lm(respiration ~ I(mass), data = metabo))
+AIC(lm(respiration ~ roundness, data = metabo))
+@
+
+
+How does respiration rate scale with body mass in mammals? For a while researchers fought over two ideas, respiration could increase as a function of $mass^{2/3}$ or as a function of $mass^{3/4}$; while maybe the shape of the animals played a role. Let's find out!.
+
+Load \texttt{metabo.csv} and compare models through AIC selection.
+
+NB: you can fit exponents of a predictors using the function \texttt{I()}. For instance, for the exponent 0.5 of x:
+<<eval=FALSE>>=
+lm(y ~ I(x^(1/2)))
+@
+
+\end{frame}
+%%%%%%%%%%%
+
+\begin{frame}{Useful tools}
+Package \texttt{MuMIn} useful for model selection
+
+<<eval=FALSE>>=
+install.packages("MuMIn")
+library(MuMIn)
+@
+
+\pause
+
+\begin{exampleblock}{1. AICc}
+  \begin{itemize}
+    \item AIC is biased for small sample size
+    \item AICc (``second-order AIC") when sample size / number of parameters is less than 40
+    \item \texttt{MuMIn::AICc()}
+  \end{itemize}
+\end{exampleblock}
+
+\pause
+
+\begin{alertblock}{2. dredge}
+  \begin{itemize}
+    \item Automate model selection
+    \item Convenient BUT many competing models, some may not make sense
+    \item \texttt{MuMIn::dredge()}
+  \end{itemize}
+\end{alertblock}
+
+\end{frame}
+%%%%%%%%%%%
+
+\begin{frame}{Try automated model selection}
+
+Try to use \texttt{dredge()}, with selection based on \texttt{AICc}, to automate model selection on the vole data. 
+
+For some reason you first need to run:
+<<eval=FALSE>>=
+options(na.action="na.fail")
+@
+
+
+Do you find the same result?
+
+
+\vfill
+
+\textbf{If you get bored, go to next slide for a challenge!}
+\end{frame}
+
+\begin{frame}[fragile]{Challenge}
+\small
+In general, when a response variable is independent of the response there is a 5\% probability to find a p-value below 0.05 (that's a false positive).
+Let's see for ourselves that it does not work if we do model selection first!
+
+The code below creates one dataset with a response variable independent of the ``mainpredictor'' (the thing we want to test) and of control variables. We fit a full model, test many control variable combinations with \texttt{dredge()} and extract the p-value for ``mainpredictor''. Create a for-loop to look at the frequency of significant p-values!
+
+<<eval=FALSE>>=
+nobs <- 60
+mainpredictor <- rnorm(nobs)
+control1 <- rnorm(nobs) ; control2 <- rnorm(nobs)
+control3 <- rnorm(nobs) ; control4 <- rnorm(nobs)
+control5 <- rnorm(nobs) ; response <- rnorm(nobs)
+
+mfull <- lm(response ~ mainpredictor + 
+              control1*control2*control3 + control4*control5)
+
+modall <- dredge(mfull, fixed = "mainpredictor")
+summary(get.models(modall, 1)[[1]])$coefficients[2,4]#the pvalue
+@
+
+<<eval=FALSE, echo=FALSE>>=
+
+options(na.action="na.fail")
+
+pval <- vector(length=100)
+for (i in 1:100)
+{
+  nobs <- 60
+main_predictor <- rnorm(nobs)
+control1 <- rnorm(nobs)
+control2 <- rnorm(nobs)
+control3 <- rnorm(nobs)
+control4 <- rnorm(nobs)
+control5 <- rnorm(nobs)
+response <- rnorm(nobs)
+mfull <- lm(response ~ main_predictor + 
+              control1*control2*control3 + control4*control5)
+
+modall <- dredge(mfull, fixed = "main_predictor")
+
+pval[i] <- summary(get.models(modall, 1)[[1]])$coefficients[2,4]
+}
+hist(pval)
+mean(pval<0.05)
+@
+\end{frame}
+%%%%%%%%%%%
+
+\begin{frame}{``There is madness in our methods"}
+\begin{figure}
+\includegraphics[width=0.5\textwidth]{Figures/dirk-jan-hoek}
+\caption{Null-hypothesis testing after model selection \copyright Dirk Jan-Hoek}
+\end{figure}
+
+\url{https://methodsblog.com/2015/11/26/madness-in-our-methods/}
+\end{frame}
+%%%%%%%%%%%
+
+
+\begin{frame}{Summary: Model selection and inference}
+
+  \begin{exampleblock}{}
+    \begin{itemize}
+      \item AIC/AICc best for exploratory / predictive models
+      \item AIC/AICc alone can be used for causal inference if models are all meaningful competing biological hypotheses
+      \item After AIC/AICc selection p-values are wrong
+      \item Correct p-values and standard errors MUST be computed on new data (Confirmatory model)
+    \end{itemize}
+  \end{exampleblock}
+  
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{frame}{Want more practice? }
+\begin{block}{Use AIC/AICc to:}
+  \begin{itemize}
+    \item Tell what drives the increase in number of babies in \texttt{babies.csv}
+    \item What drives bird abundance (ABUND) in \texttt{loyn.csv}
+    \item \textbf{Challenge:} How do differences in AIC between nested models scale with p-values for the extra predictor?
+  \end{itemize}
+\end{block}
+
+\end{frame}
+
+\begin{frame}{Want to know more?}
+
+\begin{exampleblock}{Very good, but very pro:}
+  \begin{itemize}
+    \item Burnham and Anderson, 2002, Model Selection and Multimodel Inference: A Practical Information-theoretic Approach
+  \end{itemize}
+\end{exampleblock}
+
+\begin{alertblock}{AIC is not always the best choice:}
+\begin{itemize}
+  \item \textbf{``Your goal matters in the choice between AIC, BIC, p-values...:"} Aho \& al. A graphical framework for model selection criteria and significance tests: Refutation, confirmation and ecology. Methods in Ecology and Evolution. 2017;8:47–56.
+  \item \textbf{``Careful when combining estimates from different models"}: Cade. Model averaging and muddled multimodel inferences. Ecology. 2015;96(9):2370–82.
+\end{itemize}
+\end{alertblock}
+
+\end{frame}
+%%%%%%%%%%
+
+\begin{frame}{Before you leave:}
+  \begin{enumerate}
+    \item Write one thing you liked and one you disliked on a sticky note
+    \item Be sure you signed the presence sheet, especially if you want credit for the HDR career development framework
+    \item Leave your email address if you want to join the Slack channel 
+    \item Past workshops at \url{https://timotheenivalis.github.io/RSB-R-Stats-Biology/} 
+  \end{enumerate}
+
+\vfill
+\hfill Thank you!!
+
+\end{frame}
+
+\end{document}

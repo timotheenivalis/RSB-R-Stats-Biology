@@ -1,0 +1,10 @@
+theme: jekyll-theme-dinky
+
+
+
+
+# Comments
+comments:
+  provider: "disqus"
+  disqus:
+    shortname: "https-timotheenivalis-github-io"
