@@ -25,3 +25,12 @@ Prerequisite: None
 Host: Dr Timothée Bonnet
 
 Enquiries: Timothee.Bonnet@anu.edu.au
+
+
+R-Markdown reference guides:
+
+[https://github.com/timotheenivalis/RSB-R-Stats-Biology/blob/master/14.RMarkdown/rmarkdown-reference.pdf](https://github.com/timotheenivalis/RSB-R-Stats-Biology/blob/master/14.RMarkdown/rmarkdown-reference.pdf)
+
+[https://github.com/timotheenivalis/RSB-R-Stats-Biology/blob/master/14.RMarkdown/rmarkdown-cheatsheet-2.0.pdf](https://github.com/timotheenivalis/RSB-R-Stats-Biology/blob/master/14.RMarkdown/rmarkdown-cheatsheet-2.0.pdf)
+
+[https://rmarkdown.rstudio.com/index.html](https://rmarkdown.rstudio.com/index.html)
