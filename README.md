@@ -8,6 +8,7 @@ Topics covered so far this year (2018-2019):
 * [Install R and R-Studio](https://timotheenivalis.github.io/RSB-R-Stats-Biology/00.Install)
 * [Basics of R language](https://timotheenivalis.github.io/RSB-R-Stats-Biology/01.IntroR)
 * [Statistical inference](https://timotheenivalis.github.io/RSB-R-Stats-Biology/02.IntroStats)
+* [Simple linear regression (on Github only; By Ananthan Ambikairajah)](https://github.com/timotheenivalis/RSB-R-Stats-Biology/tree/master/13.SimpleLinearRegression)
 * [Linear mixed models Part 1 (estimation)](https://timotheenivalis.github.io/RSB-R-Stats-Biology/03.MixedModels)
 * [Linear mixed models Part 2 (tests)](https://timotheenivalis.github.io/RSB-R-Stats-Biology/05.MixedModels2)
 * [Linear mixed models Part 3 (random interactions)](https://timotheenivalis.github.io/RSB-R-Stats-Biology/07.MixedModels3)
