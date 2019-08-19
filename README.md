@@ -20,5 +20,9 @@ Topics covered so far this year (2018-2019):
 * [Model selection Part 2](https://timotheenivalis.github.io/RSB-R-Stats-Biology/12.ModelSelection2/)
 
 
+<<<<<<< HEAD
+What other topics would you like covered? Just ask and I will try to make it happen! 
+=======
 What other topics would you like covered? Just ask and I will try to make it happen!
 
+>>>>>>> 3ecacb20dd8ae19775abe39cda90335cb5a4de69
