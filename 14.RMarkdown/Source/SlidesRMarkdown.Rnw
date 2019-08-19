@@ -55,16 +55,8 @@ setPar()
 @
 
 \begin{frame}
-  \begin{quote}
-  ``If a particular model (parametrization) does not make biological sense,
-this is reason to exclude it from the set of candidate models, particularly
-in the case where causation is of interest. In developing the set of candidate
-models, one must recognize a certain balance between keeping the set small
-and focused on plausible hypotheses, while making it big enough to guard
-against omitting a very good a priori model."
-  \end{quote}
-
-Burnham and Anderson, 2002, Model Selection and Multimodel Inference: A Practical Information-theoretic Approach
+\centering
+\href{https://www.youtube.com/watch?v=s3JldKoA0zw}{\includegraphics[width=0.8\textwidth]{Figures/markdownyoutube.png}}
 
 \end{frame}
 %%%%%%%%%%%
@@ -74,5 +66,77 @@ Burnham and Anderson, 2002, Model Selection and Multimodel Inference: A Practica
 \end{frame}
 %%%%%%%%%%%
 
+\begin{frame}{What you need:}
 
+<<eval=FALSE>>=
+install.packages(c("knitr", "xtable"))
+@
+
+\end{frame}
+%%%%%%%%%%%
+
+\begin{frame}{Create an R Markdown html document in RStudio}
+\centering
+\only<1>{\includegraphics[width=0.8\textwidth]{Figures/Step1.png}}
+\only<2>{\includegraphics[width=0.8\textwidth]{Figures/Step2.png}}
+\only<3>{
+
+\begin{exampleblock}{Components of R-Markdown:}
+  \begin{enumerate} 
+    \item YAML = Configuration
+    \item Text
+    \item Code chunks
+  \end{enumerate}
+\end{exampleblock}
+
+}
+\end{frame}
+%%%%%%%%%%%
+
+\begin{frame}{Text: Markdown syntax}
+  \begin{columns}
+    \begin{column}{0.5\textwidth} 
+      \uncover<1->{\texttt{Simple text}\\}
+      \uncover<2->{\texttt{\# Header (main)} \\}
+      \uncover<3->{\texttt{\#\# Header (section)} \\}
+      \uncover<4->{\texttt{\#\#\# Header (sub-section)} \\}
+    \end{column}
+    \begin{column}{0.5\textwidth}
+      \uncover<1->{Simple text\\}
+      \uncover<2->{\textbf{\LARGE Header (main)} \\}
+      \uncover<3->{\textbf{\Large Header (section)} \\}
+      \uncover<4->{\textbf{\large Header (sub-section)} \\}
+    \end{column}
+\end{columns}
+\end{frame}
+%%%%%%%%%%%%%
+
+\begin{frame}{Text: Exercise}
+
+Create a new R Markdown document. Delete all of the R code chunks and write a bit of Markdown (some sections, some italicized text, and an itemized list).
+
+Convert the document to a webpage.
+
+\end{frame}
+%%%%%%%%%%%
+
+\begin{frame}{R-Code}
+ 
+\end{frame}
+
+
+
+
+\begin{frame}{Everything about R-Markdonw}
+\textbf{Download reference sheet:}\\
+\url{https://github.com/timotheenivalis/RSB-R-Stats-Biology/raw/master/14.RMarkdown/rmarkdown-reference.pdf}
+
+\textbf{Download quick cheatsheet:}\\
+\url{https://github.com/timotheenivalis/RSB-R-Stats-Biology/raw/master/14.RMarkdown/rmarkdown-cheatsheet-2.0.pdf}
+
+\textbf{More resources by RStudio:}\\
+\url{https://rmarkdown.rstudio.com/index.html}
+
+\end{frame}
+%%%%%%%%%%%
 \end{document}
