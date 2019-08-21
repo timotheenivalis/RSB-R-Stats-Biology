@@ -1,6 +1,6 @@
 # R-Markdown: Creating reports, manuscripts and web pages from R
 
-Download the workshop material at [https://timotheenivalis.github.io/RSB-R-Stats-Biology/14.RMarkdown/SlidesData.zip](https://timotheenivalis.github.io/RSB-R-Stats-Biology/14.RMarkdown/SlidesData.zip).
+The workshop material will appear here later this week...
 
 
 Do you copy-paste R-outputs, figures and tables into your documents? Stop! There is an easier, reproducible way! R-markdown is a simple solution to integrate R-code and R-output within your documents. If you have to correct a data-set or a model, no need to copy-paste outputs again, R-markdown let you update your documents in one click. In this workshop you will learn:

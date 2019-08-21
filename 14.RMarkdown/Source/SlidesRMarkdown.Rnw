@@ -66,6 +66,15 @@ setPar()
 \end{frame}
 %%%%%%%%%%%
 
+\begin{frame}{Why use R-Markdown/Knitr}
+  \begin{itemize}
+    \item Make your life easier
+    \item Reproducible science
+  \end{itemize}
+\end{frame}
+%%%%%%%%%%%
+
+
 \begin{frame}{What you need:}
 
 <<eval=FALSE>>=
