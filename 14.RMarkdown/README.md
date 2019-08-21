@@ -12,12 +12,12 @@ Do you copy-paste R-outputs, figures and tables into your documents? Stop! There
 - Control the document type (.html, .pdf or .doc) and layout (e.g. add a table of content)
 
 
-**Location:** DNA Meeting Room (S104 1st Floor), RN Robertson Building (#46) , RSB
-**Date:** Friday, 23 August 2019
-**Time:** 10:00am to 12:00pm
-**Equipment:** Please bring a laptop with recent versions of R and R-Studio installed
-**Prerequisite:** None
-**Host:** Dr Timothée Bonnet
+**Location:** DNA Meeting Room (S104 1st Floor), RN Robertson Building (#46), RSB\
+**Date:** Friday, 23 August 2019\
+**Time:** 10:00am to 12:00pm\
+**Equipment:** Please bring a laptop with recent versions of R and R-Studio installed\
+**Prerequisite:** None\
+**Host:** Dr Timothée Bonnet\
 **Enquiries:** Timothee.Bonnet@anu.edu.au
 
 
