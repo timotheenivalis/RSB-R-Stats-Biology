@@ -300,7 +300,7 @@ or if you want more control with chunk options:
 
 <<eval=FALSE>>=
 ```{r, fig.cap="R Markdown logo", fig.width=6}
-knitr::include_graphics("Figures/markdown.png")
+knitr::include_graphics("Figures/markdown.jpg")
 ```
 @
 
