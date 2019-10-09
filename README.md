@@ -20,6 +20,7 @@ Topics covered so far this year (2018-2019):
 * [Model selection Part 1](https://timotheenivalis.github.io/RSB-R-Stats-Biology/11.ModelSelection/)
 * [Model selection Part 2](https://timotheenivalis.github.io/RSB-R-Stats-Biology/12.ModelSelection2/)
 * [R Markdown](https://timotheenivalis.github.io/RSB-R-Stats-Biology/14.RMarkdown/)
+* [Intro Bayesian](https://timotheenivalis.github.io/RSB-R-Stats-Biology/15.IntroBayesian/)
 
 
 What other topics would you like covered? Just ask and I will try to make it happen!

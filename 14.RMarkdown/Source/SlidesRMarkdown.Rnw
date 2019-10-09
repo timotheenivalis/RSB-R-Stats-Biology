@@ -2,8 +2,8 @@
 \setbeamersize{text margin left=0.5cm, text margin right=0.5cm}
 
 \usepackage{alltt}%
-\usetheme[background=light]{metropolis} 
-\usecolortheme{seahorse}
+  \usetheme[background=light]{metropolis} 
+  \usecolortheme{seahorse}
 
 \usepackage[utf8]{inputenc}%
 
