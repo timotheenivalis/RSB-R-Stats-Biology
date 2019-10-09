@@ -1,6 +1,6 @@
 # Introduction to Bayesian models in R
 
-The workshop material is at []()
+The workshop material is at
 
 
 * The Bayesian philosophy
