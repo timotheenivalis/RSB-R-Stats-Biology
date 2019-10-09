@@ -1,0 +1,170 @@
+\documentclass[10pt]{beamer}%
+\setbeamersize{text margin left=0.5cm, text margin right=0.5cm}
+
+\usepackage{alltt}%
+  \usetheme[background=light]{metropolis} 
+  \usecolortheme{seahorse}
+
+\usepackage[utf8]{inputenc}%
+
+
+\usepackage[normalem]{ulem}%strikeout
+ 
+
+% graphics
+%% Figures %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage{graphicx}
+\usepackage{xcolor}%for color mixing
+
+\usepackage{amsmath}%
+\usepackage{amsfonts}%
+\usepackage{amssymb}%
+\usepackage{graphicx}
+
+\usepackage{tikz}
+\usetikzlibrary{calc}
+
+\usepackage{hyperref}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%% Doc info %%%%%%%%%%%%%%%%%%%
+\title{Introduction to Bayesian models in R}
+\author{Timoth\'ee Bonnet}
+\institute{BDSI / RSB}
+\date{October 11, 2019}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{document}
+
+<<Plot Options, echo=FALSE, message=FALSE>>=
+#load(file = ".RData")
+library(knitr)
+library(xtable)
+opts_knit$set(width=60)
+opts_chunk$set(comment=NA, fig.width=8, fig.height=6, out.width='0.8\\textwidth',
+               out.height='0.6\\textwidth',background='#D7DDEB', size="small")
+
+
+szgr <- 2
+szax <- 1.3
+marr <- c(4, 4, 1, 1) + 0.1
+setPar<-function(){
+par(las=1,mar=marr, cex=szgr, cex.lab=szax , cex.axis=szax, lwd=2 ,pch=1, las=1)
+}
+setPar()
+@
+
+\begin{frame}{}
+\maketitle
+\end{frame}
+%%%%%%%%%%%%
+
+\begin{frame}{}
+
+\only<1>{
+\centering
+<<tichodrome, dev='tikz', echo=FALSE, results='hide'>>=
+setPar()
+set.seed(123)
+x <- 1990:2005
+y <- round(43+1.75*1990 - 1.75*x +rnorm(length(x),0,4))
+plot(x,y, xlab = "year", ylab="abundance", main="A bird abundance through time")
+abline(a = 42.9+1.754*1990, b = -1.754, lty=2, col="red", lwd=3)
+abline(a = 43.1+1.756*1990, b = -1.756, lty=3, col="blue", lwd=3)
+legend(x="bottomleft", legend = c("ML", "Bayesian"), col=c("red", "blue"), lty=2:3, lwd=3, title = "\\textbf{Linear regression}")
+@
+}
+
+\only<2>{
+\begin{alertblock}{Statistical models exist independently from method}
+  \begin{itemize}
+    \item Models are not Bayesian, nor frequentists (ML)
+    \item In principle all can be fitted frequentist or Bayesian
+    \item In general very similar results
+  \end{itemize}
+\end{alertblock}
+}
+\end{frame}
+%%%%%%%%%%%%
+
+\begin{frame}{So why bother?}
+  Bayesian methods are
+  \begin{itemize}[<+->]
+    \item More (easily) flexible
+    \item More intuitive interpretation
+    \item Uncertainty propagation
+    \item Easier to include missing values
+    \item Incorporate previous knowledge
+    \item The only feasible way for complex models
+  \end{itemize}
+\end{frame}
+%%%%%%%%%%%
+
+\begin{frame}{Today}
+
+  \begin{enumerate}
+    \item Bayesian philosophy 101
+    \item Fit your first Bayesian model
+    \item How MCMC works
+    \item The magic of the posterior
+    \item Using priors
+  \end{enumerate}
+  
+\end{frame}
+%%%%%%%%%%%
+
+
+\begin{frame}{Bayesian philosophy 101}
+  \pause
+  \centering \large{How many heads did I get?}
+  \pause
+  \begin{alertblock}{}
+    \begin{itemize}
+      \item You need a model
+      \item Prior information may help
+      \item Not one sure answer, but probabilities
+    \end{itemize}
+  \end{alertblock}
+\end{frame}
+%%%%%%%%%%%
+
+\begin{frame}{}
+
+\end{frame}
+%%%%%%%%%%%
+
+
+\section{Fit a Bayesian model in MCMCglmm}
+
+\begin{frame}{}
+
+<<>>=
+set.seed(123)
+metabolism <- rnorm(20, 3, sd = 1)
+
+@
+
+\end{frame}
+%%%%%%%%%%%
+
+
+\section{Closer look}
+
+\section{Playing with the posterior}
+
+\section{Using the prior}
+
+
+\begin{frame}{Want more?}
+
+Two days on writing your own models in JAGS/STAN
+  \begin{itemize}
+    \item GLMMs
+    \item Missing data
+    \item Integrating multi-part models
+    \item Priors, diagnostics, cool tools\dots
+  \end{itemize}
+\end{frame}
+%%%%%%%%%%%
+
+\end{document}
