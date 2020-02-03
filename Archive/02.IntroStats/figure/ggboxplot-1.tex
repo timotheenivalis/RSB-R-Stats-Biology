@@ -1,0 +1,169 @@
+% Created by tikzDevice version 0.12 on 2018-12-06 15:23:04
+% !TEX encoding = UTF-8 Unicode
+\documentclass[10pt]{beamer}
+\nonstopmode
+
+\usepackage{tikz}
+
+\usepackage[active,tightpage,psfixbb]{preview}
+
+\PreviewEnvironment{pgfpicture}
+
+\setlength\PreviewBorder{0pt}
+
+\newcommand{\SweaveOpts}[1]{}  % do not interfere with LaTeX
+\newcommand{\SweaveInput}[1]{} % because they are not real TeX commands
+\newcommand{\Sexpr}[1]{}       % will only be parsed by R
+
+%
+\usetheme{Boadilla}
+\usecolortheme{seahorse}
+
+\usepackage[utf8]{inputenc}%
+
+% graphics
+%% Figures %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage{graphicx}
+\usepackage{xcolor}%for color mixing
+
+\usepackage{amsmath}%
+\usepackage{amsfonts}%
+\usepackage{amssymb}%
+\usepackage{graphicx}
+
+\usepackage{tikz}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%% Doc info %%%%%%%%%%%%%%%%%%%
+\title[\textbf{Linear models}]{Statistical inference and linear models}
+\date{\today}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{document}
+
+\begin{tikzpicture}[x=1pt,y=1pt]
+\definecolor{fillColor}{RGB}{255,255,255}
+\path[use as bounding box,fill=fillColor,fill opacity=0.00] (0,0) rectangle (505.89,361.35);
+\begin{scope}
+\path[clip] (  0.00,  0.00) rectangle (505.89,361.35);
+\definecolor{drawColor}{RGB}{255,255,255}
+\definecolor{fillColor}{RGB}{255,255,255}
+
+\path[draw=drawColor,line width= 0.6pt,line join=round,line cap=round,fill=fillColor] (  0.00,  0.00) rectangle (505.89,361.35);
+\end{scope}
+\begin{scope}
+\path[clip] ( 27.18, 30.83) rectangle (500.39,355.85);
+\definecolor{fillColor}{gray}{0.92}
+
+\path[fill=fillColor] ( 27.18, 30.83) rectangle (500.39,355.85);
+\definecolor{drawColor}{RGB}{255,255,255}
+
+\path[draw=drawColor,line width= 0.3pt,line join=round] ( 27.18, 67.49) --
+	(500.39, 67.49);
+
+\path[draw=drawColor,line width= 0.3pt,line join=round] ( 27.18,176.93) --
+	(500.39,176.93);
+
+\path[draw=drawColor,line width= 0.3pt,line join=round] ( 27.18,286.36) --
+	(500.39,286.36);
+
+\path[draw=drawColor,line width= 0.6pt,line join=round] ( 27.18,122.21) --
+	(500.39,122.21);
+
+\path[draw=drawColor,line width= 0.6pt,line join=round] ( 27.18,231.64) --
+	(500.39,231.64);
+
+\path[draw=drawColor,line width= 0.6pt,line join=round] ( 27.18,341.08) --
+	(500.39,341.08);
+
+\path[draw=drawColor,line width= 0.6pt,line join=round] (156.24, 30.83) --
+	(156.24,355.85);
+
+\path[draw=drawColor,line width= 0.6pt,line join=round] (371.33, 30.83) --
+	(371.33,355.85);
+\definecolor{drawColor}{gray}{0.20}
+
+\path[draw=drawColor,line width= 0.6pt,line join=round] (156.24,144.10) -- (156.24,209.76);
+
+\path[draw=drawColor,line width= 0.6pt,line join=round] (156.24,100.32) -- (156.24, 45.61);
+\definecolor{fillColor}{RGB}{255,255,255}
+
+\path[draw=drawColor,line width= 0.6pt,line join=round,line cap=round,fill=fillColor] ( 75.58,144.10) --
+	( 75.58,100.32) --
+	(236.90,100.32) --
+	(236.90,144.10) --
+	( 75.58,144.10) --
+	cycle;
+
+\path[draw=drawColor,line width= 1.1pt,line join=round] ( 75.58,122.21) -- (236.90,122.21);
+
+\path[draw=drawColor,line width= 0.6pt,line join=round] (371.33,264.47) -- (371.33,341.08);
+
+\path[draw=drawColor,line width= 0.6pt,line join=round] (371.33,187.87) -- (371.33,111.27);
+
+\path[draw=drawColor,line width= 0.6pt,line join=round,line cap=round,fill=fillColor] (290.67,264.47) --
+	(290.67,187.87) --
+	(451.99,187.87) --
+	(451.99,264.47) --
+	(290.67,264.47) --
+	cycle;
+
+\path[draw=drawColor,line width= 1.1pt,line join=round] (290.67,220.70) -- (451.99,220.70);
+\end{scope}
+\begin{scope}
+\path[clip] (  0.00,  0.00) rectangle (505.89,361.35);
+\definecolor{drawColor}{gray}{0.30}
+
+\node[text=drawColor,anchor=base east,inner sep=0pt, outer sep=0pt, scale=  0.88] at ( 22.23,119.16) {5};
+
+\node[text=drawColor,anchor=base east,inner sep=0pt, outer sep=0pt, scale=  0.88] at ( 22.23,228.59) {6};
+
+\node[text=drawColor,anchor=base east,inner sep=0pt, outer sep=0pt, scale=  0.88] at ( 22.23,338.02) {7};
+\end{scope}
+\begin{scope}
+\path[clip] (  0.00,  0.00) rectangle (505.89,361.35);
+\definecolor{drawColor}{gray}{0.20}
+
+\path[draw=drawColor,line width= 0.6pt,line join=round] ( 24.43,122.21) --
+	( 27.18,122.21);
+
+\path[draw=drawColor,line width= 0.6pt,line join=round] ( 24.43,231.64) --
+	( 27.18,231.64);
+
+\path[draw=drawColor,line width= 0.6pt,line join=round] ( 24.43,341.08) --
+	( 27.18,341.08);
+\end{scope}
+\begin{scope}
+\path[clip] (  0.00,  0.00) rectangle (505.89,361.35);
+\definecolor{drawColor}{gray}{0.20}
+
+\path[draw=drawColor,line width= 0.6pt,line join=round] (156.24, 28.08) --
+	(156.24, 30.83);
+
+\path[draw=drawColor,line width= 0.6pt,line join=round] (371.33, 28.08) --
+	(371.33, 30.83);
+\end{scope}
+\begin{scope}
+\path[clip] (  0.00,  0.00) rectangle (505.89,361.35);
+\definecolor{drawColor}{gray}{0.30}
+
+\node[text=drawColor,anchor=base,inner sep=0pt, outer sep=0pt, scale=  0.88] at (156.24, 19.77) {setosa};
+
+\node[text=drawColor,anchor=base,inner sep=0pt, outer sep=0pt, scale=  0.88] at (371.33, 19.77) {versicolor};
+\end{scope}
+\begin{scope}
+\path[clip] (  0.00,  0.00) rectangle (505.89,361.35);
+\definecolor{drawColor}{RGB}{0,0,0}
+
+\node[text=drawColor,anchor=base,inner sep=0pt, outer sep=0pt, scale=  1.10] at (263.78,  7.44) {Species};
+\end{scope}
+\begin{scope}
+\path[clip] (  0.00,  0.00) rectangle (505.89,361.35);
+\definecolor{drawColor}{RGB}{0,0,0}
+
+\node[text=drawColor,rotate= 90.00,anchor=base,inner sep=0pt, outer sep=0pt, scale=  1.10] at ( 13.14,193.34) {Sepal.Length};
+\end{scope}
+\end{tikzpicture}
+
+\end{document}

@@ -1,0 +1,269 @@
+\documentclass[12pt,a4paper]{scrartcl}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath}
+\usepackage{graphicx}
+\usepackage{tikz}
+%\usepackage{silence}
+\usepackage{mdframed}
+%\WarningFilter{mdframed}{You got a bad break}
+\usepackage[colorinlistoftodos]{todonotes}
+\usepackage{listings}
+\usepackage{color}
+\colorlet{exampcol}{blue!10}
+\usepackage{multicol}
+\usepackage{booktabs}
+
+\usepackage[]{exercise}%[noanswer]
+
+\usepackage[autostyle, english = american]{csquotes}
+\MakeOuterQuote{"}
+
+\usepackage{hyperref}
+\hypersetup{
+    colorlinks,
+    citecolor=black,
+    filecolor=black,
+    linkcolor=blue,
+    urlcolor=blue
+}
+
+\title{Exercises for ``When assumptions are not met"}
+\date{\today}
+\author{Timoth\'ee Bonnet}
+
+
+\begin{document}
+
+<<echo=FALSE, results='hide', message=FALSE>>=
+options(digits = 4) 
+library(lme4)
+@
+
+\maketitle
+
+Find the content for today and previous workshops at \href{https://github.com/timotheenivalis/RSB-R-Stats-Biology}{https://github.com/timotheenivalis/RSB-R-Stats-Biology}.
+
+\tableofcontents
+\ListOfExerciseInToc
+\ExerciseLevelInToc{subsubsection}
+
+\clearpage 
+
+
+
+\section{"Error" with error distribution}
+
+\begin{Exercise}[difficulty=1, title={Is that normality normal?}]
+<<echo=FALSE, eval=FALSE>>=
+set.seed(123)
+nobs <- 300
+x <- rnorm(n = nobs, mean = 0, sd = 1)
+yp <- sapply(exp(2+x*0.8+rnorm(nobs,0,0.05)), function(x){rpois(1,x)})
+
+
+plot(x,yp)
+#plot(lm(yp~x))
+
+yn <- 1 + 0.5*x + rnorm(nobs, 0, 0.9)
+hist(resid(lm(yn~x)))
+shapiro.test(x = resid(lm(yn~x)))
+
+ye <- exp(1 + 0.2*x + rnorm(nobs,0,0.3))
+hist(resid(lm(log(ye) ~ 1 + x)))
+
+dat <- data.frame(predictor=x, response1=yn, response2=ye, response3=yp)
+write.csv(dat, "norm.csv", quote = FALSE, row.names = FALSE)
+@
+
+Load the dataset \texttt{norm.csv}. It contains three response variables and one predictor. Fit a simple linear model for each reponse and check the properties of the residuals. What is wrong (or right)? What can you do about it?
+\end{Exercise}
+\begin{Answer}
+<<>>=
+dat <- read.csv("norm.csv")
+lm1 <- lm(response1~predictor, data=dat)
+lm2 <- lm(response2~predictor, data=dat)
+lm3 <- lm(response3~predictor, data=dat)
+hist(resid(lm1))
+hist(resid(lm2))
+hist(resid(lm3))
+@
+
+The model with response1 is okay: the residual are normally distributed. The two others are not right. You could log-transform response2 because it is continuous and does not include zeroes. For response3 it would be better to fit a Poisson generalized linear model because the data are integer only (and contain zeroes).
+\end{Answer}
+
+
+\begin{Exercise}[difficulty=1, title={What is missing?}]
+<<echo=FALSE, eval=FALSE>>=
+nobs <- 200
+x <- rnorm(nobs, 5, 1)
+sex <- rbinom(n = nobs, size = 1, 0.5)
+y <- x  + sex +rnorm(nobs, 0, 0.25)
+plot(x,y)
+plot(lm(y~x))
+
+dat <- data.frame(size=x, boldness=y, sex=c("M","F")[sex+1], age=rpois(n = nobs,lambda = 2), location=sample(c("a", "b", "c"),size = nobs, replace = TRUE))
+plot(dat)
+plot(lm(boldness~size+age+location, data = dat))
+
+write.csv(dat, file="boldness.csv", quote = FALSE, row.names = FALSE)
+@
+
+Load the dataset \texttt{boldness.csv}. We want to know how boldness relates to size and we fit a simple linear model of boldness as a function of size. Check the assumptions of such a model. What is wrong, how to fix it?
+\end{Exercise}
+\begin{Answer}
+<<>>=
+dat <- read.csv("boldness.csv")
+lm0 <- lm(boldness~size, data = dat)
+plot(lm0)
+@
+The residuals are not normally distributed; they look like a mixture of two normal distribution, that is, they are bimodal.
+<<>>=
+hist(resid(lm0))
+@
+
+There are other covariates in the data set. One of them may be a crucial factor explaining boldness. If you look at plots of the data:
+<<>>=
+plot(dat)
+@
+you may notice that sex is important.
+So, include sex in your model:
+<<>>=
+lm1 <- lm(boldness~size+sex, data = dat)
+plot(lm1)
+
+@
+Very nice!
+\end{Answer}
+
+\section{Non-independence}
+
+\begin{Exercise}[difficulty=1, title={Simpson's paradox}]
+Load the dataset \texttt{thorndata.txt}. According to simple linear models, does thorns have an effect on herbivory? Is the effect consistent across sites (fit models on subsets)? 
+\end{Exercise}
+\begin{Answer}
+<<>>=
+thorns <- read.table("thorndata.txt", header = TRUE)
+summary(lm0 <- lm(data = thorns, formula = herbivory ~ 1+thorndensity ))
+plot(lm0)
+summary(lm1 <- lm(data = thorns , formula = herbivory ~ 1+thorndensity+ site ))
+#or using a mixed model
+library(lme4)
+summary(lmm2 <- lmer(data = thorns , formula = herbivory ~ 1+thorndensity+ (1|site )))
+@
+
+<<>>=
+library(ggplot2)
+ggplot(data=thorns, aes(y=herbivory, x=thorndensity, color=as.factor(site))) + geom_point()
+@
+\end{Answer}
+
+
+\begin{Exercise}[difficulty=2, title={Genetic isolation distance or adaptation?}]
+<<eval=FALSE, echo=FALSE>>=
+nobs <- 50
+xcoor <- runif(n = nobs, min = 150, max=220)
+ycoor <- runif(n = nobs, min = -60, max=-45)
+temper <- 13 + 0.05*ycoor+rnorm(nobs,0,0.05)
+genot <- 1/(1+exp(-(0.5*scale(xcoor) + 0.5*scale(ycoor) + rnorm(nobs,0,0.1)) ))
+plot(genot,temper)
+summary(lm(genot ~ temper + xcoor + ycoor))
+summary(lm(genot ~ temper ))
+
+plot(ycoor,temper)
+plot(xcoor, ycoor)
+
+dat <- data.frame(xcoor=xcoor, ycoor=ycoor, temperature=temper, AllFreq=genot)
+write.csv(dat, "genotype.csv", quote = FALSE, row.names = FALSE)
+@
+
+Load the dataset \texttt{genotype.csv}. Let's imagine that in a tree species we have measured allele frequencies at a gene that we suspect is related to thermal adaptation. Fit a simple linear model of AllFreq as a function of temperature. Check model assumptions. Are you confident this gene controls local adaptation to temperature?
+\end{Exercise}
+\begin{Answer}
+<<>>=
+genot <- read.csv("genotype.csv")
+lm0 <- lm(AllFreq ~ 1 + temperature, data=genot)
+summary(lm0)
+plot(lm0)
+@
+
+The residual distribution is not nice. Maybe we can try a logit transform:
+
+<<>>=
+genot$logitFreq <- log(genot$AllFreq/(1-genot$AllFreq))
+lm1 <- lm(logitFreq ~ 1 + temperature, data=genot)
+summary(lm1)
+plot(lm1)
+@
+Still not great, but that is not the worst. The dataset contains geographic coordinates... what if genetic differences just reflect geographic isolation, which happens to correlate with temperature...
+
+<<>>=
+lm2 <- lm(logitFreq ~ 1 + temperature + xcoor + ycoor, data=genot)
+summary(lm2)
+plot(lm2)
+@
+Indeed, the effect of temperature disappears once we correct for geography, and also, the residuals now look Normal!
+The deeper problem here was non-independence of observations, with non-normality of residuals being more of a decoy...
+\end{Answer}
+
+\section{DIY for complex issues}
+Knowing how to relax assumptions is a huge topic, pretty much synonymous to knowing how to do statistical modelling. 
+We cannot cover all aspects in 2 hours, but we can train to understand what you may want, and learn the name of a few models, so that you can look them up later. So, without worrying about software and code, let's try and imagine what the models would look like (verbally or in equations).
+
+\begin{Exercise}[difficulty=2, title={Measurement error}]
+  You have measured body mass in small wild animals, in the field, on windy days. You are trying to quantify how much variation in mass explains survival to the next year. You model survival probability as $p_i \sim logit(\mu + M_i\beta )$ (and $Survial_i \sim Bernouilli(p_i)$), but you know $M$ are not the true masses, but only measurements with a lot or error... that violates a fundamental assumtion of your model. How to write a model that relaxes that assumption? (What new assumptions would you need then?)
+\end{Exercise}
+\begin{Answer}
+$Survial_i \sim Bernouilli(p_i)$; the survival of individual $i$ is a "toss of a coin" with probability of success $p_i$.\\
+$p_i \sim logit(\mu + m_i\beta )$; that probability is a linear function (on a logit scale) of a population intercept and the effect of mass on survival multiplied by the individual true mass ($m_i$).\\
+$M_{it} \sim Normal(m_i,V_{ME})$; We cannot measure the true mass, but our measurements ($M$) of individual $i$ at different times $t$ follow a normal distribution of mean $m_i$ and variance $V_{ME}$; the variance is assumed to be the same for all individuals and all times.\\
+
+The class of model you want is simply called "Measurement error models". 
+\end{Answer}
+
+\begin{Exercise}[difficulty=1, title={Non-linear model}]
+You study the effect of temperature on population growth rate in a species of yeast. You start from single cells in bottles and grow populations at 10 different temperatures (3 bottles per temperature) and measure population size at five different times. You know from litterature that population size ($P$) can often be modelled as $P(t) = \frac{K}{1+A\exp(-rt)}$ where $K$ is the carrying capacity, $A$ is a constant we do not care about, $t$ is time, and $r$ is the growth rate.
+At first you try to fit the equation above for every bottle, extract the estimate of $r$, and then correlate $r$ with temperature, but you quickly realize this is not ideal, because the estimate of $r$ and all other parameters are very imprecise (you have only 5 points per bottle, and population count data are noisy!) and the error in the estimates of $r$ are not accounted for.
+
+How would you write a model to estimate the effect of temperature on population growth? What assumptions will need?
+\end{Exercise}
+\begin{Answer}
+Possible answer (I do not know enough about micro-biology to be sure it is reasonable!):\\
+$P(t) = \frac{K}{1+A\exp(-r_i t)}$, where $r_i$ is the growth rate in a given bottle $i$\\
+Optionally, you could consider that your data are $C(t) \sim Normal(P(t), V_m)$, because the count you make may not be an exact count of $P$.\\
+$r_i = \mu + T \beta + \epsilon_i$, with  $\epsilon_i \sim Normal(0,V_e)$; $T$ is temperature, $\beta$ is the effect of temperature, the parameter you are interested about.\\
+You will probably make assumptions about the distribution of $\epsilon_i$, that is, the noise around growth rate; here we have assumed that $K$ the carrying capacity was a constant, but that does not need to be; we could also fit it as a function of temperature.
+
+
+This kind of models can bet fitted in the package nlme, or in various bayesian packages. 
+
+\end{Answer}
+
+\begin{Exercise}[difficulty=2, title={When something is missing}]
+You study diet in a population of sea elephants on their colony by looking at the isotopic composition of Nitrogen in their blood (different preys are differently enriched in some isotops, so you can tell whether an animal rather eats a lot of invertebrates or a lot of fish).
+You suspect animals migrate to two different areas which are known to differ in food resources (one is fish-rich, the other krill-rich), but have no way to observe them there and there are no data on who goes where. You fitted a linear model of concentration in nitrogen-15 with age and sex as covariates. You obtained this distribution for your residuals:
+
+<<echo=FALSE, dev='tikz', fig.width=8, fig.height=5, out.width="1\\textwidth">>=
+hist(c(rnorm(1000,-1,0.5),rnorm(1000,1,0.5)), breaks = 50, xlab="residuals", main="")
+@
+What model could you fit to get better residuals, and learn something new? What new assumptions do you need?
+\end{Exercise}
+\begin{Answer}
+These two peaks could correspond to the two migration zones, and we could classify animals based on that.
+$N_i = \mu + sex_i\beta_s + age_i\beta_a + m_i + \epsilon$, $ \epsilon \sim Normal(0,V_e)$\\
+$m_i \sim Bernouilli(p_i)$, where $p_i$ is the probability that individual $i$ migrated to zone 1.\\
+
+If you have other covariates, like mass, social status... you could try and see if they predict migration!
+For instance:
+$p_i = logit(intercept + mass * \beta_{mass})$
+
+The model you are after is called a "mixture model". There are relatively easy to fit in bayesian packages like Rjags or RStan.
+\end{Answer}
+
+\begin{Exercise}[difficulty=2, title={Markovian process}]
+What if the current state of your response variable depends heavily on the previous state. For instance, you study kangaroo movements and have GPS locations every 2 minutes. You try to model habitat selection, but realize residuals are far from independent in your model... How to relax assumptions, what new assumptions would you make?
+\end{Exercise}
+\begin{Answer}
+We may use a model of spatial or time autocorrelation. We may assume that the current location is constrained by the previous location (which assumes that the second time step in the past does not directly matters; which could be wrong). We may also assume that individuals move independently of each others, which could be relaxed using groups as random effects.
+\end{Answer}
+
+\end{document}

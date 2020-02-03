@@ -1,0 +1,338 @@
+% Created by tikzDevice version 0.12 on 2019-05-17 10:54:49
+% !TEX encoding = UTF-8 Unicode
+\documentclass[10pt]{beamer}
+\nonstopmode
+
+\usepackage{tikz}
+
+\usepackage[active,tightpage,psfixbb]{preview}
+
+\PreviewEnvironment{pgfpicture}
+
+\setlength\PreviewBorder{0pt}
+
+\newcommand{\SweaveOpts}[1]{}  % do not interfere with LaTeX
+\newcommand{\SweaveInput}[1]{} % because they are not real TeX commands
+\newcommand{\Sexpr}[1]{}       % will only be parsed by R
+
+%
+\setbeamersize{text margin left=0.5cm, text margin right=0.5cm}
+
+\usepackage{alltt}%
+\usetheme[background=light]{metropolis} 
+\usecolortheme{seahorse}
+
+\usepackage[utf8]{inputenc}%
+
+
+\usepackage[normalem]{ulem}%strikeout
+ 
+
+% graphics
+%% Figures %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage{graphicx}
+\usepackage{xcolor}%for color mixing
+
+\usepackage{amsmath}%
+\usepackage{amsfonts}%
+\usepackage{amssymb}%
+\usepackage{graphicx}
+
+\usepackage{tikz}
+\usetikzlibrary{calc}
+
+\usepackage{hyperref}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%% Doc info %%%%%%%%%%%%%%%%%%%
+\title{Multiple regressions}
+\author{Timoth\'ee Bonnet}
+\institute{BDSI / RSB}
+\date{\today}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{document}
+
+\begin{tikzpicture}[x=1pt,y=1pt]
+\definecolor{fillColor}{RGB}{255,255,255}
+\path[use as bounding box,fill=fillColor,fill opacity=0.00] (0,0) rectangle (578.16,433.62);
+\begin{scope}
+\path[clip] ( 98.40, 98.40) rectangle (551.76,407.22);
+\definecolor{drawColor}{RGB}{0,0,255}
+
+\path[draw=drawColor,line width= 0.8pt,line join=round,line cap=round] (115.19,109.84) --
+	(119.43,111.46) --
+	(123.67,113.08) --
+	(127.91,114.71) --
+	(132.15,116.33) --
+	(136.39,117.95) --
+	(140.63,119.57) --
+	(144.87,121.19) --
+	(149.11,122.82) --
+	(153.35,124.44) --
+	(157.59,126.06) --
+	(161.83,127.68) --
+	(166.07,129.31) --
+	(170.31,130.93) --
+	(174.55,132.55) --
+	(178.79,134.17) --
+	(183.03,135.80) --
+	(187.27,137.42) --
+	(191.51,139.04) --
+	(195.75,140.66) --
+	(199.99,142.29) --
+	(204.23,143.91) --
+	(208.48,145.53) --
+	(212.72,147.15) --
+	(216.96,148.78) --
+	(221.20,150.40) --
+	(225.44,152.02) --
+	(229.68,153.64) --
+	(233.92,155.27) --
+	(238.16,156.89) --
+	(242.40,158.51) --
+	(246.64,160.13) --
+	(250.88,161.76) --
+	(255.12,163.38) --
+	(259.36,165.00) --
+	(263.60,166.62) --
+	(267.84,168.25) --
+	(272.08,169.87) --
+	(276.32,171.49) --
+	(280.56,173.11) --
+	(284.80,174.74) --
+	(289.04,176.36) --
+	(293.28,177.98) --
+	(297.52,179.60) --
+	(301.76,181.23) --
+	(306.00,182.85) --
+	(310.24,184.47) --
+	(314.48,186.09) --
+	(318.72,187.72) --
+	(322.96,189.34) --
+	(327.20,190.96) --
+	(331.44,192.58) --
+	(335.68,194.21) --
+	(339.92,195.83) --
+	(344.16,197.45) --
+	(348.40,199.07) --
+	(352.64,200.70) --
+	(356.88,202.32) --
+	(361.12,203.94) --
+	(365.36,205.56) --
+	(369.60,207.18) --
+	(373.84,208.81) --
+	(378.08,210.43) --
+	(382.32,212.05) --
+	(386.56,213.67) --
+	(390.80,215.30) --
+	(395.04,216.92) --
+	(399.28,218.54) --
+	(403.52,220.16) --
+	(407.76,221.79) --
+	(412.00,223.41) --
+	(416.24,225.03) --
+	(420.48,226.65) --
+	(424.72,228.28) --
+	(428.96,229.90) --
+	(433.20,231.52) --
+	(437.44,233.14) --
+	(441.68,234.77) --
+	(445.93,236.39) --
+	(450.17,238.01) --
+	(454.41,239.63) --
+	(458.65,241.26) --
+	(462.89,242.88) --
+	(467.13,244.50) --
+	(471.37,246.12) --
+	(475.61,247.75) --
+	(479.85,249.37) --
+	(484.09,250.99) --
+	(488.33,252.61) --
+	(492.57,254.24) --
+	(496.81,255.86) --
+	(501.05,257.48) --
+	(505.29,259.10) --
+	(509.53,260.73) --
+	(513.77,262.35) --
+	(518.01,263.97) --
+	(522.25,265.59) --
+	(526.49,267.22) --
+	(530.73,268.84) --
+	(534.97,270.46);
+\end{scope}
+\begin{scope}
+\path[clip] (  0.00,  0.00) rectangle (578.16,433.62);
+\definecolor{drawColor}{RGB}{0,0,0}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (115.19, 98.40) -- (534.97, 98.40);
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (115.19, 98.40) -- (115.19, 86.40);
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (185.15, 98.40) -- (185.15, 86.40);
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (255.12, 98.40) -- (255.12, 86.40);
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (325.08, 98.40) -- (325.08, 86.40);
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (395.04, 98.40) -- (395.04, 86.40);
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (465.01, 98.40) -- (465.01, 86.40);
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (534.97, 98.40) -- (534.97, 86.40);
+
+\node[text=drawColor,anchor=base,inner sep=0pt, outer sep=0pt, scale=  2.60] at (115.19, 55.20) {-3};
+
+\node[text=drawColor,anchor=base,inner sep=0pt, outer sep=0pt, scale=  2.60] at (185.15, 55.20) {-2};
+
+\node[text=drawColor,anchor=base,inner sep=0pt, outer sep=0pt, scale=  2.60] at (255.12, 55.20) {-1};
+
+\node[text=drawColor,anchor=base,inner sep=0pt, outer sep=0pt, scale=  2.60] at (325.08, 55.20) {0};
+
+\node[text=drawColor,anchor=base,inner sep=0pt, outer sep=0pt, scale=  2.60] at (395.04, 55.20) {1};
+
+\node[text=drawColor,anchor=base,inner sep=0pt, outer sep=0pt, scale=  2.60] at (465.01, 55.20) {2};
+
+\node[text=drawColor,anchor=base,inner sep=0pt, outer sep=0pt, scale=  2.60] at (534.97, 55.20) {3};
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] ( 98.40,148.49) -- ( 98.40,377.36);
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] ( 98.40,148.49) -- ( 86.40,148.49);
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] ( 98.40,224.78) -- ( 86.40,224.78);
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] ( 98.40,301.07) -- ( 86.40,301.07);
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] ( 98.40,377.36) -- ( 86.40,377.36);
+
+\node[text=drawColor,anchor=base east,inner sep=0pt, outer sep=0pt, scale=  2.60] at ( 74.40,139.46) {9};
+
+\node[text=drawColor,anchor=base east,inner sep=0pt, outer sep=0pt, scale=  2.60] at ( 74.40,215.76) {10};
+
+\node[text=drawColor,anchor=base east,inner sep=0pt, outer sep=0pt, scale=  2.60] at ( 74.40,292.05) {11};
+
+\node[text=drawColor,anchor=base east,inner sep=0pt, outer sep=0pt, scale=  2.60] at ( 74.40,368.34) {12};
+
+\path[draw=drawColor,line width= 0.8pt,line join=round,line cap=round] ( 98.40, 98.40) --
+	(551.76, 98.40) --
+	(551.76,407.22) --
+	( 98.40,407.22) --
+	( 98.40, 98.40);
+\end{scope}
+\begin{scope}
+\path[clip] (  0.00,  0.00) rectangle (578.16,433.62);
+\definecolor{drawColor}{RGB}{0,0,0}
+
+\node[text=drawColor,anchor=base,inner sep=0pt, outer sep=0pt, scale=  2.60] at (325.08,  7.20) {x location};
+
+\node[text=drawColor,rotate= 90.00,anchor=base,inner sep=0pt, outer sep=0pt, scale=  2.60] at ( 21.60,252.81) {plant size};
+\end{scope}
+\begin{scope}
+\path[clip] ( 98.40, 98.40) rectangle (551.76,407.22);
+\definecolor{drawColor}{RGB}{255,0,0}
+
+\path[draw=drawColor,line width= 0.8pt,line join=round,line cap=round] (115.19,235.16) --
+	(119.43,236.78) --
+	(123.67,238.40) --
+	(127.91,240.03) --
+	(132.15,241.65) --
+	(136.39,243.27) --
+	(140.63,244.89) --
+	(144.87,246.52) --
+	(149.11,248.14) --
+	(153.35,249.76) --
+	(157.59,251.38) --
+	(161.83,253.01) --
+	(166.07,254.63) --
+	(170.31,256.25) --
+	(174.55,257.87) --
+	(178.79,259.50) --
+	(183.03,261.12) --
+	(187.27,262.74) --
+	(191.51,264.36) --
+	(195.75,265.99) --
+	(199.99,267.61) --
+	(204.23,269.23) --
+	(208.48,270.85) --
+	(212.72,272.48) --
+	(216.96,274.10) --
+	(221.20,275.72) --
+	(225.44,277.34) --
+	(229.68,278.97) --
+	(233.92,280.59) --
+	(238.16,282.21) --
+	(242.40,283.83) --
+	(246.64,285.46) --
+	(250.88,287.08) --
+	(255.12,288.70) --
+	(259.36,290.32) --
+	(263.60,291.95) --
+	(267.84,293.57) --
+	(272.08,295.19) --
+	(276.32,296.81) --
+	(280.56,298.44) --
+	(284.80,300.06) --
+	(289.04,301.68) --
+	(293.28,303.30) --
+	(297.52,304.92) --
+	(301.76,306.55) --
+	(306.00,308.17) --
+	(310.24,309.79) --
+	(314.48,311.41) --
+	(318.72,313.04) --
+	(322.96,314.66) --
+	(327.20,316.28) --
+	(331.44,317.90) --
+	(335.68,319.53) --
+	(339.92,321.15) --
+	(344.16,322.77) --
+	(348.40,324.39) --
+	(352.64,326.02) --
+	(356.88,327.64) --
+	(361.12,329.26) --
+	(365.36,330.88) --
+	(369.60,332.51) --
+	(373.84,334.13) --
+	(378.08,335.75) --
+	(382.32,337.37) --
+	(386.56,339.00) --
+	(390.80,340.62) --
+	(395.04,342.24) --
+	(399.28,343.86) --
+	(403.52,345.49) --
+	(407.76,347.11) --
+	(412.00,348.73) --
+	(416.24,350.35) --
+	(420.48,351.98) --
+	(424.72,353.60) --
+	(428.96,355.22) --
+	(433.20,356.84) --
+	(437.44,358.47) --
+	(441.68,360.09) --
+	(445.93,361.71) --
+	(450.17,363.33) --
+	(454.41,364.96) --
+	(458.65,366.58) --
+	(462.89,368.20) --
+	(467.13,369.82) --
+	(471.37,371.45) --
+	(475.61,373.07) --
+	(479.85,374.69) --
+	(484.09,376.31) --
+	(488.33,377.94) --
+	(492.57,379.56) --
+	(496.81,381.18) --
+	(501.05,382.80) --
+	(505.29,384.43) --
+	(509.53,386.05) --
+	(513.77,387.67) --
+	(518.01,389.29) --
+	(522.25,390.91) --
+	(526.49,392.54) --
+	(530.73,394.16) --
+	(534.97,395.78);
+\end{scope}
+\end{tikzpicture}
+
+\end{document}

@@ -1,0 +1,435 @@
+\documentclass[10pt]{beamer}%
+\setbeamersize{text margin left=0.5cm, text margin right=0.5cm}
+
+\usepackage{alltt}%
+  \usetheme[background=light]{metropolis} 
+  \usecolortheme{seahorse}
+
+\usepackage[utf8]{inputenc}%
+
+
+\usepackage[normalem]{ulem}%strikeout
+ 
+
+% graphics
+%% Figures %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage{graphicx}
+\usepackage{xcolor}%for color mixing
+
+\usepackage{amsmath}%
+\usepackage{amsfonts}%
+\usepackage{amssymb}%
+\usepackage{graphicx}
+
+\usepackage{tikz}
+\usetikzlibrary{calc}
+
+\usepackage{hyperref}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%% Doc info %%%%%%%%%%%%%%%%%%%
+\title{Introduction to R-Markdown}
+\author{Timoth\'ee Bonnet}
+\institute{BDSI / RSB}
+\date{August 23, 2019}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{document}
+
+<<Plot Options, echo=FALSE, message=FALSE>>=
+#load(file = ".RData")
+library(knitr)
+library(xtable)
+opts_knit$set(width=60)
+opts_chunk$set(comment=NA, fig.width=8, fig.height=6, out.width='0.8\\textwidth',
+               out.height='0.6\\textwidth',background='#D7DDEB', size="small")
+
+
+szgr <- 2
+szax <- 1.3
+marr <- c(4, 4, 1, 1) + 0.1
+setPar<-function(){
+par(las=1,mar=marr, cex=szgr, cex.lab=szax , cex.axis=szax, lwd=2 ,pch=1, las=1)
+}
+setPar()
+@
+
+\begin{frame}
+\centering
+\href{https://www.youtube.com/watch?v=s3JldKoA0zw}{\includegraphics[width=0.8\textwidth]{Figures/markdownyoutube.png}}
+
+\end{frame}
+%%%%%%%%%%%
+
+\begin{frame}
+\maketitle
+\end{frame}
+%%%%%%%%%%%
+
+\begin{frame}{Why use R-Markdown/Knitr}
+\only<1>{
+\centering
+\includegraphics[width=0.9\textwidth]{Figures/rmarkdown_universe}
+}
+  \begin{itemize}
+    \item Make your life easier
+    \item Reproducible science
+  \end{itemize}
+\end{frame}
+%%%%%%%%%%%
+
+
+\begin{frame}{What you need:}
+
+<<eval=FALSE>>=
+install.packages(c("knitr", "xtable"))
+@
+
+\end{frame}
+%%%%%%%%%%%
+
+\begin{frame}{Create an R Markdown html document in RStudio}
+\centering
+\only<1>{\includegraphics[width=0.8\textwidth]{Figures/Step1.png}}
+\only<2>{\includegraphics[width=0.8\textwidth]{Figures/Step2.png}}
+\only<3>{
+
+\begin{exampleblock}{Components of R-Markdown:}
+  \begin{enumerate} 
+    \item YAML = Configuration
+    \item Text
+    \item Code chunks
+  \end{enumerate}
+\end{exampleblock}
+
+}
+\end{frame}
+%%%%%%%%%%%
+
+\section{Text: Markdown syntax}
+
+\begin{frame}{Text: Markdown syntax}
+  \begin{columns}[t]
+    \begin{column}{0.5\textwidth} 
+      \uncover<1->{\texttt{Simple text}\\}
+      \uncover<2->{\texttt{\# Header (main)} \\}
+      \uncover<3->{\texttt{\#\# Header (section)} \\}
+      \uncover<4->{\texttt{\#\#\# Header (sub-section)} \\}
+      \uncover<5->{\texttt{*Italics*} \\}
+      \uncover<6->{\texttt{**Bold**} \\}
+      \uncover<7->{\texttt{Make a list:\\
+                            - You can use\\
+                            - asterisks (*)\\ 
+                            - instead of -}\\}
+            \vfill
+    \end{column}
+    \begin{column}{0.5\textwidth}
+      \uncover<1->{Simple text\\}
+      \uncover<2->{\textbf{\LARGE Header (main)} \\}
+      \uncover<3->{\textbf{\Large Header (section)} \\}
+      \uncover<4->{\textbf{\large Header (sub-section)} \\}
+      \uncover<5->{\texttt{\textit{Italics}} \\}
+      \uncover<6->{\texttt{\textbf{Bold}} \\}
+      \uncover<7->{Make a list: \begin{itemize}
+                    \item You can use
+                    \item asterisks (*)
+                    \item instead of -
+                  \end{itemize}}
+            \vfill
+    \end{column}
+\end{columns}
+\end{frame}
+%%%%%%%%%%%%%
+
+\begin{frame}{Turn code into document: Compilation}
+  \begin{itemize}
+    \item Ctrl + Shift + K
+    \item Click "Knit"\\
+    \includegraphics[width=0.5\textwidth]{Figures/knit}
+  \end{itemize}
+\end{frame}
+%%%%%%%%%%%%%
+
+\begin{frame}{Text: Exercise}
+
+Create a new R Markdown document. Delete all of the R code chunks and write a bit of Markdown (some sections, some italicized text, and an itemized list).
+
+Convert the document to a webpage.
+
+\end{frame}
+%%%%%%%%%%%
+
+\begin{frame}{R-Code}
+
+Insert a code chunk:
+\begin{itemize}
+  \item Ctrl+Alt+I
+  \item Click \\
+    \includegraphics[width=0.35\textwidth]{Figures/chunk}
+\end{itemize}
+ 
+\end{frame}
+%%%%%%%%%%%
+
+\begin{frame}[fragile]{R-Code: Exercise}
+
+\textbf{Insert the following code in your .Rmd document and compile it:}
+
+<<eval=FALSE>>=
+x1 <- rnorm(200)
+x2 <- x1 +rnorm(200)
+y <- 1 + x1 +rnorm(200)
+summary(lm(y ~ x2))
+plot(x2, y)
+@
+
+\end{frame}
+%%%%%%%%%%%
+
+
+\begin{frame}{Control chunk behavior:}
+  \only<1>{\centering
+  \includegraphics[width=\textwidth]{Figures/detailchunk}}
+  \only<2>{
+  Important options:
+    \begin{itemize}
+      \item echo= TRUE/FALSE ; show the code?
+      \item eval= TRUE/FALSE ; run the code?
+      \item collapse= TRUE/FALSE ; combine code and output?
+      \item warning / message / error = TRUE/FALSE ; show what R wants to tell you?
+      \item include = TRUE/FALSE ; show anything from the chunk in the document?
+      \item fig.width / fig.height ; figure dimensions in inches
+      \item fig.cap ; figure caption
+      \item dev = 'pdf' / 'png' / 'svg' / 'jpeg' / 'tikz' /... ; How to create images?
+    \end{itemize}
+  }
+\end{frame}
+%%%%%%%%%%%%
+
+\begin{frame}[fragile]{Inline R: make \textbf{every} number reproducible}
+Try the two:
+
+  \textbf{inline code displayed:}
+  <<eval=FALSE>>=
+    ` 1 + pi `
+  @
+  
+  \textbf{inline code output:}
+  <<eval=FALSE>>=
+    `r 1 + pi `
+  @
+  
+\end{frame}
+%%%%%%%%%%%
+
+\section{A little bit of YAML}
+
+\begin{frame}{YAML basics:}
+\alert{Warning: YAML is very sensitive to spaces/tabs!}\\
+\pause
+Starts and end with 3 dashes
+\pause
+\begin{itemize}
+  \item \texttt{title: "XX"}
+  \item \texttt{author: "XX"}
+  \item \texttt{date: "XX"}
+  \item \texttt{output: html\_document / word\_document / pdf\_document } 
+\end{itemize}
+\end{frame}
+%%%%%%%%%%%
+
+\begin{frame}[fragile]{YAML options with html:}
+Add a table of content (floating or fixed)
+<<eval=FALSE>>=
+output:
+  html_document:
+    toc: true
+    toc_float: true
+@
+
+\pause
+Section numbering:
+<<eval=FALSE>>=
+output:
+  html_document:
+    number_sections: true    
+@
+
+\end{frame}
+%%%%%%%%%%%
+
+\begin{frame}[fragile]{Html document look}
+
+\textbf{theme:\\}
+\texttt{default}, \texttt{cerulean}, \texttt{journal}, \texttt{flatly}, \texttt{darkly}, \texttt{readable}, \texttt{spacelab}, \texttt{united}, \texttt{cosmo}, \texttt{lumen}, \texttt{paper}, \texttt{sandstone}, \texttt{simplex}, and \texttt{yeti}. Pass \texttt{null} for no theme (in this case you can use the css parameter to add your own styles)
+
+\pause
+
+\textbf{highlight:\\}
+\texttt{default}, \texttt{tango}, \texttt{pygments}, \texttt{kate}, \texttt{monochrome}, \texttt{espresso}, \texttt{zenburn}, \texttt{haddock}, \texttt{textmate} and \texttt{null}
+
+\pause
+<<eval=FALSE>>=
+output:
+  html_document:
+    theme: united
+    highlight: tango
+@
+
+\end{frame}
+%%%%%%%%%%%
+
+\begin{frame}{YAML: Exercise}
+  \begin{enumerate}
+    \item Try compiling your Rmd as Word
+    \item (If you have \LaTeX installed try compile as .pdf)
+    \item Using HTML compilation add a table of content and change the theme
+  \end{enumerate}
+\end{frame}
+%%%%%%%%%%%
+
+\section{More markdown syntax}
+
+\begin{frame}[fragile]{Insert pictures}
+
+<<eval=FALSE>>=
+![caption](Figures/markdown.png)
+@
+
+or if you want more control with chunk options:
+
+<<eval=FALSE>>=
+```{r, fig.cap="R Markdown logo", fig.width=6}
+knitr::include_graphics("Figures/markdown.jpg")
+```
+@
+
+
+\end{frame}
+%%%%%%%%%%%
+
+\begin{frame}[fragile]{Insert hyperlink}
+<<eval=FALSE>>=
+[text to show](http://the-web-page.com)
+@
+\end{frame}
+%%%%%%%%%%%
+
+
+\begin{frame}[fragile]{Insert tables}
+Use the function kable in your .Rmd :
+
+<<eval=FALSE>>=
+data(cars)
+knitr::kable(x = head(cars), caption = "A knitr kable table")
+@
+\end{frame}
+%%%%%%%%%%%
+
+\begin{frame}[fragile]{Insert equations}
+Follows \LaTeX format:\\
+
+\textbf{Inline Math}
+
+\begin{verbatim}
+Hello $y_i = \mu + \beta \times x_i + \epsilon_i$, have a good day
+\end{verbatim}
+
+Hello $y_i = \mu + \beta \times x_i + \epsilon_i$, have a good day
+
+\pause
+
+\textbf{Equation Math}
+
+\begin{verbatim}
+Hello $$y_i = \mu + \beta \times x_i + \epsilon_i$$, have a good day
+\end{verbatim}
+
+Hello $$y_i = \mu + \beta \times x_i + \epsilon_i$$, have a good day
+
+\end{frame}
+%%%%%%%%%%%
+
+\begin{frame}[fragile]{Insert tabs in html with \texttt{\{.tabset\}}}
+
+\#\# Linear regression \{.tabset\}
+
+\#\#\# Simple\\
+A simple regression measures total associations
+
+<<eval=FALSE>>=
+```{r}
+summary(lm(y ~ x2))
+```
+@
+
+\#\#\# Multiple\\
+A multiple regression measures direct associations, corrected for indirect associations.
+<<eval=FALSE>>=
+```{r}
+summary(lm(y ~ x1+x2))
+```
+@
+\end{frame}
+%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{frame}{Final exercise}
+
+Turn the file "ToConvertToRMD.R" into a nice report/web-page
+For instance:
+\begin{itemize}
+  \item Turn comments into text and equations
+  \item Explain what the code is doing in text
+  \item Add sections and table of content
+  \item Print tables, figures (with captions!), inline numbers\dots
+  \item Control the style
+  \item Show or hide parts of the code (what goes in a report vs. just having a look at the data)
+  \item Add iris pictures\dots
+  \item \dots have fun!
+\end{itemize}
+
+\textbf{Use your own R code if you prefer!}
+
+\end{frame}
+%%%%%%%%%%%
+
+
+\section{Conclusions}
+
+
+\begin{frame}{Post-scriptum: Markdown or \LaTeX?}
+Knitr can work with R-Markdonw (.Rmd files) and with Latex (.Rnw files)
+\begin{itemize}
+  \item Markdown is much simpler
+  \item \LaTeX is much more flexible
+  \item Pandoc let you translate a Markdown into Latex, then improve the Latex
+\end{itemize}
+\end{frame}
+%%%%%%%%%%%
+
+\begin{frame}{Cool things we haven't seen}
+\begin{itemize}
+  \item Add citations and make a bibliography (e.g., package citr)
+  \item Cross-referencing
+  \item Add non-R code (Python, Bash, SQL, stan...)
+  \item How to make Slides (powerpoint, ioslides, beamer...)
+  \item ...
+\end{itemize}
+\end{frame}
+%%%%%%%%%%%
+
+\begin{frame}{Everything about R-Markdonw}
+\textbf{Download reference sheet:}\\
+\url{https://github.com/timotheenivalis/RSB-R-Stats-Biology/raw/master/14.RMarkdown/rmarkdown-reference.pdf}
+
+\textbf{Download quick cheatsheet:}\\
+\url{https://github.com/timotheenivalis/RSB-R-Stats-Biology/raw/master/14.RMarkdown/rmarkdown-cheatsheet-2.0.pdf}
+
+\textbf{More resources by RStudio:}\\
+\url{https://rmarkdown.rstudio.com/index.html}
+
+\end{frame}
+%%%%%%%%%%%
+\end{document}

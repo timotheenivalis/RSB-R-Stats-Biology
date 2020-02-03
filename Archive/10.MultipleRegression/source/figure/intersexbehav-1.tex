@@ -1,0 +1,558 @@
+% Created by tikzDevice version 0.12 on 2019-05-17 10:54:48
+% !TEX encoding = UTF-8 Unicode
+\documentclass[10pt]{beamer}
+\nonstopmode
+
+\usepackage{tikz}
+
+\usepackage[active,tightpage,psfixbb]{preview}
+
+\PreviewEnvironment{pgfpicture}
+
+\setlength\PreviewBorder{0pt}
+
+\newcommand{\SweaveOpts}[1]{}  % do not interfere with LaTeX
+\newcommand{\SweaveInput}[1]{} % because they are not real TeX commands
+\newcommand{\Sexpr}[1]{}       % will only be parsed by R
+
+%
+\setbeamersize{text margin left=0.5cm, text margin right=0.5cm}
+
+\usepackage{alltt}%
+\usetheme[background=light]{metropolis} 
+\usecolortheme{seahorse}
+
+\usepackage[utf8]{inputenc}%
+
+
+\usepackage[normalem]{ulem}%strikeout
+ 
+
+% graphics
+%% Figures %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage{graphicx}
+\usepackage{xcolor}%for color mixing
+
+\usepackage{amsmath}%
+\usepackage{amsfonts}%
+\usepackage{amssymb}%
+\usepackage{graphicx}
+
+\usepackage{tikz}
+\usetikzlibrary{calc}
+
+\usepackage{hyperref}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%% Doc info %%%%%%%%%%%%%%%%%%%
+\title{Multiple regressions}
+\author{Timoth\'ee Bonnet}
+\institute{BDSI / RSB}
+\date{\today}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{document}
+
+\begin{tikzpicture}[x=1pt,y=1pt]
+\definecolor{fillColor}{RGB}{255,255,255}
+\path[use as bounding box,fill=fillColor,fill opacity=0.00] (0,0) rectangle (578.16,433.62);
+\begin{scope}
+\path[clip] ( 98.40, 98.40) rectangle (551.76,407.22);
+\definecolor{drawColor}{RGB}{0,0,255}
+
+\path[draw=drawColor,line width= 0.8pt,line join=round,line cap=round] (115.19,206.51) circle (  4.50);
+
+\path[draw=drawColor,line width= 0.8pt,line join=round,line cap=round] (115.67,184.81) circle (  4.50);
+
+\path[draw=drawColor,line width= 0.8pt,line join=round,line cap=round] (115.86,145.80) circle (  4.50);
+
+\path[draw=drawColor,line width= 0.8pt,line join=round,line cap=round] (116.61,166.29) circle (  4.50);
+
+\path[draw=drawColor,line width= 0.8pt,line join=round,line cap=round] (116.66,142.58) circle (  4.50);
+
+\path[draw=drawColor,line width= 0.8pt,line join=round,line cap=round] (116.82,141.14) circle (  4.50);
+
+\path[draw=drawColor,line width= 0.8pt,line join=round,line cap=round] (116.88,133.43) circle (  4.50);
+
+\path[draw=drawColor,line width= 0.8pt,line join=round,line cap=round] (116.98,138.30) circle (  4.50);
+
+\path[draw=drawColor,line width= 0.8pt,line join=round,line cap=round] (117.06,194.04) circle (  4.50);
+
+\path[draw=drawColor,line width= 0.8pt,line join=round,line cap=round] (117.18,151.83) circle (  4.50);
+
+\path[draw=drawColor,line width= 0.8pt,line join=round,line cap=round] (117.38,156.24) circle (  4.50);
+
+\path[draw=drawColor,line width= 0.8pt,line join=round,line cap=round] (117.38,159.33) circle (  4.50);
+
+\path[draw=drawColor,line width= 0.8pt,line join=round,line cap=round] (117.44,183.90) circle (  4.50);
+
+\path[draw=drawColor,line width= 0.8pt,line join=round,line cap=round] (118.00,140.86) circle (  4.50);
+
+\path[draw=drawColor,line width= 0.8pt,line join=round,line cap=round] (118.11,129.11) circle (  4.50);
+
+\path[draw=drawColor,line width= 0.8pt,line join=round,line cap=round] (118.20,195.35) circle (  4.50);
+
+\path[draw=drawColor,line width= 0.8pt,line join=round,line cap=round] (118.21,142.84) circle (  4.50);
+
+\path[draw=drawColor,line width= 0.8pt,line join=round,line cap=round] (118.23,135.86) circle (  4.50);
+
+\path[draw=drawColor,line width= 0.8pt,line join=round,line cap=round] (118.27,123.16) circle (  4.50);
+
+\path[draw=drawColor,line width= 0.8pt,line join=round,line cap=round] (118.42,122.05) circle (  4.50);
+
+\path[draw=drawColor,line width= 0.8pt,line join=round,line cap=round] (118.59,139.78) circle (  4.50);
+
+\path[draw=drawColor,line width= 0.8pt,line join=round,line cap=round] (118.84,169.49) circle (  4.50);
+
+\path[draw=drawColor,line width= 0.8pt,line join=round,line cap=round] (118.92,181.74) circle (  4.50);
+
+\path[draw=drawColor,line width= 0.8pt,line join=round,line cap=round] (119.06,171.85) circle (  4.50);
+
+\path[draw=drawColor,line width= 0.8pt,line join=round,line cap=round] (119.20,145.36) circle (  4.50);
+
+\path[draw=drawColor,line width= 0.8pt,line join=round,line cap=round] (119.22,155.88) circle (  4.50);
+
+\path[draw=drawColor,line width= 0.8pt,line join=round,line cap=round] (119.25,136.93) circle (  4.50);
+
+\path[draw=drawColor,line width= 0.8pt,line join=round,line cap=round] (119.33,136.67) circle (  4.50);
+
+\path[draw=drawColor,line width= 0.8pt,line join=round,line cap=round] (119.46,176.48) circle (  4.50);
+
+\path[draw=drawColor,line width= 0.8pt,line join=round,line cap=round] (119.46,129.35) circle (  4.50);
+
+\path[draw=drawColor,line width= 0.8pt,line join=round,line cap=round] (119.47,203.05) circle (  4.50);
+
+\path[draw=drawColor,line width= 0.8pt,line join=round,line cap=round] (119.51,152.33) circle (  4.50);
+
+\path[draw=drawColor,line width= 0.8pt,line join=round,line cap=round] (119.57,159.93) circle (  4.50);
+
+\path[draw=drawColor,line width= 0.8pt,line join=round,line cap=round] (119.85,136.46) circle (  4.50);
+
+\path[draw=drawColor,line width= 0.8pt,line join=round,line cap=round] (119.92,140.57) circle (  4.50);
+
+\path[draw=drawColor,line width= 0.8pt,line join=round,line cap=round] (119.95,122.17) circle (  4.50);
+
+\path[draw=drawColor,line width= 0.8pt,line join=round,line cap=round] (120.29,150.50) circle (  4.50);
+
+\path[draw=drawColor,line width= 0.8pt,line join=round,line cap=round] (120.49,165.55) circle (  4.50);
+
+\path[draw=drawColor,line width= 0.8pt,line join=round,line cap=round] (120.60,163.27) circle (  4.50);
+
+\path[draw=drawColor,line width= 0.8pt,line join=round,line cap=round] (121.07,136.13) circle (  4.50);
+
+\path[draw=drawColor,line width= 0.8pt,line join=round,line cap=round] (121.41,136.15) circle (  4.50);
+
+\path[draw=drawColor,line width= 0.8pt,line join=round,line cap=round] (121.51,143.32) circle (  4.50);
+
+\path[draw=drawColor,line width= 0.8pt,line join=round,line cap=round] (121.66,192.97) circle (  4.50);
+
+\path[draw=drawColor,line width= 0.8pt,line join=round,line cap=round] (121.67,127.66) circle (  4.50);
+
+\path[draw=drawColor,line width= 0.8pt,line join=round,line cap=round] (121.78,151.50) circle (  4.50);
+
+\path[draw=drawColor,line width= 0.8pt,line join=round,line cap=round] (121.84,203.16) circle (  4.50);
+
+\path[draw=drawColor,line width= 0.8pt,line join=round,line cap=round] (121.85,153.47) circle (  4.50);
+
+\path[draw=drawColor,line width= 0.8pt,line join=round,line cap=round] (122.14,122.43) circle (  4.50);
+
+\path[draw=drawColor,line width= 0.8pt,line join=round,line cap=round] (122.24,139.72) circle (  4.50);
+
+\path[draw=drawColor,line width= 0.8pt,line join=round,line cap=round] (122.35,168.32) circle (  4.50);
+
+\path[draw=drawColor,line width= 0.8pt,line join=round,line cap=round] (122.38,146.98) circle (  4.50);
+
+\path[draw=drawColor,line width= 0.8pt,line join=round,line cap=round] (122.50,142.43) circle (  4.50);
+
+\path[draw=drawColor,line width= 0.8pt,line join=round,line cap=round] (122.60,147.90) circle (  4.50);
+
+\path[draw=drawColor,line width= 0.8pt,line join=round,line cap=round] (122.83,158.81) circle (  4.50);
+
+\path[draw=drawColor,line width= 0.8pt,line join=round,line cap=round] (122.97,196.30) circle (  4.50);
+
+\path[draw=drawColor,line width= 0.8pt,line join=round,line cap=round] (123.01,154.48) circle (  4.50);
+
+\path[draw=drawColor,line width= 0.8pt,line join=round,line cap=round] (123.25,183.63) circle (  4.50);
+
+\path[draw=drawColor,line width= 0.8pt,line join=round,line cap=round] (123.53,172.63) circle (  4.50);
+
+\path[draw=drawColor,line width= 0.8pt,line join=round,line cap=round] (123.56,154.19) circle (  4.50);
+
+\path[draw=drawColor,line width= 0.8pt,line join=round,line cap=round] (123.64,119.04) circle (  4.50);
+
+\path[draw=drawColor,line width= 0.8pt,line join=round,line cap=round] (123.65,144.13) circle (  4.50);
+
+\path[draw=drawColor,line width= 0.8pt,line join=round,line cap=round] (123.72,144.95) circle (  4.50);
+
+\path[draw=drawColor,line width= 0.8pt,line join=round,line cap=round] (123.83,158.34) circle (  4.50);
+
+\path[draw=drawColor,line width= 0.8pt,line join=round,line cap=round] (123.89,189.46) circle (  4.50);
+
+\path[draw=drawColor,line width= 0.8pt,line join=round,line cap=round] (123.98,214.13) circle (  4.50);
+
+\path[draw=drawColor,line width= 0.8pt,line join=round,line cap=round] (124.11,195.72) circle (  4.50);
+
+\path[draw=drawColor,line width= 0.8pt,line join=round,line cap=round] (124.36,154.19) circle (  4.50);
+
+\path[draw=drawColor,line width= 0.8pt,line join=round,line cap=round] (124.42,113.96) circle (  4.50);
+
+\path[draw=drawColor,line width= 0.8pt,line join=round,line cap=round] (124.57,147.97) circle (  4.50);
+
+\path[draw=drawColor,line width= 0.8pt,line join=round,line cap=round] (124.82,159.98) circle (  4.50);
+
+\path[draw=drawColor,line width= 0.8pt,line join=round,line cap=round] (124.83,178.73) circle (  4.50);
+
+\path[draw=drawColor,line width= 0.8pt,line join=round,line cap=round] (124.89,181.68) circle (  4.50);
+
+\path[draw=drawColor,line width= 0.8pt,line join=round,line cap=round] (124.91,174.79) circle (  4.50);
+
+\path[draw=drawColor,line width= 0.8pt,line join=round,line cap=round] (124.93,123.23) circle (  4.50);
+
+\path[draw=drawColor,line width= 0.8pt,line join=round,line cap=round] (125.18,179.05) circle (  4.50);
+
+\path[draw=drawColor,line width= 0.8pt,line join=round,line cap=round] (125.20,146.92) circle (  4.50);
+
+\path[draw=drawColor,line width= 0.8pt,line join=round,line cap=round] (125.37,162.43) circle (  4.50);
+
+\path[draw=drawColor,line width= 0.8pt,line join=round,line cap=round] (125.45,160.00) circle (  4.50);
+
+\path[draw=drawColor,line width= 0.8pt,line join=round,line cap=round] (125.47,168.78) circle (  4.50);
+
+\path[draw=drawColor,line width= 0.8pt,line join=round,line cap=round] (125.69,158.90) circle (  4.50);
+
+\path[draw=drawColor,line width= 0.8pt,line join=round,line cap=round] (125.83,117.01) circle (  4.50);
+
+\path[draw=drawColor,line width= 0.8pt,line join=round,line cap=round] (125.95,176.72) circle (  4.50);
+
+\path[draw=drawColor,line width= 0.8pt,line join=round,line cap=round] (126.01,168.06) circle (  4.50);
+
+\path[draw=drawColor,line width= 0.8pt,line join=round,line cap=round] (126.24,152.03) circle (  4.50);
+
+\path[draw=drawColor,line width= 0.8pt,line join=round,line cap=round] (126.32,161.60) circle (  4.50);
+
+\path[draw=drawColor,line width= 0.8pt,line join=round,line cap=round] (126.44,162.06) circle (  4.50);
+
+\path[draw=drawColor,line width= 0.8pt,line join=round,line cap=round] (126.57,164.30) circle (  4.50);
+
+\path[draw=drawColor,line width= 0.8pt,line join=round,line cap=round] (126.58,199.52) circle (  4.50);
+
+\path[draw=drawColor,line width= 0.8pt,line join=round,line cap=round] (126.65,153.43) circle (  4.50);
+
+\path[draw=drawColor,line width= 0.8pt,line join=round,line cap=round] (126.71,163.07) circle (  4.50);
+
+\path[draw=drawColor,line width= 0.8pt,line join=round,line cap=round] (126.78,187.92) circle (  4.50);
+
+\path[draw=drawColor,line width= 0.8pt,line join=round,line cap=round] (126.81,185.11) circle (  4.50);
+
+\path[draw=drawColor,line width= 0.8pt,line join=round,line cap=round] (126.85,187.39) circle (  4.50);
+
+\path[draw=drawColor,line width= 0.8pt,line join=round,line cap=round] (126.95,144.72) circle (  4.50);
+
+\path[draw=drawColor,line width= 0.8pt,line join=round,line cap=round] (127.09,208.80) circle (  4.50);
+
+\path[draw=drawColor,line width= 0.8pt,line join=round,line cap=round] (127.90,161.27) circle (  4.50);
+
+\path[draw=drawColor,line width= 0.8pt,line join=round,line cap=round] (128.18,206.09) circle (  4.50);
+
+\path[draw=drawColor,line width= 0.8pt,line join=round,line cap=round] (128.72,126.61) circle (  4.50);
+
+\path[draw=drawColor,line width= 0.8pt,line join=round,line cap=round] (128.91,160.74) circle (  4.50);
+
+\path[draw=drawColor,line width= 0.8pt,line join=round,line cap=round] (129.05,191.31) circle (  4.50);
+
+\path[draw=drawColor,line width= 0.8pt,line join=round,line cap=round] (129.15,142.63) circle (  4.50);
+
+\path[draw=drawColor,line width= 0.8pt,line join=round,line cap=round] (129.31,141.80) circle (  4.50);
+
+\path[draw=drawColor,line width= 0.8pt,line join=round,line cap=round] (129.35,137.21) circle (  4.50);
+
+\path[draw=drawColor,line width= 0.8pt,line join=round,line cap=round] (129.49,134.47) circle (  4.50);
+
+\path[draw=drawColor,line width= 0.8pt,line join=round,line cap=round] (129.58,149.78) circle (  4.50);
+
+\path[draw=drawColor,line width= 0.8pt,line join=round,line cap=round] (130.14,169.18) circle (  4.50);
+
+\path[draw=drawColor,line width= 0.8pt,line join=round,line cap=round] (130.68,111.33) circle (  4.50);
+
+\path[draw=drawColor,line width= 0.8pt,line join=round,line cap=round] (130.73,166.58) circle (  4.50);
+
+\path[draw=drawColor,line width= 0.8pt,line join=round,line cap=round] (130.94,192.12) circle (  4.50);
+
+\path[draw=drawColor,line width= 0.8pt,line join=round,line cap=round] (131.15,212.11) circle (  4.50);
+
+\path[draw=drawColor,line width= 0.8pt,line join=round,line cap=round] (131.24,193.90) circle (  4.50);
+
+\path[draw=drawColor,line width= 0.8pt,line join=round,line cap=round] (131.38,180.48) circle (  4.50);
+
+\path[draw=drawColor,line width= 0.8pt,line join=round,line cap=round] (131.50,118.96) circle (  4.50);
+
+\path[draw=drawColor,line width= 0.8pt,line join=round,line cap=round] (131.68,146.97) circle (  4.50);
+
+\path[draw=drawColor,line width= 0.8pt,line join=round,line cap=round] (131.88,153.28) circle (  4.50);
+
+\path[draw=drawColor,line width= 0.8pt,line join=round,line cap=round] (131.97,179.52) circle (  4.50);
+
+\path[draw=drawColor,line width= 0.8pt,line join=round,line cap=round] (132.10,159.52) circle (  4.50);
+
+\path[draw=drawColor,line width= 0.8pt,line join=round,line cap=round] (132.21,131.00) circle (  4.50);
+
+\path[draw=drawColor,line width= 0.8pt,line join=round,line cap=round] (132.32,204.06) circle (  4.50);
+
+\path[draw=drawColor,line width= 0.8pt,line join=round,line cap=round] (132.77,185.16) circle (  4.50);
+
+\path[draw=drawColor,line width= 0.8pt,line join=round,line cap=round] (133.32,168.77) circle (  4.50);
+
+\path[draw=drawColor,line width= 0.8pt,line join=round,line cap=round] (133.98,193.49) circle (  4.50);
+
+\path[draw=drawColor,line width= 0.8pt,line join=round,line cap=round] (134.01,130.09) circle (  4.50);
+
+\path[draw=drawColor,line width= 0.8pt,line join=round,line cap=round] (134.42,179.93) circle (  4.50);
+
+\path[draw=drawColor,line width= 0.8pt,line join=round,line cap=round] (134.49,150.61) circle (  4.50);
+
+\path[draw=drawColor,line width= 0.8pt,line join=round,line cap=round] (134.79,180.73) circle (  4.50);
+
+\path[draw=drawColor,line width= 0.8pt,line join=round,line cap=round] (134.87,162.30) circle (  4.50);
+
+\path[draw=drawColor,line width= 0.8pt,line join=round,line cap=round] (135.77,180.05) circle (  4.50);
+
+\path[draw=drawColor,line width= 0.8pt,line join=round,line cap=round] (135.83,197.52) circle (  4.50);
+
+\path[draw=drawColor,line width= 0.8pt,line join=round,line cap=round] (135.89,164.61) circle (  4.50);
+
+\path[draw=drawColor,line width= 0.8pt,line join=round,line cap=round] (136.04,189.76) circle (  4.50);
+
+\path[draw=drawColor,line width= 0.8pt,line join=round,line cap=round] (136.53,135.33) circle (  4.50);
+
+\path[draw=drawColor,line width= 0.8pt,line join=round,line cap=round] (136.54,146.92) circle (  4.50);
+
+\path[draw=drawColor,line width= 0.8pt,line join=round,line cap=round] (137.18,202.88) circle (  4.50);
+
+\path[draw=drawColor,line width= 0.8pt,line join=round,line cap=round] (137.40,174.69) circle (  4.50);
+
+\path[draw=drawColor,line width= 0.8pt,line join=round,line cap=round] (137.65,114.59) circle (  4.50);
+
+\path[draw=drawColor,line width= 0.8pt,line join=round,line cap=round] (137.79,131.74) circle (  4.50);
+
+\path[draw=drawColor,line width= 0.8pt,line join=round,line cap=round] (138.17,160.82) circle (  4.50);
+
+\path[draw=drawColor,line width= 0.8pt,line join=round,line cap=round] (138.81,187.66) circle (  4.50);
+
+\path[draw=drawColor,line width= 0.8pt,line join=round,line cap=round] (139.03,163.79) circle (  4.50);
+
+\path[draw=drawColor,line width= 0.8pt,line join=round,line cap=round] (139.06,181.82) circle (  4.50);
+
+\path[draw=drawColor,line width= 0.8pt,line join=round,line cap=round] (139.36,190.30) circle (  4.50);
+
+\path[draw=drawColor,line width= 0.8pt,line join=round,line cap=round] (139.45,208.02) circle (  4.50);
+
+\path[draw=drawColor,line width= 0.8pt,line join=round,line cap=round] (139.69,168.11) circle (  4.50);
+
+\path[draw=drawColor,line width= 0.8pt,line join=round,line cap=round] (140.68,166.02) circle (  4.50);
+
+\path[draw=drawColor,line width= 0.8pt,line join=round,line cap=round] (141.20,124.13) circle (  4.50);
+
+\path[draw=drawColor,line width= 0.8pt,line join=round,line cap=round] (141.27,170.13) circle (  4.50);
+
+\path[draw=drawColor,line width= 0.8pt,line join=round,line cap=round] (142.08,153.97) circle (  4.50);
+
+\path[draw=drawColor,line width= 0.8pt,line join=round,line cap=round] (142.24,144.09) circle (  4.50);
+
+\path[draw=drawColor,line width= 0.8pt,line join=round,line cap=round] (142.50,163.94) circle (  4.50);
+\end{scope}
+\begin{scope}
+\path[clip] (  0.00,  0.00) rectangle (578.16,433.62);
+\definecolor{drawColor}{RGB}{0,0,0}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (113.55, 98.40) -- (525.73, 98.40);
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (113.55, 98.40) -- (113.55, 86.40);
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (195.99, 98.40) -- (195.99, 86.40);
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (278.42, 98.40) -- (278.42, 86.40);
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (360.86, 98.40) -- (360.86, 86.40);
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (443.30, 98.40) -- (443.30, 86.40);
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (525.73, 98.40) -- (525.73, 86.40);
+
+\node[text=drawColor,anchor=base,inner sep=0pt, outer sep=0pt, scale=  2.60] at (113.55, 55.20) {0};
+
+\node[text=drawColor,anchor=base,inner sep=0pt, outer sep=0pt, scale=  2.60] at (195.99, 55.20) {5};
+
+\node[text=drawColor,anchor=base,inner sep=0pt, outer sep=0pt, scale=  2.60] at (278.42, 55.20) {10};
+
+\node[text=drawColor,anchor=base,inner sep=0pt, outer sep=0pt, scale=  2.60] at (360.86, 55.20) {15};
+
+\node[text=drawColor,anchor=base,inner sep=0pt, outer sep=0pt, scale=  2.60] at (443.30, 55.20) {20};
+
+\node[text=drawColor,anchor=base,inner sep=0pt, outer sep=0pt, scale=  2.60] at (525.73, 55.20) {25};
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] ( 98.40,101.38) -- ( 98.40,399.02);
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] ( 98.40,101.38) -- ( 86.40,101.38);
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] ( 98.40,150.99) -- ( 86.40,150.99);
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] ( 98.40,200.59) -- ( 86.40,200.59);
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] ( 98.40,250.20) -- ( 86.40,250.20);
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] ( 98.40,299.80) -- ( 86.40,299.80);
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] ( 98.40,349.41) -- ( 86.40,349.41);
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] ( 98.40,399.02) -- ( 86.40,399.02);
+
+\node[text=drawColor,anchor=base east,inner sep=0pt, outer sep=0pt, scale=  2.60] at ( 74.40, 92.35) {0};
+
+\node[text=drawColor,anchor=base east,inner sep=0pt, outer sep=0pt, scale=  2.60] at ( 74.40,141.96) {1};
+
+\node[text=drawColor,anchor=base east,inner sep=0pt, outer sep=0pt, scale=  2.60] at ( 74.40,191.57) {2};
+
+\node[text=drawColor,anchor=base east,inner sep=0pt, outer sep=0pt, scale=  2.60] at ( 74.40,241.17) {3};
+
+\node[text=drawColor,anchor=base east,inner sep=0pt, outer sep=0pt, scale=  2.60] at ( 74.40,290.78) {4};
+
+\node[text=drawColor,anchor=base east,inner sep=0pt, outer sep=0pt, scale=  2.60] at ( 74.40,340.39) {5};
+
+\node[text=drawColor,anchor=base east,inner sep=0pt, outer sep=0pt, scale=  2.60] at ( 74.40,389.99) {6};
+
+\path[draw=drawColor,line width= 0.8pt,line join=round,line cap=round] ( 98.40, 98.40) --
+	(551.76, 98.40) --
+	(551.76,407.22) --
+	( 98.40,407.22) --
+	( 98.40, 98.40);
+\end{scope}
+\begin{scope}
+\path[clip] (  0.00,  0.00) rectangle (578.16,433.62);
+\definecolor{drawColor}{RGB}{0,0,0}
+
+\node[text=drawColor,anchor=base,inner sep=0pt, outer sep=0pt, scale=  2.60] at (325.08,  7.20) {mass};
+
+\node[text=drawColor,rotate= 90.00,anchor=base,inner sep=0pt, outer sep=0pt, scale=  2.60] at ( 21.60,252.81) {movement};
+\end{scope}
+\begin{scope}
+\path[clip] ( 98.40, 98.40) rectangle (551.76,407.22);
+\definecolor{drawColor}{RGB}{255,0,0}
+
+\path[draw=drawColor,line width= 0.8pt,line join=round,line cap=round] (143.14,193.96) circle (  4.50);
+
+\path[draw=drawColor,line width= 0.8pt,line join=round,line cap=round] (143.62,119.65) circle (  4.50);
+
+\path[draw=drawColor,line width= 0.8pt,line join=round,line cap=round] (143.83,158.61) circle (  4.50);
+
+\path[draw=drawColor,line width= 0.8pt,line join=round,line cap=round] (144.71,172.63) circle (  4.50);
+
+\path[draw=drawColor,line width= 0.8pt,line join=round,line cap=round] (144.96,147.73) circle (  4.50);
+
+\path[draw=drawColor,line width= 0.8pt,line join=round,line cap=round] (146.36,179.01) circle (  4.50);
+
+\path[draw=drawColor,line width= 0.8pt,line join=round,line cap=round] (146.38,180.94) circle (  4.50);
+
+\path[draw=drawColor,line width= 0.8pt,line join=round,line cap=round] (146.80,170.17) circle (  4.50);
+
+\path[draw=drawColor,line width= 0.8pt,line join=round,line cap=round] (146.81,109.84) circle (  4.50);
+
+\path[draw=drawColor,line width= 0.8pt,line join=round,line cap=round] (148.11,235.56) circle (  4.50);
+
+\path[draw=drawColor,line width= 0.8pt,line join=round,line cap=round] (148.60,166.98) circle (  4.50);
+
+\path[draw=drawColor,line width= 0.8pt,line join=round,line cap=round] (149.13,188.54) circle (  4.50);
+
+\path[draw=drawColor,line width= 0.8pt,line join=round,line cap=round] (149.52,179.42) circle (  4.50);
+
+\path[draw=drawColor,line width= 0.8pt,line join=round,line cap=round] (149.80,198.21) circle (  4.50);
+
+\path[draw=drawColor,line width= 0.8pt,line join=round,line cap=round] (151.05,193.83) circle (  4.50);
+
+\path[draw=drawColor,line width= 0.8pt,line join=round,line cap=round] (151.66,168.71) circle (  4.50);
+
+\path[draw=drawColor,line width= 0.8pt,line join=round,line cap=round] (153.23,184.24) circle (  4.50);
+
+\path[draw=drawColor,line width= 0.8pt,line join=round,line cap=round] (153.91,151.82) circle (  4.50);
+
+\path[draw=drawColor,line width= 0.8pt,line join=round,line cap=round] (154.88,197.11) circle (  4.50);
+
+\path[draw=drawColor,line width= 0.8pt,line join=round,line cap=round] (155.02,164.50) circle (  4.50);
+
+\path[draw=drawColor,line width= 0.8pt,line join=round,line cap=round] (157.35,237.28) circle (  4.50);
+
+\path[draw=drawColor,line width= 0.8pt,line join=round,line cap=round] (158.08,136.83) circle (  4.50);
+
+\path[draw=drawColor,line width= 0.8pt,line join=round,line cap=round] (158.63,166.60) circle (  4.50);
+
+\path[draw=drawColor,line width= 0.8pt,line join=round,line cap=round] (159.53,199.12) circle (  4.50);
+
+\path[draw=drawColor,line width= 0.8pt,line join=round,line cap=round] (160.80,192.07) circle (  4.50);
+
+\path[draw=drawColor,line width= 0.8pt,line join=round,line cap=round] (162.93,166.08) circle (  4.50);
+
+\path[draw=drawColor,line width= 0.8pt,line join=round,line cap=round] (163.58,156.36) circle (  4.50);
+
+\path[draw=drawColor,line width= 0.8pt,line join=round,line cap=round] (164.66,185.32) circle (  4.50);
+
+\path[draw=drawColor,line width= 0.8pt,line join=round,line cap=round] (165.56,181.93) circle (  4.50);
+
+\path[draw=drawColor,line width= 0.8pt,line join=round,line cap=round] (168.73,139.78) circle (  4.50);
+
+\path[draw=drawColor,line width= 0.8pt,line join=round,line cap=round] (169.63,185.58) circle (  4.50);
+
+\path[draw=drawColor,line width= 0.8pt,line join=round,line cap=round] (171.32,190.46) circle (  4.50);
+
+\path[draw=drawColor,line width= 0.8pt,line join=round,line cap=round] (171.86,190.41) circle (  4.50);
+
+\path[draw=drawColor,line width= 0.8pt,line join=round,line cap=round] (177.83,163.50) circle (  4.50);
+
+\path[draw=drawColor,line width= 0.8pt,line join=round,line cap=round] (178.35,201.78) circle (  4.50);
+
+\path[draw=drawColor,line width= 0.8pt,line join=round,line cap=round] (183.46,227.24) circle (  4.50);
+
+\path[draw=drawColor,line width= 0.8pt,line join=round,line cap=round] (188.67,207.50) circle (  4.50);
+
+\path[draw=drawColor,line width= 0.8pt,line join=round,line cap=round] (189.89,168.76) circle (  4.50);
+
+\path[draw=drawColor,line width= 0.8pt,line join=round,line cap=round] (191.91,187.33) circle (  4.50);
+
+\path[draw=drawColor,line width= 0.8pt,line join=round,line cap=round] (205.17,214.70) circle (  4.50);
+
+\path[draw=drawColor,line width= 0.8pt,line join=round,line cap=round] (212.00,194.18) circle (  4.50);
+
+\path[draw=drawColor,line width= 0.8pt,line join=round,line cap=round] (217.77,160.18) circle (  4.50);
+
+\path[draw=drawColor,line width= 0.8pt,line join=round,line cap=round] (224.79,239.86) circle (  4.50);
+
+\path[draw=drawColor,line width= 0.8pt,line join=round,line cap=round] (235.04,203.52) circle (  4.50);
+
+\path[draw=drawColor,line width= 0.8pt,line join=round,line cap=round] (241.63,213.83) circle (  4.50);
+
+\path[draw=drawColor,line width= 0.8pt,line join=round,line cap=round] (248.20,269.31) circle (  4.50);
+
+\path[draw=drawColor,line width= 0.8pt,line join=round,line cap=round] (252.08,215.14) circle (  4.50);
+
+\path[draw=drawColor,line width= 0.8pt,line join=round,line cap=round] (257.80,258.76) circle (  4.50);
+
+\path[draw=drawColor,line width= 0.8pt,line join=round,line cap=round] (260.48,208.13) circle (  4.50);
+
+\path[draw=drawColor,line width= 0.8pt,line join=round,line cap=round] (534.97,395.78) circle (  4.50);
+\definecolor{drawColor}{RGB}{0,0,0}
+
+\path[draw=drawColor,line width= 0.8pt,line join=round,line cap=round] ( 98.40,407.22) rectangle (189.28,335.22);
+\definecolor{drawColor}{RGB}{0,0,255}
+
+\path[draw=drawColor,line width= 0.8pt,line join=round,line cap=round] (116.40,383.22) circle (  4.50);
+\definecolor{drawColor}{RGB}{255,0,0}
+
+\path[draw=drawColor,line width= 0.8pt,line join=round,line cap=round] (116.40,359.22) circle (  4.50);
+\definecolor{drawColor}{RGB}{0,0,0}
+
+\node[text=drawColor,anchor=base west,inner sep=0pt, outer sep=0pt, scale=  2.00] at (134.40,376.28) {Sex 0};
+
+\node[text=drawColor,anchor=base west,inner sep=0pt, outer sep=0pt, scale=  2.00] at (134.40,352.28) {Sex 1};
+\end{scope}
+\end{tikzpicture}
+
+\end{document}

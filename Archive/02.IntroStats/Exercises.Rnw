@@ -1,0 +1,277 @@
+\documentclass[12pt,a4paper]{scrartcl}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath}
+\usepackage{graphicx}
+\usepackage{tikz}
+%\usepackage{silence}
+\usepackage{mdframed}
+%\WarningFilter{mdframed}{You got a bad break}
+\usepackage[colorinlistoftodos]{todonotes}
+\usepackage{listings}
+\usepackage{color}
+\colorlet{exampcol}{blue!10}
+\usepackage{multicol}
+\usepackage{booktabs}
+
+\usepackage{exercise}
+
+\usepackage[autostyle, english = american]{csquotes}
+\MakeOuterQuote{"}
+
+\usepackage{hyperref}
+\hypersetup{
+    colorlinks,
+    citecolor=black,
+    filecolor=black,
+    linkcolor=blue,
+    urlcolor=black
+}
+
+\title{Exercises for statistical inference and stuff}
+\date{\today}
+\author{Timoth\'ee Bonnet}
+
+
+\begin{document}
+
+
+\maketitle
+
+\tableofcontents
+\ListOfExerciseInToc
+\ExerciseLevelInToc{subsubsection}
+
+
+\section{Statistical inference and random numbers}
+
+\subsection{Iris}
+Some datasets are shipped with R (in R-base or in packages) and you can load them with the function data:
+
+  <<>>=
+    data("iris")
+  @
+  
+  The dataset looks like that:
+  
+    <<boxplot, dev='tikz', fig.width=7, fig.height=5, eval=TRUE, out.width='0.7\\textwidth', out.height='0.5\\textwidth'>>=
+  boxplot(Sepal.Length ~ Species,
+          data = iris,
+          drop = TRUE, ylab="Sepal length", xlab="Species")
+  @
+
+\begin{Exercise}[difficulty=1]
+\textbf{If you like ggplot, redo a boxplot of the iris data using that package.}
+\end{Exercise}
+
+\begin{Exercise}[difficulty=1]
+\textbf{Do the species \emph{setosa} and \emph{versicolor} differ in their Sepal length? Use a t-test, an anova, and a linear model to answer. Compare the p-values between the three approaches.}
+\end{Exercise}
+
+\begin{Exercise}[difficulty=2]
+\textbf{Now fit all species (\emph{setosa}, \emph{versicolor} and  \emph{virginica}) in a lm and an anova (you cannot fit a t-test with three levels) comparing Sepal length. Compare the model outputs, in particular the p-values. What is different, why?}
+\end{Exercise}
+
+\subsection{P-values and loops}
+
+If we draw two sets of random numbers from the same normal distribution, we do not expect them to be associated. In the case below, the p-value for the slope of y on x is 0.802, non-significant.
+<<>>=
+set.seed(1234)
+x <- rnorm(100)
+y <- rnorm(100)
+summary(lm(y~x))
+@
+
+\begin{Exercise}[difficulty=2]
+Are we every going to find a significant p-value with two sets of random numbers? Write a while loop to find out. How many iterations until you find a p-value below 0.05?
+\end{Exercise}
+
+
+\begin{Exercise}[difficulty=3]
+How often do you observe a significant test with randomly drawn numbers? Use a for-loop to record the distribution of p-values. Does this distribution depend on the sample size of x and y? What does increasing sample size do to the significant tests?
+\end{Exercise}
+
+\section{R-studio tricks}
+
+\subsection{Column selection}
+
+\begin{Exercise}[difficulty=1]
+Use the shortcut  \texttt{Alt+click} to change the code below so that you plot the five linear models defined at the beginning:
+<<eval=FALSE>>=
+lmadd  <- lm(y ~ x1 + x2)
+lmnull <- lm(y ~ 1)
+lmff   <- lm(y ~ x1*x2)
+lmx2   <- lm(y ~ x2)
+lmx1   <- lm(y ~ x1)
+
+
+plot(lm1)
+plot(lm2)
+...
+@
+\end{Exercise}
+ 
+ \begin{Exercise}[difficulty=2]
+ What if my code was not well aligned? 
+Use \texttt{Ctrl + Alt + clicks} to create multiple cursors, then \texttt{Shift + Home} and \texttt{Ctrl + C}
+<<eval=FALSE>>=
+lmadd <- lm(y ~ x1 + x2)
+lmnull <- lm(y ~ 1)
+lmff <- lm(y ~ x1*x2)
+lmx2<- lm(y ~ x2)
+lmx1  <- lm(y ~ x1)
+
+
+plot(lm1)
+plot(lm2)
+
+@
+ \end{Exercise}
+
+\subsection{Short-cuts}
+
+R-Studio short-cuts are listed in Tools - Keyboard Shortcuts Help, also accessible using the shortcut \texttt{Alt + Shift + K}.
+
+\begin{Exercise}[difficulty=1]
+Read them, find one that would be helpful to you, and memorize it
+\end{Exercise}
+
+\section{Linear models}
+
+\subsection{Diagnostics and assumptions}
+\begin{Exercise}[difficulty=2]
+\begin{enumerate}
+    \item Load Cdata.csv
+    \item fit a linear model of y as a function of x2 and x3. Something is weird, what is going on? How to interpret and what to do?
+    \item fit a linear model of y as a function of x1 and x2. Something else is weird, what is going on? How to interpret and what to do?
+  \end{enumerate}
+\end{Exercise}
+
+\begin{Exercise}[difficulty=2]
+Load the dataset Anscombe.csv. It contains four sets of distributions for a x and a y variable. Create a subset of the data for each distribution, and fit a linear regression of y on x for each subset. 
+\textbf{Compare the summaries. Use the function plot() to diagnose the models, and to visualize the data. Which models do you trust? For what?\\ Try and confirm your confidence in various models by ploting model predictions with confidence intervals and actual observations together.} 
+
+\end{Exercise}
+
+
+\subsection{Prediction}
+  \begin{Exercise}[difficulty=2]
+  What explains variation in parasitic load?
+  You collected ecto-parasites on some furry large mammals at three locations. Parasites break easily when we collect them and are impossible to count, so we decide to measure parasitic load as their mass. \textbf{Why do some mammals have larger parasitic load?} 
+    \begin{itemize}
+      \item Load the \texttt{Para.csv} data (don't forget: str(), summary(), plot()\dots)
+      \item Model \verb+Parasite_Mass+ using \texttt{lm()}
+      \item Find what variables predict \verb+Parasite_Mass+
+      \item How good are your models? Assumptions? Prediction?
+      \item What biological interpretation can you imagine?
+      \end{itemize}
+    \end{Exercise}
+
+\begin{Exercise}[difficulty=3]
+Write your own code to obtain a prediction from a lm (that is, a simpler version of the predict function). Use any dataset to test it.
+\end{Exercise}
+
+\section{While-loop}
+
+\subsection{What you need to know}
+<<eval=FALSE>>=
+    while(condition TRUE)
+    {
+      something
+    }
+  @
+  
+For instance:
+<<eval=TRUE>>=
+x <- 0
+while(x<10)
+    {
+      x <- x+1
+      print(x)
+    }
+  @
+  
+  
+\subsection{Practice}
+
+The function sample() takes 5 number between 1 and 6 (like 5 dice!):
+<<>>=
+x <- sample(x = 1:6, size = 5, replace = TRUE)
+@
+
+Are all die equal?
+<<>>=
+all(x == x[1])
+@
+
+Are they ever going to be equal?
+
+\begin{Exercise}[difficulty=2]
+\textbf{Write a while loop to find a case with all die equal}
+\textbf{How many attempts does it take}
+\end{Exercise}
+
+\begin{Exercise}[difficulty=3]
+\textbf{Write a for while loop within a for loop to estimate how long it take on average.}
+\end{Exercise}
+
+\section{If-else statement}
+
+\subsection{What you need to know}
+
+<<eval=FALSE>>=
+if(condition)
+{
+  do something
+}
+@
+
+
+<<eval=FALSE>>=
+if(condition)
+{
+  do something
+}else{
+  do something else
+}
+@
+
+
+For instance:
+<<>>=
+for (i in 1:10)
+{
+  if(i < 6)
+  {
+    print("tofu")
+  }else{
+    print("bacon")
+  }
+}
+
+@
+
+\subsection{Practice}
+
+We can draw 100 random number following a random distribution of mean 0 and variance one with:
+<<>>=
+x <- rnorm(n = 100, mean = 0, sd = 1)
+@
+
+If we take their logarithm we obtain many "NaN" (Not A Number), because the log of a negative number is undefined:
+<<>>=
+log(x)
+@
+
+Let's say we want 0 instead of NaN.
+
+\begin{Exercise}[difficulty=2]
+\textbf{Use a for loop and an if-else statement to do that.}
+\end{Exercise}
+
+\begin{Exercise}[difficulty=3]
+\textbf{More difficult: Use a for loop and a while loop to re-draw random numbers until they are all positive.}
+\end{Exercise}
+
+
+
+\end{document}

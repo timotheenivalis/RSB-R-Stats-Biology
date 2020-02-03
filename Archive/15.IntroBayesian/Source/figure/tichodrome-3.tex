@@ -1,0 +1,175 @@
+% Created by tikzDevice version 0.12 on 2019-10-09 16:59:53
+% !TEX encoding = UTF-8 Unicode
+\documentclass[10pt]{beamer}
+\nonstopmode
+
+\usepackage{tikz}
+
+\usepackage[active,tightpage,psfixbb]{preview}
+
+\PreviewEnvironment{pgfpicture}
+
+\setlength\PreviewBorder{0pt}
+
+\newcommand{\SweaveOpts}[1]{}  % do not interfere with LaTeX
+\newcommand{\SweaveInput}[1]{} % because they are not real TeX commands
+\newcommand{\Sexpr}[1]{}       % will only be parsed by R
+
+%
+\setbeamersize{text margin left=0.5cm, text margin right=0.5cm}
+
+\usepackage{alltt}%
+  \usetheme[background=light]{metropolis} 
+  \usecolortheme{seahorse}
+
+\usepackage[utf8]{inputenc}%
+
+
+\usepackage[normalem]{ulem}%strikeout
+ 
+
+% graphics
+%% Figures %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage{graphicx}
+\usepackage{xcolor}%for color mixing
+
+\usepackage{amsmath}%
+\usepackage{amsfonts}%
+\usepackage{amssymb}%
+\usepackage{graphicx}
+
+\usepackage{tikz}
+\usetikzlibrary{calc}
+
+\usepackage{hyperref}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%% Doc info %%%%%%%%%%%%%%%%%%%
+\title{Introduction to Bayesian models in R}
+\author{Timoth\'ee Bonnet}
+\institute{BDSI / RSB}
+\date{October 11, 2019}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{document}
+
+\begin{tikzpicture}[x=1pt,y=1pt]
+\definecolor{fillColor}{RGB}{255,255,255}
+\path[use as bounding box,fill=fillColor,fill opacity=0.00] (0,0) rectangle (578.16,433.62);
+\begin{scope}
+\path[clip] ( 98.40, 98.40) rectangle (551.76,407.22);
+\definecolor{drawColor}{RGB}{0,0,0}
+
+\path[draw=drawColor,line width= 0.8pt,line join=round,line cap=round] (115.19,348.12) circle (  4.50);
+
+\path[draw=drawColor,line width= 0.8pt,line join=round,line cap=round] (143.18,338.59) circle (  4.50);
+
+\path[draw=drawColor,line width= 0.8pt,line join=round,line cap=round] (171.16,395.78) circle (  4.50);
+
+\path[draw=drawColor,line width= 0.8pt,line join=round,line cap=round] (199.15,319.53) circle (  4.50);
+
+\path[draw=drawColor,line width= 0.8pt,line join=round,line cap=round] (227.13,310.00) circle (  4.50);
+
+\path[draw=drawColor,line width= 0.8pt,line join=round,line cap=round] (255.12,348.12) circle (  4.50);
+
+\path[draw=drawColor,line width= 0.8pt,line join=round,line cap=round] (283.10,281.40) circle (  4.50);
+
+\path[draw=drawColor,line width= 0.8pt,line join=round,line cap=round] (311.09,205.15) circle (  4.50);
+
+\path[draw=drawColor,line width= 0.8pt,line join=round,line cap=round] (339.07,205.15) circle (  4.50);
+
+\path[draw=drawColor,line width= 0.8pt,line join=round,line cap=round] (367.06,195.62) circle (  4.50);
+
+\path[draw=drawColor,line width= 0.8pt,line join=round,line cap=round] (395.04,243.28) circle (  4.50);
+
+\path[draw=drawColor,line width= 0.8pt,line join=round,line cap=round] (423.03,195.62) circle (  4.50);
+
+\path[draw=drawColor,line width= 0.8pt,line join=round,line cap=round] (451.01,186.09) circle (  4.50);
+
+\path[draw=drawColor,line width= 0.8pt,line join=round,line cap=round] (479.00,157.50) circle (  4.50);
+
+\path[draw=drawColor,line width= 0.8pt,line join=round,line cap=round] (506.98,109.84) circle (  4.50);
+
+\path[draw=drawColor,line width= 0.8pt,line join=round,line cap=round] (534.97,186.09) circle (  4.50);
+\end{scope}
+\begin{scope}
+\path[clip] (  0.00,  0.00) rectangle (578.16,433.62);
+\definecolor{drawColor}{RGB}{0,0,0}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (115.19, 98.40) -- (534.97, 98.40);
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (115.19, 98.40) -- (115.19, 86.40);
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (255.12, 98.40) -- (255.12, 86.40);
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (395.04, 98.40) -- (395.04, 86.40);
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (534.97, 98.40) -- (534.97, 86.40);
+
+\node[text=drawColor,anchor=base,inner sep=0pt, outer sep=0pt, scale=  2.60] at (115.19, 55.20) {1990};
+
+\node[text=drawColor,anchor=base,inner sep=0pt, outer sep=0pt, scale=  2.60] at (255.12, 55.20) {1995};
+
+\node[text=drawColor,anchor=base,inner sep=0pt, outer sep=0pt, scale=  2.60] at (395.04, 55.20) {2000};
+
+\node[text=drawColor,anchor=base,inner sep=0pt, outer sep=0pt, scale=  2.60] at (534.97, 55.20) {2005};
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] ( 98.40,100.31) -- ( 98.40,386.25);
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] ( 98.40,100.31) -- ( 86.40,100.31);
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] ( 98.40,147.96) -- ( 86.40,147.96);
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] ( 98.40,195.62) -- ( 86.40,195.62);
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] ( 98.40,243.28) -- ( 86.40,243.28);
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] ( 98.40,290.94) -- ( 86.40,290.94);
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] ( 98.40,338.59) -- ( 86.40,338.59);
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] ( 98.40,386.25) -- ( 86.40,386.25);
+
+\node[text=drawColor,anchor=base east,inner sep=0pt, outer sep=0pt, scale=  2.60] at ( 74.40, 91.28) {15};
+
+\node[text=drawColor,anchor=base east,inner sep=0pt, outer sep=0pt, scale=  2.60] at ( 74.40,138.94) {20};
+
+\node[text=drawColor,anchor=base east,inner sep=0pt, outer sep=0pt, scale=  2.60] at ( 74.40,186.60) {25};
+
+\node[text=drawColor,anchor=base east,inner sep=0pt, outer sep=0pt, scale=  2.60] at ( 74.40,234.25) {30};
+
+\node[text=drawColor,anchor=base east,inner sep=0pt, outer sep=0pt, scale=  2.60] at ( 74.40,281.91) {35};
+
+\node[text=drawColor,anchor=base east,inner sep=0pt, outer sep=0pt, scale=  2.60] at ( 74.40,329.57) {40};
+
+\node[text=drawColor,anchor=base east,inner sep=0pt, outer sep=0pt, scale=  2.60] at ( 74.40,377.23) {45};
+
+\path[draw=drawColor,line width= 0.8pt,line join=round,line cap=round] ( 98.40, 98.40) --
+	(551.76, 98.40) --
+	(551.76,407.22) --
+	( 98.40,407.22) --
+	( 98.40, 98.40);
+\end{scope}
+\begin{scope}
+\path[clip] (  0.00,  0.00) rectangle (578.16,433.62);
+\definecolor{drawColor}{RGB}{0,0,0}
+
+\node[text=drawColor,anchor=base,inner sep=0pt, outer sep=0pt, scale=  2.40] at (325.08,412.09) {\bfseries A bird abundance through time};
+
+\node[text=drawColor,anchor=base,inner sep=0pt, outer sep=0pt, scale=  2.60] at (325.08,  7.20) {year};
+
+\node[text=drawColor,rotate= 90.00,anchor=base,inner sep=0pt, outer sep=0pt, scale=  2.60] at ( 21.60,252.81) {abundance};
+\end{scope}
+\begin{scope}
+\path[clip] ( 98.40, 98.40) rectangle (551.76,407.22);
+\definecolor{drawColor}{RGB}{255,0,0}
+
+\path[draw=drawColor,line width= 0.8pt,dash pattern=on 4pt off 4pt ,line join=round,line cap=round] ( 98.40,376.27) -- (551.76,105.43);
+\definecolor{drawColor}{RGB}{0,0,255}
+
+\path[draw=drawColor,line width= 0.8pt,dash pattern=on 1pt off 3pt ,line join=round,line cap=round] ( 98.40,378.18) -- (551.76,107.04);
+\end{scope}
+\end{tikzpicture}
+
+\end{document}

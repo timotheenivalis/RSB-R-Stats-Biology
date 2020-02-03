@@ -1,0 +1,5482 @@
+% Created by tikzDevice version 0.12 on 2019-05-17 10:54:46
+% !TEX encoding = UTF-8 Unicode
+\documentclass[10pt]{beamer}
+\nonstopmode
+
+\usepackage{tikz}
+
+\usepackage[active,tightpage,psfixbb]{preview}
+
+\PreviewEnvironment{pgfpicture}
+
+\setlength\PreviewBorder{0pt}
+
+\newcommand{\SweaveOpts}[1]{}  % do not interfere with LaTeX
+\newcommand{\SweaveInput}[1]{} % because they are not real TeX commands
+\newcommand{\Sexpr}[1]{}       % will only be parsed by R
+
+%
+\setbeamersize{text margin left=0.5cm, text margin right=0.5cm}
+
+\usepackage{alltt}%
+\usetheme[background=light]{metropolis} 
+\usecolortheme{seahorse}
+
+\usepackage[utf8]{inputenc}%
+
+
+\usepackage[normalem]{ulem}%strikeout
+ 
+
+% graphics
+%% Figures %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage{graphicx}
+\usepackage{xcolor}%for color mixing
+
+\usepackage{amsmath}%
+\usepackage{amsfonts}%
+\usepackage{amssymb}%
+\usepackage{graphicx}
+
+\usepackage{tikz}
+\usetikzlibrary{calc}
+
+\usepackage{hyperref}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%% Doc info %%%%%%%%%%%%%%%%%%%
+\title{Multiple regressions}
+\author{Timoth\'ee Bonnet}
+\institute{BDSI / RSB}
+\date{\today}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{document}
+
+\begin{tikzpicture}[x=1pt,y=1pt]
+\definecolor{fillColor}{RGB}{255,255,255}
+\path[use as bounding box,fill=fillColor,fill opacity=0.00] (0,0) rectangle (578.16,433.62);
+\begin{scope}
+\path[clip] ( 98.40, 98.40) rectangle (505.51,407.22);
+\definecolor{drawColor}{RGB}{0,0,0}
+
+\path[draw=drawColor,line width= 0.8pt,line join=round,line cap=round] (283.44,248.36) -- (429.36,225.73);
+
+\path[draw=drawColor,line width= 0.8pt,line join=round,line cap=round] (429.36,225.73) -- (445.40,393.67);
+
+\path[draw=drawColor,line width= 0.8pt,line join=round,line cap=round] (445.40,393.67) -- (277.81,395.78);
+
+\path[draw=drawColor,line width= 0.8pt,line join=round,line cap=round] (277.81,395.78) -- (283.44,248.36);
+
+\path[draw=drawColor,line width= 0.8pt,line join=round,line cap=round] (188.27,165.83) -- (283.44,248.36);
+
+\path[draw=drawColor,line width= 0.8pt,line join=round,line cap=round] (277.81,395.78) -- (158.51,387.68);
+
+\path[draw=drawColor,line width= 0.8pt,line join=round,line cap=round] (158.51,387.68) -- (188.27,165.83);
+
+\path[draw=drawColor,line width= 0.8pt,line join=round,line cap=round] (188.27,165.83) -- (404.67,109.84);
+
+\path[draw=drawColor,line width= 0.8pt,line join=round,line cap=round] (404.67,109.84) -- (429.36,225.73);
+\end{scope}
+\begin{scope}
+\path[clip] (  0.00,  0.00) rectangle (578.16,433.62);
+\definecolor{drawColor}{RGB}{0,0,0}
+
+\node[text=drawColor,rotate=-15.09,anchor=base,inner sep=0pt, outer sep=0pt, scale=  2.60] at (277.76, 92.35) {x1};
+
+\path[draw=drawColor,line width= 0.8pt,line join=round,line cap=round] (235.86,153.52) -- (232.55,143.59);
+
+\node[text=drawColor,anchor=base,inner sep=0pt, outer sep=0pt, scale=  2.60] at (229.18,124.43) {-1};
+
+\path[draw=drawColor,line width= 0.8pt,line join=round,line cap=round] (290.44,139.39) -- (287.57,128.75);
+
+\node[text=drawColor,anchor=base,inner sep=0pt, outer sep=0pt, scale=  2.60] at (284.64,108.84) {0};
+
+\path[draw=drawColor,line width= 0.8pt,line join=round,line cap=round] (351.42,123.62) -- (349.11,112.16);
+
+\node[text=drawColor,anchor=base,inner sep=0pt, outer sep=0pt, scale=  2.60] at (346.75, 91.39) {1};
+
+\node[text=drawColor,rotate= 79.64,anchor=base,inner sep=0pt, outer sep=0pt, scale=  2.60] at (448.31,153.86) {x2};
+
+\path[draw=drawColor,line width= 0.8pt,line join=round,line cap=round] (410.74,138.30) -- (417.50,130.68);
+
+\node[text=drawColor,anchor=base,inner sep=0pt, outer sep=0pt, scale=  2.60] at (424.27,114.03) {-1};
+
+\path[draw=drawColor,line width= 0.8pt,line join=round,line cap=round] (419.24,178.20) -- (425.00,171.71);
+
+\node[text=drawColor,anchor=base,inner sep=0pt, outer sep=0pt, scale=  2.60] at (430.77,156.19) {0};
+
+\path[draw=drawColor,line width= 0.8pt,line join=round,line cap=round] (425.55,207.83) -- (430.58,202.19);
+
+\node[text=drawColor,anchor=base,inner sep=0pt, outer sep=0pt, scale=  2.60] at (435.61,187.51) {1};
+
+\node[text=drawColor,rotate=-81.81,anchor=base,inner sep=0pt, outer sep=0pt, scale=  2.60] at (125.72,266.90) {y};
+
+\path[draw=drawColor,line width= 0.8pt,line join=round,line cap=round] (184.82,191.55) -- (174.85,189.34);
+
+\node[text=drawColor,anchor=base,inner sep=0pt, outer sep=0pt, scale=  2.60] at (164.67,178.06) {-2};
+
+\path[draw=drawColor,line width= 0.8pt,line join=round,line cap=round] (177.68,244.81) -- (167.11,243.06);
+
+\node[text=drawColor,anchor=base,inner sep=0pt, outer sep=0pt, scale=  2.60] at (156.32,232.25) {0};
+
+\path[draw=drawColor,line width= 0.8pt,line join=round,line cap=round] (169.76,303.77) -- (158.54,302.59);
+
+\node[text=drawColor,anchor=base,inner sep=0pt, outer sep=0pt, scale=  2.60] at (147.06,292.35) {2};
+
+\path[draw=drawColor,line width= 0.8pt,line join=round,line cap=round] (160.96,369.39) -- (148.99,368.92);
+
+\node[text=drawColor,anchor=base,inner sep=0pt, outer sep=0pt, scale=  2.60] at (136.73,359.41) {4};
+\end{scope}
+\begin{scope}
+\path[clip] ( 98.40, 98.40) rectangle (505.51,407.22);
+
+\path[] (188.27,165.83) --
+	(426.80,381.48) --
+	(445.40,393.67) --
+	(283.44,248.36) --
+	(188.27,165.83);
+\definecolor{drawColor}{RGB}{0,0,0}
+
+\path[draw=drawColor,line width= 0.8pt,dash pattern=on 1pt off 3pt ,line join=round,line cap=round] (158.51,387.68) -- (426.80,381.48);
+
+\path[draw=drawColor,line width= 0.8pt,dash pattern=on 1pt off 3pt ,line join=round,line cap=round] (426.80,381.48) -- (404.67,109.84);
+
+\path[draw=drawColor,line width= 0.8pt,dash pattern=on 1pt off 3pt ,line join=round,line cap=round] (426.80,381.48) -- (445.40,393.67);
+\end{scope}
+\begin{scope}
+\path[clip] ( 98.40, 98.40) rectangle (505.51,407.22);
+\definecolor{fillColor}{RGB}{255,255,255}
+
+\path[fill=fillColor] (283.44,248.36) --
+	(429.36,225.73) --
+	(445.40,393.67) --
+	(277.81,395.78) --
+	(283.44,248.36) --
+	cycle;
+\definecolor{drawColor}{RGB}{0,0,0}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (283.44,248.36) --
+	(429.36,225.73) --
+	(445.40,393.67) --
+	(277.81,395.78) --
+	(283.44,248.36);
+
+\path[fill=fillColor] (188.27,165.83) --
+	(283.44,248.36) --
+	(277.81,395.78) --
+	(158.51,387.68) --
+	(188.27,165.83) --
+	cycle;
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (188.27,165.83) --
+	(283.44,248.36) --
+	(277.81,395.78) --
+	(158.51,387.68) --
+	(188.27,165.83);
+
+\path[fill=fillColor] (188.27,165.83) --
+	(404.67,109.84) --
+	(429.36,225.73) --
+	(283.44,248.36) --
+	(188.27,165.83) --
+	cycle;
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (188.27,165.83) --
+	(404.67,109.84) --
+	(429.36,225.73) --
+	(283.44,248.36) --
+	(188.27,165.83);
+\definecolor{drawColor}{RGB}{112,255,142}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (279.58,313.21) --
+	(282.26,314.30) --
+	(283.55,316.43) --
+	(280.88,315.33) --
+	(279.58,313.21);
+\definecolor{drawColor}{RGB}{122,255,132}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (282.26,314.30) --
+	(287.67,316.52) --
+	(288.94,318.65) --
+	(283.55,316.43) --
+	(282.26,314.30);
+\definecolor{drawColor}{RGB}{142,255,112}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (287.67,316.52) --
+	(293.16,318.77) --
+	(294.41,320.91) --
+	(288.94,318.65) --
+	(287.67,316.52);
+\definecolor{drawColor}{RGB}{91,255,163}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (276.93,308.88) --
+	(279.62,309.97) --
+	(282.26,314.30) --
+	(279.58,313.21) --
+	(276.93,308.88);
+\definecolor{drawColor}{RGB}{163,255,91}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (293.16,318.77) --
+	(298.75,321.06) --
+	(299.97,323.20) --
+	(294.41,320.91) --
+	(293.16,318.77);
+\definecolor{drawColor}{RGB}{101,255,153}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (279.62,309.97) --
+	(285.08,312.18) --
+	(287.67,316.52) --
+	(282.26,314.30) --
+	(279.62,309.97);
+\definecolor{drawColor}{RGB}{184,255,70}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (298.75,321.06) --
+	(304.41,323.39) --
+	(305.61,325.52) --
+	(299.97,323.20) --
+	(298.75,321.06);
+\definecolor{drawColor}{RGB}{122,255,132}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (285.08,312.18) --
+	(290.63,314.43) --
+	(293.16,318.77) --
+	(287.67,316.52) --
+	(285.08,312.18);
+\definecolor{drawColor}{RGB}{204,255,50}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (304.41,323.39) --
+	(310.17,325.75) --
+	(311.34,327.89) --
+	(305.61,325.52) --
+	(304.41,323.39);
+\definecolor{drawColor}{RGB}{70,255,184}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (274.20,304.44) --
+	(276.93,305.53) --
+	(279.62,309.97) --
+	(276.93,308.88) --
+	(274.20,304.44);
+\definecolor{drawColor}{RGB}{142,255,112}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (290.63,314.43) --
+	(296.26,316.71) --
+	(298.75,321.06) --
+	(293.16,318.77) --
+	(290.63,314.43);
+\definecolor{drawColor}{RGB}{81,255,173}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (276.93,305.53) --
+	(282.43,307.73) --
+	(285.08,312.18) --
+	(279.62,309.97) --
+	(276.93,305.53);
+\definecolor{drawColor}{RGB}{215,255,39}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (310.17,325.75) --
+	(316.02,328.14) --
+	(317.16,330.29) --
+	(311.34,327.89) --
+	(310.17,325.75);
+\definecolor{drawColor}{RGB}{163,255,91}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (296.26,316.71) --
+	(301.98,319.03) --
+	(304.41,323.39) --
+	(298.75,321.06) --
+	(296.26,316.71);
+\definecolor{drawColor}{RGB}{101,255,153}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (282.43,307.73) --
+	(288.02,309.97) --
+	(290.63,314.43) --
+	(285.08,312.18) --
+	(282.43,307.73);
+\definecolor{drawColor}{RGB}{235,255,19}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (316.02,328.14) --
+	(321.97,330.58) --
+	(323.08,332.72) --
+	(317.16,330.29) --
+	(316.02,328.14);
+\definecolor{drawColor}{RGB}{184,255,70}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (301.98,319.03) --
+	(307.79,321.38) --
+	(310.17,325.75) --
+	(304.41,323.39) --
+	(301.98,319.03);
+\definecolor{drawColor}{RGB}{50,255,204}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (271.42,299.89) --
+	(274.16,300.98) --
+	(276.93,305.53) --
+	(274.20,304.44) --
+	(271.42,299.89);
+\definecolor{drawColor}{RGB}{122,255,132}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (288.02,309.97) --
+	(293.70,312.25) --
+	(296.26,316.71) --
+	(290.63,314.43) --
+	(288.02,309.97);
+\definecolor{drawColor}{RGB}{255,253,0}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (321.97,330.58) --
+	(328.01,333.05) --
+	(329.09,335.20) --
+	(323.08,332.72) --
+	(321.97,330.58);
+\definecolor{drawColor}{RGB}{194,255,60}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (307.79,321.38) --
+	(313.69,323.78) --
+	(316.02,328.14) --
+	(310.17,325.75) --
+	(307.79,321.38);
+\definecolor{drawColor}{RGB}{70,255,184}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (274.16,300.98) --
+	(279.71,303.17) --
+	(282.43,307.73) --
+	(276.93,305.53) --
+	(274.16,300.98);
+\definecolor{drawColor}{RGB}{142,255,112}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (293.70,312.25) --
+	(299.48,314.56) --
+	(301.98,319.03) --
+	(296.26,316.71) --
+	(293.70,312.25);
+\definecolor{drawColor}{RGB}{255,233,0}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (328.01,333.05) --
+	(334.14,335.57) --
+	(335.20,337.72) --
+	(329.09,335.20) --
+	(328.01,333.05);
+\definecolor{drawColor}{RGB}{215,255,39}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (313.69,323.78) --
+	(319.70,326.21) --
+	(321.97,330.58) --
+	(316.02,328.14) --
+	(313.69,323.78);
+\definecolor{drawColor}{RGB}{81,255,173}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (279.71,303.17) --
+	(285.35,305.40) --
+	(288.02,309.97) --
+	(282.43,307.73) --
+	(279.71,303.17);
+\definecolor{drawColor}{RGB}{163,255,91}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (299.48,314.56) --
+	(305.34,316.91) --
+	(307.79,321.38) --
+	(301.98,319.03) --
+	(299.48,314.56);
+\definecolor{drawColor}{RGB}{255,212,0}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (334.14,335.57) --
+	(340.38,338.13) --
+	(341.41,340.28) --
+	(335.20,337.72) --
+	(334.14,335.57);
+\definecolor{drawColor}{RGB}{235,255,19}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (319.70,326.21) --
+	(325.80,328.68) --
+	(328.01,333.05) --
+	(321.97,330.58) --
+	(319.70,326.21);
+\definecolor{drawColor}{RGB}{29,255,225}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (268.56,295.23) --
+	(271.32,296.31) --
+	(274.16,300.98) --
+	(271.42,299.89) --
+	(268.56,295.23);
+\definecolor{drawColor}{RGB}{101,255,153}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (285.35,305.40) --
+	(291.09,307.67) --
+	(293.70,312.25) --
+	(288.02,309.97) --
+	(285.35,305.40);
+\definecolor{drawColor}{RGB}{184,255,70}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (305.34,316.91) --
+	(311.31,319.30) --
+	(313.69,323.78) --
+	(307.79,321.38) --
+	(305.34,316.91);
+\definecolor{drawColor}{RGB}{255,202,0}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (340.38,338.13) --
+	(346.73,340.73) --
+	(347.72,342.88) --
+	(341.41,340.28) --
+	(340.38,338.13);
+\definecolor{drawColor}{RGB}{255,253,0}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (325.80,328.68) --
+	(332.00,331.19) --
+	(334.14,335.57) --
+	(328.01,333.05) --
+	(325.80,328.68);
+\definecolor{drawColor}{RGB}{50,255,204}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (271.32,296.31) --
+	(276.93,298.50) --
+	(279.71,303.17) --
+	(274.16,300.98) --
+	(271.32,296.31);
+\definecolor{drawColor}{RGB}{122,255,132}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (291.09,307.67) --
+	(296.91,309.98) --
+	(299.48,314.56) --
+	(293.70,312.25) --
+	(291.09,307.67);
+\definecolor{drawColor}{RGB}{194,255,60}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (311.31,319.30) --
+	(317.37,321.72) --
+	(319.70,326.21) --
+	(313.69,323.78) --
+	(311.31,319.30);
+\definecolor{drawColor}{RGB}{255,181,0}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (346.73,340.73) --
+	(353.18,343.37) --
+	(354.13,345.52) --
+	(347.72,342.88) --
+	(346.73,340.73);
+\definecolor{drawColor}{RGB}{255,233,0}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (332.00,331.19) --
+	(338.30,333.75) --
+	(340.38,338.13) --
+	(334.14,335.57) --
+	(332.00,331.19);
+\definecolor{drawColor}{RGB}{60,255,194}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (276.93,298.50) --
+	(282.62,300.72) --
+	(285.35,305.40) --
+	(279.71,303.17) --
+	(276.93,298.50);
+\definecolor{drawColor}{RGB}{142,255,112}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (296.91,309.98) --
+	(302.84,312.32) --
+	(305.34,316.91) --
+	(299.48,314.56) --
+	(296.91,309.98);
+\definecolor{drawColor}{RGB}{215,255,39}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (317.37,321.72) --
+	(323.53,324.19) --
+	(325.80,328.68) --
+	(319.70,326.21) --
+	(317.37,321.72);
+\definecolor{drawColor}{RGB}{255,160,0}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (353.18,343.37) --
+	(359.74,346.06) --
+	(360.65,348.21) --
+	(354.13,345.52) --
+	(353.18,343.37);
+\definecolor{drawColor}{RGB}{255,212,0}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (338.30,333.75) --
+	(344.71,336.35) --
+	(346.73,340.73) --
+	(340.38,338.13) --
+	(338.30,333.75);
+\definecolor{drawColor}{RGB}{9,255,245}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (265.62,290.45) --
+	(268.42,291.52) --
+	(271.32,296.31) --
+	(268.56,295.23) --
+	(265.62,290.45);
+\definecolor{drawColor}{RGB}{81,255,173}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (282.62,300.72) --
+	(288.40,302.98) --
+	(291.09,307.67) --
+	(285.35,305.40) --
+	(282.62,300.72);
+\definecolor{drawColor}{RGB}{163,255,91}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (302.84,312.32) --
+	(308.86,314.70) --
+	(311.31,319.30) --
+	(305.34,316.91) --
+	(302.84,312.32);
+\definecolor{drawColor}{RGB}{235,255,19}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (323.53,324.19) --
+	(329.79,326.70) --
+	(332.00,331.19) --
+	(325.80,328.68) --
+	(323.53,324.19);
+\definecolor{drawColor}{RGB}{255,140,0}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (359.74,346.06) --
+	(366.41,348.79) --
+	(367.29,350.94) --
+	(360.65,348.21) --
+	(359.74,346.06);
+\definecolor{drawColor}{RGB}{29,255,225}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (268.42,291.52) --
+	(274.07,293.70) --
+	(276.93,298.50) --
+	(271.32,296.31) --
+	(268.42,291.52);
+\definecolor{drawColor}{RGB}{255,202,0}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (344.71,336.35) --
+	(351.23,338.99) --
+	(353.18,343.37) --
+	(346.73,340.73) --
+	(344.71,336.35);
+\definecolor{drawColor}{RGB}{101,255,153}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (288.40,302.98) --
+	(294.28,305.27) --
+	(296.91,309.98) --
+	(291.09,307.67) --
+	(288.40,302.98);
+\definecolor{drawColor}{RGB}{173,255,81}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (308.86,314.70) --
+	(314.98,317.12) --
+	(317.37,321.72) --
+	(311.31,319.30) --
+	(308.86,314.70);
+\definecolor{drawColor}{RGB}{255,253,0}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (329.79,326.70) --
+	(336.16,329.25) --
+	(338.30,333.75) --
+	(332.00,331.19) --
+	(329.79,326.70);
+\definecolor{drawColor}{RGB}{255,119,0}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (366.41,348.79) --
+	(373.19,351.57) --
+	(374.03,353.72) --
+	(367.29,350.94) --
+	(366.41,348.79);
+\definecolor{drawColor}{RGB}{39,255,215}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (274.07,293.70) --
+	(279.81,295.91) --
+	(282.62,300.72) --
+	(276.93,298.50) --
+	(274.07,293.70);
+\definecolor{drawColor}{RGB}{255,181,0}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (351.23,338.99) --
+	(357.86,341.67) --
+	(359.74,346.06) --
+	(353.18,343.37) --
+	(351.23,338.99);
+\definecolor{drawColor}{RGB}{122,255,132}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (294.28,305.27) --
+	(300.26,307.61) --
+	(302.84,312.32) --
+	(296.91,309.98) --
+	(294.28,305.27);
+\definecolor{drawColor}{RGB}{194,255,60}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (314.98,317.12) --
+	(321.20,319.58) --
+	(323.53,324.19) --
+	(317.37,321.72) --
+	(314.98,317.12);
+\definecolor{drawColor}{RGB}{255,233,0}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (336.16,329.25) --
+	(342.64,331.85) --
+	(344.71,336.35) --
+	(338.30,333.75) --
+	(336.16,329.25);
+\definecolor{drawColor}{RGB}{255,99,0}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (373.19,351.57) --
+	(380.09,354.40) --
+	(380.89,356.55) --
+	(374.03,353.72) --
+	(373.19,351.57);
+\definecolor{drawColor}{RGB}{0,243,255}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (262.62,285.54) --
+	(265.43,286.61) --
+	(268.42,291.52) --
+	(265.62,290.45) --
+	(262.62,285.54);
+\definecolor{drawColor}{RGB}{60,255,194}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (279.81,295.91) --
+	(285.65,298.16) --
+	(288.40,302.98) --
+	(282.62,300.72) --
+	(279.81,295.91);
+\definecolor{drawColor}{RGB}{255,160,0}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (357.86,341.67) --
+	(364.61,344.41) --
+	(366.41,348.79) --
+	(359.74,346.06) --
+	(357.86,341.67);
+\definecolor{drawColor}{RGB}{142,255,112}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (300.26,307.61) --
+	(306.34,309.98) --
+	(308.86,314.70) --
+	(302.84,312.32) --
+	(300.26,307.61);
+\definecolor{drawColor}{RGB}{215,255,39}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (321.20,319.58) --
+	(327.53,322.09) --
+	(329.79,326.70) --
+	(323.53,324.19) --
+	(321.20,319.58);
+\definecolor{drawColor}{RGB}{9,255,245}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (265.43,286.61) --
+	(271.13,288.77) --
+	(274.07,293.70) --
+	(268.42,291.52) --
+	(265.43,286.61);
+\definecolor{drawColor}{RGB}{255,222,0}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (342.64,331.85) --
+	(349.23,334.48) --
+	(351.23,338.99) --
+	(344.71,336.35) --
+	(342.64,331.85);
+\definecolor{drawColor}{RGB}{255,88,0}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (380.09,354.40) --
+	(387.11,357.28) --
+	(387.87,359.42) --
+	(380.89,356.55) --
+	(380.09,354.40);
+\definecolor{drawColor}{RGB}{81,255,173}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (285.65,298.16) --
+	(291.58,300.44) --
+	(294.28,305.27) --
+	(288.40,302.98) --
+	(285.65,298.16);
+\definecolor{drawColor}{RGB}{255,140,0}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (364.61,344.41) --
+	(371.47,347.19) --
+	(373.19,351.57) --
+	(366.41,348.79) --
+	(364.61,344.41);
+\definecolor{drawColor}{RGB}{153,255,101}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (306.34,309.98) --
+	(312.52,312.39) --
+	(314.98,317.12) --
+	(308.86,314.70) --
+	(306.34,309.98);
+\definecolor{drawColor}{RGB}{235,255,19}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (327.53,322.09) --
+	(333.97,324.63) --
+	(336.16,329.25) --
+	(329.79,326.70) --
+	(327.53,322.09);
+\definecolor{drawColor}{RGB}{19,255,235}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (271.13,288.77) --
+	(276.93,290.97) --
+	(279.81,295.91) --
+	(274.07,293.70) --
+	(271.13,288.77);
+\definecolor{drawColor}{RGB}{255,202,0}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (349.23,334.48) --
+	(355.94,337.17) --
+	(357.86,341.67) --
+	(351.23,338.99) --
+	(349.23,334.48);
+\definecolor{drawColor}{RGB}{255,68,0}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (387.11,357.28) --
+	(394.26,360.21) --
+	(394.98,362.35) --
+	(387.87,359.42) --
+	(387.11,357.28);
+\definecolor{drawColor}{RGB}{101,255,153}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (291.58,300.44) --
+	(297.62,302.77) --
+	(300.26,307.61) --
+	(294.28,305.27) --
+	(291.58,300.44);
+\definecolor{drawColor}{RGB}{255,119,0}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (371.47,347.19) --
+	(378.45,350.02) --
+	(380.09,354.40) --
+	(373.19,351.57) --
+	(371.47,347.19);
+\definecolor{drawColor}{RGB}{173,255,81}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (312.52,312.39) --
+	(318.81,314.85) --
+	(321.20,319.58) --
+	(314.98,317.12) --
+	(312.52,312.39);
+\definecolor{drawColor}{RGB}{255,253,0}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (333.97,324.63) --
+	(340.52,327.22) --
+	(342.64,331.85) --
+	(336.16,329.25) --
+	(333.97,324.63);
+\definecolor{drawColor}{RGB}{0,222,255}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (259.53,280.50) --
+	(262.37,281.57) --
+	(265.43,286.61) --
+	(262.62,285.54) --
+	(259.53,280.50);
+\definecolor{drawColor}{RGB}{39,255,215}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (276.93,290.97) --
+	(282.82,293.21) --
+	(285.65,298.16) --
+	(279.81,295.91) --
+	(276.93,290.97);
+\definecolor{drawColor}{RGB}{255,181,0}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (355.94,337.17) --
+	(362.76,339.90) --
+	(364.61,344.41) --
+	(357.86,341.67) --
+	(355.94,337.17);
+\definecolor{drawColor}{RGB}{255,47,0}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (394.26,360.21) --
+	(401.53,363.19) --
+	(402.20,365.33) --
+	(394.98,362.35) --
+	(394.26,360.21);
+\definecolor{drawColor}{RGB}{122,255,132}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (297.62,302.77) --
+	(303.76,305.13) --
+	(306.34,309.98) --
+	(300.26,307.61) --
+	(297.62,302.77);
+\definecolor{drawColor}{RGB}{255,109,0}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (378.45,350.02) --
+	(385.56,352.90) --
+	(387.11,357.28) --
+	(380.09,354.40) --
+	(378.45,350.02);
+\definecolor{drawColor}{RGB}{194,255,60}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (318.81,314.85) --
+	(325.20,317.34) --
+	(327.53,322.09) --
+	(321.20,319.58) --
+	(318.81,314.85);
+\definecolor{drawColor}{RGB}{0,243,255}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (262.37,281.57) --
+	(268.12,283.72) --
+	(271.13,288.77) --
+	(265.43,286.61) --
+	(262.37,281.57);
+\definecolor{drawColor}{RGB}{255,243,0}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (340.52,327.22) --
+	(347.18,329.86) --
+	(349.23,334.48) --
+	(342.64,331.85) --
+	(340.52,327.22);
+\definecolor{drawColor}{RGB}{60,255,194}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (282.82,293.21) --
+	(288.81,295.48) --
+	(291.58,300.44) --
+	(285.65,298.16) --
+	(282.82,293.21);
+\definecolor{drawColor}{RGB}{255,160,0}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (362.76,339.90) --
+	(369.70,342.68) --
+	(371.47,347.19) --
+	(364.61,344.41) --
+	(362.76,339.90);
+\definecolor{drawColor}{RGB}{255,27,0}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (401.53,363.19) --
+	(408.93,366.22) --
+	(409.56,368.36) --
+	(402.20,365.33) --
+	(401.53,363.19);
+\definecolor{drawColor}{RGB}{132,255,122}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (303.76,305.13) --
+	(310.00,307.54) --
+	(312.52,312.39) --
+	(306.34,309.98) --
+	(303.76,305.13);
+\definecolor{drawColor}{RGB}{255,88,0}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (385.56,352.90) --
+	(392.79,355.83) --
+	(394.26,360.21) --
+	(387.11,357.28) --
+	(385.56,352.90);
+\definecolor{drawColor}{RGB}{215,255,39}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (325.20,317.34) --
+	(331.71,319.88) --
+	(333.97,324.63) --
+	(327.53,322.09) --
+	(325.20,317.34);
+\definecolor{drawColor}{RGB}{9,255,245}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (268.12,283.72) --
+	(273.96,285.90) --
+	(276.93,290.97) --
+	(271.13,288.77) --
+	(268.12,283.72);
+\definecolor{drawColor}{RGB}{255,222,0}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (347.18,329.86) --
+	(353.96,332.54) --
+	(355.94,337.17) --
+	(349.23,334.48) --
+	(347.18,329.86);
+\definecolor{drawColor}{RGB}{81,255,173}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (288.81,295.48) --
+	(294.90,297.80) --
+	(297.62,302.77) --
+	(291.58,300.44) --
+	(288.81,295.48);
+\definecolor{drawColor}{RGB}{255,140,0}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (369.70,342.68) --
+	(376.77,345.51) --
+	(378.45,350.02) --
+	(371.47,347.19) --
+	(369.70,342.68);
+\definecolor{drawColor}{RGB}{255,6,0}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (408.93,366.22) --
+	(416.47,369.31) --
+	(417.05,371.45) --
+	(409.56,368.36) --
+	(408.93,366.22);
+\definecolor{drawColor}{RGB}{153,255,101}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (310.00,307.54) --
+	(316.35,309.98) --
+	(318.81,314.85) --
+	(312.52,312.39) --
+	(310.00,307.54);
+\definecolor{drawColor}{RGB}{255,68,0}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (392.79,355.83) --
+	(400.16,358.81) --
+	(401.53,363.19) --
+	(394.26,360.21) --
+	(392.79,355.83);
+\definecolor{drawColor}{RGB}{235,255,19}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (331.71,319.88) --
+	(338.33,322.47) --
+	(340.52,327.22) --
+	(333.97,324.63) --
+	(331.71,319.88);
+\definecolor{drawColor}{RGB}{0,202,255}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (256.36,275.33) --
+	(259.22,276.39) --
+	(262.37,281.57) --
+	(259.53,280.50) --
+	(256.36,275.33);
+\definecolor{drawColor}{RGB}{19,255,235}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (273.96,285.90) --
+	(279.91,288.13) --
+	(282.82,293.21) --
+	(276.93,290.97) --
+	(273.96,285.90);
+\definecolor{drawColor}{RGB}{255,202,0}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (353.96,332.54) --
+	(360.86,335.27) --
+	(362.76,339.90) --
+	(355.94,337.17) --
+	(353.96,332.54);
+\definecolor{drawColor}{RGB}{101,255,153}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (294.90,297.80) --
+	(301.10,300.15) --
+	(303.76,305.13) --
+	(297.62,302.77) --
+	(294.90,297.80);
+\definecolor{drawColor}{RGB}{255,130,0}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (376.77,345.51) --
+	(383.96,348.39) --
+	(385.56,352.90) --
+	(378.45,350.02) --
+	(376.77,345.51);
+\definecolor{drawColor}{RGB}{251,0,0}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (416.47,369.31) --
+	(424.15,372.46) --
+	(424.67,374.59) --
+	(417.05,371.45) --
+	(416.47,369.31);
+\definecolor{drawColor}{RGB}{173,255,81}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (316.35,309.98) --
+	(322.81,312.47) --
+	(325.20,317.34) --
+	(318.81,314.85) --
+	(316.35,309.98);
+\definecolor{drawColor}{RGB}{255,47,0}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (400.16,358.81) --
+	(407.65,361.85) --
+	(408.93,366.22) --
+	(401.53,363.19) --
+	(400.16,358.81);
+\definecolor{drawColor}{RGB}{0,222,255}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (259.22,276.39) --
+	(265.02,278.52) --
+	(268.12,283.72) --
+	(262.37,281.57) --
+	(259.22,276.39);
+\definecolor{drawColor}{RGB}{245,255,9}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (338.33,322.47) --
+	(345.07,325.10) --
+	(347.18,329.86) --
+	(340.52,327.22) --
+	(338.33,322.47);
+\definecolor{drawColor}{RGB}{39,255,215}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (279.91,288.13) --
+	(285.96,290.39) --
+	(288.81,295.48) --
+	(282.82,293.21) --
+	(279.91,288.13);
+\definecolor{drawColor}{RGB}{255,181,0}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (360.86,335.27) --
+	(367.88,338.05) --
+	(369.70,342.68) --
+	(362.76,339.90) --
+	(360.86,335.27);
+\definecolor{drawColor}{RGB}{122,255,132}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (301.10,300.15) --
+	(307.41,302.55) --
+	(310.00,307.54) --
+	(303.76,305.13) --
+	(301.10,300.15);
+\definecolor{drawColor}{RGB}{255,109,0}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (383.96,348.39) --
+	(391.28,351.32) --
+	(392.79,355.83) --
+	(385.56,352.90) --
+	(383.96,348.39);
+\definecolor{drawColor}{RGB}{230,0,0}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (424.15,372.46) --
+	(431.96,375.66) --
+	(432.44,377.79) --
+	(424.67,374.59) --
+	(424.15,372.46);
+\definecolor{drawColor}{RGB}{194,255,60}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (322.81,312.47) --
+	(329.39,315.00) --
+	(331.71,319.88) --
+	(325.20,317.34) --
+	(322.81,312.47);
+\definecolor{drawColor}{RGB}{255,27,0}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (407.65,361.85) --
+	(415.29,364.94) --
+	(416.47,369.31) --
+	(408.93,366.22) --
+	(407.65,361.85);
+\definecolor{drawColor}{RGB}{0,243,255}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (265.02,278.52) --
+	(270.92,280.70) --
+	(273.96,285.90) --
+	(268.12,283.72) --
+	(265.02,278.52);
+\definecolor{drawColor}{RGB}{255,243,0}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (345.07,325.10) --
+	(351.93,327.78) --
+	(353.96,332.54) --
+	(347.18,329.86) --
+	(345.07,325.10);
+\definecolor{drawColor}{RGB}{60,255,194}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (285.96,290.39) --
+	(292.11,292.69) --
+	(294.90,297.80) --
+	(288.81,295.48) --
+	(285.96,290.39);
+\definecolor{drawColor}{RGB}{255,160,0}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (367.88,338.05) --
+	(375.03,340.87) --
+	(376.77,345.51) --
+	(369.70,342.68) --
+	(367.88,338.05);
+\definecolor{drawColor}{RGB}{132,255,122}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (307.41,302.55) --
+	(313.83,304.98) --
+	(316.35,309.98) --
+	(310.00,307.54) --
+	(307.41,302.55);
+\definecolor{drawColor}{RGB}{255,88,0}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (391.28,351.32) --
+	(398.74,354.31) --
+	(400.16,358.81) --
+	(392.79,355.83) --
+	(391.28,351.32);
+\definecolor{drawColor}{RGB}{210,0,0}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (431.96,375.66) --
+	(439.92,378.92) --
+	(440.35,381.05) --
+	(432.44,377.79) --
+	(431.96,375.66);
+\definecolor{drawColor}{RGB}{215,255,39}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (329.39,315.00) --
+	(336.08,317.58) --
+	(338.33,322.47) --
+	(331.71,319.88) --
+	(329.39,315.00);
+\definecolor{drawColor}{RGB}{255,16,0}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (415.29,364.94) --
+	(423.06,368.10) --
+	(424.15,372.46) --
+	(416.47,369.31) --
+	(415.29,364.94);
+\definecolor{drawColor}{RGB}{0,181,255}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (253.10,270.02) --
+	(255.99,271.07) --
+	(259.22,276.39) --
+	(256.36,275.33) --
+	(253.10,270.02);
+\definecolor{drawColor}{RGB}{0,253,255}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (270.92,280.70) --
+	(276.93,282.91) --
+	(279.91,288.13) --
+	(273.96,285.90) --
+	(270.92,280.70);
+\definecolor{drawColor}{RGB}{255,222,0}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (351.93,327.78) --
+	(358.91,330.50) --
+	(360.86,335.27) --
+	(353.96,332.54) --
+	(351.93,327.78);
+\definecolor{drawColor}{RGB}{128,0,0}
+
+\path[draw=drawColor,line width= 0.8pt,line join=round,line cap=round] (445.40,393.67) -- (444.35,382.70);
+\definecolor{fillColor}{RGB}{128,0,0}
+
+\path[fill=fillColor] (436.40,393.67) --
+	(445.40,402.67) --
+	(454.40,393.67) --
+	(445.40,384.67) --
+	cycle;
+\definecolor{drawColor}{RGB}{81,255,173}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (292.11,292.69) --
+	(298.37,295.03) --
+	(301.10,300.15) --
+	(294.90,297.80) --
+	(292.11,292.69);
+\definecolor{drawColor}{RGB}{255,140,0}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (375.03,340.87) --
+	(382.32,343.75) --
+	(383.96,348.39) --
+	(376.77,345.51) --
+	(375.03,340.87);
+\definecolor{drawColor}{RGB}{189,0,0}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (439.92,378.92) --
+	(443.96,380.58) --
+	(444.35,382.70) --
+	(440.35,381.05) --
+	(439.92,378.92);
+\definecolor{drawColor}{RGB}{153,255,101}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (313.83,304.98) --
+	(320.36,307.46) --
+	(322.81,312.47) --
+	(316.35,309.98) --
+	(313.83,304.98);
+\definecolor{drawColor}{RGB}{255,68,0}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (398.74,354.31) --
+	(406.33,357.35) --
+	(407.65,361.85) --
+	(400.16,358.81) --
+	(398.74,354.31);
+\definecolor{drawColor}{RGB}{0,202,255}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (255.99,271.07) --
+	(261.84,273.19) --
+	(265.02,278.52) --
+	(259.22,276.39) --
+	(255.99,271.07);
+\definecolor{drawColor}{RGB}{235,255,19}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (336.08,317.58) --
+	(342.90,320.21) --
+	(345.07,325.10) --
+	(338.33,322.47) --
+	(336.08,317.58);
+\definecolor{drawColor}{RGB}{251,0,0}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (423.06,368.10) --
+	(430.99,371.31) --
+	(431.96,375.66) --
+	(424.15,372.46) --
+	(423.06,368.10);
+\definecolor{drawColor}{RGB}{19,255,235}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (276.93,282.91) --
+	(283.03,285.15) --
+	(285.96,290.39) --
+	(279.91,288.13) --
+	(276.93,282.91);
+\definecolor{drawColor}{RGB}{255,202,0}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (358.91,330.50) --
+	(366.01,333.28) --
+	(367.88,338.05) --
+	(360.86,335.27) --
+	(358.91,330.50);
+\definecolor{drawColor}{RGB}{255,233,0}
+
+\path[draw=drawColor,line width= 0.8pt,line join=round,line cap=round] (326.12,328.71) -- (326.12,312.34);
+\definecolor{fillColor}{RGB}{255,233,0}
+
+\path[fill=fillColor] (317.12,328.71) --
+	(326.12,337.71) --
+	(335.12,328.71) --
+	(326.12,319.71) --
+	cycle;
+\definecolor{drawColor}{RGB}{101,255,153}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (298.37,295.03) --
+	(304.74,297.42) --
+	(307.41,302.55) --
+	(301.10,300.15) --
+	(298.37,295.03);
+\definecolor{drawColor}{RGB}{255,130,0}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (382.32,343.75) --
+	(389.73,346.69) --
+	(391.28,351.32) --
+	(383.96,348.39) --
+	(382.32,343.75);
+\definecolor{drawColor}{RGB}{173,255,81}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (320.36,307.46) --
+	(327.01,309.99) --
+	(329.39,315.00) --
+	(322.81,312.47) --
+	(320.36,307.46);
+\definecolor{drawColor}{RGB}{255,47,0}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (406.33,357.35) --
+	(414.07,360.45) --
+	(415.29,364.94) --
+	(407.65,361.85) --
+	(406.33,357.35);
+\definecolor{drawColor}{RGB}{0,222,255}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (261.84,273.19) --
+	(267.80,275.35) --
+	(270.92,280.70) --
+	(265.02,278.52) --
+	(261.84,273.19);
+\definecolor{drawColor}{RGB}{245,255,9}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (342.90,320.21) --
+	(349.83,322.88) --
+	(351.93,327.78) --
+	(345.07,325.10) --
+	(342.90,320.21);
+\definecolor{drawColor}{RGB}{230,0,0}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (430.99,371.31) --
+	(439.06,374.58) --
+	(439.92,378.92) --
+	(431.96,375.66) --
+	(430.99,371.31);
+\definecolor{drawColor}{RGB}{39,255,215}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (283.03,285.15) --
+	(289.24,287.44) --
+	(292.11,292.69) --
+	(285.96,290.39) --
+	(283.03,285.15);
+\definecolor{drawColor}{RGB}{255,181,0}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (366.01,333.28) --
+	(373.25,336.10) --
+	(375.03,340.87) --
+	(367.88,338.05) --
+	(366.01,333.28);
+\definecolor{drawColor}{RGB}{112,255,142}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (304.74,297.42) --
+	(311.23,299.84) --
+	(313.83,304.98) --
+	(307.41,302.55) --
+	(304.74,297.42);
+\definecolor{drawColor}{RGB}{255,109,0}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (389.73,346.69) --
+	(397.28,349.67) --
+	(398.74,354.31) --
+	(391.28,351.32) --
+	(389.73,346.69);
+\definecolor{drawColor}{RGB}{194,255,60}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (327.01,309.99) --
+	(333.77,312.56) --
+	(336.08,317.58) --
+	(329.39,315.00) --
+	(327.01,309.99);
+\definecolor{drawColor}{RGB}{255,27,0}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (414.07,360.45) --
+	(421.95,363.60) --
+	(423.06,368.10) --
+	(415.29,364.94) --
+	(414.07,360.45);
+\definecolor{drawColor}{RGB}{210,0,0}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (439.06,374.58) --
+	(443.15,376.24) --
+	(443.96,380.58) --
+	(439.92,378.92) --
+	(439.06,374.58);
+\definecolor{drawColor}{RGB}{0,160,255}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (249.76,264.57) --
+	(252.67,265.61) --
+	(255.99,271.07) --
+	(253.10,270.02) --
+	(249.76,264.57);
+\definecolor{drawColor}{RGB}{0,233,255}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (267.80,275.35) --
+	(273.86,277.54) --
+	(276.93,282.91) --
+	(270.92,280.70) --
+	(267.80,275.35);
+\definecolor{drawColor}{RGB}{255,243,0}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (349.83,322.88) --
+	(356.90,325.60) --
+	(358.91,330.50) --
+	(351.93,327.78) --
+	(349.83,322.88);
+\definecolor{drawColor}{RGB}{60,255,194}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (289.24,287.44) --
+	(295.57,289.77) --
+	(298.37,295.03) --
+	(292.11,292.69) --
+	(289.24,287.44);
+\definecolor{drawColor}{RGB}{255,160,0}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (373.25,336.10) --
+	(380.62,338.98) --
+	(382.32,343.75) --
+	(375.03,340.87) --
+	(373.25,336.10);
+\definecolor{drawColor}{RGB}{132,255,122}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (311.23,299.84) --
+	(317.83,302.31) --
+	(320.36,307.46) --
+	(313.83,304.98) --
+	(311.23,299.84);
+\definecolor{drawColor}{RGB}{255,88,0}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (397.28,349.67) --
+	(404.98,352.72) --
+	(406.33,357.35) --
+	(398.74,354.31) --
+	(397.28,349.67);
+\definecolor{drawColor}{RGB}{0,181,255}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (252.67,265.61) --
+	(258.58,267.71) --
+	(261.84,273.19) --
+	(255.99,271.07) --
+	(252.67,265.61);
+\definecolor{drawColor}{RGB}{215,255,39}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (333.77,312.56) --
+	(340.66,315.17) --
+	(342.90,320.21) --
+	(336.08,317.58) --
+	(333.77,312.56);
+\definecolor{drawColor}{RGB}{255,16,0}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (421.95,363.60) --
+	(429.98,366.82) --
+	(430.99,371.31) --
+	(423.06,368.10) --
+	(421.95,363.60);
+\definecolor{drawColor}{RGB}{0,253,255}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (273.86,277.54) --
+	(280.02,279.77) --
+	(283.03,285.15) --
+	(276.93,282.91) --
+	(273.86,277.54);
+\definecolor{drawColor}{RGB}{255,222,0}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (356.90,325.60) --
+	(364.09,328.37) --
+	(366.01,333.28) --
+	(358.91,330.50) --
+	(356.90,325.60);
+\definecolor{drawColor}{RGB}{255,160,0}
+
+\path[draw=drawColor,line width= 0.8pt,line join=round,line cap=round] (367.78,340.29) -- (367.52,332.96);
+\definecolor{fillColor}{RGB}{255,160,0}
+
+\path[fill=fillColor] (358.78,340.29) --
+	(367.78,349.29) --
+	(376.78,340.29) --
+	(367.78,331.29) --
+	cycle;
+\definecolor{drawColor}{RGB}{81,255,173}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (295.57,289.77) --
+	(302.00,292.14) --
+	(304.74,297.42) --
+	(298.37,295.03) --
+	(295.57,289.77);
+\definecolor{drawColor}{RGB}{255,150,0}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (380.62,338.98) --
+	(388.13,341.91) --
+	(389.73,346.69) --
+	(382.32,343.75) --
+	(380.62,338.98);
+\definecolor{drawColor}{RGB}{153,255,101}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (317.83,302.31) --
+	(324.55,304.82) --
+	(327.01,309.99) --
+	(320.36,307.46) --
+	(317.83,302.31);
+\definecolor{drawColor}{RGB}{255,68,0}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (404.98,352.72) --
+	(412.82,355.82) --
+	(414.07,360.45) --
+	(406.33,357.35) --
+	(404.98,352.72);
+\definecolor{drawColor}{RGB}{0,202,255}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (258.58,267.71) --
+	(264.59,269.85) --
+	(267.80,275.35) --
+	(261.84,273.19) --
+	(258.58,267.71);
+\definecolor{drawColor}{RGB}{225,255,29}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (340.66,315.17) --
+	(347.68,317.84) --
+	(349.83,322.88) --
+	(342.90,320.21) --
+	(340.66,315.17);
+\definecolor{drawColor}{RGB}{251,0,0}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (429.98,366.82) --
+	(438.17,370.10) --
+	(439.06,374.58) --
+	(430.99,371.31) --
+	(429.98,366.82);
+\definecolor{drawColor}{RGB}{255,191,0}
+
+\path[draw=drawColor,line width= 0.8pt,line join=round,line cap=round] (370.18,334.53) -- (370.13,333.31);
+\definecolor{fillColor}{RGB}{255,191,0}
+
+\path[fill=fillColor] (361.18,334.53) --
+	(370.18,343.53) --
+	(379.18,334.53) --
+	(370.18,325.53) --
+	cycle;
+\definecolor{drawColor}{RGB}{19,255,235}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (280.02,279.77) --
+	(286.30,282.04) --
+	(289.24,287.44) --
+	(283.03,285.15) --
+	(280.02,279.77);
+\definecolor{drawColor}{RGB}{255,202,0}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (364.09,328.37) --
+	(371.42,331.19) --
+	(373.25,336.10) --
+	(366.01,333.28) --
+	(364.09,328.37);
+\definecolor{drawColor}{RGB}{91,255,163}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (302.00,292.14) --
+	(308.56,294.55) --
+	(311.23,299.84) --
+	(304.74,297.42) --
+	(302.00,292.14);
+\definecolor{drawColor}{RGB}{255,130,0}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (388.13,341.91) --
+	(395.78,344.90) --
+	(397.28,349.67) --
+	(389.73,346.69) --
+	(388.13,341.91);
+\definecolor{drawColor}{RGB}{173,255,81}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (324.55,304.82) --
+	(331.39,307.38) --
+	(333.77,312.56) --
+	(327.01,309.99) --
+	(324.55,304.82);
+\definecolor{drawColor}{RGB}{255,47,0}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (412.82,355.82) --
+	(420.80,358.98) --
+	(421.95,363.60) --
+	(414.07,360.45) --
+	(412.82,355.82);
+\definecolor{drawColor}{RGB}{230,0,0}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (438.17,370.10) --
+	(442.32,371.76) --
+	(443.15,376.24) --
+	(439.06,374.58) --
+	(438.17,370.10);
+\definecolor{drawColor}{RGB}{0,140,255}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (246.32,258.96) --
+	(249.26,259.99) --
+	(252.67,265.61) --
+	(249.76,264.57) --
+	(246.32,258.96);
+\definecolor{drawColor}{RGB}{0,212,255}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (264.59,269.85) --
+	(270.70,272.02) --
+	(273.86,277.54) --
+	(267.80,275.35) --
+	(264.59,269.85);
+\definecolor{drawColor}{RGB}{245,255,9}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (347.68,317.84) --
+	(354.83,320.55) --
+	(356.90,325.60) --
+	(349.83,322.88) --
+	(347.68,317.84);
+\definecolor{drawColor}{RGB}{39,255,215}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (286.30,282.04) --
+	(292.68,284.36) --
+	(295.57,289.77) --
+	(289.24,287.44) --
+	(286.30,282.04);
+\definecolor{drawColor}{RGB}{255,181,0}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (371.42,331.19) --
+	(378.88,334.07) --
+	(380.62,338.98) --
+	(373.25,336.10) --
+	(371.42,331.19);
+\definecolor{drawColor}{RGB}{215,255,39}
+
+\path[draw=drawColor,line width= 0.8pt,line join=round,line cap=round] (350.79,320.46) -- (350.68,315.20);
+\definecolor{fillColor}{RGB}{215,255,39}
+
+\path[fill=fillColor] (341.68,315.20) --
+	(350.68,324.20) --
+	(359.68,315.20) --
+	(350.68,306.20) --
+	cycle;
+\definecolor{drawColor}{RGB}{112,255,142}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (308.56,294.55) --
+	(315.23,297.01) --
+	(317.83,302.31) --
+	(311.23,299.84) --
+	(308.56,294.55);
+\definecolor{drawColor}{RGB}{255,109,0}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (395.78,344.90) --
+	(403.58,347.94) --
+	(404.98,352.72) --
+	(397.28,349.67) --
+	(395.78,344.90);
+\definecolor{drawColor}{RGB}{0,160,255}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (249.26,259.99) --
+	(255.22,262.07) --
+	(258.58,267.71) --
+	(252.67,265.61) --
+	(249.26,259.99);
+\definecolor{drawColor}{RGB}{194,255,60}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (331.39,307.38) --
+	(338.36,309.99) --
+	(340.66,315.17) --
+	(333.77,312.56) --
+	(331.39,307.38);
+\definecolor{drawColor}{RGB}{255,37,0}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (420.80,358.98) --
+	(428.95,362.20) --
+	(429.98,366.82) --
+	(421.95,363.60) --
+	(420.80,358.98);
+\definecolor{drawColor}{RGB}{0,233,255}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (270.70,272.02) --
+	(276.92,274.24) --
+	(280.02,279.77) --
+	(273.86,277.54) --
+	(270.70,272.02);
+\definecolor{drawColor}{RGB}{255,243,0}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (354.83,320.55) --
+	(362.11,323.31) --
+	(364.09,328.37) --
+	(356.90,325.60) --
+	(354.83,320.55);
+\definecolor{drawColor}{RGB}{60,255,194}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (292.68,284.36) --
+	(299.19,286.71) --
+	(302.00,292.14) --
+	(295.57,289.77) --
+	(292.68,284.36);
+\definecolor{drawColor}{RGB}{255,171,0}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (378.88,334.07) --
+	(386.48,336.99) --
+	(388.13,341.91) --
+	(380.62,338.98) --
+	(378.88,334.07);
+\definecolor{drawColor}{RGB}{132,255,122}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (315.23,297.01) --
+	(322.02,299.51) --
+	(324.55,304.82) --
+	(317.83,302.31) --
+	(315.23,297.01);
+\definecolor{drawColor}{RGB}{255,88,0}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (403.58,347.94) --
+	(411.52,351.04) --
+	(412.82,355.82) --
+	(404.98,352.72) --
+	(403.58,347.94);
+\definecolor{drawColor}{RGB}{0,181,255}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (255.22,262.07) --
+	(261.28,264.19) --
+	(264.59,269.85) --
+	(258.58,267.71) --
+	(255.22,262.07);
+\definecolor{drawColor}{RGB}{204,255,50}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (338.36,309.99) --
+	(345.46,312.65) --
+	(347.68,317.84) --
+	(340.66,315.17) --
+	(338.36,309.99);
+\definecolor{drawColor}{RGB}{255,16,0}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (428.95,362.20) --
+	(437.25,365.48) --
+	(438.17,370.10) --
+	(429.98,366.82) --
+	(428.95,362.20);
+\definecolor{drawColor}{RGB}{0,253,255}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (276.92,274.24) --
+	(283.26,276.49) --
+	(286.30,282.04) --
+	(280.02,279.77) --
+	(276.92,274.24);
+\definecolor{drawColor}{RGB}{255,222,0}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (362.11,323.31) --
+	(369.52,326.13) --
+	(371.42,331.19) --
+	(364.09,328.37) --
+	(362.11,323.31);
+\definecolor{drawColor}{RGB}{81,255,173}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (299.19,286.71) --
+	(305.81,289.11) --
+	(308.56,294.55) --
+	(302.00,292.14) --
+	(299.19,286.71);
+\definecolor{drawColor}{RGB}{255,150,0}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (386.48,336.99) --
+	(394.24,339.98) --
+	(395.78,344.90) --
+	(388.13,341.91) --
+	(386.48,336.99);
+\definecolor{drawColor}{RGB}{153,255,101}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (322.02,299.51) --
+	(328.95,302.06) --
+	(331.39,307.38) --
+	(324.55,304.82) --
+	(322.02,299.51);
+\definecolor{drawColor}{RGB}{255,68,0}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (411.52,351.04) --
+	(419.62,354.21) --
+	(420.80,358.98) --
+	(412.82,355.82) --
+	(411.52,351.04);
+\definecolor{drawColor}{RGB}{251,0,0}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (437.25,365.48) --
+	(441.46,367.15) --
+	(442.32,371.76) --
+	(438.17,370.10) --
+	(437.25,365.48);
+\definecolor{drawColor}{RGB}{0,119,255}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (242.79,253.20) --
+	(245.75,254.22) --
+	(249.26,259.99) --
+	(246.32,258.96) --
+	(242.79,253.20);
+\definecolor{drawColor}{RGB}{0,202,255}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (261.28,264.19) --
+	(267.46,266.35) --
+	(270.70,272.02) --
+	(264.59,269.85) --
+	(261.28,264.19);
+\definecolor{drawColor}{RGB}{225,255,29}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (345.46,312.65) --
+	(352.70,315.35) --
+	(354.83,320.55) --
+	(347.68,317.84) --
+	(345.46,312.65);
+\definecolor{drawColor}{RGB}{19,255,235}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (283.26,276.49) --
+	(289.71,278.79) --
+	(292.68,284.36) --
+	(286.30,282.04) --
+	(283.26,276.49);
+\definecolor{drawColor}{RGB}{255,202,0}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (369.52,326.13) --
+	(377.08,329.00) --
+	(378.88,334.07) --
+	(371.42,331.19) --
+	(369.52,326.13);
+\definecolor{drawColor}{RGB}{255,130,0}
+
+\path[draw=drawColor,line width= 0.8pt,line join=round,line cap=round] (409.49,350.13) -- (409.07,344.00);
+\definecolor{fillColor}{RGB}{255,130,0}
+
+\path[fill=fillColor] (400.07,344.00) --
+	(409.07,353.00) --
+	(418.07,344.00) --
+	(409.07,335.00) --
+	cycle;
+\definecolor{drawColor}{RGB}{91,255,163}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (305.81,289.11) --
+	(312.55,291.55) --
+	(315.23,297.01) --
+	(308.56,294.55) --
+	(305.81,289.11);
+\definecolor{drawColor}{RGB}{255,130,0}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (394.24,339.98) --
+	(402.14,343.02) --
+	(403.58,347.94) --
+	(395.78,344.90) --
+	(394.24,339.98);
+\definecolor{drawColor}{RGB}{0,140,255}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (245.75,254.22) --
+	(251.76,256.27) --
+	(255.22,262.07) --
+	(249.26,259.99) --
+	(245.75,254.22);
+\definecolor{drawColor}{RGB}{173,255,81}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (328.95,302.06) --
+	(336.00,304.65) --
+	(338.36,309.99) --
+	(331.39,307.38) --
+	(328.95,302.06);
+\definecolor{drawColor}{RGB}{255,57,0}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (419.62,354.21) --
+	(427.88,357.43) --
+	(428.95,362.20) --
+	(420.80,358.98) --
+	(419.62,354.21);
+\definecolor{drawColor}{RGB}{0,212,255}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (267.46,266.35) --
+	(273.74,268.54) --
+	(276.92,274.24) --
+	(270.70,272.02) --
+	(267.46,266.35);
+\definecolor{drawColor}{RGB}{245,255,9}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (352.70,315.35) --
+	(360.06,318.11) --
+	(362.11,323.31) --
+	(354.83,320.55) --
+	(352.70,315.35);
+\definecolor{drawColor}{RGB}{39,255,215}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (289.71,278.79) --
+	(296.28,281.12) --
+	(299.19,286.71) --
+	(292.68,284.36) --
+	(289.71,278.79);
+\definecolor{drawColor}{RGB}{255,191,0}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (377.08,329.00) --
+	(384.79,331.93) --
+	(386.48,336.99) --
+	(378.88,334.07) --
+	(377.08,329.00);
+\definecolor{drawColor}{RGB}{112,255,142}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (312.55,291.55) --
+	(319.42,294.04) --
+	(322.02,299.51) --
+	(315.23,297.01) --
+	(312.55,291.55);
+\definecolor{drawColor}{RGB}{255,109,0}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (402.14,343.02) --
+	(410.19,346.12) --
+	(411.52,351.04) --
+	(403.58,347.94) --
+	(402.14,343.02);
+\definecolor{drawColor}{RGB}{0,160,255}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (251.76,256.27) --
+	(257.88,258.37) --
+	(261.28,264.19) --
+	(255.22,262.07) --
+	(251.76,256.27);
+\definecolor{drawColor}{RGB}{194,255,60}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (336.00,304.65) --
+	(343.18,307.30) --
+	(345.46,312.65) --
+	(338.36,309.99) --
+	(336.00,304.65);
+\definecolor{drawColor}{RGB}{255,37,0}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (427.88,357.43) --
+	(436.30,360.72) --
+	(437.25,365.48) --
+	(428.95,362.20) --
+	(427.88,357.43);
+\definecolor{drawColor}{RGB}{0,233,255}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (273.74,268.54) --
+	(280.14,270.78) --
+	(283.26,276.49) --
+	(276.92,274.24) --
+	(273.74,268.54);
+\definecolor{drawColor}{RGB}{255,243,0}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (360.06,318.11) --
+	(367.58,320.92) --
+	(369.52,326.13) --
+	(362.11,323.31) --
+	(360.06,318.11);
+\definecolor{drawColor}{RGB}{235,255,19}
+
+\path[draw=drawColor,line width= 0.8pt,line join=round,line cap=round] (368.19,324.04) -- (367.91,316.17);
+\definecolor{fillColor}{RGB}{235,255,19}
+
+\path[fill=fillColor] (358.91,316.17) --
+	(367.91,325.17) --
+	(376.91,316.17) --
+	(367.91,307.17) --
+	cycle;
+\definecolor{drawColor}{RGB}{60,255,194}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (296.28,281.12) --
+	(302.98,283.51) --
+	(305.81,289.11) --
+	(299.19,286.71) --
+	(296.28,281.12);
+\definecolor{drawColor}{RGB}{255,171,0}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (384.79,331.93) --
+	(392.64,334.91) --
+	(394.24,339.98) --
+	(386.48,336.99) --
+	(384.79,331.93);
+\definecolor{drawColor}{RGB}{132,255,122}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (319.42,294.04) --
+	(326.42,296.57) --
+	(328.95,302.06) --
+	(322.02,299.51) --
+	(319.42,294.04);
+\definecolor{drawColor}{RGB}{255,88,0}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (410.19,346.12) --
+	(418.40,349.29) --
+	(419.62,354.21) --
+	(411.52,351.04) --
+	(410.19,346.12);
+\definecolor{drawColor}{RGB}{255,16,0}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (436.30,360.72) --
+	(440.57,362.39) --
+	(441.46,367.15) --
+	(437.25,365.48) --
+	(436.30,360.72);
+\definecolor{drawColor}{RGB}{39,255,215}
+
+\path[draw=drawColor,line width= 0.8pt,line join=round,line cap=round] (311.55,290.69) -- (311.65,282.91);
+\definecolor{fillColor}{RGB}{39,255,215}
+
+\path[fill=fillColor] (302.65,282.91) --
+	(311.65,291.91) --
+	(320.65,282.91) --
+	(311.65,273.91) --
+	cycle;
+\definecolor{drawColor}{RGB}{0,99,255}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (239.15,247.27) --
+	(242.15,248.28) --
+	(245.75,254.22) --
+	(242.79,253.20) --
+	(239.15,247.27);
+\definecolor{drawColor}{RGB}{0,181,255}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (257.88,258.37) --
+	(264.12,260.50) --
+	(267.46,266.35) --
+	(261.28,264.19) --
+	(257.88,258.37);
+\definecolor{drawColor}{RGB}{204,255,50}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (343.18,307.30) --
+	(350.50,309.99) --
+	(352.70,315.35) --
+	(345.46,312.65) --
+	(343.18,307.30);
+\definecolor{drawColor}{RGB}{0,253,255}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (280.14,270.78) --
+	(286.66,273.05) --
+	(289.71,278.79) --
+	(283.26,276.49) --
+	(280.14,270.78);
+\definecolor{drawColor}{RGB}{255,222,0}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (367.58,320.92) --
+	(375.23,323.78) --
+	(377.08,329.00) --
+	(369.52,326.13) --
+	(367.58,320.92);
+\definecolor{drawColor}{RGB}{70,255,184}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (302.98,283.51) --
+	(309.80,285.93) --
+	(312.55,291.55) --
+	(305.81,289.11) --
+	(302.98,283.51);
+\definecolor{drawColor}{RGB}{255,150,0}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (392.64,334.91) --
+	(400.65,337.95) --
+	(402.14,343.02) --
+	(394.24,339.98) --
+	(392.64,334.91);
+\definecolor{drawColor}{RGB}{0,119,255}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (242.15,248.28) --
+	(248.21,250.31) --
+	(251.76,256.27) --
+	(245.75,254.22) --
+	(242.15,248.28);
+\definecolor{drawColor}{RGB}{153,255,101}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (326.42,296.57) --
+	(333.56,299.16) --
+	(336.00,304.65) --
+	(328.95,302.06) --
+	(326.42,296.57);
+\definecolor{drawColor}{RGB}{255,78,0}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (418.40,349.29) --
+	(426.78,352.51) --
+	(427.88,357.43) --
+	(419.62,354.21) --
+	(418.40,349.29);
+\definecolor{drawColor}{RGB}{0,191,255}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (264.12,260.50) --
+	(270.46,262.68) --
+	(273.74,268.54) --
+	(267.46,266.35) --
+	(264.12,260.50);
+\definecolor{drawColor}{RGB}{225,255,29}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (350.50,309.99) --
+	(357.96,312.74) --
+	(360.06,318.11) --
+	(352.70,315.35) --
+	(350.50,309.99);
+\definecolor{drawColor}{RGB}{19,255,235}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (286.66,273.05) --
+	(293.30,275.37) --
+	(296.28,281.12) --
+	(289.71,278.79) --
+	(286.66,273.05);
+\definecolor{drawColor}{RGB}{255,202,0}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (375.23,323.78) --
+	(383.04,326.70) --
+	(384.79,331.93) --
+	(377.08,329.00) --
+	(375.23,323.78);
+\definecolor{drawColor}{RGB}{91,255,163}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (309.80,285.93) --
+	(316.74,288.40) --
+	(319.42,294.04) --
+	(312.55,291.55) --
+	(309.80,285.93);
+\definecolor{drawColor}{RGB}{255,130,0}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (400.65,337.95) --
+	(408.81,341.05) --
+	(410.19,346.12) --
+	(402.14,343.02) --
+	(400.65,337.95);
+\definecolor{drawColor}{RGB}{0,140,255}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (248.21,250.31) --
+	(254.39,252.38) --
+	(257.88,258.37) --
+	(251.76,256.27) --
+	(248.21,250.31);
+\definecolor{drawColor}{RGB}{173,255,81}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (333.56,299.16) --
+	(340.83,301.79) --
+	(343.18,307.30) --
+	(336.00,304.65) --
+	(333.56,299.16);
+\definecolor{drawColor}{RGB}{255,57,0}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (426.78,352.51) --
+	(435.32,355.80) --
+	(436.30,360.72) --
+	(427.88,357.43) --
+	(426.78,352.51);
+\definecolor{drawColor}{RGB}{0,212,255}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (270.46,262.68) --
+	(276.92,264.89) --
+	(280.14,270.78) --
+	(273.74,268.54) --
+	(270.46,262.68);
+\definecolor{drawColor}{RGB}{245,255,9}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (357.96,312.74) --
+	(365.57,315.54) --
+	(367.58,320.92) --
+	(360.06,318.11) --
+	(357.96,312.74);
+\definecolor{drawColor}{RGB}{39,255,215}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (293.30,275.37) --
+	(300.06,277.74) --
+	(302.98,283.51) --
+	(296.28,281.12) --
+	(293.30,275.37);
+\definecolor{drawColor}{RGB}{255,191,0}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (383.04,326.70) --
+	(391.00,329.68) --
+	(392.64,334.91) --
+	(384.79,331.93) --
+	(383.04,326.70);
+\definecolor{drawColor}{RGB}{112,255,142}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (316.74,288.40) --
+	(323.82,290.92) --
+	(326.42,296.57) --
+	(319.42,294.04) --
+	(316.74,288.40);
+\definecolor{drawColor}{RGB}{255,109,0}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (408.81,341.05) --
+	(417.14,344.21) --
+	(418.40,349.29) --
+	(410.19,346.12) --
+	(408.81,341.05);
+\definecolor{drawColor}{RGB}{255,37,0}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (435.32,355.80) --
+	(439.66,357.47) --
+	(440.57,362.39) --
+	(436.30,360.72) --
+	(435.32,355.80);
+\definecolor{drawColor}{RGB}{0,78,255}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (235.42,241.17) --
+	(238.43,242.16) --
+	(242.15,248.28) --
+	(239.15,247.27) --
+	(235.42,241.17);
+\definecolor{drawColor}{RGB}{0,160,255}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (254.39,252.38) --
+	(260.68,254.49) --
+	(264.12,260.50) --
+	(257.88,258.37) --
+	(254.39,252.38);
+\definecolor{drawColor}{RGB}{184,255,70}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (340.83,301.79) --
+	(348.24,304.47) --
+	(350.50,309.99) --
+	(343.18,307.30) --
+	(340.83,301.79);
+\definecolor{drawColor}{RGB}{0,233,255}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (276.92,264.89) --
+	(283.51,267.15) --
+	(286.66,273.05) --
+	(280.14,270.78) --
+	(276.92,264.89);
+\definecolor{drawColor}{RGB}{255,243,0}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (365.57,315.54) --
+	(373.32,318.40) --
+	(375.23,323.78) --
+	(367.58,320.92) --
+	(365.57,315.54);
+\definecolor{drawColor}{RGB}{50,255,204}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (300.06,277.74) --
+	(306.96,280.14) --
+	(309.80,285.93) --
+	(302.98,283.51) --
+	(300.06,277.74);
+\definecolor{drawColor}{RGB}{255,171,0}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (391.00,329.68) --
+	(399.12,332.71) --
+	(400.65,337.95) --
+	(392.64,334.91) --
+	(391.00,329.68);
+\definecolor{drawColor}{RGB}{0,99,255}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (238.43,242.16) --
+	(244.55,244.17) --
+	(248.21,250.31) --
+	(242.15,248.28) --
+	(238.43,242.16);
+\definecolor{drawColor}{RGB}{132,255,122}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (323.82,290.92) --
+	(331.04,293.49) --
+	(333.56,299.16) --
+	(326.42,296.57) --
+	(323.82,290.92);
+\definecolor{drawColor}{RGB}{255,88,0}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (417.14,344.21) --
+	(425.64,347.44) --
+	(426.78,352.51) --
+	(418.40,349.29) --
+	(417.14,344.21);
+\definecolor{drawColor}{RGB}{0,171,255}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (260.68,254.49) --
+	(267.08,256.64) --
+	(270.46,262.68) --
+	(264.12,260.50) --
+	(260.68,254.49);
+\definecolor{drawColor}{RGB}{204,255,50}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (348.24,304.47) --
+	(355.79,307.21) --
+	(357.96,312.74) --
+	(350.50,309.99) --
+	(348.24,304.47);
+\definecolor{drawColor}{RGB}{0,253,255}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (283.51,267.15) --
+	(290.22,269.45) --
+	(293.30,275.37) --
+	(286.66,273.05) --
+	(283.51,267.15);
+\definecolor{drawColor}{RGB}{255,222,0}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (373.32,318.40) --
+	(381.23,321.31) --
+	(383.04,326.70) --
+	(375.23,323.78) --
+	(373.32,318.40);
+\definecolor{drawColor}{RGB}{70,255,184}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (306.96,280.14) --
+	(313.98,282.60) --
+	(316.74,288.40) --
+	(309.80,285.93) --
+	(306.96,280.14);
+\definecolor{drawColor}{RGB}{255,150,0}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (399.12,332.71) --
+	(407.40,335.81) --
+	(408.81,341.05) --
+	(400.65,337.95) --
+	(399.12,332.71);
+\definecolor{drawColor}{RGB}{0,119,255}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (244.55,244.17) --
+	(250.79,246.22) --
+	(254.39,252.38) --
+	(248.21,250.31) --
+	(244.55,244.17);
+\definecolor{drawColor}{RGB}{153,255,101}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (331.04,293.49) --
+	(338.40,296.11) --
+	(340.83,301.79) --
+	(333.56,299.16) --
+	(331.04,293.49);
+\definecolor{drawColor}{RGB}{255,78,0}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (425.64,347.44) --
+	(434.31,350.73) --
+	(435.32,355.80) --
+	(426.78,352.51) --
+	(425.64,347.44);
+\definecolor{drawColor}{RGB}{0,191,255}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (267.08,256.64) --
+	(273.61,258.83) --
+	(276.92,264.89) --
+	(270.46,262.68) --
+	(267.08,256.64);
+\definecolor{drawColor}{RGB}{225,255,29}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (355.79,307.21) --
+	(363.50,310.00) --
+	(365.57,315.54) --
+	(357.96,312.74) --
+	(355.79,307.21);
+\definecolor{drawColor}{RGB}{19,255,235}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (290.22,269.45) --
+	(297.06,271.79) --
+	(300.06,277.74) --
+	(293.30,275.37) --
+	(290.22,269.45);
+\definecolor{drawColor}{RGB}{255,212,0}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (381.23,321.31) --
+	(389.30,324.28) --
+	(391.00,329.68) --
+	(383.04,326.70) --
+	(381.23,321.31);
+\definecolor{drawColor}{RGB}{91,255,163}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (313.98,282.60) --
+	(321.15,285.10) --
+	(323.82,290.92) --
+	(316.74,288.40) --
+	(313.98,282.60);
+\definecolor{drawColor}{RGB}{255,130,0}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (407.40,335.81) --
+	(415.85,338.97) --
+	(417.14,344.21) --
+	(408.81,341.05) --
+	(407.40,335.81);
+\definecolor{drawColor}{RGB}{255,57,0}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (434.31,350.73) --
+	(438.72,352.40) --
+	(439.66,357.47) --
+	(435.32,355.80) --
+	(434.31,350.73);
+\definecolor{drawColor}{RGB}{0,57,255}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (231.57,234.89) --
+	(234.61,235.87) --
+	(238.43,242.16) --
+	(235.42,241.17) --
+	(231.57,234.89);
+\definecolor{drawColor}{RGB}{0,140,255}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (250.79,246.22) --
+	(257.14,248.30) --
+	(260.68,254.49) --
+	(254.39,252.38) --
+	(250.79,246.22);
+\definecolor{drawColor}{RGB}{163,255,91}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (338.40,296.11) --
+	(345.90,298.78) --
+	(348.24,304.47) --
+	(340.83,301.79) --
+	(338.40,296.11);
+\definecolor{drawColor}{RGB}{0,212,255}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (273.61,258.83) --
+	(280.27,261.06) --
+	(283.51,267.15) --
+	(276.92,264.89) --
+	(273.61,258.83);
+\definecolor{drawColor}{RGB}{245,255,9}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (363.50,310.00) --
+	(371.35,312.84) --
+	(373.32,318.40) --
+	(365.57,315.54) --
+	(363.50,310.00);
+\definecolor{drawColor}{RGB}{29,255,225}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (297.06,271.79) --
+	(304.03,274.18) --
+	(306.96,280.14) --
+	(300.06,277.74) --
+	(297.06,271.79);
+\definecolor{drawColor}{RGB}{255,191,0}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (389.30,324.28) --
+	(397.53,327.31) --
+	(399.12,332.71) --
+	(391.00,329.68) --
+	(389.30,324.28);
+\definecolor{drawColor}{RGB}{0,78,255}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (234.61,235.87) --
+	(240.78,237.85) --
+	(244.55,244.17) --
+	(238.43,242.16) --
+	(234.61,235.87);
+\definecolor{drawColor}{RGB}{112,255,142}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (321.15,285.10) --
+	(328.45,287.65) --
+	(331.04,293.49) --
+	(323.82,290.92) --
+	(321.15,285.10);
+\definecolor{drawColor}{RGB}{255,109,0}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (415.85,338.97) --
+	(424.47,342.20) --
+	(425.64,347.44) --
+	(417.14,344.21) --
+	(415.85,338.97);
+\definecolor{drawColor}{RGB}{0,160,255}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (257.14,248.30) --
+	(263.61,250.42) --
+	(267.08,256.64) --
+	(260.68,254.49) --
+	(257.14,248.30);
+\definecolor{drawColor}{RGB}{184,255,70}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (345.90,298.78) --
+	(353.55,301.50) --
+	(355.79,307.21) --
+	(348.24,304.47) --
+	(345.90,298.78);
+\definecolor{drawColor}{RGB}{0,233,255}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (280.27,261.06) --
+	(287.05,263.34) --
+	(290.22,269.45) --
+	(283.51,267.15) --
+	(280.27,261.06);
+\definecolor{drawColor}{RGB}{255,243,0}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (371.35,312.84) --
+	(379.37,315.75) --
+	(381.23,321.31) --
+	(373.32,318.40) --
+	(371.35,312.84);
+\definecolor{drawColor}{RGB}{50,255,204}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (304.03,274.18) --
+	(311.14,276.61) --
+	(313.98,282.60) --
+	(306.96,280.14) --
+	(304.03,274.18);
+\definecolor{drawColor}{RGB}{255,171,0}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (397.53,327.31) --
+	(405.93,330.40) --
+	(407.40,335.81) --
+	(399.12,332.71) --
+	(397.53,327.31);
+\definecolor{drawColor}{RGB}{0,99,255}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (240.78,237.85) --
+	(247.08,239.87) --
+	(250.79,246.22) --
+	(244.55,244.17) --
+	(240.78,237.85);
+\definecolor{drawColor}{RGB}{132,255,122}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (328.45,287.65) --
+	(335.90,290.25) --
+	(338.40,296.11) --
+	(331.04,293.49) --
+	(328.45,287.65);
+\definecolor{drawColor}{RGB}{255,99,0}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (424.47,342.20) --
+	(433.27,345.49) --
+	(434.31,350.73) --
+	(425.64,347.44) --
+	(424.47,342.20);
+\definecolor{drawColor}{RGB}{0,171,255}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (263.61,250.42) --
+	(270.20,252.59) --
+	(273.61,258.83) --
+	(267.08,256.64) --
+	(263.61,250.42);
+\definecolor{drawColor}{RGB}{204,255,50}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (353.55,301.50) --
+	(361.36,304.28) --
+	(363.50,310.00) --
+	(355.79,307.21) --
+	(353.55,301.50);
+\definecolor{drawColor}{RGB}{0,253,255}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (287.05,263.34) --
+	(293.96,265.66) --
+	(297.06,271.79) --
+	(290.22,269.45) --
+	(287.05,263.34);
+\definecolor{drawColor}{RGB}{255,233,0}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (379.37,315.75) --
+	(387.55,318.71) --
+	(389.30,324.28) --
+	(381.23,321.31) --
+	(379.37,315.75);
+\definecolor{drawColor}{RGB}{70,255,184}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (311.14,276.61) --
+	(318.38,279.09) --
+	(321.15,285.10) --
+	(313.98,282.60) --
+	(311.14,276.61);
+\definecolor{drawColor}{RGB}{255,150,0}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (405.93,330.40) --
+	(414.50,333.56) --
+	(415.85,338.97) --
+	(407.40,335.81) --
+	(405.93,330.40);
+\definecolor{drawColor}{RGB}{255,78,0}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (433.27,345.49) --
+	(437.74,347.16) --
+	(438.72,352.40) --
+	(434.31,350.73) --
+	(433.27,345.49);
+\definecolor{drawColor}{RGB}{0,37,255}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (227.60,228.43) --
+	(230.67,229.39) --
+	(234.61,235.87) --
+	(231.57,234.89) --
+	(227.60,228.43);
+\definecolor{drawColor}{RGB}{0,119,255}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (247.08,239.87) --
+	(253.49,241.92) --
+	(257.14,248.30) --
+	(250.79,246.22) --
+	(247.08,239.87);
+\definecolor{drawColor}{RGB}{142,255,112}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (335.90,290.25) --
+	(343.49,292.90) --
+	(345.90,298.78) --
+	(338.40,296.11) --
+	(335.90,290.25);
+\definecolor{drawColor}{RGB}{0,191,255}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (270.20,252.59) --
+	(276.92,254.79) --
+	(280.27,261.06) --
+	(273.61,258.83) --
+	(270.20,252.59);
+\definecolor{drawColor}{RGB}{225,255,29}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (361.36,304.28) --
+	(369.32,307.11) --
+	(371.35,312.84) --
+	(363.50,310.00) --
+	(361.36,304.28);
+\definecolor{drawColor}{RGB}{19,255,235}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (293.96,265.66) --
+	(301.01,268.02) --
+	(304.03,274.18) --
+	(297.06,271.79) --
+	(293.96,265.66);
+\definecolor{drawColor}{RGB}{255,212,0}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (387.55,318.71) --
+	(395.90,321.73) --
+	(397.53,327.31) --
+	(389.30,324.28) --
+	(387.55,318.71);
+\definecolor{drawColor}{RGB}{0,57,255}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (230.67,229.39) --
+	(236.90,231.34) --
+	(240.78,237.85) --
+	(234.61,235.87) --
+	(230.67,229.39);
+\definecolor{drawColor}{RGB}{91,255,163}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (318.38,279.09) --
+	(325.77,281.62) --
+	(328.45,287.65) --
+	(321.15,285.10) --
+	(318.38,279.09);
+\definecolor{drawColor}{RGB}{255,130,0}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (414.50,333.56) --
+	(423.26,336.78) --
+	(424.47,342.20) --
+	(415.85,338.97) --
+	(414.50,333.56);
+\definecolor{drawColor}{RGB}{0,140,255}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (253.49,241.92) --
+	(260.02,244.01) --
+	(263.61,250.42) --
+	(257.14,248.30) --
+	(253.49,241.92);
+\definecolor{drawColor}{RGB}{163,255,91}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (343.49,292.90) --
+	(351.24,295.61) --
+	(353.55,301.50) --
+	(345.90,298.78) --
+	(343.49,292.90);
+\definecolor{drawColor}{RGB}{0,212,255}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (276.92,254.79) --
+	(283.78,257.04) --
+	(287.05,263.34) --
+	(280.27,261.06) --
+	(276.92,254.79);
+\definecolor{drawColor}{RGB}{245,255,9}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (369.32,307.11) --
+	(377.45,310.00) --
+	(379.37,315.75) --
+	(371.35,312.84) --
+	(369.32,307.11);
+\definecolor{drawColor}{RGB}{29,255,225}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (301.01,268.02) --
+	(308.20,270.43) --
+	(311.14,276.61) --
+	(304.03,274.18) --
+	(301.01,268.02);
+\definecolor{drawColor}{RGB}{255,191,0}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (395.90,321.73) --
+	(404.42,324.82) --
+	(405.93,330.40) --
+	(397.53,327.31) --
+	(395.90,321.73);
+\definecolor{drawColor}{RGB}{0,78,255}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (236.90,231.34) --
+	(243.25,233.32) --
+	(247.08,239.87) --
+	(240.78,237.85) --
+	(236.90,231.34);
+\definecolor{drawColor}{RGB}{112,255,142}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (325.77,281.62) --
+	(333.31,284.21) --
+	(335.90,290.25) --
+	(328.45,287.65) --
+	(325.77,281.62);
+\definecolor{drawColor}{RGB}{255,119,0}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (423.26,336.78) --
+	(432.19,340.07) --
+	(433.27,345.49) --
+	(424.47,342.20) --
+	(423.26,336.78);
+\definecolor{drawColor}{RGB}{0,150,255}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (260.02,244.01) --
+	(266.68,246.15) --
+	(270.20,252.59) --
+	(263.61,250.42) --
+	(260.02,244.01);
+\definecolor{drawColor}{RGB}{184,255,70}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (351.24,295.61) --
+	(359.15,298.37) --
+	(361.36,304.28) --
+	(353.55,301.50) --
+	(351.24,295.61);
+\definecolor{drawColor}{RGB}{0,233,255}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (283.78,257.04) --
+	(290.77,259.34) --
+	(293.96,265.66) --
+	(287.05,263.34) --
+	(283.78,257.04);
+\definecolor{drawColor}{RGB}{255,253,0}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (377.45,310.00) --
+	(385.74,312.96) --
+	(387.55,318.71) --
+	(379.37,315.75) --
+	(377.45,310.00);
+\definecolor{drawColor}{RGB}{50,255,204}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (308.20,270.43) --
+	(315.53,272.89) --
+	(318.38,279.09) --
+	(311.14,276.61) --
+	(308.20,270.43);
+\definecolor{drawColor}{RGB}{255,171,0}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (404.42,324.82) --
+	(413.12,327.97) --
+	(414.50,333.56) --
+	(405.93,330.40) --
+	(404.42,324.82);
+\definecolor{drawColor}{RGB}{255,99,0}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (432.19,340.07) --
+	(436.73,341.74) --
+	(437.74,347.16) --
+	(433.27,345.49) --
+	(432.19,340.07);
+\definecolor{drawColor}{RGB}{0,16,255}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (223.52,221.77) --
+	(226.62,222.71) --
+	(230.67,229.39) --
+	(227.60,228.43) --
+	(223.52,221.77);
+\definecolor{drawColor}{RGB}{0,99,255}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (243.25,233.32) --
+	(249.73,235.34) --
+	(253.49,241.92) --
+	(247.08,239.87) --
+	(243.25,233.32);
+\definecolor{drawColor}{RGB}{132,255,122}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (333.31,284.21) --
+	(341.01,286.84) --
+	(343.49,292.90) --
+	(335.90,290.25) --
+	(333.31,284.21);
+\definecolor{drawColor}{RGB}{0,171,255}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (266.68,246.15) --
+	(273.48,248.33) --
+	(276.92,254.79) --
+	(270.20,252.59) --
+	(266.68,246.15);
+\definecolor{drawColor}{RGB}{204,255,50}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (359.15,298.37) --
+	(367.22,301.19) --
+	(369.32,307.11) --
+	(361.36,304.28) --
+	(359.15,298.37);
+\definecolor{drawColor}{RGB}{0,253,255}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (290.77,259.34) --
+	(297.90,261.67) --
+	(301.01,268.02) --
+	(293.96,265.66) --
+	(290.77,259.34);
+\definecolor{drawColor}{RGB}{255,233,0}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (385.74,312.96) --
+	(394.21,315.97) --
+	(395.90,321.73) --
+	(387.55,318.71) --
+	(385.74,312.96);
+\definecolor{drawColor}{RGB}{0,37,255}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (226.62,222.71) --
+	(232.90,224.62) --
+	(236.90,231.34) --
+	(230.67,229.39) --
+	(226.62,222.71);
+\definecolor{drawColor}{RGB}{70,255,184}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (315.53,272.89) --
+	(323.01,275.40) --
+	(325.77,281.62) --
+	(318.38,279.09) --
+	(315.53,272.89);
+\definecolor{drawColor}{RGB}{255,150,0}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (413.12,327.97) --
+	(422.00,331.19) --
+	(423.26,336.78) --
+	(414.50,333.56) --
+	(413.12,327.97);
+\definecolor{drawColor}{RGB}{0,119,255}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (249.73,235.34) --
+	(256.33,237.41) --
+	(260.02,244.01) --
+	(253.49,241.92) --
+	(249.73,235.34);
+\definecolor{drawColor}{RGB}{142,255,112}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (341.01,286.84) --
+	(348.86,289.53) --
+	(351.24,295.61) --
+	(343.49,292.90) --
+	(341.01,286.84);
+\definecolor{drawColor}{RGB}{0,191,255}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (273.48,248.33) --
+	(280.41,250.55) --
+	(283.78,257.04) --
+	(276.92,254.79) --
+	(273.48,248.33);
+\definecolor{drawColor}{RGB}{225,255,29}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (367.22,301.19) --
+	(375.46,304.07) --
+	(377.45,310.00) --
+	(369.32,307.11) --
+	(367.22,301.19);
+\definecolor{drawColor}{RGB}{9,255,245}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (297.90,261.67) --
+	(305.17,264.06) --
+	(308.20,270.43) --
+	(301.01,268.02) --
+	(297.90,261.67);
+\definecolor{drawColor}{RGB}{255,212,0}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (394.21,315.97) --
+	(402.85,319.05) --
+	(404.42,324.82) --
+	(395.90,321.73) --
+	(394.21,315.97);
+\definecolor{drawColor}{RGB}{0,57,255}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (232.90,224.62) --
+	(239.31,226.57) --
+	(243.25,233.32) --
+	(236.90,231.34) --
+	(232.90,224.62);
+\definecolor{drawColor}{RGB}{91,255,163}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (323.01,275.40) --
+	(330.65,277.96) --
+	(333.31,284.21) --
+	(325.77,281.62) --
+	(323.01,275.40);
+\definecolor{drawColor}{RGB}{255,140,0}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (422.00,331.19) --
+	(431.08,334.47) --
+	(432.19,340.07) --
+	(423.26,336.78) --
+	(422.00,331.19);
+\definecolor{drawColor}{RGB}{0,130,255}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (256.33,237.41) --
+	(263.06,239.51) --
+	(266.68,246.15) --
+	(260.02,244.01) --
+	(256.33,237.41);
+\definecolor{drawColor}{RGB}{163,255,91}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (348.86,289.53) --
+	(356.87,292.27) --
+	(359.15,298.37) --
+	(351.24,295.61) --
+	(348.86,289.53);
+\definecolor{drawColor}{RGB}{0,212,255}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (280.41,250.55) --
+	(287.47,252.81) --
+	(290.77,259.34) --
+	(283.78,257.04) --
+	(280.41,250.55);
+\definecolor{drawColor}{RGB}{245,255,9}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (375.46,304.07) --
+	(383.87,307.01) --
+	(385.74,312.96) --
+	(377.45,310.00) --
+	(375.46,304.07);
+\definecolor{drawColor}{RGB}{29,255,225}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (305.17,264.06) --
+	(312.59,266.49) --
+	(315.53,272.89) --
+	(308.20,270.43) --
+	(305.17,264.06);
+\definecolor{drawColor}{RGB}{255,191,0}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (402.85,319.05) --
+	(411.69,322.19) --
+	(413.12,327.97) --
+	(404.42,324.82) --
+	(402.85,319.05);
+\definecolor{drawColor}{RGB}{255,119,0}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (431.08,334.47) --
+	(435.69,336.14) --
+	(436.73,341.74) --
+	(432.19,340.07) --
+	(431.08,334.47);
+\definecolor{drawColor}{RGB}{0,0,251}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (219.31,214.90) --
+	(222.43,215.83) --
+	(226.62,222.71) --
+	(223.52,221.77) --
+	(219.31,214.90);
+\definecolor{drawColor}{RGB}{0,78,255}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (239.31,226.57) --
+	(245.85,228.56) --
+	(249.73,235.34) --
+	(243.25,233.32) --
+	(239.31,226.57);
+\definecolor{drawColor}{RGB}{112,255,142}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (330.65,277.96) --
+	(338.44,280.58) --
+	(341.01,286.84) --
+	(333.31,284.21) --
+	(330.65,277.96);
+\definecolor{drawColor}{RGB}{0,150,255}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (263.06,239.51) --
+	(269.92,241.65) --
+	(273.48,248.33) --
+	(266.68,246.15) --
+	(263.06,239.51);
+\definecolor{drawColor}{RGB}{184,255,70}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (356.87,292.27) --
+	(365.05,295.08) --
+	(367.22,301.19) --
+	(359.15,298.37) --
+	(356.87,292.27);
+\definecolor{drawColor}{RGB}{0,233,255}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (287.47,252.81) --
+	(294.68,255.12) --
+	(297.90,261.67) --
+	(290.77,259.34) --
+	(287.47,252.81);
+\definecolor{drawColor}{RGB}{255,253,0}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (383.87,307.01) --
+	(392.46,310.01) --
+	(394.21,315.97) --
+	(385.74,312.96) --
+	(383.87,307.01);
+\definecolor{drawColor}{RGB}{0,16,255}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (222.43,215.83) --
+	(228.78,217.70) --
+	(232.90,224.62) --
+	(226.62,222.71) --
+	(222.43,215.83);
+\definecolor{drawColor}{RGB}{50,255,204}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (312.59,266.49) --
+	(320.16,268.98) --
+	(323.01,275.40) --
+	(315.53,272.89) --
+	(312.59,266.49);
+\definecolor{drawColor}{RGB}{255,171,0}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (411.69,322.19) --
+	(420.71,325.40) --
+	(422.00,331.19) --
+	(413.12,327.97) --
+	(411.69,322.19);
+\definecolor{drawColor}{RGB}{0,99,255}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (245.85,228.56) --
+	(252.51,230.59) --
+	(256.33,237.41) --
+	(249.73,235.34) --
+	(245.85,228.56);
+\definecolor{drawColor}{RGB}{122,255,132}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (338.44,280.58) --
+	(346.39,283.25) --
+	(348.86,289.53) --
+	(341.01,286.84) --
+	(338.44,280.58);
+\definecolor{drawColor}{RGB}{0,171,255}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (269.92,241.65) --
+	(276.92,243.84) --
+	(280.41,250.55) --
+	(273.48,248.33) --
+	(269.92,241.65);
+\definecolor{drawColor}{RGB}{204,255,50}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (365.05,295.08) --
+	(373.41,297.94) --
+	(375.46,304.07) --
+	(367.22,301.19) --
+	(365.05,295.08);
+\definecolor{drawColor}{RGB}{0,243,255}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (294.68,255.12) --
+	(302.04,257.48) --
+	(305.17,264.06) --
+	(297.90,261.67) --
+	(294.68,255.12);
+\definecolor{drawColor}{RGB}{255,233,0}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (392.46,310.01) --
+	(401.24,313.07) --
+	(402.85,319.05) --
+	(394.21,315.97) --
+	(392.46,310.01);
+\definecolor{drawColor}{RGB}{0,37,255}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (228.78,217.70) --
+	(235.25,219.61) --
+	(239.31,226.57) --
+	(232.90,224.62) --
+	(228.78,217.70);
+\definecolor{drawColor}{RGB}{70,255,184}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (320.16,268.98) --
+	(327.89,271.52) --
+	(330.65,277.96) --
+	(323.01,275.40) --
+	(320.16,268.98);
+\definecolor{drawColor}{RGB}{255,150,0}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (420.71,325.40) --
+	(429.93,328.68) --
+	(431.08,334.47) --
+	(422.00,331.19) --
+	(420.71,325.40);
+\definecolor{drawColor}{RGB}{0,109,255}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (252.51,230.59) --
+	(259.31,232.66) --
+	(263.06,239.51) --
+	(256.33,237.41) --
+	(252.51,230.59);
+\definecolor{drawColor}{RGB}{142,255,112}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (346.39,283.25) --
+	(354.51,285.97) --
+	(356.87,292.27) --
+	(348.86,289.53) --
+	(346.39,283.25);
+\definecolor{drawColor}{RGB}{204,255,50}
+
+\path[draw=drawColor,line width= 0.8pt,line join=round,line cap=round] (367.57,299.70) -- (367.44,296.29);
+\definecolor{fillColor}{RGB}{204,255,50}
+
+\path[fill=fillColor] (358.57,299.70) --
+	(367.57,308.70) --
+	(376.57,299.70) --
+	(367.57,290.70) --
+	cycle;
+\definecolor{drawColor}{RGB}{0,191,255}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (276.92,243.84) --
+	(284.07,246.08) --
+	(287.47,252.81) --
+	(280.41,250.55) --
+	(276.92,243.84);
+\definecolor{drawColor}{RGB}{225,255,29}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (373.41,297.94) --
+	(381.94,300.86) --
+	(383.87,307.01) --
+	(375.46,304.07) --
+	(373.41,297.94);
+\definecolor{drawColor}{RGB}{9,255,245}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (302.04,257.48) --
+	(309.55,259.89) --
+	(312.59,266.49) --
+	(305.17,264.06) --
+	(302.04,257.48);
+\definecolor{drawColor}{RGB}{255,212,0}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (401.24,313.07) --
+	(410.20,316.21) --
+	(411.69,322.19) --
+	(402.85,319.05) --
+	(401.24,313.07);
+\definecolor{drawColor}{RGB}{255,140,0}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (429.93,328.68) --
+	(434.61,330.34) --
+	(435.69,336.14) --
+	(431.08,334.47) --
+	(429.93,328.68);
+\definecolor{drawColor}{RGB}{0,0,242}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (214.97,207.82) --
+	(218.12,208.73) --
+	(222.43,215.83) --
+	(219.31,214.90) --
+	(214.97,207.82);
+\definecolor{drawColor}{RGB}{0,57,255}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (235.25,219.61) --
+	(241.85,221.56) --
+	(245.85,228.56) --
+	(239.31,226.57) --
+	(235.25,219.61);
+\definecolor{drawColor}{RGB}{91,255,163}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (327.89,271.52) --
+	(335.79,274.11) --
+	(338.44,280.58) --
+	(330.65,277.96) --
+	(327.89,271.52);
+\definecolor{drawColor}{RGB}{0,130,255}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (259.31,232.66) --
+	(266.25,234.77) --
+	(269.92,241.65) --
+	(263.06,239.51) --
+	(259.31,232.66);
+\definecolor{drawColor}{RGB}{163,255,91}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (354.51,285.97) --
+	(362.81,288.75) --
+	(365.05,295.08) --
+	(356.87,292.27) --
+	(354.51,285.97);
+\definecolor{drawColor}{RGB}{0,212,255}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (284.07,246.08) --
+	(291.36,248.35) --
+	(294.68,255.12) --
+	(287.47,252.81) --
+	(284.07,246.08);
+\definecolor{drawColor}{RGB}{235,255,19}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (381.94,300.86) --
+	(390.66,303.85) --
+	(392.46,310.01) --
+	(383.87,307.01) --
+	(381.94,300.86);
+\definecolor{drawColor}{RGB}{0,0,251}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (218.12,208.73) --
+	(224.52,210.56) --
+	(228.78,217.70) --
+	(222.43,215.83) --
+	(218.12,208.73);
+\definecolor{drawColor}{RGB}{29,255,225}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (309.55,259.89) --
+	(317.22,262.34) --
+	(320.16,268.98) --
+	(312.59,266.49) --
+	(309.55,259.89);
+\definecolor{drawColor}{RGB}{255,191,0}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (410.20,316.21) --
+	(419.37,319.41) --
+	(420.71,325.40) --
+	(411.69,322.19) --
+	(410.20,316.21);
+\definecolor{drawColor}{RGB}{0,78,255}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (241.85,221.56) --
+	(248.58,223.55) --
+	(252.51,230.59) --
+	(245.85,228.56) --
+	(241.85,221.56);
+\definecolor{drawColor}{RGB}{101,255,153}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (335.79,274.11) --
+	(343.85,276.75) --
+	(346.39,283.25) --
+	(338.44,280.58) --
+	(335.79,274.11);
+\definecolor{drawColor}{RGB}{0,253,255}
+
+\path[draw=drawColor,line width= 0.8pt,line join=round,line cap=round] (345.36,280.71) -- (344.98,258.40);
+\definecolor{fillColor}{RGB}{0,253,255}
+
+\path[fill=fillColor] (335.98,258.40) --
+	(344.98,267.40) --
+	(353.98,258.40) --
+	(344.98,249.40) --
+	cycle;
+\definecolor{drawColor}{RGB}{0,150,255}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (266.25,234.77) --
+	(273.33,236.92) --
+	(276.92,243.84) --
+	(269.92,241.65) --
+	(266.25,234.77);
+\definecolor{drawColor}{RGB}{184,255,70}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (362.81,288.75) --
+	(371.28,291.59) --
+	(373.41,297.94) --
+	(365.05,295.08) --
+	(362.81,288.75);
+\definecolor{drawColor}{RGB}{0,99,255}
+
+\path[draw=drawColor,line width= 0.8pt,line join=round,line cap=round] (252.17,229.60) -- (252.25,228.38);
+\definecolor{fillColor}{RGB}{0,99,255}
+
+\path[fill=fillColor] (243.17,229.60) --
+	(252.17,238.60) --
+	(261.17,229.60) --
+	(252.17,220.60) --
+	cycle;
+\definecolor{drawColor}{RGB}{0,222,255}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (291.36,248.35) --
+	(298.81,250.68) --
+	(302.04,257.48) --
+	(294.68,255.12) --
+	(291.36,248.35);
+\definecolor{drawColor}{RGB}{255,253,0}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (390.66,303.85) --
+	(399.56,306.90) --
+	(401.24,313.07) --
+	(392.46,310.01) --
+	(390.66,303.85);
+\definecolor{drawColor}{RGB}{0,16,255}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (224.52,210.56) --
+	(231.05,212.43) --
+	(235.25,219.61) --
+	(228.78,217.70) --
+	(224.52,210.56);
+\definecolor{drawColor}{RGB}{50,255,204}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (317.22,262.34) --
+	(325.05,264.85) --
+	(327.89,271.52) --
+	(320.16,268.98) --
+	(317.22,262.34);
+\definecolor{drawColor}{RGB}{255,171,0}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (419.37,319.41) --
+	(428.73,322.68) --
+	(429.93,328.68) --
+	(420.71,325.40) --
+	(419.37,319.41);
+\definecolor{drawColor}{RGB}{0,99,255}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (248.58,223.55) --
+	(255.45,225.58) --
+	(259.31,232.66) --
+	(252.51,230.59) --
+	(248.58,223.55);
+\definecolor{drawColor}{RGB}{122,255,132}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (343.85,276.75) --
+	(352.08,279.45) --
+	(354.51,285.97) --
+	(346.39,283.25) --
+	(343.85,276.75);
+\definecolor{drawColor}{RGB}{0,171,255}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (273.33,236.92) --
+	(280.56,239.12) --
+	(284.07,246.08) --
+	(276.92,243.84) --
+	(273.33,236.92);
+\definecolor{drawColor}{RGB}{204,255,50}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (371.28,291.59) --
+	(379.94,294.50) --
+	(381.94,300.86) --
+	(373.41,297.94) --
+	(371.28,291.59);
+\definecolor{drawColor}{RGB}{0,243,255}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (298.81,250.68) --
+	(306.41,253.06) --
+	(309.55,259.89) --
+	(302.04,257.48) --
+	(298.81,250.68);
+\definecolor{drawColor}{RGB}{255,233,0}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (399.56,306.90) --
+	(408.67,310.02) --
+	(410.20,316.21) --
+	(401.24,313.07) --
+	(399.56,306.90);
+\definecolor{drawColor}{RGB}{255,160,0}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (428.73,322.68) --
+	(433.49,324.34) --
+	(434.61,330.34) --
+	(429.93,328.68) --
+	(428.73,322.68);
+\definecolor{drawColor}{RGB}{0,0,224}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (210.49,200.52) --
+	(213.67,201.40) --
+	(218.12,208.73) --
+	(214.97,207.82) --
+	(210.49,200.52);
+\definecolor{drawColor}{RGB}{0,37,255}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (231.05,212.43) --
+	(237.71,214.34) --
+	(241.85,221.56) --
+	(235.25,219.61) --
+	(231.05,212.43);
+\definecolor{drawColor}{RGB}{70,255,184}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (325.05,264.85) --
+	(333.04,267.41) --
+	(335.79,274.11) --
+	(327.89,271.52) --
+	(325.05,264.85);
+\definecolor{drawColor}{RGB}{0,109,255}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (255.45,225.58) --
+	(262.46,227.65) --
+	(266.25,234.77) --
+	(259.31,232.66) --
+	(255.45,225.58);
+\definecolor{drawColor}{RGB}{142,255,112}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (352.08,279.45) --
+	(360.49,282.21) --
+	(362.81,288.75) --
+	(354.51,285.97) --
+	(352.08,279.45);
+\definecolor{drawColor}{RGB}{0,233,255}
+
+\path[draw=drawColor,line width= 0.8pt,line join=round,line cap=round] (308.54,256.77) -- (308.60,253.05);
+\definecolor{fillColor}{RGB}{0,233,255}
+
+\path[fill=fillColor] (299.60,253.05) --
+	(308.60,262.05) --
+	(317.60,253.05) --
+	(308.60,244.05) --
+	cycle;
+\definecolor{drawColor}{RGB}{0,191,255}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (280.56,239.12) --
+	(287.93,241.36) --
+	(291.36,248.35) --
+	(284.07,246.08) --
+	(280.56,239.12);
+\definecolor{drawColor}{RGB}{215,255,39}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (379.94,294.50) --
+	(388.79,297.47) --
+	(390.66,303.85) --
+	(381.94,300.86) --
+	(379.94,294.50);
+\definecolor{drawColor}{RGB}{0,0,233}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (213.67,201.40) --
+	(220.13,203.19) --
+	(224.52,210.56) --
+	(218.12,208.73) --
+	(213.67,201.40);
+\definecolor{drawColor}{RGB}{9,255,245}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (306.41,253.06) --
+	(314.17,255.48) --
+	(317.22,262.34) --
+	(309.55,259.89) --
+	(306.41,253.06);
+\definecolor{drawColor}{RGB}{255,212,0}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (408.67,310.02) --
+	(417.98,313.20) --
+	(419.37,319.41) --
+	(410.20,316.21) --
+	(408.67,310.02);
+\definecolor{drawColor}{RGB}{0,57,255}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (237.71,214.34) --
+	(244.51,216.29) --
+	(248.58,223.55) --
+	(241.85,221.56) --
+	(237.71,214.34);
+\definecolor{drawColor}{RGB}{81,255,173}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (333.04,267.41) --
+	(341.21,270.03) --
+	(343.85,276.75) --
+	(335.79,274.11) --
+	(333.04,267.41);
+\definecolor{drawColor}{RGB}{0,130,255}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (262.46,227.65) --
+	(269.62,229.77) --
+	(273.33,236.92) --
+	(266.25,234.77) --
+	(262.46,227.65);
+\definecolor{drawColor}{RGB}{163,255,91}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (360.49,282.21) --
+	(369.08,285.03) --
+	(371.28,291.59) --
+	(362.81,288.75) --
+	(360.49,282.21);
+\definecolor{drawColor}{RGB}{0,212,255}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (287.93,241.36) --
+	(295.47,243.65) --
+	(298.81,250.68) --
+	(291.36,248.35) --
+	(287.93,241.36);
+\definecolor{drawColor}{RGB}{235,255,19}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (388.79,297.47) --
+	(397.83,300.50) --
+	(399.56,306.90) --
+	(390.66,303.85) --
+	(388.79,297.47);
+\definecolor{drawColor}{RGB}{0,0,251}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (220.13,203.19) --
+	(226.72,205.01) --
+	(231.05,212.43) --
+	(224.52,210.56) --
+	(220.13,203.19);
+\definecolor{drawColor}{RGB}{29,255,225}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (314.17,255.48) --
+	(322.10,257.96) --
+	(325.05,264.85) --
+	(317.22,262.34) --
+	(314.17,255.48);
+\definecolor{drawColor}{RGB}{255,191,0}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (417.98,313.20) --
+	(427.50,316.46) --
+	(428.73,322.68) --
+	(419.37,319.41) --
+	(417.98,313.20);
+\definecolor{drawColor}{RGB}{0,78,255}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (244.51,216.29) --
+	(251.45,218.27) --
+	(255.45,225.58) --
+	(248.58,223.55) --
+	(244.51,216.29);
+\definecolor{drawColor}{RGB}{101,255,153}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (341.21,270.03) --
+	(349.56,272.71) --
+	(352.08,279.45) --
+	(343.85,276.75) --
+	(341.21,270.03);
+\definecolor{drawColor}{RGB}{0,150,255}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (269.62,229.77) --
+	(276.92,231.93) --
+	(280.56,239.12) --
+	(273.33,236.92) --
+	(269.62,229.77);
+\definecolor{drawColor}{RGB}{184,255,70}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (369.08,285.03) --
+	(377.87,287.91) --
+	(379.94,294.50) --
+	(371.28,291.59) --
+	(369.08,285.03);
+\definecolor{drawColor}{RGB}{0,222,255}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (295.47,243.65) --
+	(303.16,245.99) --
+	(306.41,253.06) --
+	(298.81,250.68) --
+	(295.47,243.65);
+\definecolor{drawColor}{RGB}{255,253,0}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (397.83,300.50) --
+	(407.08,303.60) --
+	(408.67,310.02) --
+	(399.56,306.90) --
+	(397.83,300.50);
+\definecolor{drawColor}{RGB}{255,181,0}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (427.50,316.46) --
+	(432.34,318.12) --
+	(433.49,324.34) --
+	(428.73,322.68) --
+	(427.50,316.46);
+\definecolor{drawColor}{RGB}{0,0,206}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (205.87,192.98) --
+	(209.07,193.84) --
+	(213.67,201.40) --
+	(210.49,200.52) --
+	(205.87,192.98);
+\definecolor{drawColor}{RGB}{0,16,255}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (226.72,205.01) --
+	(233.45,206.88) --
+	(237.71,214.34) --
+	(231.05,212.43) --
+	(226.72,205.01);
+\definecolor{drawColor}{RGB}{50,255,204}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (322.10,257.96) --
+	(330.20,260.49) --
+	(333.04,267.41) --
+	(325.05,264.85) --
+	(322.10,257.96);
+\definecolor{drawColor}{RGB}{0,88,255}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (251.45,218.27) --
+	(258.54,220.30) --
+	(262.46,227.65) --
+	(255.45,225.58) --
+	(251.45,218.27);
+\definecolor{drawColor}{RGB}{122,255,132}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (349.56,272.71) --
+	(358.09,275.44) --
+	(360.49,282.21) --
+	(352.08,279.45) --
+	(349.56,272.71);
+\definecolor{drawColor}{RGB}{0,171,255}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (276.92,231.93) --
+	(284.39,234.13) --
+	(287.93,241.36) --
+	(280.56,239.12) --
+	(276.92,231.93);
+\definecolor{drawColor}{RGB}{194,255,60}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (377.87,287.91) --
+	(386.85,290.86) --
+	(388.79,297.47) --
+	(379.94,294.50) --
+	(377.87,287.91);
+\definecolor{drawColor}{RGB}{0,0,215}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (209.07,193.84) --
+	(215.59,195.58) --
+	(220.13,203.19) --
+	(213.67,201.40) --
+	(209.07,193.84);
+\definecolor{drawColor}{RGB}{0,243,255}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (303.16,245.99) --
+	(311.02,248.39) --
+	(314.17,255.48) --
+	(306.41,253.06) --
+	(303.16,245.99);
+\definecolor{drawColor}{RGB}{255,233,0}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (407.08,303.60) --
+	(416.54,306.78) --
+	(417.98,313.20) --
+	(408.67,310.02) --
+	(407.08,303.60);
+\definecolor{drawColor}{RGB}{0,37,255}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (233.45,206.88) --
+	(240.32,208.78) --
+	(244.51,216.29) --
+	(237.71,214.34) --
+	(233.45,206.88);
+\definecolor{drawColor}{RGB}{70,255,184}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (330.20,260.49) --
+	(338.48,263.08) --
+	(341.21,270.03) --
+	(333.04,267.41) --
+	(330.20,260.49);
+\definecolor{drawColor}{RGB}{0,109,255}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (258.54,220.30) --
+	(265.78,222.38) --
+	(269.62,229.77) --
+	(262.46,227.65) --
+	(258.54,220.30);
+\definecolor{drawColor}{RGB}{142,255,112}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (358.09,275.44) --
+	(366.81,278.23) --
+	(369.08,285.03) --
+	(360.49,282.21) --
+	(358.09,275.44);
+\definecolor{drawColor}{RGB}{0,191,255}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (284.39,234.13) --
+	(292.01,236.39) --
+	(295.47,243.65) --
+	(287.93,241.36) --
+	(284.39,234.13);
+\definecolor{drawColor}{RGB}{215,255,39}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (386.85,290.86) --
+	(396.04,293.87) --
+	(397.83,300.50) --
+	(388.79,297.47) --
+	(386.85,290.86);
+\definecolor{drawColor}{RGB}{0,0,233}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (215.59,195.58) --
+	(222.25,197.35) --
+	(226.72,205.01) --
+	(220.13,203.19) --
+	(215.59,195.58);
+\definecolor{drawColor}{RGB}{9,255,245}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (311.02,248.39) --
+	(319.06,250.83) --
+	(322.10,257.96) --
+	(314.17,255.48) --
+	(311.02,248.39);
+\definecolor{drawColor}{RGB}{255,212,0}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (416.54,306.78) --
+	(426.21,310.02) --
+	(427.50,316.46) --
+	(417.98,313.20) --
+	(416.54,306.78);
+\definecolor{drawColor}{RGB}{0,57,255}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (240.32,208.78) --
+	(247.33,210.72) --
+	(251.45,218.27) --
+	(244.51,216.29) --
+	(240.32,208.78);
+\definecolor{drawColor}{RGB}{81,255,173}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (338.48,263.08) --
+	(346.95,265.72) --
+	(349.56,272.71) --
+	(341.21,270.03) --
+	(338.48,263.08);
+\definecolor{drawColor}{RGB}{0,130,255}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (265.78,222.38) --
+	(273.17,224.49) --
+	(276.92,231.93) --
+	(269.62,229.77) --
+	(265.78,222.38);
+\definecolor{drawColor}{RGB}{163,255,91}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (366.81,278.23) --
+	(375.72,281.09) --
+	(377.87,287.91) --
+	(369.08,285.03) --
+	(366.81,278.23);
+\definecolor{drawColor}{RGB}{0,191,255}
+
+\path[draw=drawColor,line width= 0.8pt,line join=round,line cap=round] (288.41,238.40) -- (288.47,236.54);
+\definecolor{fillColor}{RGB}{0,191,255}
+
+\path[fill=fillColor] (279.41,238.40) --
+	(288.41,247.40) --
+	(297.41,238.40) --
+	(288.41,229.40) --
+	cycle;
+\definecolor{drawColor}{RGB}{0,202,255}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (292.01,236.39) --
+	(299.80,238.69) --
+	(303.16,245.99) --
+	(295.47,243.65) --
+	(292.01,236.39);
+\definecolor{drawColor}{RGB}{235,255,19}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (396.04,293.87) --
+	(405.43,296.96) --
+	(407.08,303.60) --
+	(397.83,300.50) --
+	(396.04,293.87);
+\definecolor{drawColor}{RGB}{255,191,0}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (426.21,310.02) --
+	(431.14,311.67) --
+	(432.34,318.12) --
+	(427.50,316.46) --
+	(426.21,310.02);
+\definecolor{drawColor}{RGB}{0,0,188}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (201.09,185.19) --
+	(204.33,186.02) --
+	(209.07,193.84) --
+	(205.87,192.98) --
+	(201.09,185.19);
+\definecolor{drawColor}{RGB}{0,0,251}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (222.25,197.35) --
+	(229.04,199.17) --
+	(233.45,206.88) --
+	(226.72,205.01) --
+	(222.25,197.35);
+\definecolor{drawColor}{RGB}{29,255,225}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (319.06,250.83) --
+	(327.27,253.33) --
+	(330.20,260.49) --
+	(322.10,257.96) --
+	(319.06,250.83);
+\definecolor{drawColor}{RGB}{0,68,255}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (247.33,210.72) --
+	(254.49,212.70) --
+	(258.54,220.30) --
+	(251.45,218.27) --
+	(247.33,210.72);
+\definecolor{drawColor}{RGB}{101,255,153}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (346.95,265.72) --
+	(355.60,268.43) --
+	(358.09,275.44) --
+	(349.56,272.71) --
+	(346.95,265.72);
+\definecolor{drawColor}{RGB}{0,150,255}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (273.17,224.49) --
+	(280.72,226.66) --
+	(284.39,234.13) --
+	(276.92,231.93) --
+	(273.17,224.49);
+\definecolor{drawColor}{RGB}{184,255,70}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (375.72,281.09) --
+	(384.84,284.01) --
+	(386.85,290.86) --
+	(377.87,287.91) --
+	(375.72,281.09);
+\definecolor{drawColor}{RGB}{0,0,197}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (204.33,186.02) --
+	(210.91,187.71) --
+	(215.59,195.58) --
+	(209.07,193.84) --
+	(204.33,186.02);
+\definecolor{drawColor}{RGB}{0,222,255}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (299.80,238.69) --
+	(307.76,241.04) --
+	(311.02,248.39) --
+	(303.16,245.99) --
+	(299.80,238.69);
+\definecolor{drawColor}{RGB}{255,253,0}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (405.43,296.96) --
+	(415.04,300.11) --
+	(416.54,306.78) --
+	(407.08,303.60) --
+	(405.43,296.96);
+\definecolor{drawColor}{RGB}{0,16,255}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (229.04,199.17) --
+	(235.98,201.02) --
+	(240.32,208.78) --
+	(233.45,206.88) --
+	(229.04,199.17);
+\definecolor{drawColor}{RGB}{50,255,204}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (327.27,253.33) --
+	(335.66,255.88) --
+	(338.48,263.08) --
+	(330.20,260.49) --
+	(327.27,253.33);
+\definecolor{drawColor}{RGB}{0,243,255}
+
+\path[draw=drawColor,line width= 0.8pt,line join=round,line cap=round] (323.02,252.49) -- (323.04,247.21);
+\definecolor{fillColor}{RGB}{0,243,255}
+
+\path[fill=fillColor] (314.04,247.21) --
+	(323.04,256.21) --
+	(332.04,247.21) --
+	(323.04,238.21) --
+	cycle;
+\definecolor{drawColor}{RGB}{245,255,9}
+
+\path[draw=drawColor,line width= 0.8pt,line join=round,line cap=round] (415.64,303.54) -- (415.26,298.70);
+\definecolor{fillColor}{RGB}{245,255,9}
+
+\path[fill=fillColor] (406.26,298.70) --
+	(415.26,307.70) --
+	(424.26,298.70) --
+	(415.26,289.70) --
+	cycle;
+\definecolor{drawColor}{RGB}{0,88,255}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (254.49,212.70) --
+	(261.81,214.73) --
+	(265.78,222.38) --
+	(258.54,220.30) --
+	(254.49,212.70);
+\definecolor{drawColor}{RGB}{122,255,132}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (355.60,268.43) --
+	(364.45,271.19) --
+	(366.81,278.23) --
+	(358.09,275.44) --
+	(355.60,268.43);
+\definecolor{drawColor}{RGB}{0,171,255}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (280.72,226.66) --
+	(288.44,228.87) --
+	(292.01,236.39) --
+	(284.39,234.13) --
+	(280.72,226.66);
+\definecolor{drawColor}{RGB}{194,255,60}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (384.84,284.01) --
+	(394.17,287.00) --
+	(396.04,293.87) --
+	(386.85,290.86) --
+	(384.84,284.01);
+\definecolor{drawColor}{RGB}{0,0,143}
+
+\path[draw=drawColor,line width= 0.8pt,line join=round,line cap=round] (200.26,183.83) -- (201.09,176.94);
+\definecolor{fillColor}{RGB}{0,0,143}
+
+\path[fill=fillColor] (192.09,176.94) --
+	(201.09,185.94) --
+	(210.09,176.94) --
+	(201.09,167.94) --
+	cycle;
+\definecolor{drawColor}{RGB}{0,0,215}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (210.91,187.71) --
+	(217.62,189.43) --
+	(222.25,197.35) --
+	(215.59,195.58) --
+	(210.91,187.71);
+\definecolor{drawColor}{RGB}{0,243,255}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (307.76,241.04) --
+	(315.90,243.45) --
+	(319.06,250.83) --
+	(311.02,248.39) --
+	(307.76,241.04);
+\definecolor{drawColor}{RGB}{255,233,0}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (415.04,300.11) --
+	(424.88,303.34) --
+	(426.21,310.02) --
+	(416.54,306.78) --
+	(415.04,300.11);
+\definecolor{drawColor}{RGB}{0,37,255}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (235.98,201.02) --
+	(243.06,202.91) --
+	(247.33,210.72) --
+	(240.32,208.78) --
+	(235.98,201.02);
+\definecolor{drawColor}{RGB}{60,255,194}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (335.66,255.88) --
+	(344.24,258.49) --
+	(346.95,265.72) --
+	(338.48,263.08) --
+	(335.66,255.88);
+\definecolor{drawColor}{RGB}{0,109,255}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (261.81,214.73) --
+	(269.28,216.80) --
+	(273.17,224.49) --
+	(265.78,222.38) --
+	(261.81,214.73);
+\definecolor{drawColor}{RGB}{142,255,112}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (364.45,271.19) --
+	(373.50,274.02) --
+	(375.72,281.09) --
+	(366.81,278.23) --
+	(364.45,271.19);
+\definecolor{drawColor}{RGB}{0,181,255}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (288.44,228.87) --
+	(296.33,231.13) --
+	(299.80,238.69) --
+	(292.01,236.39) --
+	(288.44,228.87);
+\definecolor{drawColor}{RGB}{215,255,39}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (394.17,287.00) --
+	(403.72,290.06) --
+	(405.43,296.96) --
+	(396.04,293.87) --
+	(394.17,287.00);
+\definecolor{drawColor}{RGB}{255,212,0}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (424.88,303.34) --
+	(429.89,304.98) --
+	(431.14,311.67) --
+	(426.21,310.02) --
+	(424.88,303.34);
+\definecolor{drawColor}{RGB}{0,0,170}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (196.16,177.15) --
+	(199.42,177.95) --
+	(204.33,186.02) --
+	(201.09,185.19) --
+	(196.16,177.15);
+\definecolor{drawColor}{RGB}{0,0,233}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (217.62,189.43) --
+	(224.48,191.19) --
+	(229.04,199.17) --
+	(222.25,197.35) --
+	(217.62,189.43);
+\definecolor{drawColor}{RGB}{9,255,245}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (315.90,243.45) --
+	(324.22,245.91) --
+	(327.27,253.33) --
+	(319.06,250.83) --
+	(315.90,243.45);
+\definecolor{drawColor}{RGB}{0,47,255}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (243.06,202.91) --
+	(250.30,204.84) --
+	(254.49,212.70) --
+	(247.33,210.72) --
+	(243.06,202.91);
+\definecolor{drawColor}{RGB}{81,255,173}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (344.24,258.49) --
+	(353.02,261.16) --
+	(355.60,268.43) --
+	(346.95,265.72) --
+	(344.24,258.49);
+\definecolor{drawColor}{RGB}{0,130,255}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (269.28,216.80) --
+	(276.92,218.92) --
+	(280.72,226.66) --
+	(273.17,224.49) --
+	(269.28,216.80);
+\definecolor{drawColor}{RGB}{163,255,91}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (373.50,274.02) --
+	(382.76,276.92) --
+	(384.84,284.01) --
+	(375.72,281.09) --
+	(373.50,274.02);
+\definecolor{drawColor}{RGB}{0,0,188}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (199.42,177.95) --
+	(206.06,179.58) --
+	(210.91,187.71) --
+	(204.33,186.02) --
+	(199.42,177.95);
+\definecolor{drawColor}{RGB}{0,202,255}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (296.33,231.13) --
+	(304.39,233.44) --
+	(307.76,241.04) --
+	(299.80,238.69) --
+	(296.33,231.13);
+\definecolor{drawColor}{RGB}{235,255,19}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (403.72,290.06) --
+	(413.50,293.20) --
+	(415.04,300.11) --
+	(405.43,296.96) --
+	(403.72,290.06);
+\definecolor{drawColor}{RGB}{0,233,255}
+
+\path[draw=drawColor,line width= 0.8pt,line join=round,line cap=round] (316.53,243.77) -- (316.55,242.01);
+\definecolor{fillColor}{RGB}{0,233,255}
+
+\path[fill=fillColor] (307.55,242.01) --
+	(316.55,251.01) --
+	(325.55,242.01) --
+	(316.55,233.01) --
+	cycle;
+\definecolor{drawColor}{RGB}{0,0,251}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (224.48,191.19) --
+	(231.49,192.99) --
+	(235.98,201.02) --
+	(229.04,199.17) --
+	(224.48,191.19);
+\definecolor{drawColor}{RGB}{29,255,225}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (324.22,245.91) --
+	(332.73,248.42) --
+	(335.66,255.88) --
+	(327.27,253.33) --
+	(324.22,245.91);
+\definecolor{drawColor}{RGB}{0,68,255}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (250.30,204.84) --
+	(257.70,206.82) --
+	(261.81,214.73) --
+	(254.49,212.70) --
+	(250.30,204.84);
+\definecolor{drawColor}{RGB}{101,255,153}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (353.02,261.16) --
+	(362.00,263.89) --
+	(364.45,271.19) --
+	(355.60,268.43) --
+	(353.02,261.16);
+\definecolor{drawColor}{RGB}{0,150,255}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (276.92,218.92) --
+	(284.74,221.08) --
+	(288.44,228.87) --
+	(280.72,226.66) --
+	(276.92,218.92);
+\definecolor{drawColor}{RGB}{173,255,81}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (382.76,276.92) --
+	(392.24,279.88) --
+	(394.17,287.00) --
+	(384.84,284.01) --
+	(382.76,276.92);
+\definecolor{drawColor}{RGB}{0,0,197}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (206.06,179.58) --
+	(212.84,181.24) --
+	(217.62,189.43) --
+	(210.91,187.71) --
+	(206.06,179.58);
+\definecolor{drawColor}{RGB}{0,222,255}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (304.39,233.44) --
+	(312.64,235.80) --
+	(315.90,243.45) --
+	(307.76,241.04) --
+	(304.39,233.44);
+\definecolor{drawColor}{RGB}{255,253,0}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (413.50,293.20) --
+	(423.50,296.40) --
+	(424.88,303.34) --
+	(415.04,300.11) --
+	(413.50,293.20);
+\definecolor{drawColor}{RGB}{0,16,255}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (231.49,192.99) --
+	(238.65,194.83) --
+	(243.06,202.91) --
+	(235.98,201.02) --
+	(231.49,192.99);
+\definecolor{drawColor}{RGB}{39,255,215}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (332.73,248.42) --
+	(341.44,250.99) --
+	(344.24,258.49) --
+	(335.66,255.88) --
+	(332.73,248.42);
+\definecolor{drawColor}{RGB}{0,88,255}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (257.70,206.82) --
+	(265.26,208.84) --
+	(269.28,216.80) --
+	(261.81,214.73) --
+	(257.70,206.82);
+\definecolor{drawColor}{RGB}{122,255,132}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (362.00,263.89) --
+	(371.20,266.69) --
+	(373.50,274.02) --
+	(364.45,271.19) --
+	(362.00,263.89);
+\definecolor{drawColor}{RGB}{0,160,255}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (284.74,221.08) --
+	(292.72,223.29) --
+	(296.33,231.13) --
+	(288.44,228.87) --
+	(284.74,221.08);
+\definecolor{drawColor}{RGB}{194,255,60}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (392.24,279.88) --
+	(401.95,282.91) --
+	(403.72,290.06) --
+	(394.17,287.00) --
+	(392.24,279.88);
+\definecolor{drawColor}{RGB}{255,233,0}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (423.50,296.40) --
+	(428.60,298.04) --
+	(429.89,304.98) --
+	(424.88,303.34) --
+	(423.50,296.40);
+\definecolor{drawColor}{RGB}{0,0,152}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (190.83,170.62) --
+	(194.21,170.76) --
+	(199.42,177.95) --
+	(196.16,177.15) --
+	(190.83,170.62);
+\definecolor{drawColor}{RGB}{0,0,215}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (212.84,181.24) --
+	(219.76,182.95) --
+	(224.48,191.19) --
+	(217.62,189.43) --
+	(212.84,181.24);
+\definecolor{drawColor}{RGB}{0,243,255}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (312.64,235.80) --
+	(321.07,238.21) --
+	(324.22,245.91) --
+	(315.90,243.45) --
+	(312.64,235.80);
+\definecolor{drawColor}{RGB}{0,37,255}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (238.65,194.83) --
+	(245.96,196.71) --
+	(250.30,204.84) --
+	(243.06,202.91) --
+	(238.65,194.83);
+\definecolor{drawColor}{RGB}{60,255,194}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (341.44,250.99) --
+	(350.35,253.63) --
+	(353.02,261.16) --
+	(344.24,258.49) --
+	(341.44,250.99);
+\definecolor{drawColor}{RGB}{0,109,255}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (265.26,208.84) --
+	(272.99,210.90) --
+	(276.92,218.92) --
+	(269.28,216.80) --
+	(265.26,208.84);
+\definecolor{drawColor}{RGB}{142,255,112}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (371.20,266.69) --
+	(380.61,269.55) --
+	(382.76,276.92) --
+	(373.50,274.02) --
+	(371.20,266.69);
+\definecolor{drawColor}{RGB}{0,0,170}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (194.21,170.76) --
+	(201.05,171.17) --
+	(206.06,179.58) --
+	(199.42,177.95) --
+	(194.21,170.76);
+\definecolor{drawColor}{RGB}{0,181,255}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (292.72,223.29) --
+	(300.89,225.56) --
+	(304.39,233.44) --
+	(296.33,231.13) --
+	(292.72,223.29);
+\definecolor{drawColor}{RGB}{215,255,39}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (401.95,282.91) --
+	(411.89,286.02) --
+	(413.50,293.20) --
+	(403.72,290.06) --
+	(401.95,282.91);
+\definecolor{drawColor}{RGB}{0,0,233}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (219.76,182.95) --
+	(226.84,184.68) --
+	(231.49,192.99) --
+	(224.48,191.19) --
+	(219.76,182.95);
+\definecolor{drawColor}{RGB}{9,255,245}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (321.07,238.21) --
+	(329.70,240.69) --
+	(332.73,248.42) --
+	(324.22,245.91) --
+	(321.07,238.21);
+\definecolor{drawColor}{RGB}{0,47,255}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (245.96,196.71) --
+	(253.44,198.63) --
+	(257.70,206.82) --
+	(250.30,204.84) --
+	(245.96,196.71);
+\definecolor{drawColor}{RGB}{81,255,173}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (350.35,253.63) --
+	(359.47,256.32) --
+	(362.00,263.89) --
+	(353.02,261.16) --
+	(350.35,253.63);
+\definecolor{drawColor}{RGB}{0,130,255}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (272.99,210.90) --
+	(280.90,213.01) --
+	(284.74,221.08) --
+	(276.92,218.92) --
+	(272.99,210.90);
+\definecolor{drawColor}{RGB}{153,255,101}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (380.61,269.55) --
+	(390.24,272.48) --
+	(392.24,279.88) --
+	(382.76,276.92) --
+	(380.61,269.55);
+\definecolor{drawColor}{RGB}{0,0,179}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (201.05,171.17) --
+	(207.89,172.77) --
+	(212.84,181.24) --
+	(206.06,179.58) --
+	(201.05,171.17);
+\definecolor{drawColor}{RGB}{0,202,255}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (300.89,225.56) --
+	(309.25,227.87) --
+	(312.64,235.80) --
+	(304.39,233.44) --
+	(300.89,225.56);
+\definecolor{drawColor}{RGB}{235,255,19}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (411.89,286.02) --
+	(422.07,289.20) --
+	(423.50,296.40) --
+	(413.50,293.20) --
+	(411.89,286.02);
+\definecolor{drawColor}{RGB}{0,0,251}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (226.84,184.68) --
+	(234.07,186.46) --
+	(238.65,194.83) --
+	(231.49,192.99) --
+	(226.84,184.68);
+\definecolor{drawColor}{RGB}{19,255,235}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (329.70,240.69) --
+	(338.53,243.22) --
+	(341.44,250.99) --
+	(332.73,248.42) --
+	(329.70,240.69);
+\definecolor{drawColor}{RGB}{255,255,255}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (191.53,167.00) --
+	(194.21,170.76) --
+	(190.83,170.62) --
+	(191.53,167.00);
+\definecolor{drawColor}{RGB}{0,68,255}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (253.44,198.63) --
+	(261.09,200.59) --
+	(265.26,208.84) --
+	(257.70,206.82) --
+	(253.44,198.63);
+\definecolor{drawColor}{RGB}{101,255,153}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (359.47,256.32) --
+	(368.80,259.08) --
+	(371.20,266.69) --
+	(362.00,263.89) --
+	(359.47,256.32);
+\definecolor{drawColor}{RGB}{0,150,255}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (280.90,213.01) --
+	(288.99,215.17) --
+	(292.72,223.29) --
+	(284.74,221.08) --
+	(280.90,213.01);
+\definecolor{drawColor}{RGB}{173,255,81}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (390.24,272.48) --
+	(400.11,275.48) --
+	(401.95,282.91) --
+	(392.24,279.88) --
+	(390.24,272.48);
+\definecolor{drawColor}{RGB}{255,253,0}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (422.07,289.20) --
+	(427.25,290.82) --
+	(428.60,298.04) --
+	(423.50,296.40) --
+	(422.07,289.20);
+\definecolor{drawColor}{RGB}{0,0,197}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (207.89,172.77) --
+	(214.88,174.41) --
+	(219.76,182.95) --
+	(212.84,181.24) --
+	(207.89,172.77);
+\definecolor{drawColor}{RGB}{0,222,255}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (309.25,227.87) --
+	(317.80,230.24) --
+	(321.07,238.21) --
+	(312.64,235.80) --
+	(309.25,227.87);
+\definecolor{drawColor}{RGB}{0,0,152}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (191.53,167.00) --
+	(198.48,166.85) --
+	(201.05,171.17) --
+	(194.21,170.76) --
+	(191.53,167.00);
+\definecolor{drawColor}{RGB}{0,16,255}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (234.07,186.46) --
+	(241.47,188.28) --
+	(245.96,196.71) --
+	(238.65,194.83) --
+	(234.07,186.46);
+\definecolor{drawColor}{RGB}{39,255,215}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (338.53,243.22) --
+	(347.58,245.81) --
+	(350.35,253.63) --
+	(341.44,250.99) --
+	(338.53,243.22);
+\definecolor{drawColor}{RGB}{0,88,255}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (261.09,200.59) --
+	(268.92,202.60) --
+	(272.99,210.90) --
+	(265.26,208.84) --
+	(261.09,200.59);
+\definecolor{drawColor}{RGB}{122,255,132}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (368.80,259.08) --
+	(378.37,261.90) --
+	(380.61,269.55) --
+	(371.20,266.69) --
+	(368.80,259.08);
+\definecolor{drawColor}{RGB}{0,160,255}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (288.99,215.17) --
+	(297.27,217.38) --
+	(300.89,225.56) --
+	(292.72,223.29) --
+	(288.99,215.17);
+\definecolor{drawColor}{RGB}{194,255,60}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (400.11,275.48) --
+	(410.22,278.56) --
+	(411.89,286.02) --
+	(401.95,282.91) --
+	(400.11,275.48);
+\definecolor{drawColor}{RGB}{0,0,215}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (214.88,174.41) --
+	(222.03,176.08) --
+	(226.84,184.68) --
+	(219.76,182.95) --
+	(214.88,174.41);
+\definecolor{drawColor}{RGB}{0,243,255}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (317.80,230.24) --
+	(326.56,232.66) --
+	(329.70,240.69) --
+	(321.07,238.21) --
+	(317.80,230.24);
+\definecolor{drawColor}{RGB}{0,0,161}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (198.48,166.85) --
+	(205.35,168.42) --
+	(207.89,172.77) --
+	(201.05,171.17) --
+	(198.48,166.85);
+\definecolor{drawColor}{RGB}{0,27,255}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (241.47,188.28) --
+	(249.04,190.14) --
+	(253.44,198.63) --
+	(245.96,196.71) --
+	(241.47,188.28);
+\definecolor{drawColor}{RGB}{60,255,194}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (347.58,245.81) --
+	(356.84,248.46) --
+	(359.47,256.32) --
+	(350.35,253.63) --
+	(347.58,245.81);
+\definecolor{drawColor}{RGB}{0,109,255}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (268.92,202.60) --
+	(276.92,204.65) --
+	(280.90,213.01) --
+	(272.99,210.90) --
+	(268.92,202.60);
+\definecolor{drawColor}{RGB}{142,255,112}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (378.37,261.90) --
+	(388.16,264.80) --
+	(390.24,272.48) --
+	(380.61,269.55) --
+	(378.37,261.90);
+\definecolor{drawColor}{RGB}{0,181,255}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (297.27,217.38) --
+	(305.74,219.65) --
+	(309.25,227.87) --
+	(300.89,225.56) --
+	(297.27,217.38);
+\definecolor{drawColor}{RGB}{215,255,39}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (410.22,278.56) --
+	(420.58,281.71) --
+	(422.07,289.20) --
+	(411.89,286.02) --
+	(410.22,278.56);
+\definecolor{drawColor}{RGB}{0,0,233}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (222.03,176.08) --
+	(229.34,177.79) --
+	(234.07,186.46) --
+	(226.84,184.68) --
+	(222.03,176.08);
+\definecolor{drawColor}{RGB}{9,255,245}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (326.56,232.66) --
+	(335.52,235.14) --
+	(338.53,243.22) --
+	(329.70,240.69) --
+	(326.56,232.66);
+\definecolor{drawColor}{RGB}{0,0,179}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (205.35,168.42) --
+	(212.37,170.03) --
+	(214.88,174.41) --
+	(207.89,172.77) --
+	(205.35,168.42);
+\definecolor{drawColor}{RGB}{0,47,255}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (249.04,190.14) --
+	(256.78,192.04) --
+	(261.09,200.59) --
+	(253.44,198.63) --
+	(249.04,190.14);
+\definecolor{drawColor}{RGB}{81,255,173}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (356.84,248.46) --
+	(366.32,251.18) --
+	(368.80,259.08) --
+	(359.47,256.32) --
+	(356.84,248.46);
+\definecolor{drawColor}{RGB}{0,130,255}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (276.92,204.65) --
+	(285.12,206.75) --
+	(288.99,215.17) --
+	(280.90,213.01) --
+	(276.92,204.65);
+\definecolor{drawColor}{RGB}{153,255,101}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (388.16,264.80) --
+	(398.20,267.76) --
+	(400.11,275.48) --
+	(390.24,272.48) --
+	(388.16,264.80);
+\definecolor{drawColor}{RGB}{235,255,19}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (420.58,281.71) --
+	(425.86,283.32) --
+	(427.25,290.82) --
+	(422.07,289.20) --
+	(420.58,281.71);
+\definecolor{drawColor}{RGB}{0,202,255}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (305.74,219.65) --
+	(314.41,221.96) --
+	(317.80,230.24) --
+	(309.25,227.87) --
+	(305.74,219.65);
+\definecolor{drawColor}{RGB}{0,0,251}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (229.34,177.79) --
+	(236.82,179.55) --
+	(241.47,188.28) --
+	(234.07,186.46) --
+	(229.34,177.79);
+\definecolor{drawColor}{RGB}{19,255,235}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (335.52,235.14) --
+	(344.70,237.69) --
+	(347.58,245.81) --
+	(338.53,243.22) --
+	(335.52,235.14);
+\definecolor{drawColor}{RGB}{0,0,197}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (212.37,170.03) --
+	(219.56,171.67) --
+	(222.03,176.08) --
+	(214.88,174.41) --
+	(212.37,170.03);
+\definecolor{drawColor}{RGB}{0,68,255}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (256.78,192.04) --
+	(264.69,193.98) --
+	(268.92,202.60) --
+	(261.09,200.59) --
+	(256.78,192.04);
+\definecolor{drawColor}{RGB}{101,255,153}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (366.32,251.18) --
+	(376.04,253.96) --
+	(378.37,261.90) --
+	(368.80,259.08) --
+	(366.32,251.18);
+\definecolor{drawColor}{RGB}{0,140,255}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (285.12,206.75) --
+	(293.50,208.91) --
+	(297.27,217.38) --
+	(288.99,215.17) --
+	(285.12,206.75);
+\definecolor{drawColor}{RGB}{173,255,81}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (398.20,267.76) --
+	(408.48,270.80) --
+	(410.22,278.56) --
+	(400.11,275.48) --
+	(398.20,267.76);
+\definecolor{drawColor}{RGB}{0,222,255}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (314.41,221.96) --
+	(323.29,224.33) --
+	(326.56,232.66) --
+	(317.80,230.24) --
+	(314.41,221.96);
+\definecolor{drawColor}{RGB}{0,6,255}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (236.82,179.55) --
+	(244.47,181.34) --
+	(249.04,190.14) --
+	(241.47,188.28) --
+	(236.82,179.55);
+\definecolor{drawColor}{RGB}{39,255,215}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (344.70,237.69) --
+	(354.10,240.29) --
+	(356.84,248.46) --
+	(347.58,245.81) --
+	(344.70,237.69);
+\definecolor{drawColor}{RGB}{0,0,215}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (219.56,171.67) --
+	(226.91,173.34) --
+	(229.34,177.79) --
+	(222.03,176.08) --
+	(219.56,171.67);
+\definecolor{drawColor}{RGB}{0,88,255}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (264.69,193.98) --
+	(272.80,195.98) --
+	(276.92,204.65) --
+	(268.92,202.60) --
+	(264.69,193.98);
+\definecolor{drawColor}{RGB}{122,255,132}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (376.04,253.96) --
+	(386.00,256.81) --
+	(388.16,264.80) --
+	(378.37,261.90) --
+	(376.04,253.96);
+\definecolor{drawColor}{RGB}{0,160,255}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (293.50,208.91) --
+	(302.09,211.11) --
+	(305.74,219.65) --
+	(297.27,217.38) --
+	(293.50,208.91);
+\definecolor{drawColor}{RGB}{194,255,60}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (408.48,270.80) --
+	(419.03,273.92) --
+	(420.58,281.71) --
+	(410.22,278.56) --
+	(408.48,270.80);
+\definecolor{drawColor}{RGB}{0,243,255}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (323.29,224.33) --
+	(332.38,226.76) --
+	(335.52,235.14) --
+	(326.56,232.66) --
+	(323.29,224.33);
+\definecolor{drawColor}{RGB}{0,27,255}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (244.47,181.34) --
+	(252.30,183.17) --
+	(256.78,192.04) --
+	(249.04,190.14) --
+	(244.47,181.34);
+\definecolor{drawColor}{RGB}{60,255,194}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (354.10,240.29) --
+	(363.74,242.96) --
+	(366.32,251.18) --
+	(356.84,248.46) --
+	(354.10,240.29);
+\definecolor{drawColor}{RGB}{0,0,233}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (226.91,173.34) --
+	(234.42,175.06) --
+	(236.82,179.55) --
+	(229.34,177.79) --
+	(226.91,173.34);
+\definecolor{drawColor}{RGB}{0,109,255}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (272.80,195.98) --
+	(281.10,198.01) --
+	(285.12,206.75) --
+	(276.92,204.65) --
+	(272.80,195.98);
+\definecolor{drawColor}{RGB}{132,255,122}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (386.00,256.81) --
+	(396.21,259.74) --
+	(398.20,267.76) --
+	(388.16,264.80) --
+	(386.00,256.81);
+\definecolor{drawColor}{RGB}{215,255,39}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (419.03,273.92) --
+	(424.41,275.51) --
+	(425.86,283.32) --
+	(420.58,281.71) --
+	(419.03,273.92);
+\definecolor{drawColor}{RGB}{0,181,255}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (302.09,211.11) --
+	(310.88,213.37) --
+	(314.41,221.96) --
+	(305.74,219.65) --
+	(302.09,211.11);
+\definecolor{drawColor}{RGB}{225,255,29}
+
+\path[draw=drawColor,line width= 0.8pt,line join=round,line cap=round] (420.10,281.46) -- (419.64,275.88);
+\definecolor{fillColor}{RGB}{225,255,29}
+
+\path[fill=fillColor] (411.10,281.46) --
+	(420.10,290.46) --
+	(429.10,281.46) --
+	(420.10,272.46) --
+	cycle;
+\definecolor{drawColor}{RGB}{0,253,255}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (332.38,226.76) --
+	(341.70,229.25) --
+	(344.70,237.69) --
+	(335.52,235.14) --
+	(332.38,226.76);
+\definecolor{drawColor}{RGB}{0,47,255}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (252.30,183.17) --
+	(260.31,185.05) --
+	(264.69,193.98) --
+	(256.78,192.04) --
+	(252.30,183.17);
+\definecolor{drawColor}{RGB}{81,255,173}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (363.74,242.96) --
+	(373.62,245.70) --
+	(376.04,253.96) --
+	(366.32,251.18) --
+	(363.74,242.96);
+\definecolor{drawColor}{RGB}{0,0,242}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (234.42,175.06) --
+	(242.12,176.81) --
+	(244.47,181.34) --
+	(236.82,179.55) --
+	(234.42,175.06);
+\definecolor{drawColor}{RGB}{0,99,255}
+
+\path[draw=drawColor,line width= 0.8pt,line join=round,line cap=round] (261.44,197.75) -- (261.89,190.22);
+\definecolor{fillColor}{RGB}{0,99,255}
+
+\path[fill=fillColor] (252.44,197.75) --
+	(261.44,206.75) --
+	(270.44,197.75) --
+	(261.44,188.75) --
+	cycle;
+\definecolor{drawColor}{RGB}{0,119,255}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (281.10,198.01) --
+	(289.60,200.10) --
+	(293.50,208.91) --
+	(285.12,206.75) --
+	(281.10,198.01);
+\definecolor{drawColor}{RGB}{153,255,101}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (396.21,259.74) --
+	(406.68,262.73) --
+	(408.48,270.80) --
+	(398.20,267.76) --
+	(396.21,259.74);
+\definecolor{drawColor}{RGB}{0,202,255}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (310.88,213.37) --
+	(319.89,215.68) --
+	(323.29,224.33) --
+	(314.41,221.96) --
+	(310.88,213.37);
+\definecolor{drawColor}{RGB}{19,255,235}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (341.70,229.25) --
+	(351.26,231.80) --
+	(354.10,240.29) --
+	(344.70,237.69) --
+	(341.70,229.25);
+\definecolor{drawColor}{RGB}{0,68,255}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (260.31,185.05) --
+	(268.52,186.97) --
+	(272.80,195.98) --
+	(264.69,193.98) --
+	(260.31,185.05);
+\definecolor{drawColor}{RGB}{101,255,153}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (373.62,245.70) --
+	(383.74,248.50) --
+	(386.00,256.81) --
+	(376.04,253.96) --
+	(373.62,245.70);
+\definecolor{drawColor}{RGB}{0,6,255}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (242.12,176.81) --
+	(249.99,178.61) --
+	(252.30,183.17) --
+	(244.47,181.34) --
+	(242.12,176.81);
+\definecolor{drawColor}{RGB}{0,140,255}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (289.60,200.10) --
+	(298.30,202.24) --
+	(302.09,211.11) --
+	(293.50,208.91) --
+	(289.60,200.10);
+\definecolor{drawColor}{RGB}{173,255,81}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (406.68,262.73) --
+	(417.42,265.81) --
+	(419.03,273.92) --
+	(408.48,270.80) --
+	(406.68,262.73);
+\definecolor{drawColor}{RGB}{0,222,255}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (319.89,215.68) --
+	(329.13,218.05) --
+	(332.38,226.76) --
+	(323.29,224.33) --
+	(319.89,215.68);
+\definecolor{drawColor}{RGB}{39,255,215}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (351.26,231.80) --
+	(361.05,234.42) --
+	(363.74,242.96) --
+	(354.10,240.29) --
+	(351.26,231.80);
+\definecolor{drawColor}{RGB}{0,88,255}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (268.52,186.97) --
+	(276.92,188.94) --
+	(281.10,198.01) --
+	(272.80,195.98) --
+	(268.52,186.97);
+\definecolor{drawColor}{RGB}{112,255,142}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (383.74,248.50) --
+	(394.13,251.38) --
+	(396.21,259.74) --
+	(386.00,256.81) --
+	(383.74,248.50);
+\definecolor{drawColor}{RGB}{194,255,60}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (417.42,265.81) --
+	(422.89,267.38) --
+	(424.41,275.51) --
+	(419.03,273.92) --
+	(417.42,265.81);
+\definecolor{drawColor}{RGB}{0,27,255}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (249.99,178.61) --
+	(258.06,180.45) --
+	(260.31,185.05) --
+	(252.30,183.17) --
+	(249.99,178.61);
+\definecolor{drawColor}{RGB}{0,160,255}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (298.30,202.24) --
+	(307.22,204.43) --
+	(310.88,213.37) --
+	(302.09,211.11) --
+	(298.30,202.24);
+\definecolor{drawColor}{RGB}{0,109,255}
+
+\path[draw=drawColor,line width= 0.8pt,line join=round,line cap=round] (248.87,196.61) -- (250.18,178.65);
+\definecolor{fillColor}{RGB}{0,109,255}
+
+\path[fill=fillColor] (239.87,196.61) --
+	(248.87,205.61) --
+	(257.87,196.61) --
+	(248.87,187.61) --
+	cycle;
+\definecolor{drawColor}{RGB}{0,233,255}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (329.13,218.05) --
+	(338.59,220.48) --
+	(341.70,229.25) --
+	(332.38,226.76) --
+	(329.13,218.05);
+\definecolor{drawColor}{RGB}{60,255,194}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (361.05,234.42) --
+	(371.10,237.10) --
+	(373.62,245.70) --
+	(363.74,242.96) --
+	(361.05,234.42);
+\definecolor{drawColor}{RGB}{0,109,255}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (276.92,188.94) --
+	(285.54,190.96) --
+	(289.60,200.10) --
+	(281.10,198.01) --
+	(276.92,188.94);
+\definecolor{drawColor}{RGB}{132,255,122}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (394.13,251.38) --
+	(404.79,254.33) --
+	(406.68,262.73) --
+	(396.21,259.74) --
+	(394.13,251.38);
+\definecolor{drawColor}{RGB}{0,47,255}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (258.06,180.45) --
+	(266.32,182.34) --
+	(268.52,186.97) --
+	(260.31,185.05) --
+	(258.06,180.45);
+\definecolor{drawColor}{RGB}{0,181,255}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (307.22,204.43) --
+	(316.36,206.68) --
+	(319.89,215.68) --
+	(310.88,213.37) --
+	(307.22,204.43);
+\definecolor{drawColor}{RGB}{0,253,255}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (338.59,220.48) --
+	(348.30,222.97) --
+	(351.26,231.80) --
+	(341.70,229.25) --
+	(338.59,220.48);
+\definecolor{drawColor}{RGB}{81,255,173}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (371.10,237.10) --
+	(381.40,239.85) --
+	(383.74,248.50) --
+	(373.62,245.70) --
+	(371.10,237.10);
+\definecolor{drawColor}{RGB}{0,119,255}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (285.54,190.96) --
+	(294.36,193.02) --
+	(298.30,202.24) --
+	(289.60,200.10) --
+	(285.54,190.96);
+\definecolor{drawColor}{RGB}{153,255,101}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (404.79,254.33) --
+	(415.74,257.36) --
+	(417.42,265.81) --
+	(406.68,262.73) --
+	(404.79,254.33);
+\definecolor{drawColor}{RGB}{0,68,255}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (266.32,182.34) --
+	(274.78,184.27) --
+	(276.92,188.94) --
+	(268.52,186.97) --
+	(266.32,182.34);
+\definecolor{drawColor}{RGB}{0,202,255}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (316.36,206.68) --
+	(325.74,208.98) --
+	(329.13,218.05) --
+	(319.89,215.68) --
+	(316.36,206.68);
+\definecolor{drawColor}{RGB}{19,255,235}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (348.30,222.97) --
+	(358.26,225.52) --
+	(361.05,234.42) --
+	(351.26,231.80) --
+	(348.30,222.97);
+\definecolor{drawColor}{RGB}{91,255,163}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (381.40,239.85) --
+	(391.98,242.67) --
+	(394.13,251.38) --
+	(383.74,248.50) --
+	(381.40,239.85);
+\definecolor{drawColor}{RGB}{173,255,81}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (415.74,257.36) --
+	(421.32,258.91) --
+	(422.89,267.38) --
+	(417.42,265.81) --
+	(415.74,257.36);
+\definecolor{drawColor}{RGB}{0,140,255}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (294.36,193.02) --
+	(303.41,195.14) --
+	(307.22,204.43) --
+	(298.30,202.24) --
+	(294.36,193.02);
+\definecolor{drawColor}{RGB}{0,88,255}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (274.78,184.27) --
+	(283.45,186.25) --
+	(285.54,190.96) --
+	(276.92,188.94) --
+	(274.78,184.27);
+\definecolor{drawColor}{RGB}{0,222,255}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (325.74,208.98) --
+	(335.35,211.34) --
+	(338.59,220.48) --
+	(329.13,218.05) --
+	(325.74,208.98);
+\definecolor{drawColor}{RGB}{39,255,215}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (358.26,225.52) --
+	(368.47,228.14) --
+	(371.10,237.10) --
+	(361.05,234.42) --
+	(358.26,225.52);
+\definecolor{drawColor}{RGB}{112,255,142}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (391.98,242.67) --
+	(402.83,245.57) --
+	(404.79,254.33) --
+	(394.13,251.38) --
+	(391.98,242.67);
+\definecolor{drawColor}{RGB}{0,160,255}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (303.41,195.14) --
+	(312.69,197.32) --
+	(316.36,206.68) --
+	(307.22,204.43) --
+	(303.41,195.14);
+\definecolor{drawColor}{RGB}{0,99,255}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (283.45,186.25) --
+	(292.34,188.28) --
+	(294.36,193.02) --
+	(285.54,190.96) --
+	(283.45,186.25);
+\definecolor{drawColor}{RGB}{0,233,255}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (335.35,211.34) --
+	(345.22,213.77) --
+	(348.30,222.97) --
+	(338.59,220.48) --
+	(335.35,211.34);
+\definecolor{drawColor}{RGB}{60,255,194}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (368.47,228.14) --
+	(378.96,230.83) --
+	(381.40,239.85) --
+	(371.10,237.10) --
+	(368.47,228.14);
+\definecolor{drawColor}{RGB}{132,255,122}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (402.83,245.57) --
+	(413.98,248.55) --
+	(415.74,257.36) --
+	(404.79,254.33) --
+	(402.83,245.57);
+\definecolor{drawColor}{RGB}{0,181,255}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (312.69,197.32) --
+	(322.21,199.55) --
+	(325.74,208.98) --
+	(316.36,206.68) --
+	(312.69,197.32);
+\definecolor{drawColor}{RGB}{0,119,255}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (292.34,188.28) --
+	(301.45,190.36) --
+	(303.41,195.14) --
+	(294.36,193.02) --
+	(292.34,188.28);
+\definecolor{drawColor}{RGB}{0,253,255}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (345.22,213.77) --
+	(355.34,216.26) --
+	(358.26,225.52) --
+	(348.30,222.97) --
+	(345.22,213.77);
+\definecolor{drawColor}{RGB}{81,255,173}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (378.96,230.83) --
+	(389.73,233.60) --
+	(391.98,242.67) --
+	(381.40,239.85) --
+	(378.96,230.83);
+\definecolor{drawColor}{RGB}{153,255,101}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (413.98,248.55) --
+	(419.67,250.07) --
+	(421.32,258.91) --
+	(415.74,257.36) --
+	(413.98,248.55);
+\definecolor{drawColor}{RGB}{0,202,255}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (322.21,199.55) --
+	(331.98,201.83) --
+	(335.35,211.34) --
+	(325.74,208.98) --
+	(322.21,199.55);
+\definecolor{drawColor}{RGB}{0,140,255}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (301.45,190.36) --
+	(310.80,192.49) --
+	(312.69,197.32) --
+	(303.41,195.14) --
+	(301.45,190.36);
+\definecolor{drawColor}{RGB}{19,255,235}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (355.34,216.26) --
+	(365.74,218.81) --
+	(368.47,228.14) --
+	(358.26,225.52) --
+	(355.34,216.26);
+\definecolor{drawColor}{RGB}{91,255,163}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (389.73,233.60) --
+	(400.79,236.44) --
+	(402.83,245.57) --
+	(391.98,242.67) --
+	(389.73,233.60);
+\definecolor{drawColor}{RGB}{0,212,255}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (331.98,201.83) --
+	(342.01,204.18) --
+	(345.22,213.77) --
+	(335.35,211.34) --
+	(331.98,201.83);
+\definecolor{drawColor}{RGB}{0,160,255}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (310.80,192.49) --
+	(320.39,194.68) --
+	(322.21,199.55) --
+	(312.69,197.32) --
+	(310.80,192.49);
+\definecolor{drawColor}{RGB}{39,255,215}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (365.74,218.81) --
+	(376.41,221.43) --
+	(378.96,230.83) --
+	(368.47,228.14) --
+	(365.74,218.81);
+\definecolor{drawColor}{RGB}{112,255,142}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (400.79,236.44) --
+	(412.15,239.35) --
+	(413.98,248.55) --
+	(402.83,245.57) --
+	(400.79,236.44);
+\definecolor{drawColor}{RGB}{0,233,255}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (342.01,204.18) --
+	(352.31,206.59) --
+	(355.34,216.26) --
+	(345.22,213.77) --
+	(342.01,204.18);
+\definecolor{drawColor}{RGB}{0,181,255}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (320.39,194.68) --
+	(330.24,196.93) --
+	(331.98,201.83) --
+	(322.21,199.55) --
+	(320.39,194.68);
+\definecolor{drawColor}{RGB}{60,255,194}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (376.41,221.43) --
+	(387.38,224.13) --
+	(389.73,233.60) --
+	(378.96,230.83) --
+	(376.41,221.43);
+\definecolor{drawColor}{RGB}{132,255,122}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (412.15,239.35) --
+	(417.95,240.84) --
+	(419.67,250.07) --
+	(413.98,248.55) --
+	(412.15,239.35);
+\definecolor{drawColor}{RGB}{0,253,255}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (352.31,206.59) --
+	(362.88,209.07) --
+	(365.74,218.81) --
+	(355.34,216.26) --
+	(352.31,206.59);
+\definecolor{drawColor}{RGB}{0,191,255}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (330.24,196.93) --
+	(340.35,199.24) --
+	(342.01,204.18) --
+	(331.98,201.83) --
+	(330.24,196.93);
+\definecolor{drawColor}{RGB}{70,255,184}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (387.38,224.13) --
+	(398.65,226.90) --
+	(400.79,236.44) --
+	(389.73,233.60) --
+	(387.38,224.13);
+\definecolor{drawColor}{RGB}{19,255,235}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (362.88,209.07) --
+	(373.75,211.62) --
+	(376.41,221.43) --
+	(365.74,218.81) --
+	(362.88,209.07);
+\definecolor{drawColor}{RGB}{0,212,255}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (340.35,199.24) --
+	(350.74,201.61) --
+	(352.31,206.59) --
+	(342.01,204.18) --
+	(340.35,199.24);
+\definecolor{drawColor}{RGB}{91,255,163}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (398.65,226.90) --
+	(410.24,229.74) --
+	(412.15,239.35) --
+	(400.79,236.44) --
+	(398.65,226.90);
+\definecolor{drawColor}{RGB}{39,255,215}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (373.75,211.62) --
+	(384.93,214.23) --
+	(387.38,224.13) --
+	(376.41,221.43) --
+	(373.75,211.62);
+\definecolor{drawColor}{RGB}{112,255,142}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (410.24,229.74) --
+	(416.16,231.20) --
+	(417.95,240.84) --
+	(412.15,239.35) --
+	(410.24,229.74);
+\definecolor{drawColor}{RGB}{0,233,255}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (350.74,201.61) --
+	(361.41,204.04) --
+	(362.88,209.07) --
+	(352.31,206.59) --
+	(350.74,201.61);
+\definecolor{drawColor}{RGB}{50,255,204}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (384.93,214.23) --
+	(396.42,216.93) --
+	(398.65,226.90) --
+	(387.38,224.13) --
+	(384.93,214.23);
+\definecolor{drawColor}{RGB}{0,253,255}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (361.41,204.04) --
+	(372.38,206.55) --
+	(373.75,211.62) --
+	(362.88,209.07) --
+	(361.41,204.04);
+\definecolor{drawColor}{RGB}{70,255,184}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (396.42,216.93) --
+	(408.24,219.69) --
+	(410.24,229.74) --
+	(398.65,226.90) --
+	(396.42,216.93);
+\definecolor{drawColor}{RGB}{19,255,235}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (372.38,206.55) --
+	(383.66,209.12) --
+	(384.93,214.23) --
+	(373.75,211.62) --
+	(372.38,206.55);
+\definecolor{drawColor}{RGB}{91,255,163}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (408.24,219.69) --
+	(414.28,221.11) --
+	(416.16,231.20) --
+	(410.24,229.74) --
+	(408.24,219.69);
+\definecolor{drawColor}{RGB}{29,255,225}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (383.66,209.12) --
+	(395.26,211.77) --
+	(396.42,216.93) --
+	(384.93,214.23) --
+	(383.66,209.12);
+\definecolor{drawColor}{RGB}{50,255,204}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (395.26,211.77) --
+	(407.21,214.49) --
+	(408.24,219.69) --
+	(396.42,216.93) --
+	(395.26,211.77);
+\definecolor{drawColor}{RGB}{70,255,184}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (407.21,214.49) --
+	(413.31,215.89) --
+	(414.28,221.11) --
+	(408.24,219.69) --
+	(407.21,214.49);
+\end{scope}
+\begin{scope}
+\path[clip] (  0.00,  0.00) rectangle (578.16,433.62);
+\definecolor{drawColor}{RGB}{0,0,0}
+
+\path[draw=drawColor,line width= 0.8pt,line join=round,line cap=round] (517.07, 98.40) --
+	(534.42, 98.40) --
+	(534.42,407.22) --
+	(517.07,407.22) --
+	(517.07, 98.40);
+\end{scope}
+\begin{scope}
+\path[clip] (517.07, 98.40) rectangle (534.42,407.22);
+\definecolor{fillColor}{RGB}{0,0,143}
+
+\path[fill=fillColor] (517.07, 98.40) rectangle (534.42,101.49);
+\definecolor{fillColor}{RGB}{0,0,152}
+
+\path[fill=fillColor] (517.07,101.49) rectangle (534.42,104.58);
+\definecolor{fillColor}{RGB}{0,0,161}
+
+\path[fill=fillColor] (517.07,104.58) rectangle (534.42,107.66);
+\definecolor{fillColor}{RGB}{0,0,170}
+
+\path[fill=fillColor] (517.07,107.66) rectangle (534.42,110.75);
+\definecolor{fillColor}{RGB}{0,0,179}
+
+\path[fill=fillColor] (517.07,110.75) rectangle (534.42,113.84);
+\definecolor{fillColor}{RGB}{0,0,188}
+
+\path[fill=fillColor] (517.07,113.84) rectangle (534.42,116.93);
+\definecolor{fillColor}{RGB}{0,0,197}
+
+\path[fill=fillColor] (517.07,116.93) rectangle (534.42,120.02);
+\definecolor{fillColor}{RGB}{0,0,206}
+
+\path[fill=fillColor] (517.07,120.02) rectangle (534.42,123.11);
+\definecolor{fillColor}{RGB}{0,0,215}
+
+\path[fill=fillColor] (517.07,123.11) rectangle (534.42,126.19);
+\definecolor{fillColor}{RGB}{0,0,224}
+
+\path[fill=fillColor] (517.07,126.19) rectangle (534.42,129.28);
+\definecolor{fillColor}{RGB}{0,0,233}
+
+\path[fill=fillColor] (517.07,129.28) rectangle (534.42,132.37);
+\definecolor{fillColor}{RGB}{0,0,242}
+
+\path[fill=fillColor] (517.07,132.37) rectangle (534.42,135.46);
+\definecolor{fillColor}{RGB}{0,0,251}
+
+\path[fill=fillColor] (517.07,135.46) rectangle (534.42,138.55);
+\definecolor{fillColor}{RGB}{0,6,255}
+
+\path[fill=fillColor] (517.07,138.55) rectangle (534.42,141.63);
+\definecolor{fillColor}{RGB}{0,16,255}
+
+\path[fill=fillColor] (517.07,141.63) rectangle (534.42,144.72);
+\definecolor{fillColor}{RGB}{0,27,255}
+
+\path[fill=fillColor] (517.07,144.72) rectangle (534.42,147.81);
+\definecolor{fillColor}{RGB}{0,37,255}
+
+\path[fill=fillColor] (517.07,147.81) rectangle (534.42,150.90);
+\definecolor{fillColor}{RGB}{0,47,255}
+
+\path[fill=fillColor] (517.07,150.90) rectangle (534.42,153.99);
+\definecolor{fillColor}{RGB}{0,57,255}
+
+\path[fill=fillColor] (517.07,153.99) rectangle (534.42,157.08);
+\definecolor{fillColor}{RGB}{0,68,255}
+
+\path[fill=fillColor] (517.07,157.08) rectangle (534.42,160.16);
+\definecolor{fillColor}{RGB}{0,78,255}
+
+\path[fill=fillColor] (517.07,160.16) rectangle (534.42,163.25);
+\definecolor{fillColor}{RGB}{0,88,255}
+
+\path[fill=fillColor] (517.07,163.25) rectangle (534.42,166.34);
+\definecolor{fillColor}{RGB}{0,99,255}
+
+\path[fill=fillColor] (517.07,166.34) rectangle (534.42,169.43);
+\definecolor{fillColor}{RGB}{0,109,255}
+
+\path[fill=fillColor] (517.07,169.43) rectangle (534.42,172.52);
+\definecolor{fillColor}{RGB}{0,119,255}
+
+\path[fill=fillColor] (517.07,172.52) rectangle (534.42,175.60);
+\definecolor{fillColor}{RGB}{0,130,255}
+
+\path[fill=fillColor] (517.07,175.60) rectangle (534.42,178.69);
+\definecolor{fillColor}{RGB}{0,140,255}
+
+\path[fill=fillColor] (517.07,178.69) rectangle (534.42,181.78);
+\definecolor{fillColor}{RGB}{0,150,255}
+
+\path[fill=fillColor] (517.07,181.78) rectangle (534.42,184.87);
+\definecolor{fillColor}{RGB}{0,160,255}
+
+\path[fill=fillColor] (517.07,184.87) rectangle (534.42,187.96);
+\definecolor{fillColor}{RGB}{0,171,255}
+
+\path[fill=fillColor] (517.07,187.96) rectangle (534.42,191.05);
+\definecolor{fillColor}{RGB}{0,181,255}
+
+\path[fill=fillColor] (517.07,191.05) rectangle (534.42,194.13);
+\definecolor{fillColor}{RGB}{0,191,255}
+
+\path[fill=fillColor] (517.07,194.13) rectangle (534.42,197.22);
+\definecolor{fillColor}{RGB}{0,202,255}
+
+\path[fill=fillColor] (517.07,197.22) rectangle (534.42,200.31);
+\definecolor{fillColor}{RGB}{0,212,255}
+
+\path[fill=fillColor] (517.07,200.31) rectangle (534.42,203.40);
+\definecolor{fillColor}{RGB}{0,222,255}
+
+\path[fill=fillColor] (517.07,203.40) rectangle (534.42,206.49);
+\definecolor{fillColor}{RGB}{0,233,255}
+
+\path[fill=fillColor] (517.07,206.49) rectangle (534.42,209.58);
+\definecolor{fillColor}{RGB}{0,243,255}
+
+\path[fill=fillColor] (517.07,209.58) rectangle (534.42,212.66);
+\definecolor{fillColor}{RGB}{0,253,255}
+
+\path[fill=fillColor] (517.07,212.66) rectangle (534.42,215.75);
+\definecolor{fillColor}{RGB}{9,255,245}
+
+\path[fill=fillColor] (517.07,215.75) rectangle (534.42,218.84);
+\definecolor{fillColor}{RGB}{19,255,235}
+
+\path[fill=fillColor] (517.07,218.84) rectangle (534.42,221.93);
+\definecolor{fillColor}{RGB}{29,255,225}
+
+\path[fill=fillColor] (517.07,221.93) rectangle (534.42,225.02);
+\definecolor{fillColor}{RGB}{39,255,215}
+
+\path[fill=fillColor] (517.07,225.02) rectangle (534.42,228.10);
+\definecolor{fillColor}{RGB}{50,255,204}
+
+\path[fill=fillColor] (517.07,228.10) rectangle (534.42,231.19);
+\definecolor{fillColor}{RGB}{60,255,194}
+
+\path[fill=fillColor] (517.07,231.19) rectangle (534.42,234.28);
+\definecolor{fillColor}{RGB}{70,255,184}
+
+\path[fill=fillColor] (517.07,234.28) rectangle (534.42,237.37);
+\definecolor{fillColor}{RGB}{81,255,173}
+
+\path[fill=fillColor] (517.07,237.37) rectangle (534.42,240.46);
+\definecolor{fillColor}{RGB}{91,255,163}
+
+\path[fill=fillColor] (517.07,240.46) rectangle (534.42,243.55);
+\definecolor{fillColor}{RGB}{101,255,153}
+
+\path[fill=fillColor] (517.07,243.55) rectangle (534.42,246.63);
+\definecolor{fillColor}{RGB}{112,255,142}
+
+\path[fill=fillColor] (517.07,246.63) rectangle (534.42,249.72);
+\definecolor{fillColor}{RGB}{122,255,132}
+
+\path[fill=fillColor] (517.07,249.72) rectangle (534.42,252.81);
+\definecolor{fillColor}{RGB}{132,255,122}
+
+\path[fill=fillColor] (517.07,252.81) rectangle (534.42,255.90);
+\definecolor{fillColor}{RGB}{142,255,112}
+
+\path[fill=fillColor] (517.07,255.90) rectangle (534.42,258.99);
+\definecolor{fillColor}{RGB}{153,255,101}
+
+\path[fill=fillColor] (517.07,258.99) rectangle (534.42,262.07);
+\definecolor{fillColor}{RGB}{163,255,91}
+
+\path[fill=fillColor] (517.07,262.07) rectangle (534.42,265.16);
+\definecolor{fillColor}{RGB}{173,255,81}
+
+\path[fill=fillColor] (517.07,265.16) rectangle (534.42,268.25);
+\definecolor{fillColor}{RGB}{184,255,70}
+
+\path[fill=fillColor] (517.07,268.25) rectangle (534.42,271.34);
+\definecolor{fillColor}{RGB}{194,255,60}
+
+\path[fill=fillColor] (517.07,271.34) rectangle (534.42,274.43);
+\definecolor{fillColor}{RGB}{204,255,50}
+
+\path[fill=fillColor] (517.07,274.43) rectangle (534.42,277.52);
+\definecolor{fillColor}{RGB}{215,255,39}
+
+\path[fill=fillColor] (517.07,277.52) rectangle (534.42,280.60);
+\definecolor{fillColor}{RGB}{225,255,29}
+
+\path[fill=fillColor] (517.07,280.60) rectangle (534.42,283.69);
+\definecolor{fillColor}{RGB}{235,255,19}
+
+\path[fill=fillColor] (517.07,283.69) rectangle (534.42,286.78);
+\definecolor{fillColor}{RGB}{245,255,9}
+
+\path[fill=fillColor] (517.07,286.78) rectangle (534.42,289.87);
+\definecolor{fillColor}{RGB}{255,253,0}
+
+\path[fill=fillColor] (517.07,289.87) rectangle (534.42,292.96);
+\definecolor{fillColor}{RGB}{255,243,0}
+
+\path[fill=fillColor] (517.07,292.96) rectangle (534.42,296.04);
+\definecolor{fillColor}{RGB}{255,233,0}
+
+\path[fill=fillColor] (517.07,296.04) rectangle (534.42,299.13);
+\definecolor{fillColor}{RGB}{255,222,0}
+
+\path[fill=fillColor] (517.07,299.13) rectangle (534.42,302.22);
+\definecolor{fillColor}{RGB}{255,212,0}
+
+\path[fill=fillColor] (517.07,302.22) rectangle (534.42,305.31);
+\definecolor{fillColor}{RGB}{255,202,0}
+
+\path[fill=fillColor] (517.07,305.31) rectangle (534.42,308.40);
+\definecolor{fillColor}{RGB}{255,191,0}
+
+\path[fill=fillColor] (517.07,308.40) rectangle (534.42,311.49);
+\definecolor{fillColor}{RGB}{255,181,0}
+
+\path[fill=fillColor] (517.07,311.49) rectangle (534.42,314.57);
+\definecolor{fillColor}{RGB}{255,171,0}
+
+\path[fill=fillColor] (517.07,314.57) rectangle (534.42,317.66);
+\definecolor{fillColor}{RGB}{255,160,0}
+
+\path[fill=fillColor] (517.07,317.66) rectangle (534.42,320.75);
+\definecolor{fillColor}{RGB}{255,150,0}
+
+\path[fill=fillColor] (517.07,320.75) rectangle (534.42,323.84);
+\definecolor{fillColor}{RGB}{255,140,0}
+
+\path[fill=fillColor] (517.07,323.84) rectangle (534.42,326.93);
+\definecolor{fillColor}{RGB}{255,130,0}
+
+\path[fill=fillColor] (517.07,326.93) rectangle (534.42,330.01);
+\definecolor{fillColor}{RGB}{255,119,0}
+
+\path[fill=fillColor] (517.07,330.01) rectangle (534.42,333.10);
+\definecolor{fillColor}{RGB}{255,109,0}
+
+\path[fill=fillColor] (517.07,333.10) rectangle (534.42,336.19);
+\definecolor{fillColor}{RGB}{255,99,0}
+
+\path[fill=fillColor] (517.07,336.19) rectangle (534.42,339.28);
+\definecolor{fillColor}{RGB}{255,88,0}
+
+\path[fill=fillColor] (517.07,339.28) rectangle (534.42,342.37);
+\definecolor{fillColor}{RGB}{255,78,0}
+
+\path[fill=fillColor] (517.07,342.37) rectangle (534.42,345.46);
+\definecolor{fillColor}{RGB}{255,68,0}
+
+\path[fill=fillColor] (517.07,345.46) rectangle (534.42,348.54);
+\definecolor{fillColor}{RGB}{255,57,0}
+
+\path[fill=fillColor] (517.07,348.54) rectangle (534.42,351.63);
+\definecolor{fillColor}{RGB}{255,47,0}
+
+\path[fill=fillColor] (517.07,351.63) rectangle (534.42,354.72);
+\definecolor{fillColor}{RGB}{255,37,0}
+
+\path[fill=fillColor] (517.07,354.72) rectangle (534.42,357.81);
+\definecolor{fillColor}{RGB}{255,27,0}
+
+\path[fill=fillColor] (517.07,357.81) rectangle (534.42,360.90);
+\definecolor{fillColor}{RGB}{255,16,0}
+
+\path[fill=fillColor] (517.07,360.90) rectangle (534.42,363.99);
+\definecolor{fillColor}{RGB}{255,6,0}
+
+\path[fill=fillColor] (517.07,363.99) rectangle (534.42,367.07);
+\definecolor{fillColor}{RGB}{251,0,0}
+
+\path[fill=fillColor] (517.07,367.07) rectangle (534.42,370.16);
+\definecolor{fillColor}{RGB}{240,0,0}
+
+\path[fill=fillColor] (517.07,370.16) rectangle (534.42,373.25);
+\definecolor{fillColor}{RGB}{230,0,0}
+
+\path[fill=fillColor] (517.07,373.25) rectangle (534.42,376.34);
+\definecolor{fillColor}{RGB}{220,0,0}
+
+\path[fill=fillColor] (517.07,376.34) rectangle (534.42,379.43);
+\definecolor{fillColor}{RGB}{210,0,0}
+
+\path[fill=fillColor] (517.07,379.43) rectangle (534.42,382.51);
+\definecolor{fillColor}{RGB}{199,0,0}
+
+\path[fill=fillColor] (517.07,382.51) rectangle (534.42,385.60);
+\definecolor{fillColor}{RGB}{189,0,0}
+
+\path[fill=fillColor] (517.07,385.60) rectangle (534.42,388.69);
+\definecolor{fillColor}{RGB}{179,0,0}
+
+\path[fill=fillColor] (517.07,388.69) rectangle (534.42,391.78);
+\definecolor{fillColor}{RGB}{169,0,0}
+
+\path[fill=fillColor] (517.07,391.78) rectangle (534.42,394.87);
+\definecolor{fillColor}{RGB}{158,0,0}
+
+\path[fill=fillColor] (517.07,394.87) rectangle (534.42,397.96);
+\definecolor{fillColor}{RGB}{148,0,0}
+
+\path[fill=fillColor] (517.07,397.96) rectangle (534.42,401.04);
+\definecolor{fillColor}{RGB}{138,0,0}
+
+\path[fill=fillColor] (517.07,401.04) rectangle (534.42,404.13);
+\definecolor{fillColor}{RGB}{128,0,0}
+
+\path[fill=fillColor] (517.07,404.13) rectangle (534.42,407.22);
+\end{scope}
+\begin{scope}
+\path[clip] (  0.00,  0.00) rectangle (578.16,433.62);
+\definecolor{drawColor}{RGB}{0,0,0}
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (534.42,100.03) -- (534.42,385.97);
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (534.42,100.03) -- (546.42,100.03);
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (534.42,140.88) -- (546.42,140.88);
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (534.42,181.73) -- (546.42,181.73);
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (534.42,222.58) -- (546.42,222.58);
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (534.42,263.43) -- (546.42,263.43);
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (534.42,304.27) -- (546.42,304.27);
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (534.42,345.12) -- (546.42,345.12);
+
+\path[draw=drawColor,line width= 0.4pt,line join=round,line cap=round] (534.42,385.97) -- (546.42,385.97);
+
+\node[text=drawColor,anchor=base west,inner sep=0pt, outer sep=0pt, scale=  2.60] at (558.42, 91.01) {-3};
+
+\node[text=drawColor,anchor=base west,inner sep=0pt, outer sep=0pt, scale=  2.60] at (558.42,131.86) {-2};
+
+\node[text=drawColor,anchor=base west,inner sep=0pt, outer sep=0pt, scale=  2.60] at (558.42,172.70) {-1};
+
+\node[text=drawColor,anchor=base west,inner sep=0pt, outer sep=0pt, scale=  2.60] at (558.42,213.55) {0};
+
+\node[text=drawColor,anchor=base west,inner sep=0pt, outer sep=0pt, scale=  2.60] at (558.42,254.40) {1};
+
+\node[text=drawColor,anchor=base west,inner sep=0pt, outer sep=0pt, scale=  2.60] at (558.42,295.25) {2};
+
+\node[text=drawColor,anchor=base west,inner sep=0pt, outer sep=0pt, scale=  2.60] at (558.42,336.10) {3};
+
+\node[text=drawColor,anchor=base west,inner sep=0pt, outer sep=0pt, scale=  2.60] at (558.42,376.94) {4};
+
+\path[draw=drawColor,line width= 0.8pt,line join=round,line cap=round] (517.07, 98.40) --
+	(534.42, 98.40) --
+	(534.42,407.22) --
+	(517.07,407.22) --
+	(517.07, 98.40);
+\end{scope}
+\end{tikzpicture}
+
+\end{document}

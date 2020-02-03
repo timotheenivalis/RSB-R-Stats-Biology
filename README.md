@@ -25,6 +25,6 @@ Topics covered so far this year (2018-2019):
 What other topics would you like covered? Just ask and I will try to make it happen!
 
 Former material:
-* The 2018-2019 series is at [https://timotheenivalis.github.io/RSB-R-Stats-Biology/Archive/]
+* The 2018-2019 series is at [https://timotheenivalis.github.io/RSB-R-Stats-Biology/Archive/](https://timotheenivalis.github.io/RSB-R-Stats-Biology/Archive/)
 * The early-2018 series is at [https://github.com/timotheenivalis/Rcode-Stats-Bubbles](https://github.com/timotheenivalis/Rcode-Stats-Bubbles).
 

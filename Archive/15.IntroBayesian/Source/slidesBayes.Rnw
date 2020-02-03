@@ -1,0 +1,702 @@
+\documentclass[10pt]{beamer}%
+\setbeamersize{text margin left=0.5cm, text margin right=0.5cm}
+
+\usepackage{alltt}%
+  \usetheme[background=light]{metropolis} 
+  \usecolortheme{seahorse}
+
+\usepackage[utf8]{inputenc}%
+
+
+\usepackage[normalem]{ulem}%strikeout
+ 
+
+% graphics
+%% Figures %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage{graphicx}
+\usepackage{xcolor}%for color mixing
+
+\usepackage{amsmath}%
+\usepackage{amsfonts}%
+\usepackage{amssymb}%
+\usepackage{graphicx}
+
+\usepackage{tikz}
+\usetikzlibrary{calc}
+
+\usepackage{hyperref}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%% Doc info %%%%%%%%%%%%%%%%%%%
+\title{Introduction to Bayesian inference in R}
+\author{Timoth\'ee Bonnet}
+\institute{BDSI / RSB}
+\date{October 11, 2019}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{document}
+
+<<Plot Options, echo=FALSE, message=FALSE>>=
+#load(file = ".RData")
+library(knitr)
+library(xtable)
+opts_knit$set(width=60)
+opts_chunk$set(comment=NA, fig.width=8, fig.height=6, out.width='0.67\\textwidth', out.height='0.5\\textwidth',
+               background='#D7DDEB', size="small")
+
+
+szgr <- 2
+szax <- 1.3
+marr <- c(4, 4, 1, 1) + 0.1
+setPar<-function(){
+par(las=1,mar=marr, cex=szgr, cex.lab=szax , cex.axis=szax, lwd=2 ,pch=1, las=1)
+}
+setPar()
+@
+
+\begin{frame}{}
+\maketitle
+\end{frame}
+%%%%%%%%%%%%
+
+\begin{frame}{}
+
+\only<1>{
+\centering
+<<tichodrome, dev='tikz', echo=FALSE, results='hide'>>=
+setPar()
+set.seed(123)
+x <- 1990:2005
+y <- round(43+1.75*1990 - 1.75*x +rnorm(length(x),0,4))
+plot(x,y, xlab = "year", ylab="abundance", main="A bird abundance through time")
+abline(a = 42.9+1.754*1990, b = -1.754, lty=2, col="red", lwd=3)
+abline(a = 43.1+1.756*1990, b = -1.756, lty=3, col="blue", lwd=3)
+legend(x="bottomleft", legend = c("ML", "Bayesian"), col=c("red", "blue"), lty=2:3, lwd=3, title = "\\textbf{Linear regression}")
+@
+}
+
+\only<2>{
+\begin{alertblock}{Statistical models exist independently from inference method}
+  \begin{itemize}
+    \item Models are not Bayesian, nor frequentists (ML)
+    \item In principle all can be fitted frequentist or Bayesian
+    \item In general identical / very similar results
+  \end{itemize}
+\end{alertblock}
+}
+\end{frame}
+%%%%%%%%%%%%
+
+\begin{frame}{So why bother?}
+  \textbf{Bayesian methods}
+  \begin{itemize}[<+->]
+    \item More (easily) flexible
+    \item More intuitive interpretation
+    \item Uncertainty propagation
+    \item Easier to include missing values
+    \item Incorporate previous knowledge
+    \item The only feasible way for complex models
+  \end{itemize}
+\end{frame}
+%%%%%%%%%%%
+
+\begin{frame}{Today}
+\large
+  \begin{enumerate}
+    \item Bayesian philosophy 101
+    \item Fit your first Bayesian model
+    \item MCMC in a nutshell
+    \item The magic of the posterior
+    \item Using priors
+  \end{enumerate}
+\pause
+\textit{Convince you to come back for more}
+\end{frame}
+%%%%%%%%%%%
+
+
+\begin{frame}{Bayesian philosophy 101}
+  \centering \large{Is it raining outside?\\}
+  \pause
+  \centering \large{How many heads did I get?}
+  \pause
+  \begin{alertblock}{When you think Bayesian}
+    \begin{itemize}
+      \item You need a model
+      \item Prior information may help
+      \item Not one sure answer, only probabilities
+    \end{itemize}
+  \end{alertblock}
+\end{frame}
+%%%%%%%%%%%
+
+\begin{frame}{Bayesian vs. Frequentist philosophies}
+
+\textbf{\large Frequentist philosophy\\}
+\textbf{Probability} = long run frequencies in fictuous populations\\
+\uncover<2->{\textbf{Uncertainty} (p-value, CI, SE) = frequencies of data given parameter values\\}
+\uncover<3->{\textbf{Unknown parameters} have \textbf{true, fixed,} values, generating data\\}
+
+\bigskip
+
+\textbf{\large Bayesian philosophy\\}
+\textbf{Probability} = plausibility of a proposition \\
+\uncover<2->{\textbf{Uncertainty} = probability of parameter values given data\\}
+\uncover<3->{\textbf{Unknown parameters} have \textbf{probability distributions}, data are fixed\\}
+\bigskip
+\uncover<4->{\textbf{\textit{Enough blabla!}}}
+\end{frame}
+%%%%%%%%%%%
+
+\section{Fit a Bayesian model in MCMCglmm}
+
+\begin{frame}[fragile]{Fit Bayesian in R}
+
+<<eval=FALSE, echo=FALSE>>=
+set.seed(1234)
+nsamp <- 30
+pop <- sample(x = 1:3, size = nsamp, replace = TRUE)
+mass <- rnorm(nsamp, 3, sd = 1)
+metabolism <- 0.75*mass + 0.15*(pop-2)+rnorm(nsamp,0,0.2)
+
+boxplot(metabolism ~ pop)
+plot(metabolism, x=mass, col=pop)  
+library(MCMCglmm)
+
+
+dat <- data.frame(metabolism=metabolism, mass=mass, pop=paste0("pop",pop))
+
+
+m00 <- MCMCglmm(metabolism ~ 1 + pop, data = dat)
+summary(m00)
+
+
+m0 <- MCMCglmm(metabolism ~ 1 + mass + pop, data = dat)
+summary(m0)
+
+varprior <- diag(4)*10000
+varprior[2,2] <- 0.000001
+prior0 <- list(B= list(mu=c(0,0.75,0,0), V=varprior))
+mp <- MCMCglmm(metabolism ~ 1 + mass + pop, data = dat, prior = prior0)
+summary(mp)
+
+#bring in knowledge from other pop
+varprior <- diag(4)*10000
+varprior[2,2] <- 0.000001
+varprior[3,3] <- 0.000001
+prior0 <- list(B= list(mu=c(0,0.75,0.15,0), V=varprior))
+mpp <- MCMCglmm(metabolism ~ 1 + mass + pop, data = dat, prior = prior0)
+summary(mpp)
+
+write.csv(dat, "metabo.csv", quote = FALSE, row.names = FALSE)
+
+@
+
+Load metabo data: metabolic rate and mass measured in 3 populations
+<<>>=
+metabo <- read.csv("metabo.csv")
+@
+\textbf{Metabolic rate differ among populations?}
+
+\pause 
+
+\texttt{install.packages("MCMCglmm")}
+
+<<results='hide', message=FALSE>>=
+library(MCMCglmm)
+m_pop <- MCMCglmm(metabolism ~ 1 + pop, data = metabo)
+summary(m_pop)
+@
+
+\end{frame}
+%%%%%%%%%%%
+
+
+\section{Closer look, and MCMC}
+
+\begin{frame}[fragile]{The posterior distribution}
+<<eval=FALSE>>=
+plot(m_pop)
+@
+
+\pause
+
+<<eval=TRUE>>=
+plot(m_pop$Sol[,"poppop2"])
+@
+
+
+\end{frame}
+%%%%%%%%%%%
+
+\begin{frame}[fragile]{The posterior distribution}
+
+  \textbf{\large Posterior = Distribution of probability(Parameter $|$ Data)}
+  \pause
+  
+  Approximated by Markov Chain Monte Carlo (MCMC) with Metropolis Hastings:\\
+  
+  \url{https://chi-feng.github.io/mcmc-demo/app.html?algorithm=RandomWalkMH&target=standard}
+  
+
+\end{frame}
+%%%%%%%%%%%
+
+\begin{frame}[fragile]{How many MCMC samples to approximate the posterior?}
+
+MCMC parameters: \begin{itemize}
+\item Number of iterations (nitt)
+\item Discard N first iterations (burnin)
+\item Save one iteration every N iterations (thin)
+\end{itemize}
+
+<<eval=FALSE>>=
+m_pop_short <- MCMCglmm(metabolism ~ 1 + pop, data = metabo,
+                        nitt = 100, burnin = 0, thin = 10)
+plot(m_pop_short)
+
+m_pop_long <- MCMCglmm(metabolism ~ 1 + pop, data = metabo,
+                        nitt = 100000, burnin = 0, thin = 10)
+plot(m_pop_long)
+
+@
+
+\end{frame}
+%%%%%%%%%%%
+
+\begin{frame}[fragile]{That is fancy, but this model is not smart}
+ 
+<<eval=FALSE>>=
+ MCMCglmm(metabolism ~ 1 + pop, data = metabo)
+@
+
+ \pause
+
+<<eval=TRUE, results='hide'>>=
+m_mpop <- MCMCglmm(metabolism ~ 1 + mass + pop, data = metabo)
+summary(m_mpop)
+@ 
+ 
+\end{frame}
+%%%%%%%%%%%
+
+\section{Posterior magic}
+
+\begin{frame}[fragile]{Ask any question, get probabilities}
+
+Default pMCMC = parameter estimates different from 0?
+<<>>=
+2*mean(m_mpop$Sol[,"poppop2"]<0)
+@
+
+
+\pause
+
+similar to frequentist p-value:
+<<>>=
+summary(lm(metabolism ~ 1 + mass + pop, data = metabo))$coef
+@
+
+In frequentist you are stuck with this, because only point estimate.
+\textbf{In Bayesian, you can change the question, because you know probability of all possible values}
+
+\end{frame}
+
+\begin{frame}[fragile]{Ask any question, get probabilities}
+
+Is the effect pop2 different from 0.1? from -0.2?
+<<>>=
+2*mean(m_mpop$Sol[,"poppop2"]<0.1)
+2*mean(m_mpop$Sol[,"poppop2"]< - 0.2)
+@
+
+\pause
+
+Probability slope of mass different from 0.75? from 1?\\
+
+\end{frame}
+%%%%%%%%%%%
+\begin{frame}[fragile]{Ask any question, get probabilities}
+
+Are the effects of pop2 and pop3 different?
+<<>>=
+popdiff <- m_mpop$Sol[,"poppop2"] - m_mpop$Sol[,"poppop3"]
+plot(popdiff)
+@
+
+\end{frame}
+%%%%%%%%%%%
+
+\begin{frame}[fragile]{Ask any question, get probabilities}
+
+Is it likely that the effect of pop3 is more than twice that of pop2? More than half that of pop2?
+<<eval=FALSE, echo=FALSE>>=
+popdiff <- 2*m_mpop$Sol[,"poppop2"] - m_mpop$Sol[,"poppop3"]
+plot(popdiff)
+mean(popdiff>0)
+popdiff <- 0.5*m_mpop$Sol[,"poppop2"] - m_mpop$Sol[,"poppop3"]
+@
+\pause
+
+Visualize the posterior of the exponential of the effect of mass plus 1.
+<<eval=FALSE>>=
+plot(exp(m_mpop$Sol[,"mass"] + 1))
+@
+
+\end{frame}
+%%%%%%%%%%%
+
+\section{Using the prior}
+
+\begin{frame}{Bayes theorem}
+
+\large
+  
+  \begin{align*}
+  \text{Posterior probability} &= \frac{\text{Likelihood} \times \text{Prior probability}}{\text{Probability of data}}\\
+   \text{Posterior probability} & \text{ is proportional to } \text{Likelihood} \times \text{Prior probability}
+  \end{align*}
+
+Probability of data is unknown, but MCMC can sample in proportion of posterior probability, and probabilities sum to 1, hence we know
+\pause
+  \begin{align*}
+    P(\theta | y) &= \frac{P( y | \theta) \times P(\theta)}{P(y)}\\
+                  & \propto P( y | \theta) \times P(\theta)
+  \end{align*}
+
+\end{frame}
+%%%%%%%%%%%
+
+\begin{frame}{Flat prior}
+\only<1>{
+<<flatprior1, dev='tikz', echo=FALSE>>=
+rseq <- seq(-3,3, by=0.01)
+prior <- dunif(x=rseq, min = -3, max = 3)
+lik <- dnorm(x=rseq, 0.7, sd = 0.3)
+post <- prior*lik/mean(prior)
+post <- 100*post/sum(post)
+
+setPar()
+
+plot(x= rseq, y=prior, type='l', xlim = c(-3, 3),
+     ylab="Probability density", xlab="Parameter value", 
+     lwd=5, lty=3, ylim=c(0,max(post)), col="blue")
+
+legend(x="topleft", legend = c("Prior", "Likelihood", "Posterior"), lwd = 5, lty=c(3, 2,1), 
+       col = c("blue","black", rgb(1,0,0, 0.5)))
+
+@
+}
+
+\only<2>{
+<<flatprior2, dev='tikz', echo=FALSE>>=
+setPar()
+
+plot(x= rseq, y=prior, type='l', xlim = c(-3, 3),
+     ylab="Probability density", xlab="Parameter value", 
+     lwd=5, lty=3, ylim=c(0,max(post)), col="blue")
+
+legend(x="topleft", legend = c("Prior", "Likelihood", "Posterior"), lwd = 5, lty=c(3, 2,1), 
+       col = c("blue","black", rgb(1,0,0, 0.5)))
+lines(x=rseq, y=lik, lty=2, lwd=5)
+@
+}
+
+\only<3>{
+<<flatprior3, dev='tikz', echo=FALSE>>=
+
+setPar()
+
+plot(x= rseq, y=prior, type='l', xlim = c(-3, 3),
+     ylab="Probability density", xlab="Parameter value", 
+     lwd=5, lty=3, ylim=c(0,max(post)), col="blue")
+
+legend(x="topleft", legend = c("Prior", "Likelihood", "Posterior"), lwd = 5, lty=c(3, 2,1), 
+       col = c("blue","black", rgb(1,0,0, 0.5)))
+lines(x=rseq, y=lik, lty=2, lwd=5)
+lines(x=rseq, y=post, col=rgb(1,0,0,0.5), lwd=5)
+
+@
+}
+
+\end{frame}
+%%%%%%%%%%%
+
+
+\begin{frame}{Weakly informative prior}
+\only<1>{
+<<normprior1, dev='tikz', echo=FALSE>>=
+rseq <- seq(-3,3, by=0.01)
+prior <- dnorm(x=rseq,0, 3)
+lik <- dnorm(x=rseq, 0.7, sd = 0.3)
+post <- prior*lik/mean(prior)
+post <- 100*post/sum(post)
+
+setPar()
+
+plot(x= rseq, y=prior, type='l', xlim = c(-3, 3),
+     ylab="Probability density", xlab="Parameter value", 
+     lwd=5, lty=3, ylim=c(0,max(post)), col="blue")
+
+legend(x="topleft", legend = c("Prior", "Likelihood", "Posterior"), lwd = 5, lty=c(3, 2,1), 
+       col = c("blue","black", rgb(1,0,0, 0.5)))
+
+@
+}
+
+\only<2>{
+<<normprior2, dev='tikz', echo=FALSE>>=
+setPar()
+
+plot(x= rseq, y=prior, type='l', xlim = c(-3, 3),
+     ylab="Probability density", xlab="Parameter value", 
+     lwd=5, lty=3, ylim=c(0,max(post)), col="blue")
+
+legend(x="topleft", legend = c("Prior", "Likelihood", "Posterior"), lwd = 5, lty=c(3, 2,1), 
+       col = c("blue","black", rgb(1,0,0, 0.5)))
+lines(x=rseq, y=lik, lty=2, lwd=5)
+@
+}
+
+\only<3>{
+<<normprior3, dev='tikz', echo=FALSE>>=
+
+setPar()
+
+plot(x= rseq, y=prior, type='l', xlim = c(-3, 3),
+     ylab="Probability density", xlab="Parameter value", 
+     lwd=5, lty=3, ylim=c(0,max(post)), col="blue")
+
+legend(x="topleft", legend = c("Prior", "Likelihood", "Posterior"), lwd = 5, lty=c(3, 2,1), 
+       col = c("blue","black", rgb(1,0,0, 0.5)))
+lines(x=rseq, y=lik, lty=2, lwd=5)
+lines(x=rseq, y=post, col=rgb(1,0,0,0.5), lwd=5)
+
+@
+}
+
+\end{frame}
+%%%%%%%%%%%
+
+\begin{frame}{Strong prior}
+\only<1>{
+<<strprior1, dev='tikz', echo=FALSE>>=
+rseq <- seq(-3,3, by=0.01)
+prior <- dnorm(x=rseq,0, 0.5)
+lik <- dnorm(x=rseq, 0.7, sd = 0.3)
+post <- prior*lik
+post <- 100*post/sum(post)
+
+
+setPar()
+
+plot(x= rseq, y=prior, type='l', xlim = c(-3, 3),
+     ylab="Probability density", xlab="Parameter value", 
+     lwd=5, lty=3, ylim=c(0,max(post)), col="blue")
+
+legend(x="topleft", legend = c("Prior", "Likelihood", "Posterior"), lwd = 5, lty=c(3, 2,1), 
+       col = c("blue","black", rgb(1,0,0, 0.5)))
+
+@
+}
+
+\only<2>{
+<<strprior2, dev='tikz', echo=FALSE>>=
+setPar()
+
+plot(x= rseq, y=prior, type='l', xlim = c(-3, 3),
+     ylab="Probability density", xlab="Parameter value", 
+     lwd=5, lty=3, ylim=c(0,max(post)), col="blue")
+
+legend(x="topleft", legend = c("Prior", "Likelihood", "Posterior"), lwd = 5, lty=c(3, 2,1), 
+       col = c("blue","black", rgb(1,0,0, 0.5)))
+lines(x=rseq, y=lik, lty=2, lwd=5)
+@
+}
+
+\only<3>{
+<<strprior3, dev='tikz', echo=FALSE>>=
+
+setPar()
+
+plot(x= rseq, y=prior, type='l', xlim = c(-3, 3),
+     ylab="Probability density", xlab="Parameter value", 
+     lwd=5, lty=3, ylim=c(0,max(post)), col="blue")
+
+legend(x="topleft", legend = c("Prior", "Likelihood", "Posterior"), lwd = 5, lty=c(3, 2,1), 
+       col = c("blue","black", rgb(1,0,0, 0.5)))
+lines(x=rseq, y=lik, lty=2, lwd=5)
+lines(x=rseq, y=post, col=rgb(1,0,0,0.5), lwd=5)
+
+@
+}
+
+\end{frame}
+%%%%%%%%%%%
+
+\begin{frame}{Strong prior}
+\only<1>{
+<<trucprior1, dev='tikz', echo=FALSE>>=
+rseq <- seq(-3,3, by=0.01)
+prior <- dunif(x=rseq,min = 0.5,max =  1)
+lik <- dnorm(x=rseq, 0.7, sd = 0.3)
+post <- prior*lik/mean(prior)
+post <- 100*post/sum(post)
+
+setPar()
+
+plot(x= rseq, y=prior, type='l', xlim = c(-3, 3),
+     ylab="Probability density", xlab="Parameter value", 
+     lwd=5, lty=3, ylim=c(0,max(post)), col="blue")
+
+legend(x="topleft", legend = c("Prior", "Likelihood", "Posterior"), lwd = 5, lty=c(3, 2,1), 
+       col = c("blue","black", rgb(1,0,0, 0.5)))
+
+@
+}
+
+\only<2>{
+<<trucprior2, dev='tikz', echo=FALSE>>=
+setPar()
+
+plot(x= rseq, y=prior, type='l', xlim = c(-3, 3),
+     ylab="Probability density", xlab="Parameter value", 
+     lwd=5, lty=3, ylim=c(0,max(post)), col="blue")
+
+legend(x="topleft", legend = c("Prior", "Likelihood", "Posterior"), lwd = 5, lty=c(3, 2,1), 
+       col = c("blue","black", rgb(1,0,0, 0.5)))
+lines(x=rseq, y=lik, lty=2, lwd=5)
+@
+}
+
+\only<3>{
+<<trucprior3, dev='tikz', echo=FALSE>>=
+
+setPar()
+
+plot(x= rseq, y=prior, type='l', xlim = c(-3, 3),
+     ylab="Probability density", xlab="Parameter value", 
+     lwd=5, lty=3, ylim=c(0,max(post)), col="blue")
+
+legend(x="topleft", legend = c("Prior", "Likelihood", "Posterior"), lwd = 5, lty=c(3, 2,1), 
+       col = c("blue","black", rgb(1,0,0, 0.5)))
+lines(x=rseq, y=lik, lty=2, lwd=5)
+lines(x=rseq, y=post, col=rgb(1,0,0,0.5), lwd=5)
+
+@
+}
+
+\end{frame}
+%%%%%%%%%%%
+
+\begin{frame}{In general you don't want prior to influence results}
+\large
+\alert{BUT, sometimes it will anyway. Need to be careful and check alternatives}
+
+  \begin{exampleblock}{Sometimes informative priors are useful:}
+    \begin{itemize}
+      \item Correct for a well known nuisance parameter
+      \item Missing data
+      \item Avoid biologically impossible values
+    \end{itemize}
+  \end{exampleblock}
+
+\end{frame}
+%%%%%%%%%%%
+
+\begin{frame}[fragile]{Change the prior in MCMCglmm}
+
+Fixed effect priors follow normal distribution. Default mean = 0, variances = $10^{10}$, covariances = 0; almost flat:
+
+<<simpr, dev='tikz', fig.height=3, fig.width=5>>=
+priorsamp <- rnorm(n = 10000000, mean = 0, sd = sqrt(10^10))
+plot(density(priorsamp), xlim=c(-100, 100))
+@
+
+\end{frame}
+%%%%%%%%%%%
+
+\begin{frame}[fragile]{Change the prior in MCMCglmm}
+We know from other studies the effect of mass is exactly 0.75.
+<<eval=FALSE>>=
+varprior <- diag(4)*10000
+varprior[2,2] <- 0.000001
+prior1 <- list(B= list(mu=c(0,0.75,0,0), V=varprior))
+mp <- MCMCglmm(metabolism ~ 1 + mass + pop, data = metabo, 
+               prior = prior1)
+summary(mp)
+@
+
+\end{frame}
+%%%%%%%%%%%
+
+\begin{frame}[fragile]{Change the prior in MCMCglmm}
+We know from other studies the effect of mass is exactly 0.75.
+Another study has estimated the effect of pop2 to 0.15, with standard error of 0.01
+<<eval=FALSE>>=
+varprior <- diag(4)*10000
+varprior[2,2] <- 0.000001
+varprior[3,3] <- 0.01^2
+prior2 <- list(B= list(mu=c(0,0.75,0.15,0), V=varprior))
+mp2 <- MCMCglmm(metabolism ~ 1 + mass + pop, data = metabo,
+                prior = prior2)
+summary(mp2)
+@
+\end{frame}
+%%%%%%%%%%%
+
+
+\begin{frame}{Some models much easier in Bayesian}
+\textbf{Missing data in a predictor with a trend\\}
+\pause
+Missing data in temperarture you want to use to predict Survival at the end of time serie
+<<tempmiss, echo=FALSE, dev='tikz'>>=
+setPar()
+set.seed(123)
+year <- 1986:2018
+temperature <- 31 + 0.15*(year-1986) + rnorm(length(year), mean = 0, sd = 1)
+
+plot(year[1:29], temperature[1:29], xlim=range(year), ylim=c(28,40), col="blue", 
+     xlab="Year", ylab="Temperature", main="")
+points(year[30:33], temperature[30:33], pch="?", col="red")
+arrows(x0=2005, x1=2018, y0=29, code = 3)
+text(x = 2011, y=29.5, labels = "Survival data")
+@
+
+\end{frame}
+%%%%%%%%%%%
+
+
+\begin{frame}{Some models much easier in Bayesian}
+Missing data in a predictor with a trend\\
+\textbf{Combining information from different sources in a single model\\}
+\pause
+
+\begin{enumerate}[<+->]
+  \item Fit individual growth curves to sparse mass data
+  \item Estimate litter birth dates from estimate of mass$<$ birth mass, sibblings', time between litter
+  \item Model snow cover 
+  \item Model survival from mark-recapture data
+  \item Estimate interaction snow cover by birth date on survival
+  \item (plug in mean survival to a model of the number of individuals in population)
+  \item (estimate how snow cover and population size impact vegetation growth)
+  \item \dots
+\end{enumerate}
+
+\end{frame}
+%%%%%%%%%%%
+
+\begin{frame}{Want more?}
+
+Two days on writing your own models in JAGS/STAN
+  \begin{itemize}
+    \item GLMMs
+    \item Missing data
+    \item Integrating multi-part models
+    \item Priors, diagnostics, cool tools\dots
+  \end{itemize}
+  
+\end{frame}
+%%%%%%%%%%%
+
+\end{document}

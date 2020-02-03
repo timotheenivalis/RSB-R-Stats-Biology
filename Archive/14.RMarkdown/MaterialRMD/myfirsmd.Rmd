@@ -1,0 +1,97 @@
+---
+title: "My first MD"
+author: "Timothee Bonnet"
+date: "23 August 2019"
+output:
+  html_document:
+    highlight: kate
+    theme: cerulean
+    toc: yes
+    toc_float: yes
+---
+
+# Introduction
+
+Normal, *italics*, **bold**, _**both**_, _italics_
+
+- q 
+- s
+- s
+
+```{r echo=TRUE, cache=TRUE}
+par(mfrow=c(1,2))
+x1 <- rnorm(200)
+x2 <- x1 +rnorm(200)
+y <- 1 + x1 +rnorm(200)
+summary(lm(y ~ x2))
+plot(x2, y)
+plot(x2, y)
+```
+
+the result is `r rnorm(1)` 
+
+` 1 + pi `
+
+`r 1 + pi `
+
+```{r, echo=TRUE, eval=FALSE}
+lm(y ~ x)
+```
+
+```{r, echo=FALSE, eval=TRUE}
+#load("lm")
+  for()
+  {
+    er 
+    {
+      
+    }
+  }
+```
+
+
+$a^2 + b = 1$
+
+$$
+a + d + e\\
+q= \sum
+$$
+
+```{r}
+data(cars)
+knitr::kable(x = head(cars), caption = "A knitr kable table")
+```
+
+## Blabla
+
+### subsubsection
+#### subsubsubsection
+##### subsubsubsubsection
+###### subsubsubsubsubsection
+
+
+## Linear regression {.tabset}
+### Simple
+A simple regression measures total associations
+```{r}
+summary(lm(y ~ x2))
+```
+
+### Multiple
+A multiple regression measures direct associations, corrected for indirect
+associations.
+```{r}
+summary(lm(y ~ x1+x2))
+```
+
+### Multiple
+A multiple regression measures direct associations, corrected for indirect
+associations.
+```{r}
+summary(lm(y ~ x1+x2))
+```
+
+eohohr
+
+
+## Linear regression again

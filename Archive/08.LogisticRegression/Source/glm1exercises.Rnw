@@ -1,0 +1,342 @@
+\documentclass[12pt,a4paper]{scrartcl}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath}
+\usepackage{graphicx}
+\usepackage{tikz}
+%\usepackage{silence}
+\usepackage{mdframed}
+%\WarningFilter{mdframed}{You got a bad break}
+\usepackage[colorinlistoftodos]{todonotes}
+\usepackage{listings}
+\usepackage{color}
+\colorlet{exampcol}{blue!10}
+\usepackage{multicol}
+\usepackage{booktabs}
+
+\usepackage[noanswer]{exercise}%[noanswer]
+
+\usepackage[autostyle, english = american]{csquotes}
+\MakeOuterQuote{"}
+
+\usepackage{hyperref}
+\hypersetup{
+    colorlinks,
+    citecolor=black,
+    filecolor=black,
+    linkcolor=blue,
+    urlcolor=black
+}
+
+\title{Exercises for linear mixed effect models, part 3}
+\date{\today}
+\author{Timoth\'ee Bonnet}
+
+
+\begin{document}
+
+<<echo=FALSE, results='hide', message=FALSE>>=
+options(digits = 4) 
+library(lme4)
+@
+
+\maketitle
+
+\tableofcontents
+\ListOfExerciseInToc
+\ExerciseLevelInToc{subsubsection}
+
+\clearpage 
+
+
+
+\section{Logistic regression basics}
+
+\begin{Exercise}[difficulty=1, title={Fit with glm()}]
+Load the dataset \texttt{survivalsize.csv}. It contains fake data of individual-based measurements of body size and of survival from the time of measurement to the next year. Look at a summary of the data and plot them. Do you think size affects survival?
+Use the function glm() to fit a logistic regression. What should the \texttt{family} argument be? What is the direction of the effect of size on survival?
+\end{Exercise}
+\begin{Answer}
+<<>>=
+survdat <- read.csv("survivalsize.csv") 
+summary(survdat)
+plot(survdat)
+glmsurvsize0 <- glm(survival ~ 1 + size, data = survdat, 
+                    family = "binomial")
+summary(glmsurvsize0)
+@
+\end{Answer}
+
+\begin{Exercise}[difficulty=1, title={Model assumptions}]
+In R some model assumptions of linear models are routinely checked using plot(lm()): residual normality, independance and homogeneous variance, and legerage. If you know about these diagnostics (and what the plots should ideally look like) check them for your glm. Should you worry?
+\end{Exercise}
+\begin{Answer}
+<<>>=
+plot(glmsurvsize0)
+@
+No. A binary logistic regression makes much less stringent assumptions than a linear model. The one thing you can easily check if that data are binary. The assumptions that may be violated (non-independance and no measurement error) would generally not be visible on these plots. The definition of a logistic regression means that the residuals will generally not follow a normal distribution, but will be dependent on the predictors, and will have changing variance; that is perfectly okay.
+\end{Answer}
+
+\begin{Exercise}[difficulty=2, title={Making sense of model estimates}]
+Consider the model estimates for the intercept and slope.  How to recover the mean survival from these two numbers? You will need to use the back-transformation inverse logit: probability = $\frac{1}{1+\exp(-y)}$ where $y$ is a model prediction on the logit-scale. You can also use the function \texttt{predict()}.
+
+How much does the ratio of surviving/dying probabilities changes for an individual of size 6 compared to an individual of size 5?
+\end{Exercise}
+\begin{Answer}
+<<>>=
+summary(glmsurvsize0)
+@
+
+The data mean survival is:
+<<>>=
+mean(survdat$survival)
+@
+
+You CANNOT recover the mean data survival by back-transforming the predicted mean on the logit-scale, because the back-transformation is not linear:
+<<>>=
+meanlogit <- mean(coefficients(glmsurvsize0)[1]+
+coefficients(glmsurvsize0)[2]*survdat$size)
+
+1/(1+exp(-meanlogit))
+@
+
+You must back-transform individual data points and THEN calculate the mean:
+<<>>=
+preddat <- coefficients(glmsurvsize0)[1]+
+coefficients(glmsurvsize0)[2]*(survdat$size)
+mean(1/(1+exp(-preddat)))
+@
+The function predict with \texttt{type} argument set to \texttt{response} can help with the back-transformation:
+<<>>=
+mean(predict(glmsurvsize0, type = "response"))
+@
+
+The increase in the odd survive with an increase of one unit in size is an odd-ratio. It is simply the exponential of the slope:
+<<>>=
+exp(coefficients(glmsurvsize0)[2])
+@
+
+You can check this by comparing two predictions
+<<>>=
+survprob5 <- 1/(1+exp(-(coefficients(glmsurvsize0)[1]+ 
+                          5*coefficients(glmsurvsize0)[2])))
+survprob6 <- 1/(1+exp(-(coefficients(glmsurvsize0)[1]+ 
+                          6*coefficients(glmsurvsize0)[2])))
+
+#definition of odd-ratio:
+(survprob6/(1-survprob6))/(survprob5/(1-survprob5))
+@
+
+\end{Answer}
+
+\begin{Exercise}[difficulty=2, title={Visualize results}]
+Use the function \texttt{predict()} to make a graph of the relationship between survival and size, with a confidence interval. 
+\end{Exercise}
+\begin{Answer}
+<<>>=
+plot(survdat$size, survdat$survival, xlab="Size", ylab="Survival")
+
+newdat <- data.frame(size=seq(min(survdat$size),max(survdat$size),
+                              length.out = 100))
+newdat <- cbind(newdat, predict(glmsurvsize0, newdata = newdat,
+                                type = "link", se.fit = TRUE))
+newdat$ciu <- 1/(1+exp(-(newdat$fit + 1.96*newdat$se.fit)))
+newdat$cil <- 1/(1+exp(-(newdat$fit - 1.96*newdat$se.fit)))
+newdat$prob <- 1/(1+exp(-(newdat$fit)))
+
+lines(x = newdat$size, newdat$prob, lwd=5, col='red')
+#confidence interval with lines
+lines(x = newdat$size, newdat$ciu, lwd=3, col='red', lty=2)
+lines(x = newdat$size, newdat$cil, lwd=3, col='red', lty=2)
+
+#or with polygon:
+polygon(x=c(newdat$size,rev(newdat$size)),
+        y=c(newdat$ciu,rev(newdat$cil)),
+        col = rgb(0.8,0,0,0.2), border =NA)
+
+@
+\end{Answer}
+
+
+
+\section{Classification}
+
+\begin{Exercise}[difficulty=2, title={What populations are at risk?}]
+Researchers are currently trying to predict animal population collapses in advance, by finding metrics that changed before historic populations collapsed. Let's imagine we have measured the time-autocorrelation in phenotypes (what that means does not matter) in 200 populations, some of which have collapsed in the past decades. We want to konw whether autocorrelation is related to collapse, and whether it could be used to predict which population will collapse in the future. 
+
+Load the dataset \texttt{decline.csv}, it contains fake data of past collapses and past autocorrelations in populations, as well as future collapses (yes, I am a fortune teller). Fit a logistic regression of \texttt{popcollapse} as a function of \texttt{atcor}. Does \texttt{atcor} increase the probability of population collapse? Visualize the relationship. Does it make sense to define a threshold of autocorrelation and allocate conservation resources to those populations that are at risk based on our metric? For instance, what do you think about conserving all populations above an autocorrelation of 0.5? How many future at-risk populations would be missed? How many populations that are not at risk would receive unecessary resources? How could you improve the prediction?
+<<echo=FALSE, eval=FALSE>>=
+set.seed(1234)
+atcor <- runif(200, min = -1, max = 1)
+y <- -2 + atcor*0.95
+popcollapse <- sapply(y, FUN=function(x) rbinom(1, 1, 
+                                      prob = 1/(1+exp(-x))))
+plot(atcor, popcollapse)
+summary(glm(popcollapse~atcor, family = "binomial"))
+
+decline <- data.frame(popcollapse=popcollapse, 
+                      pheno_autocorr=atcor)
+
+decline$futurecollapse <- sapply(-2 + atcor*0.95,
+                          FUN=function(x) rbinom(1, 1, 
+                                    prob = 1/(1+exp(-x))))
+decline$futurecollapse[decline$popcollapse==1] <- NA
+
+decline$variance <- rnorm(200,6,1)+decline$popcollapse
+write.csv(decline, file = "decline.csv", quote = FALSE,
+          row.names = FALSE)
+
+@ 
+
+\end{Exercise}
+\begin{Answer}
+<<>>=
+decline <- read.csv("decline.csv")
+summary(glmcoll0 <- glm(popcollapse~pheno_autocorr,
+                      data = decline, family = "binomial"))
+newdat <- data.frame(pheno_autocorr=seq(-1,1,length.out = 100))
+newdat <- cbind(newdat, pred = predict(glmcoll0, 
+                          type = "response", newdata = newdat))
+
+plot(decline$pheno_autocorr, decline$popcollapse)
+lines(newdat$pheno_autocorr, newdat$pred, col="red")
+@
+
+Using a threshold of 0.5 would be correct for 5 at-risk populations:
+<<>>=
+sum(decline$futurecollapse[decline$pheno_autocorr>=0.5],
+    na.rm=TRUE)
+@
+
+and 116 safe populations:
+<<>>=
+sum(1-decline$futurecollapse[decline$pheno_autocorr<0.5], 
+    na.rm=TRUE)
+@
+
+But would be incorrect for 19 at-risk populations and 30 safe populations:
+<<>>=
+sum(decline$futurecollapse[decline$pheno_autocorr<0.5],
+    na.rm=TRUE)
+sum(1-decline$futurecollapse[decline$pheno_autocorr>=0.5],
+    na.rm=TRUE)
+@
+
+As could have been expected, this is a pretty bad performance. The result can be obtained more formally looking at a Receiver Operating Characteristic plot:
+<<>>=
+library(pROC) #need to install this package!
+
+plot.roc(predictor = predict(glmcoll0, type = "response"), 
+         x = decline$popcollapse)
+@
+
+Adding another predictor helps improve the prediction:
+<<rocplot, dev='tikz', fig.width=6, fig.height=5>>=
+glmcoll1 <- glm(popcollapse~pheno_autocorr+variance, 
+                data = decline, family = "binomial")
+
+plot.roc(predictor = predict(glmcoll1, type = "response"), 
+         x = decline$popcollapse)
+@
+
+\end{Answer}
+
+
+
+\section{Repeatability}
+
+<<eval=FALSE, echo=FALSE>>=
+set.seed(123)
+id <- 1:500
+idint <- rnorm(length(id),0,0.5)
+obs <- 1:10
+dat <- expand.grid(obs=obs, id=id)
+dat$x <- rnorm(nrow(dat), mean = 3,sd = 1)
+dat$year <- rep(rep(2012+1:5, each=2),500)
+
+dat$y <- 1.9 + idint[dat$id] + dat$x*(-0.2) +
+  rnorm(nrow(dat), 0, 0.2) +
+  rnorm(n = 5, 0, 0.15)[dat$year-2012]
+
+plot(dat$x, dat$y)
+dat$bin <- sapply(dat$y, FUN=function(x){
+  rbinom(n = 1, 1, prob = 1/(1+exp(-x)))})
+
+plot(dat$x, dat$bin)
+library(lme4)
+summary(glmer(bin ~ 1 + x +(1|id) + (1|year),
+              data = dat, family = "binomial"))
+
+names(dat) <- c("repeats", "individual", "distance",
+                "year", "y", "RunAway")
+dat <- dat[,c("repeats", "individual", "distance", 
+              "year", "RunAway")]
+
+write.csv(dat, file = "runaway.csv", quote = FALSE,
+          row.names = FALSE)
+@
+
+\begin{Exercise}[difficulty=2, title={Repeatability, on what scale?}]
+Load the dataset \texttt{runaway.csv}. It contains fake data of a behavioural experiment: you played the trumpet to an animal and see whether it an animal and see whether they ran away. 500 individuals were tested twice a year during 5 years. You measured distance between you and the animal. You would like to know whether individuals behave consistently that is, have a personality and are repeatable. We start by fitting a linear mixed model using the package lme4 (accounting for differences among years, and for the effect of distance):
+<<>>=
+roodat <- read.csv("runaway.csv")
+lmm0 <- lmer(RunAway ~ 1 + distance +(1|individual) + (1|year),
+             data = roodat)
+VarCorr(lmm0)
+@
+This model suggests a repeatability of:
+<<>>=
+(0.0663^2)/(0.0663^2+0.0159^2+0.4139^2)
+@
+That is not a lot, and we wonder whether the small number is due to the lack of fit of the model. Fortunately it is possible to fit a logistic mixed model by changing \texttt{lmer} to \texttt{glmer} and specifying \texttt{family=`binomial'}. If you do so, what repeatibility do you find? Where does the difference come from? What is right?
+\end{Exercise}
+\begin{Answer}
+<<>>=
+summary(repmod <- glmer(RunAway ~ 1 + distance +(1|individual) +
+                          (1|year), data = roodat, family = "binomial"))
+VarCorr(repmod)
+@
+
+So the repeatability on the logit scale is:
+<<>>=
+0.3707^2/(0.0716^2+0.3707^2)
+@
+That is much much higher than the LMM estimate (about 2\% versus about 96\%). 
+
+This huge difference comes from two things: first, the logit transformation is not linear, and may distort variation. We can get a taste for that by back-transforming random numbers generated with the random effect variances and fixed effect coefficients. For instance, when \texttt{distance=3}, the repeatability on the back-transformed scale is approximately:
+
+<<>>=
+var(1/(1+exp(-(rnorm(1000000, 1.7448-0.1621*3, 0.3707))))) / 
+  var(1/(1+exp(-(rnorm(1000000, 1.7448-0.1621*3, 0.0716+0.3707)))))
+@
+That is a bit less, but not really small.
+
+Also, notice that the repeatability is not the same for all values of \texttt{distance}:
+<<>>=
+var(1/(1+exp(-(rnorm(1000000, 1.7448-0.1621*0, 0.3707))))) / 
+  var(1/(1+exp(-(rnorm(1000000, 1.7448-0.1621*0, 0.0716+0.3707)))))
+var(1/(1+exp(-(rnorm(1000000, 1.7448-0.1621*6, 0.3707))))) / 
+  var(1/(1+exp(-(rnorm(1000000, 1.7448-0.1621*6, 0.0716+0.3707)))))
+@
+
+The other important reason why repeatability is so much smaller in the LMM is that our GLMM does not explicitly measures the residual variation! For a logistic regression residual variance is not defined on the transformed scale, instead a Bernouilli random process generates deviations between a model prediction and data. The variation in this process is only a function of the expected probability.
+
+To see what it does, lets draw random Bernouilli numbers around our expected back-transformed values before calculating the total variance:
+<<>>=
+var(1/(1+exp(-(rnorm(1000000, 1.7448-0.1621*3, 0.3707))))) /
+  var(sapply(X = rnorm(100000, 1.7448-0.1621*0, 0.0716+0.3707), 
+        FUN=function(x){rbinom(n = 1, size = 1, prob = 1/(1+exp(-(x))))
+                        }))
+@
+
+So, about 3\% of the data variation is explained by the individual random effect! That is not a perfectly exact calculation though, because it is only for the value of \texttt{distance=3}. To be exact we should integrate individual differences over the range of possible predictor values (that is a bit complicated).
+
+The package QGglmm offers a proper back-transformation of variance components and repeatability on the data scale (denoted $h^2.obs$ below):
+<<>>=
+library(QGglmm)
+QGglmm::QGparams(predict = predict(repmod),var.a = 0.3707^2,
+                 var.p = 0.0716^2+0.3707^2, model = "binom1.logit")
+
+@
+
+\end{Answer}
+\end{document}
