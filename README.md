@@ -2,7 +2,6 @@
 
 Second year of the workshop series on biological statistics in R at RSB, ANU. To receive all announcements and get help from other R-Staters drop me an [email](mailto:timotheebonnetc@gmail.com) and I will add you to the workshop Slack.
 
-The material from the early-2018 series is at [https://github.com/timotheenivalis/Rcode-Stats-Bubbles](https://github.com/timotheenivalis/Rcode-Stats-Bubbles).
 
 Topics covered so far this year (2018-2019):
 * [Install R and R-Studio](https://timotheenivalis.github.io/RSB-R-Stats-Biology/00.Install)
@@ -24,4 +23,8 @@ Topics covered so far this year (2018-2019):
 
 
 What other topics would you like covered? Just ask and I will try to make it happen!
+
+Former material:
+* The 2018-2019 series is at [https://timotheenivalis.github.io/RSB-R-Stats-Biology/Archive/]
+* The early-2018 series is at [https://github.com/timotheenivalis/Rcode-Stats-Bubbles](https://github.com/timotheenivalis/Rcode-Stats-Bubbles).
 
