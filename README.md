@@ -4,8 +4,8 @@ Second year of the workshop series on biological statistics in R at RSB, ANU. To
 
 
 Topics covered so far this year (2018-2019):
-* [Install R and R-Studio](https://timotheenivalis.github.io/RSB-R-Stats-Biology/00.Install)
-* [Basics of R language](https://timotheenivalis.github.io/RSB-R-Stats-Biology/01.IntroR)
+* [Install R and R-Studio](00.Install)
+* [Basics of R language](01.IntroR)
 * [Statistical inference](https://timotheenivalis.github.io/RSB-R-Stats-Biology/02.IntroStats)
 * [Simple linear regression (on Github only; By Ananthan Ambikairajah)](https://github.com/timotheenivalis/RSB-R-Stats-Biology/tree/master/13.SimpleLinearRegression)
 * [Linear mixed models Part 1 (estimation)](https://timotheenivalis.github.io/RSB-R-Stats-Biology/03.MixedModels)
