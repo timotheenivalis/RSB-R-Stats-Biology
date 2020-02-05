@@ -1,6 +1,6 @@
 # RSB-R-Stats-Biology
 
-Second year of the workshop series on biological statistics in R at RSB, ANU. To receive all announcements and get help from other R-Staters drop me an [email](mailto:timotheebonnetc@gmail.com) and I will add you to the workshop Slack.
+Third year of the workshop series on biological statistics in R at ANU. To receive all announcements and get help from other R-Staters drop me an [email](mailto:timotheebonnetc@gmail.com) and I will add you to the workshop Slack. 
 
 
 Topics covered so far this year (2018-2019):
