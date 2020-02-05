@@ -1,0 +1,365 @@
+\documentclass[10pt]{beamer}%
+\setbeamersize{text margin left=0.5cm, text margin right=0.5cm}
+
+\usepackage{alltt}%
+  \usetheme[background=light]{metropolis} 
+  \usecolortheme{seahorse}
+
+\usepackage[utf8]{inputenc}%
+
+
+\usepackage[normalem]{ulem}%strikeout
+ 
+
+% graphics
+%% Figures %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage{graphicx}
+\usepackage{xcolor}%for color mixing
+
+\usepackage{amsmath}%
+\usepackage{amsfonts}%
+\usepackage{amssymb}%
+\usepackage{graphicx}
+
+\usepackage{tikz}
+\usetikzlibrary{calc}
+
+\usepackage{hyperref}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%% Doc info %%%%%%%%%%%%%%%%%%%
+\title[\textbf{Data handling}]{Handling data in R}
+\date{\today}
+\author{Timoth\'ee Bonnet}
+\institute{BDSI / RSB}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{document}
+
+<<Plot Options, echo=FALSE, message=FALSE>>=
+#load(file = ".RData")
+opts_knit$set(width=60)
+opts_chunk$set(comment=NA, fig.width=8, fig.height=6, out.width='0.8\\textwidth',
+               out.height='0.6\\textwidth',background='#D7DDEB')
+
+
+szgr <- 2
+szax <- 1.3
+marr <- c(4, 4, 1, 1) + 0.1
+setPar<-function(){
+par(las=1,mar=marr, cex=szgr, cex.lab=szax , cex.axis=szax, lwd=2 ,pch=1, las=1)
+}
+setPar()
+@
+
+\begin{frame}
+\maketitle	
+\end{frame}
+%%%%%%%%%%%
+
+
+\AtBeginSection[]
+{
+  \begin{frame}<beamer>
+    \frametitle{}
+    \tableofcontents[currentsection,hideothersubsections,subsectionstyle=hide]% down vote\tableofcontents[currentsection,currentsubsection,hideothersubsections,sectionstyle=show/hide,subsectionstyle=show/shaded/hide]
+  \end{frame}
+}
+
+\section{Loading data}
+
+\begin{frame}[fragile]{Type data}
+
+You can type short datasets
+
+<<eval=FALSE>>=
+my_vector <- c(2,9.1, 4)
+
+my_data_frame <- data.frame(weather=c("rain", "sun", "snow"),
+                            temperature = c(12.2, 19.9, -1.4))
+@
+
+\end{frame}
+%%%%%%%%%%%
+
+
+\begin{frame}[fragile]{Package data}
+
+R-base and R-packages contain data-sets
+<<eval=FALSE>>=
+data("volcano")
+volcano # you must "touch" the data to really load them
+@
+
+\pause
+
+<<eval=FALSE>>=
+library(ape)
+data(cynipids)
+cynipids
+@
+
+\end{frame}
+%%%%%%%%%%%
+
+\begin{frame}[fragile]{Load tables from file}
+<<>>=
+roo <- read.csv("Data/roo.csv")
+ped <- read.table("Data/ped.txt", header = TRUE)
+@
+
+\pause
+
+What about Excel?
+<<eval=FALSE>>=
+thorn <- read.csv("Data/thornexcel.xlsx") #ERROR
+@
+
+<<eval=FALSE>>=
+library(gdata)
+thorn <- read.xls("Data/thornexcel.xlsx", sheet = 1, header = TRUE)
+@
+
+\end{frame}
+%%%%%%%%%%%
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Data access, subset, merge}
+
+\begin{frame}[fragile]{Loading data}
+
+  <<>>=
+    trees <- read.csv("trees.csv")
+  @
+  \pause
+
+  <<>>=
+  str(trees)
+  @
+
+  Try also \texttt{summary}, \texttt{class}, \texttt{head}, \texttt{tail}
+\end{frame}
+%%%%%%%%%%%
+
+\begin{frame}[fragile]{Merging}
+
+<<>>=
+roo <- read.csv("Data/roo.csv")
+ped <- read.table("Data/ped.txt", header = TRUE)
+
+AllData <- merge(x = roo, y = ped, by.x = "id", by.y = "animal")
+@
+\end{frame}
+%%%%%%%%%%%
+
+
+\begin{frame}[fragile]{Access}
+
+  \begin{block}{Bracket-syntax}
+    \begin{itemize}
+      \item Row: dataframe[row, ]
+      \item Column: dataframe[ , column]
+      \item Element: dataframe[row, column]
+    \end{itemize}
+  \end{block}
+
+  \pause
+  <<eval=FALSE>>=
+  trees[,1]
+  trees[1:8,]
+  trees[c(2,1,2), 3]
+  trees[, "Height"]
+  @
+
+  \begin{block}{Dollar-syntax}
+    \begin{itemize}
+      \item Column \verb+ dataframe$column_name +
+      \item Element \verb+ dataframe$column_name[row] +
+    \end{itemize}
+  \end{block}
+
+  <<eval=FALSE>>=
+    trees$Height
+  @
+\end{frame}
+%%%%%%%%%%%
+
+\begin{frame}{Time to think a tiny bit!}
+
+  \textbf{Calculate the mean for all three variables in trees,\\ excluding the last (31st) record.}
+
+\end{frame}
+%%%%%%%%%%%
+
+\begin{frame}[fragile]{Solution for one column}
+
+  \textbf{Calculate the mean for all three variables in trees,\\ excluding the last (31st) record.}
+
+  <<eval=FALSE>>=
+    mean(trees$Girth[1:30])
+    mean(trees[1:30, "Girth"])
+    mean(trees$Girth[-31])
+    mean(trees[-31, "Girth"])
+  @
+\end{frame}
+%%%%%%%%%%%
+
+\section{For-loop}
+
+\begin{frame}[fragile]{How to get the row means? For-loops}
+
+  <<eval = FALSE>>=
+    for (i in 1:N)
+    {
+      something as a function of i
+    }#end of the loop
+  @
+
+  \pause
+  <<eval = FALSE>>=
+    for (i in 1:31)
+    {
+      print(i)
+    }
+  @
+
+\end{frame}
+%%%%%%%%%%%
+
+\begin{frame}[fragile]{How to get the row means? For-loops}
+
+Start by buiding the code for 1 iteration (1 "i" value, e.g., 22):
+
+    <<eval = FALSE>>=
+    mean(as.numeric(trees[22,]))
+  @
+
+\pause 
+We will want to store the result somewhere:
+  
+    <<eval = FALSE>>=
+  ResultMean <- vector() # we will store the results there
+  ResultMean[22] <- mean(as.numeric(trees[22,]))
+  @
+  
+  \pause
+  
+Now change 22 to "i" and write a loop around:
+    <<eval = FALSE>>=
+    ResultMean <- vector() # we will store the results there
+    for (i in 1:31)
+    {
+      ResultMean[i] <- mean(as.numeric(trees[i,]))
+    }
+  @
+
+\end{frame}
+%%%%%%%%%%%
+
+\begin{frame}[fragile]{For-loops: your turn!}
+
+Load rock data
+  <<>>=
+  rock <- read.csv("rock.csv")
+  @
+
+  \centering
+\textbf{\large Use a for loop to obtain column averages}
+
+\end{frame}
+%%%%%%%%%%%
+
+
+\begin{frame}[fragile]{Solution}
+
+Load rock data.
+  <<>>=
+  rock <- read.csv("rock.csv")
+  @
+
+  \centering
+\textbf{\large Use a for loop to obtain column averages}
+
+  <<eval=FALSE>>=
+    storage <- vector(length = ncol(rock))
+    for (i in 1:ncol(rock))
+    {
+      storage[i] <- mean(rock[,i])
+    }
+  @
+\end{frame}
+%%%%%%%%%%%
+\begin{frame}[fragile]{More concise alternative: apply functions}
+
+  <<eval=FALSE>>=
+  apply(X = dataframe, MARGIN = 1 (row) or 2 (col), FUN = function)
+  @
+
+  \pause
+
+  <<eval=FALSE>>=
+  apply(X = rock, MARGIN = 1, FUN = mean)#by row (not meaningful)
+  apply(X = rock, MARGIN = 2, FUN = mean)#by column
+  @
+  
+  
+  <<eval=FALSE>>=
+    colMeans(rock)
+    rowMeans(rock)
+  @
+
+\end{frame}
+%%%%%%%%%%%
+\begin{frame}[fragile]{Even better (worse)...}
+
+  \begin{alertblock}{Trade-off concision  / flexibility}
+    \begin{itemize}
+      \item colMeans shortest, but does only means
+      \item apply very flexible, but does only array/matrix/data-frame
+      \item for-loop looks complex, but infinitely flexible
+      \item (NB: your computer does a for-loop whether you see it or not)
+    \end{itemize}
+  \end{alertblock}
+
+\end{frame}
+%%%%%%%%%%%
+
+\begin{frame}[fragile]{The last value}
+
+Sometimes a function takes very long to run\\
+<<eval=FALSE>>=
+    rowMeans(rock[rep(1:nrow(rock),100000),])
+@
+\pause
+What if you forgot to save the output to an object??
+
+\pause 
+
+<<>>=
+ourlasthope <- .Last.value
+@
+
+\end{frame}
+
+\begin{frame}[fragile]{plot function}
+
+<<plorock3>>=
+plot(x = rock$peri, y = rock$area)
+@
+
+\end{frame}
+%%%%%%%%%%%
+
+
+\section{R output}
+
+\begin{frame}[fragile]{}
+
+<<>>=
+    
+@
+\end{frame}
+%%%%%%%%%%%
+
+\end{document}
