@@ -61,13 +61,39 @@ setPar()
 
 \begin{itemize}[<+->]
   \item Schedule on Wattle
-  \item Slack RSB-R-Stats-Biology \alert{email me!}
-  \item Interested in Bayesian methods? \alert{Let's chat during coffee break}
+  \item Slack RSB-R-Stats-Biology \alert{email me if you are interested}
+  \item Interested in Bayesian modeling? \alert{Let's chat during coffee break}
 \end{itemize}
+
+
 
 \end{frame}
 %%%%%%%%%%%
 
+\begin{frame}[fragile]{Today}
+
+Some basic things you can do with data\\
+\begin{itemize}
+  \item Read
+  \item Access, subset, merge
+  \item Iterate
+  \item Write
+\end{itemize}
+
+\pause 
+\begin{block}{}
+Take notes in a R script. Comment using
+<<>>=
+# comment within R code
+#' comment converted to Markdown
+@
+Compile HTML, Word or PDF with \texttt{CTRL + Maj + K}
+\end{block}
+
+\pause
+If you are bored, go to the end for some exercises
+\end{frame}
+%%%%%%%%%%%
 
 \AtBeginSection[]
 {
@@ -82,12 +108,19 @@ setPar()
 \begin{frame}[fragile]{Type data}
 
 You can type short datasets
-
 <<eval=FALSE>>=
 my_vector <- c(2,9.1, 4)
 
 my_data_frame <- data.frame(weather=c("rain", "sun", "snow"),
                             temperature = c(12.2, 19.9, -1.4))
+@
+
+Or simulate random data
+<<eval=FALSE>>=
+my_random_data <- 
+  data.frame(weather=sample(x = c("rain", "sun", "snow"),
+                              size = 100, replace = TRUE),
+            temperature = rnorm(n = 100, mean = 13, sd = 4))
 @
 
 \end{frame}
@@ -134,36 +167,33 @@ thorn <- read.xls("Data/thornexcel.xlsx", sheet = 1, header = TRUE)
 \end{frame}
 %%%%%%%%%%%
 
+\begin{frame}[fragile]{Online data}
+
+<<eval=FALSE>>=
+ download.file(url="https://ndownloader.figshare.com/files/2292169",
+             destfile = "dat.csv")
+ dat <- read.csv("dat.csv") 
+@
+\end{frame}
+%%%%%%%%%%%
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Data access, subset, merge}
 
-\begin{frame}[fragile]{Loading data}
+\begin{frame}[fragile]{Data overview}
 
-  <<>>=
-    trees <- read.csv("trees.csv")
-  @
+<<>>=
+data(trees)
+@
   \pause
 
   <<>>=
   str(trees)
   @
 
-  Try also \texttt{summary}, \texttt{class}, \texttt{head}, \texttt{tail}
+  Try also \texttt{summary}, \texttt{class}, \texttt{head}, \texttt{tail}, \texttt{plot}
 \end{frame}
 %%%%%%%%%%%
-
-\begin{frame}[fragile]{Merging}
-
-<<>>=
-roo <- read.csv("Data/roo.csv")
-ped <- read.table("Data/ped.txt", header = TRUE)
-
-AllData <- merge(x = roo, y = ped, by.x = "id", by.y = "animal")
-@
-\end{frame}
-%%%%%%%%%%%
-
 
 \begin{frame}[fragile]{Access}
 
@@ -171,7 +201,7 @@ AllData <- merge(x = roo, y = ped, by.x = "id", by.y = "animal")
     \begin{itemize}
       \item Row: dataframe[row, ]
       \item Column: dataframe[ , column]
-      \item Element: dataframe[row, column]
+      \item Cell: dataframe[row, column]
     \end{itemize}
   \end{block}
 
@@ -216,6 +246,54 @@ AllData <- merge(x = roo, y = ped, by.x = "id", by.y = "animal")
 \end{frame}
 %%%%%%%%%%%
 
+\begin{frame}[fragile]{subset}
+
+<<eval=FALSE>>=
+firstrees <- trees[1:10,]
+@
+
+\pause
+
+<<eval=FALSE>>=
+smalltrees1 <- trees[trees$Height  < mean(trees$Height), ]
+
+smalltrees2 <- subset(trees, subset = trees$Height  < mean(trees$Height))
+@
+
+<<eval=FALSE>>=
+smalltrees1 == smalltrees2
+identical(x=smalltrees1, smalltrees2)
+@
+\end{frame}
+%%%%%%%%%%%
+
+\begin{frame}[fragile]{Merging}
+
+Merge by row or column
+<<eval=FALSE>>=
+trees2 <- trees*2
+
+rbind(trees, trees2)
+cbind(trees, trees2)
+@
+
+\end{frame}
+%%%%%%%%%%%
+
+\begin{frame}[fragile]{Merging}
+
+Merge columns by common id
+<<>>=
+roo <- read.csv("Data/roo.csv")
+ped <- read.table("Data/ped.txt", header = TRUE)
+
+AllData <- merge(x = roo, y = ped, by.x = "id", by.y = "animal")
+@
+\end{frame}
+%%%%%%%%%%%
+
+
+
 \section{Repetitive tasks}
 
 \begin{frame}[fragile]{How to get the mean for every row?}
@@ -228,10 +306,17 @@ str(rock)
 <<eval=FALSE>>=
 rowMeans(rock)
 @
+
+\pause
+By the way:
+<<eval=FALSE>>=
+colMeans(rock)
+@
+
 \end{frame}
 %%%%%%%%%%%
 
-\begin{frame}[fragile]{More concise alternative: apply functions}
+\begin{frame}[fragile]{More flexible alternative: apply functions}
 
   <<eval=FALSE>>=
   apply(X = dataframe, MARGIN = 1 (row) or 2 (col), FUN = function)
@@ -240,35 +325,35 @@ rowMeans(rock)
   \pause
 
   <<eval=FALSE>>=
-  apply(X = rock, MARGIN = 1, FUN = mean)#by row (not meaningful)
+  apply(X = rock, MARGIN = 1, FUN = mean)#by row 
   apply(X = rock, MARGIN = 2, FUN = mean)#by column
   @
   
+  \pause
   
-  <<eval=FALSE>>=
-    colMeans(rock)
-  @
-
+  Flexibility example:
+<<eval=FALSE>>=
+  apply(X = rock, MARGIN = 1, FUN = function(x) var(x^(1/2) ) )
+@
+  
 \end{frame}
 %%%%%%%%%%%
 
-
-
 \begin{frame}[fragile]{The ultimate tool: For-loops}
-  <<eval = FALSE>>=
-    for (i in 1:N)
-    {
-      something as a function of i
-    }#end of the loop
-  @
+<<eval = FALSE>>=
+  for (i in 1:N)
+  {
+    something as a function of i
+  }#end of the loop
+@
 
   \pause
-  <<eval = FALSE>>=
-    for (i in 1:31)
-    {
-      print(i)
-    }
-  @
+<<eval = FALSE>>=
+  for (i in 1:31)
+  {
+    print(i)
+  }
+@
 
 \end{frame}
 %%%%%%%%%%%
@@ -336,7 +421,7 @@ Load rock data.
   @
 \end{frame}
 %%%%%%%%%%%
-\begin{frame}[fragile]{Even better (worse)...}
+\begin{frame}[fragile]{}
 
   \begin{alertblock}{Trade-off concision  / flexibility}
     \begin{itemize}
@@ -350,7 +435,7 @@ Load rock data.
 \end{frame}
 %%%%%%%%%%%
 
-\begin{frame}[fragile]{The last value}
+\begin{frame}[fragile]{NB: The last value}
 
 Sometimes a function takes very long to run\\
 <<eval=FALSE>>=
@@ -366,16 +451,7 @@ ourlasthope <- .Last.value
 @
 
 \end{frame}
-
-\begin{frame}[fragile]{plot function}
-
-<<plorock3>>=
-plot(x = rock$peri, y = rock$area)
-@
-
-\end{frame}
-%%%%%%%%%%%
-
+%%%%%%%%%%
 
 \section{R output}
 
@@ -421,8 +497,63 @@ Good reason:
 \end{itemize}
 
 <<>>=
+a <- 1:10
 save(list = c("a", "rock"), file = "ubu")
 load("ubu")
+@
+\end{frame}
+%%%%%%%%%%%
+
+\section{Extra practice}
+
+\begin{frame}[fragile]{Exercise 1}
+Recover this online dataset:
+<<eval=FALSE>>=
+ download.file(url="https://ndownloader.figshare.com/files/2292169",
+             destfile = "dat.csv")
+ dat <- read.csv("dat.csv") 
+@
+
+\begin{itemize}
+  \item Create a subset with the first 200 entries
+  \item Pull out that last row using \texttt{nrow()}
+  \item Use nrow() to extract the row that is in the middle of the data frame. Store the content of this row in an object named surveysmiddle.
+  \item Combine nrow() with the - notation above to reproduce the behavior of head(surveys), keeping just the first through 6th rows of the surveys dataset.
+\end{itemize}
+\end{frame}
+%%%%%%%%%%%
+
+\begin{frame}[fragile]{Exercise 2}
+\begin{itemize}
+  \item Create a subset containing only the records from the year 2000.
+  \item What are the dimentions of this subset?
+  \item What columns contain missing values?
+  \item Discard all rows containing missing values (you may use the function na.omit())
+  \item Save that table as a csv file.
+\end{itemize}
+
+<<eval=FALSE, echo=FALSE>>=
+ datsmall <- dat[dat$year>=2000,]
+ 
+ @
+\end{frame}
+%%%%%%%%%%%
+
+
+\begin{frame}[fragile]{Exercise 3 (difficult)}
+\begin{itemize}
+  \item Create a new data-frame containing the mean weight and hindfoot length for each genus.
+  \item Write the data-frame to a csv file. 
+  \item Make a graph of weight by hindfoot length and export it as a pdf (using code)
+\end{itemize}
+
+ <<eval=FALSE, echo=FALSE>>=
+weidat <- as.data.frame(tapply(dat$weight, dat$genus, mean, na.rm=TRUE))
+hfdat <- as.data.frame(tapply(dat$hindfoot_length, dat$genus, mean, na.rm=TRUE))
+
+fdat <- data.frame(genus = rownames(weidat), weight = weidat, hindfoot=hfdat)
+
+plot(na.omit(fdat)[,2:3])
 @
 \end{frame}
 %%%%%%%%%%%
