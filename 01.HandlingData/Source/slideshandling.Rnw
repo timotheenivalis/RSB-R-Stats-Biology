@@ -57,6 +57,17 @@ setPar()
 \end{frame}
 %%%%%%%%%%%
 
+\begin{frame}{About R-Stats workshops}
+
+\begin{itemize}[<+->]
+  \item Schedule on Wattle
+  \item Slack RSB-R-Stats-Biology \alert{email me!}
+  \item Interested in Bayesian methods? \alert{Let's chat during coffee break}
+\end{itemize}
+
+\end{frame}
+%%%%%%%%%%%
+
 
 \AtBeginSection[]
 {
@@ -205,10 +216,45 @@ AllData <- merge(x = roo, y = ped, by.x = "id", by.y = "animal")
 \end{frame}
 %%%%%%%%%%%
 
-\section{For-loop}
+\section{Repetitive tasks}
 
-\begin{frame}[fragile]{How to get the row means? For-loops}
+\begin{frame}[fragile]{How to get the mean for every row?}
+<<>>=
+data(rock)
+str(rock)
+@
 
+\pause
+<<eval=FALSE>>=
+rowMeans(rock)
+@
+\end{frame}
+%%%%%%%%%%%
+
+\begin{frame}[fragile]{More concise alternative: apply functions}
+
+  <<eval=FALSE>>=
+  apply(X = dataframe, MARGIN = 1 (row) or 2 (col), FUN = function)
+  @
+
+  \pause
+
+  <<eval=FALSE>>=
+  apply(X = rock, MARGIN = 1, FUN = mean)#by row (not meaningful)
+  apply(X = rock, MARGIN = 2, FUN = mean)#by column
+  @
+  
+  
+  <<eval=FALSE>>=
+    colMeans(rock)
+  @
+
+\end{frame}
+%%%%%%%%%%%
+
+
+
+\begin{frame}[fragile]{The ultimate tool: For-loops}
   <<eval = FALSE>>=
     for (i in 1:N)
     {
@@ -290,27 +336,6 @@ Load rock data.
   @
 \end{frame}
 %%%%%%%%%%%
-\begin{frame}[fragile]{More concise alternative: apply functions}
-
-  <<eval=FALSE>>=
-  apply(X = dataframe, MARGIN = 1 (row) or 2 (col), FUN = function)
-  @
-
-  \pause
-
-  <<eval=FALSE>>=
-  apply(X = rock, MARGIN = 1, FUN = mean)#by row (not meaningful)
-  apply(X = rock, MARGIN = 2, FUN = mean)#by column
-  @
-  
-  
-  <<eval=FALSE>>=
-    colMeans(rock)
-    rowMeans(rock)
-  @
-
-\end{frame}
-%%%%%%%%%%%
 \begin{frame}[fragile]{Even better (worse)...}
 
   \begin{alertblock}{Trade-off concision  / flexibility}
@@ -354,10 +379,50 @@ plot(x = rock$peri, y = rock$area)
 
 \section{R output}
 
-\begin{frame}[fragile]{}
+\begin{frame}[fragile]{Write data-frames and matrices}
+
+<<eval=FALSE>>=
+write.csv(rock, file = "rock.csv", quote = FALSE, row.names = FALSE)
+write.table(rock, file = "rock.txt", row.names = FALSE)
+@
+\end{frame}
+%%%%%%%%%%%
+
+\begin{frame}[fragile]{Write figures}
+functions pdf(); jpeg(); png();...
+<<eval=FALSE>>=
+pdf(filename = "myplot.pdf", width = 4, height = 6)
+plot(x=rock$area, y=rock$peri)
+dev.off()
+@
+\end{frame}
+%%%%%%%%%%%
+
+\begin{frame}[fragile]{Write R-environments (DANGER)}
+Save all objects in your environmnet
+\alert{Non-reproducible!!!}
+
+<<eval=FALSE>>=
+save.image(file = "Feb6_2020_rock.RData")    
+
+load("Feb6_2020_rock.RData")
+@
+
+
+\end{frame}
+
+%%%%%%%%%%%
+\begin{frame}[fragile]{Write R-objects}
+Save one or a few objects. 
+Good reason:
+\begin{itemize}
+  \item To share with someone else
+  \item To avoid re-doing long computations (big models)
+\end{itemize}
 
 <<>>=
-    
+save(list = c("a", "rock"), file = "ubu")
+load("ubu")
 @
 \end{frame}
 %%%%%%%%%%%
