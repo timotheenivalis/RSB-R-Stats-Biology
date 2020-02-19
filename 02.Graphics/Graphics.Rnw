@@ -1,0 +1,590 @@
+\documentclass[10pt]{beamer}%
+\setbeamersize{text margin left=0.5cm, text margin right=0.5cm}
+
+\usepackage{alltt}%
+  \usetheme[background=light]{metropolis} 
+  \usecolortheme{seahorse}
+
+\usepackage[utf8]{inputenc}%
+
+
+\usepackage[normalem]{ulem}%strikeout
+ 
+
+% graphics
+%% Figures %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage{graphicx}
+\usepackage{xcolor}%for color mixing
+
+\usepackage{amsmath}%
+\usepackage{amsfonts}%
+\usepackage{amssymb}%
+\usepackage{graphicx}
+
+\usepackage{tikz}
+\usetikzlibrary{calc}
+
+\usepackage{hyperref}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%% Doc info %%%%%%%%%%%%%%%%%%%
+\title[\textbf{Graphics}]{Graphics in R}
+\date{\today}
+\author{Timoth\'ee Bonnet}
+\institute{BDSI / RSB}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{document}
+
+<<Plot Options, echo=FALSE, message=FALSE>>=
+library(ggplot2)
+library(knitr)
+opts_knit$set(width=60)
+opts_chunk$set(comment=NA, fig.width=8, fig.height=6, out.width='0.8\\textwidth',
+               out.height='0.6\\textwidth',background='#D7DDEB')
+
+
+szgr <- 2
+szax <- 1.3
+marr <- c(4, 4, 1, 1) + 0.1
+setPar<-function(){
+par(las=1,mar=marr, cex=szgr, cex.lab=szax , cex.axis=szax, lwd=2 ,pch=1, las=1)
+}
+setPar()
+@
+
+\begin{frame}
+\maketitle	
+\end{frame}
+%%%%%%%%%%%
+
+\begin{frame}{About R-Stats workshops}
+
+\begin{itemize}[<+->]
+  \item Schedule on Wattle
+  \item Slack RSB-R-Stats-Biology \alert{email me if you are interested}
+  \item Interested in Bayesian modeling? \alert{Let's chat during coffee break}
+\end{itemize}
+
+
+
+\end{frame}
+%%%%%%%%%%%
+
+\begin{frame}[fragile]{Today}
+
+\begin{itemize}
+  \item Read
+  \item Access, subset, merge
+  \item Iterate
+  \item Write
+\end{itemize}
+
+\pause 
+\begin{block}{}
+Take notes in a R script. Comment using
+<<>>=
+# comment within R code
+#' comment converted to Markdown
+@
+Compile HTML, Word or PDF with \texttt{CTRL + Maj + K}
+\end{block}
+
+\pause
+If you are bored, go to the end for some exercises
+\end{frame}
+%%%%%%%%%%%
+
+\AtBeginSection[]
+{
+  \begin{frame}<beamer>
+    \frametitle{}
+    \tableofcontents[currentsection,hideothersubsections,subsectionstyle=hide]% down vote\tableofcontents[currentsection,currentsubsection,hideothersubsections,sectionstyle=show/hide,subsectionstyle=show/shaded/hide]
+  \end{frame}
+}
+
+\section{Base plot}
+
+
+\begin{frame}[fragile]{the plot() function}
+
+Basic scatterplot:
+<<eval=FALSE>>=
+plot(x = iris$Sepal.Length, y = iris$Sepal.Width)
+@
+\pause
+
+Change plotting range:
+<<eval=FALSE>>=
+plot(x = iris$Sepal.Length, y = iris$Sepal.Width, 
+     xlim=c(0,max(iris$Sepal.Length)))
+@
+
+\pause
+Axes labels
+<<eval=FALSE>>=
+plot(x = iris$Sepal.Length, y = iris$Sepal.Width,
+     xlab="Sepal length")
+@
+
+\pause 
+\Large
+\alert{Practice: Change the y-axis range and label}
+
+\end{frame}
+%%%%%%%%%%%
+
+
+
+\begin{frame}[fragile]{graphical parameters}
+
+<<eval=FALSE>>=
+?par()
+@
+
+\pause
+
+default:
+<<eval=FALSE>>=
+par(las=0, mar=c(4,4,4,4)+0.1, lwd=1, pch=1, cex.axis=1)
+plot(x = iris$Sepal.Length, y = iris$Sepal.Width)
+@
+
+better?
+<<eval=FALSE>>=
+par(las=1, mar=c(4,4,1,1)+0.1, lwd=5, pch=16, cex.axis=1.5)
+plot(x = iris$Sepal.Length, y = iris$Sepal.Width)
+@
+\end{frame}
+%%%%%%%%%%%
+
+\begin{frame}[fragile]{Colors}
+By group:
+<<eval=FALSE>>=
+plot(x = iris$Sepal.Length, y = iris$Sepal.Width,
+     col=iris$Species)
+@
+
+\pause
+Customized palette
+<<eval=FALSE>>=
+mycol <- c("orange", "dark red", "brown")
+
+plot(x = iris$Sepal.Length, y = iris$Sepal.Width,
+     col=mycol[iris$Species])
+@
+
+\end{frame}
+%%%%%%%%
+
+\begin{frame}[fragile]{Generate palettes}
+
+By value:
+<<eval=FALSE>>=
+colval <- rgb(red = iris$Sepal.Length,green = iris$Sepal.Width, 
+             blue = max(iris$Sepal.Length)-iris$Sepal.Length, 
+             maxColorValue = max(iris$Sepal.Length))
+
+plot(x = iris$Sepal.Length, y = iris$Sepal.Width,
+     col=colval)
+@
+
+\pause
+Pre-defined gradients
+<<eval=FALSE>>=
+custcol <- rainbow(20)
+plot(1:20, col=custcol, pch=16, cex=3)
+
+custcol <- terrain.colors(20)
+plot(1:20, col=custcol, pch=16, cex=3)
+@
+
+\end{frame}
+%%%%%%%%%%%
+
+\begin{frame}[fragile]{Adding stuff}
+Always in successive layers starting with a primary plot
+<<eval=FALSE>>=
+plot(x = iris$Sepal.Length, y = iris$Sepal.Width,
+     col=mycol[iris$Species], pch=16)
+@
+
+\pause
+
+lines:
+<<eval=FALSE>>=
+abline(lm(Sepal.Width~Sepal.Length, data=iris), lwd=5)
+lines(x = 5:8, y=5:8/2, lty=2, lwd=2)
+segments(x0 = 4.5, y0 = 2, x1 = 6, y1=4)
+@
+
+\pause
+legend:
+<<eval=FALSE>>=
+legend(x="topright", legend = unique(iris$Species), 
+       col=mycol, pch = 16)
+@
+
+\pause
+text
+<<eval=FALSE>>=
+text(x = 5, y=4, labels = "whatever in the plot")
+mtext(side = 2, line = 2,text = "whatever in the margin")
+@
+\end{frame}
+%%%%%%%%%%%
+
+
+\begin{frame}[fragile]{Other graphical functions}
+Barplot
+<<eval=FALSE>>=
+barplot(Freq ~ Class + Survived, data = as.data.frame(Titanic),
+       subset = Age == "Adult" & Sex == "Male",
+       ylab = "# passengers", legend = TRUE, beside=TRUE)
+@
+\pause
+Boxplot
+<<eval=FALSE>>=
+boxplot(Freq ~ Class + Survived,data = as.data.frame(Titanic))
+@
+\pause
+Histogram
+<<eval=FALSE>>=
+a <- rnorm(1000); hist(a)
+@
+\pause
+Matrix image
+<<eval=FALSE>>=
+data("volcano")
+image(volcano)
+@
+
+\end{frame}
+%%%%%%%%%%%
+
+\begin{frame}[fragile]{Panel layout}
+
+\textbf{Simple option: mfrow}
+<<eval=FALSE>>=
+par(mfrow=c(2,3))
+plot(1,1)
+hist(rnorm(20))
+image(diag(10))
+plot(density(rnorm(100)))
+curve(expr = sin(1/x), from = -1, to = 1, n = 10^4)
+@
+
+\pause
+
+\textbf{More flexible: layout}
+<<eval=FALSE>>=
+layout(matrix(c(1,2,3,2), 2, 2, byrow = TRUE),
+       widths = c(1,2) , heights = c(2,3))
+layout.show(3) # visualize the layout
+plot(1,1)
+hist(rnorm(20))
+image(diag(10))
+@
+
+\end{frame}
+%%%%%%%%%%%
+
+\begin{frame}{Should you use base plot?}
+
+  \begin{exampleblock}{Pros}
+    \begin{itemize}
+    \item You control every pixel
+    \item Simple graphes take little code, very easy
+    \item Stable, few dependencies
+    \end{itemize}
+  \end{exampleblock}
+
+\pause
+
+  \begin{alertblock}{Cons}
+    \begin{itemize}
+    \item Few black-box ready solutions
+    \item Non-standard graphes take lots of code and knowledge of par()
+    \end{itemize}
+  \end{alertblock}
+
+\pause
+
+\begin{block}{Pro/Con It depends who you ask}
+    \begin{itemize}
+      \item Works in successive layers NOT interacting
+      \item Base-R logic
+    \end{itemize}
+\end{block}
+
+\end{frame}
+%%%%%
+
+\begin{frame}{Personally I like it...}
+\centering
+\only<1>{\includegraphics[height=0.8\textheight]{Figure/deerex}}
+\only<2>{\includegraphics[height=0.8\textheight]{Figure/predExtremumGuilds-1}}
+\end{frame}
+%%%%%
+
+
+\section{ggplot}
+
+\begin{frame}{Should you use ggplot?}
+  \begin{exampleblock}{Pros}
+    \begin{itemize}
+    \item Complex graphes with little code
+    \item Lots of pre-made extensions in packages
+    \item Modular, interactive layers
+    \end{itemize}
+  \end{exampleblock}
+
+\pause
+
+  \begin{alertblock}{Cons}
+    \begin{itemize}
+    \item Logic different from R
+    \item Unexpected behaviour and breaking dependencies
+    \item Fine control more difficult
+    \end{itemize}
+  \end{alertblock}
+
+\end{frame}
+%%%%%
+
+
+\begin{frame}[fragile]{how ggplot works}
+
+<<eval=FALSE>>=
+ggplot(data=iris, aes(x=Sepal.Length, y=Sepal.Width)) 
+@
+\pause
+
+<<eval=FALSE>>=
+ggplot(data=iris, aes(x=Sepal.Length, y=Sepal.Width)) + 
+  geom_point()
+@
+\pause
+<<eval=FALSE>>=
+ggplot(data=iris, aes(x=Sepal.Length, y=Sepal.Width)) + 
+  geom_point() + facet_wrap(~Species)
+@
+
+\alert{\Large 1. Layers interact according to grammatic rules; not on top of each other}
+\end{frame}
+%%%%%
+
+\begin{frame}[fragile]{how ggplot works}
+
+<<eval=FALSE>>=
+ggplot(data=iris, aes(x=Sepal.Length, y=Sepal.Width)) + 
+  geom_point() + geom_smooth(method = "lm")
+@
+
+\pause
+
+<<eval=FALSE>>=
+ggplot(data=iris, aes(x=Sepal.Length, y=Sepal.Width, 
+                      color= Species)) + 
+  geom_point() + geom_smooth(method = "lm")
+@
+
+\alert{\Large 2. Aesthetics, aes(), controls the behaviour of all layers (unless stated otherwise)}
+\end{frame}
+%%%%%
+
+
+\begin{frame}[fragile]{how ggplot works}
+
+<<eval=FALSE>>=
+basicplot <- ggplot(data=iris, aes(x=Sepal.Length, y=Sepal.Width)) + 
+  geom_point()
+basicplot
+
+(smoothline <- basicplot + theme_linedraw() + geom_smooth())
+(polarline <- basicplot + geom_line() + coord_polar())
+smoothline + polarline
+@
+
+\pause
+
+\alert{\Large 3. Intermediate plots can be saved and modified (not final plots)}
+\end{frame}
+%%%%%
+
+\begin{frame}[fragile]{Exercise}
+
+<<eval=FALSE>>=
+download.file(url="https://ndownloader.figshare.com/files/2292169", destfile = "dat.csv")
+dat<- read.csv("dat.csv", stringsAsFactors = FALSE)
+@
+
+\begin{enumerate}
+  \item Load these data, inspect them in R
+  \item 
+\end{enumerate}
+
+<<echo=FALSE, eval=FALSE>>=
+str(dat)
+rodents<-dat[dat$taxa=="Rodent",]
+
+ggplot(dat[dat$taxa=="Rodent",], mapping = aes(x=hindfoot_length, y=weight, color=genus)) +
+  geom_point() + facet_wrap(~plot_type)
+
+ggplot(data = dat[dat$taxa=="Rodent",], 
+       mapping = aes(x = weight, y = hindfoot_length, color = genus)) +
+    geom_jitter(alpha = 0.1) + scale_x_log10()
+
+library(dplyr)
+yearly_counts <- dat %>%
+  count(year, sex, plot_type, genus)
+
+ggplot(data = yearly_counts, mapping = aes(x = year, y = n, group = genus)) +
+    geom_line()
+
+ggplot(data = yearly_counts, mapping = aes(x = year, y = n, color=genus)) +
+      geom_line()
+
+ggplot(data = yearly_counts, mapping = aes(x = year, y = n, color=genus)) +
+    geom_line() +
+    facet_wrap(facets = vars(genus))
+@
+
+\end{frame}
+%%%%%
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Special plots overview}
+
+\begin{frame}[standout]{}
+\Large
+\alert{You CAN do all your graphics in R}
+
+\end{frame}
+%%%%%%%%%
+
+\begin{frame}[fragile]{Maps (example with ggplot)}
+<<eval=FALSE>>=
+library("sf")
+library("ggplot2")
+library("rnaturalearth")
+library("rnaturalearthdata")
+world <- ne_countries(scale = "medium", returnclass = "sf")
+
+ggplot(data = world) +
+    geom_sf()
+@
+\end{frame}
+
+\begin{frame}[fragile]{Maps (example with ggplot)}
+<<eval=FALSE>>=
+coordcrs <- paste("+proj=laea",
+                   "+lat_0=52",
+                    "+lon_0=10",
+                  "+x_0=4321000",
+                  "+y_0=3210000",
+                  "+ellps=GRS80",
+                  "+units=m +no_defs")
+
+ggplot(data = world) +
+    geom_sf(aes(fill = pop_est)) + theme_bw()+
+    coord_sf(crs =coordcrs)+
+  scale_fill_viridis_c(option = "plasma", trans = "sqrt")
+@
+
+\end{frame}
+%%%%%
+
+\begin{frame}{Maps (example with R base)}
+
+<<>>=
+library(maps)
+map("world", regions = "australia")
+@
+
+\end{frame}
+%%%%%
+
+\begin{frame}[fragile]{Phylogeny example}
+<<eval=FALSE>>=
+library(MCMCtreeR)
+data(MCMCtree.output)
+attach(MCMCtree.output)
+names(MCMCtree.output)
+
+phy <- readMCMCtree(MCMCtree.phy, from.file = FALSE)
+
+MCMC.tree.plot(phy, analysis.type = "MCMCtree", 
+    cex.tips = 0.2, time.correction = 100, 
+    plot.type = "phylogram", lwd.bar = 2, 
+    scale.res = c("Eon", "Period"), 
+    node.method = "bar", col.age = "navy", 
+    no.margin = TRUE, label.offset = 4)
+@
+\end{frame}
+%%%%%%%
+
+\begin{frame}[fragile]{3D plot}
+<<eval=FALSE>>=
+library("plot3D")
+x1 <- rnorm(100) ; x2 <- rnorm(100) + 0.5*x1
+y <- -0.5*x1 + 0.5*x2 ; fit <- lm(y ~ x1 + x2)
+grid.lines = 26
+x1.pred <- seq(min(x1), max(x1), length.out = grid.lines)
+x2.pred <- seq(min(x2), max(x2), length.out = grid.lines)
+x1x2 <- expand.grid( x1 = x1.pred, x2 = x2.pred)
+y.pred <- matrix(predict(fit, newdata = x1x2),
+nrow = grid.lines, ncol = grid.lines)
+fitpoints <- predict(fit)
+scatter3D(x1, x2, y, pch = 18, cex = 2,
+theta =18, phi = -18, ticktype = "detailed",
+xlab = "x1", ylab = "x2", zlab = "y",
+surf = list(x = x1.pred, y = x2.pred, z = y.pred,
+facets = NA, fit = fitpoints), main = "")
+@
+\end{frame}
+%%%%%%%%
+
+\begin{frame}[fragile]{3D plot}
+
+(NB: you need RGL on your laptop for the following to work, that's not part of R)
+
+<<eval=FALSE>>=
+library("plot3Drgl")
+plotrgl(lighting = FALSE, new=TRUE)
+@
+
+\end{frame}
+%%%%%%%
+
+
+\begin{frame}{Want more?}
+
+\url{https://www.r-graph-gallery.com/}
+
+\end{frame}
+%%%%%%%%
+
+
+\begin{frame}[fragile]{Extra ggplot}
+Create your own theme
+
+<<eval=FALSE>>=
+?ggplot2::theme
+
+custom_theme <- theme(
+plot.title = element_text(color = "blue",
+face = "bold", size=rel(2)),
+panel.grid.major = element_line(colour="red",
+linetype = "dashed"),
+panel.background = element_rect(fill = "green")
+)
+
+basicplot + ggtitle("Your own theme") + custom_theme
+@
+\end{frame}
+%%%%%
+
+
+\end{document}
