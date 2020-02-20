@@ -58,12 +58,14 @@ setPar()
 \end{frame}
 %%%%%%%%%%%
 
-\begin{frame}{About R-Stats workshops}
+\begin{frame}{R-Stats workshops, general info}
 
 \begin{itemize}[<+->]
   \item Schedule on Wattle
   \item Slack RSB-R-Stats-Biology \alert{email me if you are interested}
-  \item Interested in Bayesian modeling? \alert{Let's chat during coffee break}
+  \item Name tag please!
+  \item Green and orange sticky notes!
+  \item Please fill in survey \url{https://anu.au1.qualtrics.com/jfe/form/SV_23HWGb8pGSfyHxr}
 \end{itemize}
 
 
@@ -74,10 +76,10 @@ setPar()
 \begin{frame}[fragile]{Today}
 
 \begin{itemize}
-  \item Read
-  \item Access, subset, merge
-  \item Iterate
-  \item Write
+  \item A taste of base plot
+  \item Playing with ggplot
+  \item Demo of what R can do
+  \item Reproducibility: do everything in R (no external editing!)
 \end{itemize}
 
 \pause 
@@ -414,26 +416,51 @@ smoothline + polarline
 
 \begin{frame}[fragile]{Exercise}
 
+\small
 <<eval=FALSE>>=
-download.file(url="https://ndownloader.figshare.com/files/2292169", destfile = "dat.csv")
+download.file(url="https://ndownloader.figshare.com/files/2292169",
+              destfile = "dat.csv")
 dat<- read.csv("dat.csv", stringsAsFactors = FALSE)
 @
 
 \begin{enumerate}
   \item Load these data, inspect them in R
-  \item 
+  \item (Create a subset with rodents only)
+  \item Create some graphics to describe the relationship between hind foot length and weight. Does that relationship differ among rodent genus? Try log-scales.
+  \pause
+  \item How do captures vary through months? Across years? Did some genus become more frequent? (try geom\_bar() ) 
+  \pause
+  \item Was the change in abundance of the genus Chaetodipus similar in all plot types?
+  \item Imagine more questions you could ask graphically!
+  \item (Change the color theme, axes labels... make your figure publishable!)
 \end{enumerate}
 
 <<echo=FALSE, eval=FALSE>>=
 str(dat)
 rodents<-dat[dat$taxa=="Rodent",]
 
+ggplot(dat[dat$taxa=="Rodent",], mapping = aes(x=month, color=genus)) +
+  geom_bar()+ facet_wrap(~genus)
+
+
+
 ggplot(dat[dat$taxa=="Rodent",], mapping = aes(x=hindfoot_length, y=weight, color=genus)) +
   geom_point() + facet_wrap(~plot_type)
 
+ggplot(dat[dat$taxa=="Rodent",], mapping = aes(x=hindfoot_length, y=weight, color=genus)) +
+  geom_point() + geom_smooth( method = "lm")
+
+ggplot(dat[dat$taxa=="Rodent",], mapping = aes(x=hindfoot_length, y=weight, color=sex)) +
+  geom_point() + geom_smooth( method = "lm") + facet_wrap(~genus)
+
 ggplot(data = dat[dat$taxa=="Rodent",], 
        mapping = aes(x = weight, y = hindfoot_length, color = genus)) +
-    geom_jitter(alpha = 0.1) + scale_x_log10()
+  geom_jitter(alpha = 0.1) + scale_x_log10()+  scale_y_log10()+ geom_smooth( method = "lm")
+
+
+ggplot(data = dat[dat$genus=="Chaetodipus",], 
+       mapping = aes(x = year, color = plot_type)) +
+  geom_bar() + facet_grid(~plot_type)
 
 library(dplyr)
 yearly_counts <- dat %>%
@@ -448,6 +475,19 @@ ggplot(data = yearly_counts, mapping = aes(x = year, y = n, color=genus)) +
 ggplot(data = yearly_counts, mapping = aes(x = year, y = n, color=genus)) +
     geom_line() +
     facet_wrap(facets = vars(genus))
+
+ggplot(data = rodents, mapping = aes(x = year, color=genus)) +
+    geom_bar() +
+    facet_wrap(facets = vars(genus))
+
+ggplot(data = rodents, mapping = aes(x = month, color=sex)) +
+    geom_bar() + coord_polar()+
+    facet_wrap(facets = vars(genus))
+
+ggplot(data = rodents, mapping = aes(x = month, color=sex)) +
+    geom_bar(aes(y = stat(count / max(count)))) + coord_polar()
+
+
 @
 
 \end{frame}
@@ -586,5 +626,60 @@ basicplot + ggtitle("Your own theme") + custom_theme
 \end{frame}
 %%%%%
 
+\begin{frame}[fragile]{Extra ggplot}
+
+Easy layout
+
+<<eval=FALSE>>=
+# install.packages("devtools")
+devtools::install_github("thomasp85/patchwork")
+
+library(patchwork)
+
+p1 <- ggplot(mtcars) + geom_point(aes(mpg, disp))
+p2 <- ggplot(mtcars) + geom_boxplot(aes(gear, disp, group = gear))
+
+p1 + p2
+
+p3 <- ggplot(mtcars) + geom_smooth(aes(disp, qsec))
+p4 <- ggplot(mtcars) + geom_bar(aes(carb))
+
+(p1 | p2 | p3) /
+      p4
+@
+
+
+\end{frame}
+%%%%%
+
+\begin{frame}[fragile]{Extra ggplot}
+
+Adding marginal histograms 
+
+<<eval=FALSE>>=
+library("ggExtra")
+df <- data.frame(x = rnorm(1000, 50, 10),
+                 y = rnorm(1000, 50, 10),
+    age = sample(c("a","b"), size = 1000, replace = TRUE))
+
+p <- ggplot(df, aes(x, y, color=age)) + geom_point() +
+  theme_classic()+ 
+  theme(legend.position="left")+
+  scale_color_brewer(palette = "Spectral", labels=c("a","b"))
+
+ggExtra::ggMarginal(p, type = "histogram",
+                groupFill=TRUE, groupColour = FALSE)
+@
+
+\end{frame}
+%%%%%
+
+
+\begin{frame}{Please fill in survey}
+
+\url{https://anu.au1.qualtrics.com/jfe/form/SV_23HWGb8pGSfyHxr}
+
+\end{frame}
+%%%%%
 
 \end{document}

@@ -1,0 +1,818 @@
+\documentclass[10pt]{beamer}\usepackage[]{graphicx}\usepackage[]{color}
+% maxwidth is the original width if it is less than linewidth
+% otherwise use linewidth (to make sure the graphics do not exceed the margin)
+\makeatletter
+\def\maxwidth{ %
+  \ifdim\Gin@nat@width>\linewidth
+    \linewidth
+  \else
+    \Gin@nat@width
+  \fi
+}
+\makeatother
+
+\definecolor{fgcolor}{rgb}{0.345, 0.345, 0.345}
+\newcommand{\hlnum}[1]{\textcolor[rgb]{0.686,0.059,0.569}{#1}}%
+\newcommand{\hlstr}[1]{\textcolor[rgb]{0.192,0.494,0.8}{#1}}%
+\newcommand{\hlcom}[1]{\textcolor[rgb]{0.678,0.584,0.686}{\textit{#1}}}%
+\newcommand{\hlopt}[1]{\textcolor[rgb]{0,0,0}{#1}}%
+\newcommand{\hlstd}[1]{\textcolor[rgb]{0.345,0.345,0.345}{#1}}%
+\newcommand{\hlkwa}[1]{\textcolor[rgb]{0.161,0.373,0.58}{\textbf{#1}}}%
+\newcommand{\hlkwb}[1]{\textcolor[rgb]{0.69,0.353,0.396}{#1}}%
+\newcommand{\hlkwc}[1]{\textcolor[rgb]{0.333,0.667,0.333}{#1}}%
+\newcommand{\hlkwd}[1]{\textcolor[rgb]{0.737,0.353,0.396}{\textbf{#1}}}%
+\let\hlipl\hlkwb
+
+\usepackage{framed}
+\makeatletter
+\newenvironment{kframe}{%
+ \def\at@end@of@kframe{}%
+ \ifinner\ifhmode%
+  \def\at@end@of@kframe{\end{minipage}}%
+  \begin{minipage}{\columnwidth}%
+ \fi\fi%
+ \def\FrameCommand##1{\hskip\@totalleftmargin \hskip-\fboxsep
+ \colorbox{shadecolor}{##1}\hskip-\fboxsep
+     % There is no \\@totalrightmargin, so:
+     \hskip-\linewidth \hskip-\@totalleftmargin \hskip\columnwidth}%
+ \MakeFramed {\advance\hsize-\width
+   \@totalleftmargin\z@ \linewidth\hsize
+   \@setminipage}}%
+ {\par\unskip\endMakeFramed%
+ \at@end@of@kframe}
+\makeatother
+
+\definecolor{shadecolor}{rgb}{.97, .97, .97}
+\definecolor{messagecolor}{rgb}{0, 0, 0}
+\definecolor{warningcolor}{rgb}{1, 0, 1}
+\definecolor{errorcolor}{rgb}{1, 0, 0}
+\newenvironment{knitrout}{}{} % an empty environment to be redefined in TeX
+
+\usepackage{alltt}%
+\setbeamersize{text margin left=0.5cm, text margin right=0.5cm}
+
+\usepackage{alltt}%
+  \usetheme[background=light]{metropolis} 
+  \usecolortheme{seahorse}
+
+\usepackage[utf8]{inputenc}%
+
+
+\usepackage[normalem]{ulem}%strikeout
+ 
+
+% graphics
+%% Figures %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage{graphicx}
+\usepackage{xcolor}%for color mixing
+
+\usepackage{amsmath}%
+\usepackage{amsfonts}%
+\usepackage{amssymb}%
+\usepackage{graphicx}
+
+\usepackage{tikz}
+\usetikzlibrary{calc}
+
+\usepackage{hyperref}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%% Doc info %%%%%%%%%%%%%%%%%%%
+\title[\textbf{Graphics}]{Graphics in R}
+\date{\today}
+\author{Timoth\'ee Bonnet}
+\institute{BDSI / RSB}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\begin{document}
+
+
+
+\begin{frame}
+\maketitle	
+\end{frame}
+%%%%%%%%%%%
+
+\begin{frame}{R-Stats workshops, general info}
+
+\begin{itemize}[<+->]
+  \item Schedule on Wattle
+  \item Slack RSB-R-Stats-Biology \alert{email me if you are interested}
+  \item Name tag please!
+  \item Green and orange sticky notes!
+  \item Please fill in survey \url{https://anu.au1.qualtrics.com/jfe/form/SV_23HWGb8pGSfyHxr}
+\end{itemize}
+
+
+
+\end{frame}
+%%%%%%%%%%%
+
+\begin{frame}[fragile]{Today}
+
+\begin{itemize}
+  \item A taste of base plot
+  \item Playing with ggplot
+  \item Demo of what R can do
+  \item Reproducibility: do everything in R (no external editing!)
+\end{itemize}
+
+\pause 
+\begin{block}{}
+Take notes in a R script. Comment using
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.843, 0.867, 0.922}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlcom{# comment within R code}
+\hlcom{#' comment converted to Markdown}
+\end{alltt}
+\end{kframe}
+\end{knitrout}
+Compile HTML, Word or PDF with \texttt{CTRL + Maj + K}
+\end{block}
+
+\pause
+If you are bored, go to the end for some exercises
+\end{frame}
+%%%%%%%%%%%
+
+\AtBeginSection[]
+{
+  \begin{frame}<beamer>
+    \frametitle{}
+    \tableofcontents[currentsection,hideothersubsections,subsectionstyle=hide]% down vote\tableofcontents[currentsection,currentsubsection,hideothersubsections,sectionstyle=show/hide,subsectionstyle=show/shaded/hide]
+  \end{frame}
+}
+
+\section{Base plot}
+
+
+\begin{frame}[fragile]{the plot() function}
+
+Basic scatterplot:
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.843, 0.867, 0.922}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlkwd{plot}\hlstd{(}\hlkwc{x} \hlstd{= iris}\hlopt{$}\hlstd{Sepal.Length,} \hlkwc{y} \hlstd{= iris}\hlopt{$}\hlstd{Sepal.Width)}
+\end{alltt}
+\end{kframe}
+\end{knitrout}
+\pause
+
+Change plotting range:
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.843, 0.867, 0.922}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlkwd{plot}\hlstd{(}\hlkwc{x} \hlstd{= iris}\hlopt{$}\hlstd{Sepal.Length,} \hlkwc{y} \hlstd{= iris}\hlopt{$}\hlstd{Sepal.Width,}
+     \hlkwc{xlim}\hlstd{=}\hlkwd{c}\hlstd{(}\hlnum{0}\hlstd{,}\hlkwd{max}\hlstd{(iris}\hlopt{$}\hlstd{Sepal.Length)))}
+\end{alltt}
+\end{kframe}
+\end{knitrout}
+
+\pause
+Axes labels
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.843, 0.867, 0.922}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlkwd{plot}\hlstd{(}\hlkwc{x} \hlstd{= iris}\hlopt{$}\hlstd{Sepal.Length,} \hlkwc{y} \hlstd{= iris}\hlopt{$}\hlstd{Sepal.Width,}
+     \hlkwc{xlab}\hlstd{=}\hlstr{"Sepal length"}\hlstd{)}
+\end{alltt}
+\end{kframe}
+\end{knitrout}
+
+\pause 
+\Large
+\alert{Practice: Change the y-axis range and label}
+
+\end{frame}
+%%%%%%%%%%%
+
+
+
+\begin{frame}[fragile]{graphical parameters}
+
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.843, 0.867, 0.922}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlopt{?}\hlkwd{par}\hlstd{()}
+\end{alltt}
+\end{kframe}
+\end{knitrout}
+
+\pause
+
+default:
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.843, 0.867, 0.922}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlkwd{par}\hlstd{(}\hlkwc{las}\hlstd{=}\hlnum{0}\hlstd{,} \hlkwc{mar}\hlstd{=}\hlkwd{c}\hlstd{(}\hlnum{4}\hlstd{,}\hlnum{4}\hlstd{,}\hlnum{4}\hlstd{,}\hlnum{4}\hlstd{)}\hlopt{+}\hlnum{0.1}\hlstd{,} \hlkwc{lwd}\hlstd{=}\hlnum{1}\hlstd{,} \hlkwc{pch}\hlstd{=}\hlnum{1}\hlstd{,} \hlkwc{cex.axis}\hlstd{=}\hlnum{1}\hlstd{)}
+\hlkwd{plot}\hlstd{(}\hlkwc{x} \hlstd{= iris}\hlopt{$}\hlstd{Sepal.Length,} \hlkwc{y} \hlstd{= iris}\hlopt{$}\hlstd{Sepal.Width)}
+\end{alltt}
+\end{kframe}
+\end{knitrout}
+
+better?
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.843, 0.867, 0.922}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlkwd{par}\hlstd{(}\hlkwc{las}\hlstd{=}\hlnum{1}\hlstd{,} \hlkwc{mar}\hlstd{=}\hlkwd{c}\hlstd{(}\hlnum{4}\hlstd{,}\hlnum{4}\hlstd{,}\hlnum{1}\hlstd{,}\hlnum{1}\hlstd{)}\hlopt{+}\hlnum{0.1}\hlstd{,} \hlkwc{lwd}\hlstd{=}\hlnum{5}\hlstd{,} \hlkwc{pch}\hlstd{=}\hlnum{16}\hlstd{,} \hlkwc{cex.axis}\hlstd{=}\hlnum{1.5}\hlstd{)}
+\hlkwd{plot}\hlstd{(}\hlkwc{x} \hlstd{= iris}\hlopt{$}\hlstd{Sepal.Length,} \hlkwc{y} \hlstd{= iris}\hlopt{$}\hlstd{Sepal.Width)}
+\end{alltt}
+\end{kframe}
+\end{knitrout}
+\end{frame}
+%%%%%%%%%%%
+
+\begin{frame}[fragile]{Colors}
+By group:
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.843, 0.867, 0.922}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlkwd{plot}\hlstd{(}\hlkwc{x} \hlstd{= iris}\hlopt{$}\hlstd{Sepal.Length,} \hlkwc{y} \hlstd{= iris}\hlopt{$}\hlstd{Sepal.Width,}
+     \hlkwc{col}\hlstd{=iris}\hlopt{$}\hlstd{Species)}
+\end{alltt}
+\end{kframe}
+\end{knitrout}
+
+\pause
+Customized palette
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.843, 0.867, 0.922}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlstd{mycol} \hlkwb{<-} \hlkwd{c}\hlstd{(}\hlstr{"orange"}\hlstd{,} \hlstr{"dark red"}\hlstd{,} \hlstr{"brown"}\hlstd{)}
+
+\hlkwd{plot}\hlstd{(}\hlkwc{x} \hlstd{= iris}\hlopt{$}\hlstd{Sepal.Length,} \hlkwc{y} \hlstd{= iris}\hlopt{$}\hlstd{Sepal.Width,}
+     \hlkwc{col}\hlstd{=mycol[iris}\hlopt{$}\hlstd{Species])}
+\end{alltt}
+\end{kframe}
+\end{knitrout}
+
+\end{frame}
+%%%%%%%%
+
+\begin{frame}[fragile]{Generate palettes}
+
+By value:
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.843, 0.867, 0.922}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlstd{colval} \hlkwb{<-} \hlkwd{rgb}\hlstd{(}\hlkwc{red} \hlstd{= iris}\hlopt{$}\hlstd{Sepal.Length,}\hlkwc{green} \hlstd{= iris}\hlopt{$}\hlstd{Sepal.Width,}
+             \hlkwc{blue} \hlstd{=} \hlkwd{max}\hlstd{(iris}\hlopt{$}\hlstd{Sepal.Length)}\hlopt{-}\hlstd{iris}\hlopt{$}\hlstd{Sepal.Length,}
+             \hlkwc{maxColorValue} \hlstd{=} \hlkwd{max}\hlstd{(iris}\hlopt{$}\hlstd{Sepal.Length))}
+
+\hlkwd{plot}\hlstd{(}\hlkwc{x} \hlstd{= iris}\hlopt{$}\hlstd{Sepal.Length,} \hlkwc{y} \hlstd{= iris}\hlopt{$}\hlstd{Sepal.Width,}
+     \hlkwc{col}\hlstd{=colval)}
+\end{alltt}
+\end{kframe}
+\end{knitrout}
+
+\pause
+Pre-defined gradients
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.843, 0.867, 0.922}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlstd{custcol} \hlkwb{<-} \hlkwd{rainbow}\hlstd{(}\hlnum{20}\hlstd{)}
+\hlkwd{plot}\hlstd{(}\hlnum{1}\hlopt{:}\hlnum{20}\hlstd{,} \hlkwc{col}\hlstd{=custcol,} \hlkwc{pch}\hlstd{=}\hlnum{16}\hlstd{,} \hlkwc{cex}\hlstd{=}\hlnum{3}\hlstd{)}
+
+\hlstd{custcol} \hlkwb{<-} \hlkwd{terrain.colors}\hlstd{(}\hlnum{20}\hlstd{)}
+\hlkwd{plot}\hlstd{(}\hlnum{1}\hlopt{:}\hlnum{20}\hlstd{,} \hlkwc{col}\hlstd{=custcol,} \hlkwc{pch}\hlstd{=}\hlnum{16}\hlstd{,} \hlkwc{cex}\hlstd{=}\hlnum{3}\hlstd{)}
+\end{alltt}
+\end{kframe}
+\end{knitrout}
+
+\end{frame}
+%%%%%%%%%%%
+
+\begin{frame}[fragile]{Adding stuff}
+Always in successive layers starting with a primary plot
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.843, 0.867, 0.922}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlkwd{plot}\hlstd{(}\hlkwc{x} \hlstd{= iris}\hlopt{$}\hlstd{Sepal.Length,} \hlkwc{y} \hlstd{= iris}\hlopt{$}\hlstd{Sepal.Width,}
+     \hlkwc{col}\hlstd{=mycol[iris}\hlopt{$}\hlstd{Species],} \hlkwc{pch}\hlstd{=}\hlnum{16}\hlstd{)}
+\end{alltt}
+\end{kframe}
+\end{knitrout}
+
+\pause
+
+lines:
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.843, 0.867, 0.922}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlkwd{abline}\hlstd{(}\hlkwd{lm}\hlstd{(Sepal.Width}\hlopt{~}\hlstd{Sepal.Length,} \hlkwc{data}\hlstd{=iris),} \hlkwc{lwd}\hlstd{=}\hlnum{5}\hlstd{)}
+\hlkwd{lines}\hlstd{(}\hlkwc{x} \hlstd{=} \hlnum{5}\hlopt{:}\hlnum{8}\hlstd{,} \hlkwc{y}\hlstd{=}\hlnum{5}\hlopt{:}\hlnum{8}\hlopt{/}\hlnum{2}\hlstd{,} \hlkwc{lty}\hlstd{=}\hlnum{2}\hlstd{,} \hlkwc{lwd}\hlstd{=}\hlnum{2}\hlstd{)}
+\hlkwd{segments}\hlstd{(}\hlkwc{x0} \hlstd{=} \hlnum{4.5}\hlstd{,} \hlkwc{y0} \hlstd{=} \hlnum{2}\hlstd{,} \hlkwc{x1} \hlstd{=} \hlnum{6}\hlstd{,} \hlkwc{y1}\hlstd{=}\hlnum{4}\hlstd{)}
+\end{alltt}
+\end{kframe}
+\end{knitrout}
+
+\pause
+legend:
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.843, 0.867, 0.922}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlkwd{legend}\hlstd{(}\hlkwc{x}\hlstd{=}\hlstr{"topright"}\hlstd{,} \hlkwc{legend} \hlstd{=} \hlkwd{unique}\hlstd{(iris}\hlopt{$}\hlstd{Species),}
+       \hlkwc{col}\hlstd{=mycol,} \hlkwc{pch} \hlstd{=} \hlnum{16}\hlstd{)}
+\end{alltt}
+\end{kframe}
+\end{knitrout}
+
+\pause
+text
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.843, 0.867, 0.922}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlkwd{text}\hlstd{(}\hlkwc{x} \hlstd{=} \hlnum{5}\hlstd{,} \hlkwc{y}\hlstd{=}\hlnum{4}\hlstd{,} \hlkwc{labels} \hlstd{=} \hlstr{"whatever in the plot"}\hlstd{)}
+\hlkwd{mtext}\hlstd{(}\hlkwc{side} \hlstd{=} \hlnum{2}\hlstd{,} \hlkwc{line} \hlstd{=} \hlnum{2}\hlstd{,}\hlkwc{text} \hlstd{=} \hlstr{"whatever in the margin"}\hlstd{)}
+\end{alltt}
+\end{kframe}
+\end{knitrout}
+\end{frame}
+%%%%%%%%%%%
+
+
+\begin{frame}[fragile]{Other graphical functions}
+Barplot
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.843, 0.867, 0.922}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlkwd{barplot}\hlstd{(Freq} \hlopt{~} \hlstd{Class} \hlopt{+} \hlstd{Survived,} \hlkwc{data} \hlstd{=} \hlkwd{as.data.frame}\hlstd{(Titanic),}
+       \hlkwc{subset} \hlstd{= Age} \hlopt{==} \hlstr{"Adult"} \hlopt{&} \hlstd{Sex} \hlopt{==} \hlstr{"Male"}\hlstd{,}
+       \hlkwc{ylab} \hlstd{=} \hlstr{"# passengers"}\hlstd{,} \hlkwc{legend} \hlstd{=} \hlnum{TRUE}\hlstd{,} \hlkwc{beside}\hlstd{=}\hlnum{TRUE}\hlstd{)}
+\end{alltt}
+\end{kframe}
+\end{knitrout}
+\pause
+Boxplot
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.843, 0.867, 0.922}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlkwd{boxplot}\hlstd{(Freq} \hlopt{~} \hlstd{Class} \hlopt{+} \hlstd{Survived,}\hlkwc{data} \hlstd{=} \hlkwd{as.data.frame}\hlstd{(Titanic))}
+\end{alltt}
+\end{kframe}
+\end{knitrout}
+\pause
+Histogram
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.843, 0.867, 0.922}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlstd{a} \hlkwb{<-} \hlkwd{rnorm}\hlstd{(}\hlnum{1000}\hlstd{);} \hlkwd{hist}\hlstd{(a)}
+\end{alltt}
+\end{kframe}
+\end{knitrout}
+\pause
+Matrix image
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.843, 0.867, 0.922}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlkwd{data}\hlstd{(}\hlstr{"volcano"}\hlstd{)}
+\hlkwd{image}\hlstd{(volcano)}
+\end{alltt}
+\end{kframe}
+\end{knitrout}
+
+\end{frame}
+%%%%%%%%%%%
+
+\begin{frame}[fragile]{Panel layout}
+
+\textbf{Simple option: mfrow}
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.843, 0.867, 0.922}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlkwd{par}\hlstd{(}\hlkwc{mfrow}\hlstd{=}\hlkwd{c}\hlstd{(}\hlnum{2}\hlstd{,}\hlnum{3}\hlstd{))}
+\hlkwd{plot}\hlstd{(}\hlnum{1}\hlstd{,}\hlnum{1}\hlstd{)}
+\hlkwd{hist}\hlstd{(}\hlkwd{rnorm}\hlstd{(}\hlnum{20}\hlstd{))}
+\hlkwd{image}\hlstd{(}\hlkwd{diag}\hlstd{(}\hlnum{10}\hlstd{))}
+\hlkwd{plot}\hlstd{(}\hlkwd{density}\hlstd{(}\hlkwd{rnorm}\hlstd{(}\hlnum{100}\hlstd{)))}
+\hlkwd{curve}\hlstd{(}\hlkwc{expr} \hlstd{=} \hlkwd{sin}\hlstd{(}\hlnum{1}\hlopt{/}\hlstd{x),} \hlkwc{from} \hlstd{=} \hlopt{-}\hlnum{1}\hlstd{,} \hlkwc{to} \hlstd{=} \hlnum{1}\hlstd{,} \hlkwc{n} \hlstd{=} \hlnum{10}\hlopt{^}\hlnum{4}\hlstd{)}
+\end{alltt}
+\end{kframe}
+\end{knitrout}
+
+\pause
+
+\textbf{More flexible: layout}
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.843, 0.867, 0.922}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlkwd{layout}\hlstd{(}\hlkwd{matrix}\hlstd{(}\hlkwd{c}\hlstd{(}\hlnum{1}\hlstd{,}\hlnum{2}\hlstd{,}\hlnum{3}\hlstd{,}\hlnum{2}\hlstd{),} \hlnum{2}\hlstd{,} \hlnum{2}\hlstd{,} \hlkwc{byrow} \hlstd{=} \hlnum{TRUE}\hlstd{),}
+       \hlkwc{widths} \hlstd{=} \hlkwd{c}\hlstd{(}\hlnum{1}\hlstd{,}\hlnum{2}\hlstd{) ,} \hlkwc{heights} \hlstd{=} \hlkwd{c}\hlstd{(}\hlnum{2}\hlstd{,}\hlnum{3}\hlstd{))}
+\hlkwd{layout.show}\hlstd{(}\hlnum{3}\hlstd{)} \hlcom{# visualize the layout}
+\hlkwd{plot}\hlstd{(}\hlnum{1}\hlstd{,}\hlnum{1}\hlstd{)}
+\hlkwd{hist}\hlstd{(}\hlkwd{rnorm}\hlstd{(}\hlnum{20}\hlstd{))}
+\hlkwd{image}\hlstd{(}\hlkwd{diag}\hlstd{(}\hlnum{10}\hlstd{))}
+\end{alltt}
+\end{kframe}
+\end{knitrout}
+
+\end{frame}
+%%%%%%%%%%%
+
+\begin{frame}{Should you use base plot?}
+
+  \begin{exampleblock}{Pros}
+    \begin{itemize}
+    \item You control every pixel
+    \item Simple graphes take little code, very easy
+    \item Stable, few dependencies
+    \end{itemize}
+  \end{exampleblock}
+
+\pause
+
+  \begin{alertblock}{Cons}
+    \begin{itemize}
+    \item Few black-box ready solutions
+    \item Non-standard graphes take lots of code and knowledge of par()
+    \end{itemize}
+  \end{alertblock}
+
+\pause
+
+\begin{block}{Pro/Con It depends who you ask}
+    \begin{itemize}
+      \item Works in successive layers NOT interacting
+      \item Base-R logic
+    \end{itemize}
+\end{block}
+
+\end{frame}
+%%%%%
+
+\begin{frame}{Personally I like it...}
+\centering
+\only<1>{\includegraphics[height=0.8\textheight]{Figure/deerex}}
+\only<2>{\includegraphics[height=0.8\textheight]{Figure/predExtremumGuilds-1}}
+\end{frame}
+%%%%%
+
+
+\section{ggplot}
+
+\begin{frame}{Should you use ggplot?}
+  \begin{exampleblock}{Pros}
+    \begin{itemize}
+    \item Complex graphes with little code
+    \item Lots of pre-made extensions in packages
+    \item Modular, interactive layers
+    \end{itemize}
+  \end{exampleblock}
+
+\pause
+
+  \begin{alertblock}{Cons}
+    \begin{itemize}
+    \item Logic different from R
+    \item Unexpected behaviour and breaking dependencies
+    \item Fine control more difficult
+    \end{itemize}
+  \end{alertblock}
+
+\end{frame}
+%%%%%
+
+
+\begin{frame}[fragile]{how ggplot works}
+
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.843, 0.867, 0.922}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlkwd{ggplot}\hlstd{(}\hlkwc{data}\hlstd{=iris,} \hlkwd{aes}\hlstd{(}\hlkwc{x}\hlstd{=Sepal.Length,} \hlkwc{y}\hlstd{=Sepal.Width))}
+\end{alltt}
+\end{kframe}
+\end{knitrout}
+\pause
+
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.843, 0.867, 0.922}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlkwd{ggplot}\hlstd{(}\hlkwc{data}\hlstd{=iris,} \hlkwd{aes}\hlstd{(}\hlkwc{x}\hlstd{=Sepal.Length,} \hlkwc{y}\hlstd{=Sepal.Width))} \hlopt{+}
+  \hlkwd{geom_point}\hlstd{()}
+\end{alltt}
+\end{kframe}
+\end{knitrout}
+\pause
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.843, 0.867, 0.922}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlkwd{ggplot}\hlstd{(}\hlkwc{data}\hlstd{=iris,} \hlkwd{aes}\hlstd{(}\hlkwc{x}\hlstd{=Sepal.Length,} \hlkwc{y}\hlstd{=Sepal.Width))} \hlopt{+}
+  \hlkwd{geom_point}\hlstd{()} \hlopt{+} \hlkwd{facet_wrap}\hlstd{(}\hlopt{~}\hlstd{Species)}
+\end{alltt}
+\end{kframe}
+\end{knitrout}
+
+\alert{\Large 1. Layers interact according to grammatic rules; not on top of each other}
+\end{frame}
+%%%%%
+
+\begin{frame}[fragile]{how ggplot works}
+
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.843, 0.867, 0.922}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlkwd{ggplot}\hlstd{(}\hlkwc{data}\hlstd{=iris,} \hlkwd{aes}\hlstd{(}\hlkwc{x}\hlstd{=Sepal.Length,} \hlkwc{y}\hlstd{=Sepal.Width))} \hlopt{+}
+  \hlkwd{geom_point}\hlstd{()} \hlopt{+} \hlkwd{geom_smooth}\hlstd{(}\hlkwc{method} \hlstd{=} \hlstr{"lm"}\hlstd{)}
+\end{alltt}
+\end{kframe}
+\end{knitrout}
+
+\pause
+
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.843, 0.867, 0.922}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlkwd{ggplot}\hlstd{(}\hlkwc{data}\hlstd{=iris,} \hlkwd{aes}\hlstd{(}\hlkwc{x}\hlstd{=Sepal.Length,} \hlkwc{y}\hlstd{=Sepal.Width,}
+                      \hlkwc{color}\hlstd{= Species))} \hlopt{+}
+  \hlkwd{geom_point}\hlstd{()} \hlopt{+} \hlkwd{geom_smooth}\hlstd{(}\hlkwc{method} \hlstd{=} \hlstr{"lm"}\hlstd{)}
+\end{alltt}
+\end{kframe}
+\end{knitrout}
+
+\alert{\Large 2. Aesthetics, aes(), controls the behaviour of all layers (unless stated otherwise)}
+\end{frame}
+%%%%%
+
+
+\begin{frame}[fragile]{how ggplot works}
+
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.843, 0.867, 0.922}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlstd{basicplot} \hlkwb{<-} \hlkwd{ggplot}\hlstd{(}\hlkwc{data}\hlstd{=iris,} \hlkwd{aes}\hlstd{(}\hlkwc{x}\hlstd{=Sepal.Length,} \hlkwc{y}\hlstd{=Sepal.Width))} \hlopt{+}
+  \hlkwd{geom_point}\hlstd{()}
+\hlstd{basicplot}
+
+\hlstd{(smoothline} \hlkwb{<-} \hlstd{basicplot} \hlopt{+} \hlkwd{theme_linedraw}\hlstd{()} \hlopt{+} \hlkwd{geom_smooth}\hlstd{())}
+\hlstd{(polarline} \hlkwb{<-} \hlstd{basicplot} \hlopt{+} \hlkwd{geom_line}\hlstd{()} \hlopt{+} \hlkwd{coord_polar}\hlstd{())}
+\hlstd{smoothline} \hlopt{+} \hlstd{polarline}
+\end{alltt}
+\end{kframe}
+\end{knitrout}
+
+\pause
+
+\alert{\Large 3. Intermediate plots can be saved and modified (not final plots)}
+\end{frame}
+%%%%%
+
+\begin{frame}[fragile]{Exercise}
+
+\small
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.843, 0.867, 0.922}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlkwd{download.file}\hlstd{(}\hlkwc{url}\hlstd{=}\hlstr{"https://ndownloader.figshare.com/files/2292169"}\hlstd{,}
+              \hlkwc{destfile} \hlstd{=} \hlstr{"dat.csv"}\hlstd{)}
+\hlstd{dat}\hlkwb{<-} \hlkwd{read.csv}\hlstd{(}\hlstr{"dat.csv"}\hlstd{,} \hlkwc{stringsAsFactors} \hlstd{=} \hlnum{FALSE}\hlstd{)}
+\end{alltt}
+\end{kframe}
+\end{knitrout}
+
+\begin{enumerate}
+  \item Load these data, inspect them in R
+  \item (Create a subset with rodents only)
+  \item Create some graphics to describe the relationship between hind foot length and weight. Does that relationship differ among rodent genus? Try log-scales.
+  \pause
+  \item How do captures vary through months? Across years? Did some genus become more frequent? (try geom\_bar() ) 
+  \pause
+  \item Was the change in abundance of the genus Chaetodipus similar in all plot types?
+  \item Imagine more questions you could ask graphically!
+  \item (Change the color theme, axes labels... make your figure publishable!)
+\end{enumerate}
+
+
+
+\end{frame}
+%%%%%
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Special plots overview}
+
+\begin{frame}[standout]{}
+\Large
+\alert{You CAN do all your graphics in R}
+
+\end{frame}
+%%%%%%%%%
+
+\begin{frame}[fragile]{Maps (example with ggplot)}
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.843, 0.867, 0.922}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlkwd{library}\hlstd{(}\hlstr{"sf"}\hlstd{)}
+\hlkwd{library}\hlstd{(}\hlstr{"ggplot2"}\hlstd{)}
+\hlkwd{library}\hlstd{(}\hlstr{"rnaturalearth"}\hlstd{)}
+\hlkwd{library}\hlstd{(}\hlstr{"rnaturalearthdata"}\hlstd{)}
+\hlstd{world} \hlkwb{<-} \hlkwd{ne_countries}\hlstd{(}\hlkwc{scale} \hlstd{=} \hlstr{"medium"}\hlstd{,} \hlkwc{returnclass} \hlstd{=} \hlstr{"sf"}\hlstd{)}
+
+\hlkwd{ggplot}\hlstd{(}\hlkwc{data} \hlstd{= world)} \hlopt{+}
+    \hlkwd{geom_sf}\hlstd{()}
+\end{alltt}
+\end{kframe}
+\end{knitrout}
+\end{frame}
+
+\begin{frame}[fragile]{Maps (example with ggplot)}
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.843, 0.867, 0.922}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlstd{coordcrs} \hlkwb{<-} \hlkwd{paste}\hlstd{(}\hlstr{"+proj=laea"}\hlstd{,}
+                   \hlstr{"+lat_0=52"}\hlstd{,}
+                    \hlstr{"+lon_0=10"}\hlstd{,}
+                  \hlstr{"+x_0=4321000"}\hlstd{,}
+                  \hlstr{"+y_0=3210000"}\hlstd{,}
+                  \hlstr{"+ellps=GRS80"}\hlstd{,}
+                  \hlstr{"+units=m +no_defs"}\hlstd{)}
+
+\hlkwd{ggplot}\hlstd{(}\hlkwc{data} \hlstd{= world)} \hlopt{+}
+    \hlkwd{geom_sf}\hlstd{(}\hlkwd{aes}\hlstd{(}\hlkwc{fill} \hlstd{= pop_est))} \hlopt{+} \hlkwd{theme_bw}\hlstd{()}\hlopt{+}
+    \hlkwd{coord_sf}\hlstd{(}\hlkwc{crs} \hlstd{=coordcrs)}\hlopt{+}
+  \hlkwd{scale_fill_viridis_c}\hlstd{(}\hlkwc{option} \hlstd{=} \hlstr{"plasma"}\hlstd{,} \hlkwc{trans} \hlstd{=} \hlstr{"sqrt"}\hlstd{)}
+\end{alltt}
+\end{kframe}
+\end{knitrout}
+
+\end{frame}
+%%%%%
+
+\begin{frame}{Maps (example with R base)}
+
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.843, 0.867, 0.922}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlkwd{library}\hlstd{(maps)}
+\hlkwd{map}\hlstd{(}\hlstr{"world"}\hlstd{,} \hlkwc{regions} \hlstd{=} \hlstr{"australia"}\hlstd{)}
+\end{alltt}
+\end{kframe}
+\includegraphics[width=0.8\textwidth,height=0.6\textwidth]{figure/unnamed-chunk-32-1} 
+
+\end{knitrout}
+
+\end{frame}
+%%%%%
+
+\begin{frame}[fragile]{Phylogeny example}
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.843, 0.867, 0.922}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlkwd{library}\hlstd{(MCMCtreeR)}
+\hlkwd{data}\hlstd{(MCMCtree.output)}
+\hlkwd{attach}\hlstd{(MCMCtree.output)}
+\hlkwd{names}\hlstd{(MCMCtree.output)}
+
+\hlstd{phy} \hlkwb{<-} \hlkwd{readMCMCtree}\hlstd{(MCMCtree.phy,} \hlkwc{from.file} \hlstd{=} \hlnum{FALSE}\hlstd{)}
+
+\hlkwd{MCMC.tree.plot}\hlstd{(phy,} \hlkwc{analysis.type} \hlstd{=} \hlstr{"MCMCtree"}\hlstd{,}
+    \hlkwc{cex.tips} \hlstd{=} \hlnum{0.2}\hlstd{,} \hlkwc{time.correction} \hlstd{=} \hlnum{100}\hlstd{,}
+    \hlkwc{plot.type} \hlstd{=} \hlstr{"phylogram"}\hlstd{,} \hlkwc{lwd.bar} \hlstd{=} \hlnum{2}\hlstd{,}
+    \hlkwc{scale.res} \hlstd{=} \hlkwd{c}\hlstd{(}\hlstr{"Eon"}\hlstd{,} \hlstr{"Period"}\hlstd{),}
+    \hlkwc{node.method} \hlstd{=} \hlstr{"bar"}\hlstd{,} \hlkwc{col.age} \hlstd{=} \hlstr{"navy"}\hlstd{,}
+    \hlkwc{no.margin} \hlstd{=} \hlnum{TRUE}\hlstd{,} \hlkwc{label.offset} \hlstd{=} \hlnum{4}\hlstd{)}
+\end{alltt}
+\end{kframe}
+\end{knitrout}
+\end{frame}
+%%%%%%%
+
+\begin{frame}[fragile]{3D plot}
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.843, 0.867, 0.922}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlkwd{library}\hlstd{(}\hlstr{"plot3D"}\hlstd{)}
+\hlstd{x1} \hlkwb{<-} \hlkwd{rnorm}\hlstd{(}\hlnum{100}\hlstd{) ; x2} \hlkwb{<-} \hlkwd{rnorm}\hlstd{(}\hlnum{100}\hlstd{)} \hlopt{+} \hlnum{0.5}\hlopt{*}\hlstd{x1}
+\hlstd{y} \hlkwb{<-} \hlopt{-}\hlnum{0.5}\hlopt{*}\hlstd{x1} \hlopt{+} \hlnum{0.5}\hlopt{*}\hlstd{x2 ; fit} \hlkwb{<-} \hlkwd{lm}\hlstd{(y} \hlopt{~} \hlstd{x1} \hlopt{+} \hlstd{x2)}
+\hlstd{grid.lines} \hlkwb{=} \hlnum{26}
+\hlstd{x1.pred} \hlkwb{<-} \hlkwd{seq}\hlstd{(}\hlkwd{min}\hlstd{(x1),} \hlkwd{max}\hlstd{(x1),} \hlkwc{length.out} \hlstd{= grid.lines)}
+\hlstd{x2.pred} \hlkwb{<-} \hlkwd{seq}\hlstd{(}\hlkwd{min}\hlstd{(x2),} \hlkwd{max}\hlstd{(x2),} \hlkwc{length.out} \hlstd{= grid.lines)}
+\hlstd{x1x2} \hlkwb{<-} \hlkwd{expand.grid}\hlstd{(} \hlkwc{x1} \hlstd{= x1.pred,} \hlkwc{x2} \hlstd{= x2.pred)}
+\hlstd{y.pred} \hlkwb{<-} \hlkwd{matrix}\hlstd{(}\hlkwd{predict}\hlstd{(fit,} \hlkwc{newdata} \hlstd{= x1x2),}
+\hlkwc{nrow} \hlstd{= grid.lines,} \hlkwc{ncol} \hlstd{= grid.lines)}
+\hlstd{fitpoints} \hlkwb{<-} \hlkwd{predict}\hlstd{(fit)}
+\hlkwd{scatter3D}\hlstd{(x1, x2, y,} \hlkwc{pch} \hlstd{=} \hlnum{18}\hlstd{,} \hlkwc{cex} \hlstd{=} \hlnum{2}\hlstd{,}
+\hlkwc{theta} \hlstd{=}\hlnum{18}\hlstd{,} \hlkwc{phi} \hlstd{=} \hlopt{-}\hlnum{18}\hlstd{,} \hlkwc{ticktype} \hlstd{=} \hlstr{"detailed"}\hlstd{,}
+\hlkwc{xlab} \hlstd{=} \hlstr{"x1"}\hlstd{,} \hlkwc{ylab} \hlstd{=} \hlstr{"x2"}\hlstd{,} \hlkwc{zlab} \hlstd{=} \hlstr{"y"}\hlstd{,}
+\hlkwc{surf} \hlstd{=} \hlkwd{list}\hlstd{(}\hlkwc{x} \hlstd{= x1.pred,} \hlkwc{y} \hlstd{= x2.pred,} \hlkwc{z} \hlstd{= y.pred,}
+\hlkwc{facets} \hlstd{=} \hlnum{NA}\hlstd{,} \hlkwc{fit} \hlstd{= fitpoints),} \hlkwc{main} \hlstd{=} \hlstr{""}\hlstd{)}
+\end{alltt}
+\end{kframe}
+\end{knitrout}
+\end{frame}
+%%%%%%%%
+
+\begin{frame}[fragile]{3D plot}
+
+(NB: you need RGL on your laptop for the following to work, that's not part of R)
+
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.843, 0.867, 0.922}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlkwd{library}\hlstd{(}\hlstr{"plot3Drgl"}\hlstd{)}
+\hlkwd{plotrgl}\hlstd{(}\hlkwc{lighting} \hlstd{=} \hlnum{FALSE}\hlstd{,} \hlkwc{new}\hlstd{=}\hlnum{TRUE}\hlstd{)}
+\end{alltt}
+\end{kframe}
+\end{knitrout}
+
+\end{frame}
+%%%%%%%
+
+
+\begin{frame}{Want more?}
+
+\url{https://www.r-graph-gallery.com/}
+
+\end{frame}
+%%%%%%%%
+
+
+\begin{frame}[fragile]{Extra ggplot}
+Create your own theme
+
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.843, 0.867, 0.922}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlopt{?}\hlstd{ggplot2}\hlopt{::}\hlstd{theme}
+
+\hlstd{custom_theme} \hlkwb{<-} \hlkwd{theme}\hlstd{(}
+\hlkwc{plot.title} \hlstd{=} \hlkwd{element_text}\hlstd{(}\hlkwc{color} \hlstd{=} \hlstr{"blue"}\hlstd{,}
+\hlkwc{face} \hlstd{=} \hlstr{"bold"}\hlstd{,} \hlkwc{size}\hlstd{=}\hlkwd{rel}\hlstd{(}\hlnum{2}\hlstd{)),}
+\hlkwc{panel.grid.major} \hlstd{=} \hlkwd{element_line}\hlstd{(}\hlkwc{colour}\hlstd{=}\hlstr{"red"}\hlstd{,}
+\hlkwc{linetype} \hlstd{=} \hlstr{"dashed"}\hlstd{),}
+\hlkwc{panel.background} \hlstd{=} \hlkwd{element_rect}\hlstd{(}\hlkwc{fill} \hlstd{=} \hlstr{"green"}\hlstd{)}
+\hlstd{)}
+
+\hlstd{basicplot} \hlopt{+} \hlkwd{ggtitle}\hlstd{(}\hlstr{"Your own theme"}\hlstd{)} \hlopt{+} \hlstd{custom_theme}
+\end{alltt}
+\end{kframe}
+\end{knitrout}
+\end{frame}
+%%%%%
+
+\begin{frame}[fragile]{Extra ggplot}
+
+Easy layout
+
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.843, 0.867, 0.922}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlcom{# install.packages("devtools")}
+\hlstd{devtools}\hlopt{::}\hlkwd{install_github}\hlstd{(}\hlstr{"thomasp85/patchwork"}\hlstd{)}
+
+\hlkwd{library}\hlstd{(patchwork)}
+
+\hlstd{p1} \hlkwb{<-} \hlkwd{ggplot}\hlstd{(mtcars)} \hlopt{+} \hlkwd{geom_point}\hlstd{(}\hlkwd{aes}\hlstd{(mpg, disp))}
+\hlstd{p2} \hlkwb{<-} \hlkwd{ggplot}\hlstd{(mtcars)} \hlopt{+} \hlkwd{geom_boxplot}\hlstd{(}\hlkwd{aes}\hlstd{(gear, disp,} \hlkwc{group} \hlstd{= gear))}
+
+\hlstd{p1} \hlopt{+} \hlstd{p2}
+
+\hlstd{p3} \hlkwb{<-} \hlkwd{ggplot}\hlstd{(mtcars)} \hlopt{+} \hlkwd{geom_smooth}\hlstd{(}\hlkwd{aes}\hlstd{(disp, qsec))}
+\hlstd{p4} \hlkwb{<-} \hlkwd{ggplot}\hlstd{(mtcars)} \hlopt{+} \hlkwd{geom_bar}\hlstd{(}\hlkwd{aes}\hlstd{(carb))}
+
+\hlstd{(p1} \hlopt{|} \hlstd{p2} \hlopt{|} \hlstd{p3)} \hlopt{/}
+      \hlstd{p4}
+\end{alltt}
+\end{kframe}
+\end{knitrout}
+
+
+\end{frame}
+%%%%%
+
+\begin{frame}[fragile]{Extra ggplot}
+
+Adding marginal histograms 
+
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.843, 0.867, 0.922}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlkwd{library}\hlstd{(}\hlstr{"ggExtra"}\hlstd{)}
+\hlstd{df} \hlkwb{<-} \hlkwd{data.frame}\hlstd{(}\hlkwc{x} \hlstd{=} \hlkwd{rnorm}\hlstd{(}\hlnum{1000}\hlstd{,} \hlnum{50}\hlstd{,} \hlnum{10}\hlstd{),}
+                 \hlkwc{y} \hlstd{=} \hlkwd{rnorm}\hlstd{(}\hlnum{1000}\hlstd{,} \hlnum{50}\hlstd{,} \hlnum{10}\hlstd{),}
+    \hlkwc{age} \hlstd{=} \hlkwd{sample}\hlstd{(}\hlkwd{c}\hlstd{(}\hlstr{"a"}\hlstd{,}\hlstr{"b"}\hlstd{),} \hlkwc{size} \hlstd{=} \hlnum{1000}\hlstd{,} \hlkwc{replace} \hlstd{=} \hlnum{TRUE}\hlstd{))}
+
+\hlstd{p} \hlkwb{<-} \hlkwd{ggplot}\hlstd{(df,} \hlkwd{aes}\hlstd{(x, y,} \hlkwc{color}\hlstd{=age))} \hlopt{+} \hlkwd{geom_point}\hlstd{()} \hlopt{+}
+  \hlkwd{theme_classic}\hlstd{()}\hlopt{+}
+  \hlkwd{theme}\hlstd{(}\hlkwc{legend.position}\hlstd{=}\hlstr{"left"}\hlstd{)}\hlopt{+}
+  \hlkwd{scale_color_brewer}\hlstd{(}\hlkwc{palette} \hlstd{=} \hlstr{"Spectral"}\hlstd{,} \hlkwc{labels}\hlstd{=}\hlkwd{c}\hlstd{(}\hlstr{"a"}\hlstd{,}\hlstr{"b"}\hlstd{))}
+
+\hlstd{ggExtra}\hlopt{::}\hlkwd{ggMarginal}\hlstd{(p,} \hlkwc{type} \hlstd{=} \hlstr{"histogram"}\hlstd{,}
+                \hlkwc{groupFill}\hlstd{=}\hlnum{TRUE}\hlstd{,} \hlkwc{groupColour} \hlstd{=} \hlnum{FALSE}\hlstd{)}
+\end{alltt}
+\end{kframe}
+\end{knitrout}
+
+\end{frame}
+%%%%%
+
+
+\begin{frame}{Please fill in survey}
+
+\url{https://anu.au1.qualtrics.com/jfe/form/SV_23HWGb8pGSfyHxr}
+
+\end{frame}
+%%%%%
+
+\end{document}
