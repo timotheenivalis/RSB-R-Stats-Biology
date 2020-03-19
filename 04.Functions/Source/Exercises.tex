@@ -104,7 +104,6 @@ In this tutorial you will learn:
     \item How do I make a function?
     \item How can I test my functions?
     \item How should I document my code?
-    
 \end{itemize}
 
 \tableofcontents
@@ -117,11 +116,79 @@ In this tutorial you will learn:
 
 \section{What is a function?}
 
+A function is a piece of code, possibly long and complex, that is saved as an object in R, so that you can access this code using a single word.
 
+You can see the code invoked by a function by running the function name without parentheses. For instance try to run:
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlstd{tapply}
+\end{alltt}
+\end{kframe}
+\end{knitrout}
+So, over 30 lines of complex code are run when you call this function.
+
+In R, most \textbf{functions take some arguments (=input objects) and return one output}.
+For instance, the function \texttt{mean()} takes a numeric vector as arguments and return a number as output:
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlstd{input} \hlkwb{<-} \hlkwd{c}\hlstd{(}\hlnum{1}\hlstd{,}\hlnum{3}\hlstd{,}\hlnum{5}\hlstd{,}\hlnum{10}\hlstd{)} \hlcom{# create a vector of numbers}
+\hlkwd{mean}\hlstd{(input)} \hlcom{# output the mean of that vector}
+\end{alltt}
+\begin{verbatim}
+## [1] 4.75
+\end{verbatim}
+\end{kframe}
+\end{knitrout}
+It is much more efficient to call the function mean than to write a piece of code calculating the mean of that vector using addition and division.
+
+If you want to know what a function does and what type of input it requires look at its help page (every function coming from R-base or CRAN packages should have a help page). You can look for this page on a web browser (for instance type \texttt{mean() R}), search the function name in the \texttt{Help} tab of R-Studio, type \texttt{?mean}, or start press \texttt{tab} when your cursor is between the parentheses of \texttt{mean()}.
+
+Many functions can take more than one arguments. How does the function what is what? There are two complementary ways:
+\begin{enumerate}
+\item By order: the help page of each function shows you in which order arguments are expected. For instance \texttt{mean(1:4, 0, FALSE)}.
+\item By name: direct a value to a specific argument using \texttt{name = value}. When you call some arguments by name, the order in which they appear within the function call does not matter. For instance \texttt{mean(trim=0, x=1:4, na.rm=FALSE)}
+\end{enumerate}
+You can mix the two, for instance: \texttt{mean(1:4, na.rm=FALSE, trim=0)}.
+It is safer to use argument names and I recommend you use this approach unless you are just writing quick code that you will not reuse or you know the functions you are using very well.
+
+One last thing: functions can have default values for their arguments; that is, values that will be use if you do not provide a value for that argument. For instance \texttt{mean()} has a default value for the arguments \texttt{trim} and \texttt{na.rm} but not for \texttt{x}. You absolutely need to provide a value for \texttt{x} or the function will return an error message. You can find which arguments have default values on the function help page, in the section Usage: arguments with default values are followed by \texttt{=} and the default value in the function call, for instance \texttt{mean(x, trim = 0, na.rm = FALSE, ...)}.
+
+
+
+If you are curious, there is a more advanced description of what functions really are in R at \url{https://adv-r.hadley.nz/functions.html} (you probably do not need this information, unless you want to become an R wizard.).
 
 \section{Why and how make your own functions?}
 
+There are lots of functions available in R-base and R-packages, so why bother? If you think you are going a piece of code only once and no one else will ever use your code, then don't bother. But if there is a chance you need to run the same series of commands multiple times, it very quickly becomes faster, cleaner and safer to turn your code into a function. 
 
+For instance, imagine you have 20 data sets on which you want to apply some data transformation, run some statistical tests, plot model predictions and write that plot to a .png file to use in a report. That series of operations may be 15 lines long. If you copy paste the code for each data set you will need 300 lines of code and are likely to make typos that may be difficult to find. If you write your code as a function, you may need 20 lines of code (in general it will), but then you can analyse each data set in 1 line. In total you will need 40 lines instead of 300. 
+Further, if you decide to change the statistical model later on, you need to modify your code in only one spot, inside the function. You probably will not need to edit the 20 function calls for each data set.
+Finally, writing functions will force you to make your code more robust (because it must work with slightly different input) which makes it less error prone and more easy to re-use and share with others. 
+
+To keep your scripts clean, you can save all the functions you create for a given project into a single .R file, separate from your script doing your actual analyses. At the start of your analysis script you can source the function script in a way similar to loading packages using library.
+For instance, if you save all your functions for a given project in the file MyFunctions.R, start the script where you will do your analyses by \texttt{source(MyFunctions.R)}.
+
+
+NB: Building your own functions and sourcing them is similar to building your own package. In fact, once you have functions in a file it is quite simple to create an R-package (but we will see that another time).
+
+\subsection{How to define a function}
+To create a function, you need to assign the output of the function \texttt{function()} to an object\dots yes that is confusing, so here is an example.
+Let’s start by defining a function fahrenheit\_to\_celsius that converts temperatures from Fahrenheit to Celsius:
+
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlstd{fahrenheit_to_celsius} \hlkwb{<-} \hlkwa{function}\hlstd{(}\hlkwc{temp_F}\hlstd{) \{}
+  \hlstd{temp_C} \hlkwb{<-} \hlstd{(temp_F} \hlopt{-} \hlnum{32}\hlstd{)} \hlopt{*} \hlnum{5} \hlopt{/} \hlnum{9}
+  \hlkwd{return}\hlstd{(temp_C)}
+\hlstd{\}}
+\end{alltt}
+\end{kframe}
+\end{knitrout}
+
+After running this code, the function fahrenheit\_to\_celsius exists in your environment
 
 
 \begin{Exercise}[difficulty=1, title={Build a first function}]
@@ -313,7 +380,7 @@ We may want to use a for loop. We could include also a plot or a statistical tes
 \hlstd{res} \hlkwb{<-} \hlkwd{simclt}\hlstd{()}
 \end{alltt}
 \end{kframe}
-\includegraphics[width=\maxwidth]{figure/unnamed-chunk-7-1} 
+\includegraphics[width=\maxwidth]{figure/unnamed-chunk-10-1} 
 \begin{kframe}\begin{alltt}
 \hlkwd{shapiro.test}\hlstd{(res)}
 \end{alltt}
@@ -322,7 +389,7 @@ We may want to use a for loop. We could include also a plot or a statistical tes
 ## 	Shapiro-Wilk normality test
 ## 
 ## data:  res
-## W = 1, p-value = 0.001
+## W = 1, p-value = 0.009
 \end{verbatim}
 \end{kframe}
 \end{knitrout}
@@ -457,7 +524,7 @@ You can run the function and see if you had guessed right:
 \hlkwd{tree}\hlstd{(}\hlnum{0}\hlstd{,}\hlnum{0}\hlstd{,}\hlnum{2}\hlstd{,}\hlnum{0}\hlstd{,}\hlnum{8}\hlstd{,}\hlnum{12}\hlstd{)}
 \end{alltt}
 \end{kframe}
-\includegraphics[width=\maxwidth]{figure/unnamed-chunk-12-1} 
+\includegraphics[width=\maxwidth]{figure/unnamed-chunk-15-1} 
 
 \end{knitrout}
 
@@ -510,7 +577,7 @@ This is a self-referencing function, it calls itself! Each call to the function 
 \hlkwd{tree}\hlstd{(}\hlnum{0}\hlstd{,}\hlnum{0}\hlstd{,}\hlnum{2}\hlstd{,}\hlnum{0}\hlstd{,}\hlnum{8}\hlstd{,}\hlnum{8}\hlstd{)}
 \end{alltt}
 \end{kframe}
-\includegraphics[width=\maxwidth]{figure/unnamed-chunk-13-1} 
+\includegraphics[width=\maxwidth]{figure/unnamed-chunk-16-1} 
 
 \end{knitrout}
 \end{Answer}
