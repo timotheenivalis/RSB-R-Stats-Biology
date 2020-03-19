@@ -93,9 +93,11 @@
 
 \maketitle
 
-If you have any trouble going through this tutorial you can chat about it on Slack ( rsb-r-stats-biology.slack.com , if you are not a member but would like to be, drop me an email) or email me at \href{mailto:timotheebonnetc@gmail.com}{timotheebonnetc@gmail.com}. I garantee a quick answer Friday 20 morning, and will do my best to respond quickly at other times. 
+On Friday 20/03/2020 I will be presenting this tutorial live on Zoom. (ask by email/Slack if you do not know how to use Zoom.)
 
-If you would like to receive credit through the \href{https://wattlecourses.anu.edu.au/enrol/index.php?id=23938}{COS Career Development Framework} program I need you to complete three exercises of your choice. Send me your answers via Slack or email. It does not have to be correct on the first try and you are welcome to get in touch if you are completely stuck. I will provide feedback to help you complete exercises you want to do.
+If you have any trouble going through this tutorial then or at a different time you can chat about it on Slack ( rsb-r-stats-biology.slack.com , if you are not a member but would like to be, drop me an email) or email me at \href{mailto:timotheebonnetc@gmail.com}{timotheebonnetc@gmail.com}.
+
+If you do not attend the Zoom meeting but would like to receive credit through the \href{https://wattlecourses.anu.edu.au/enrol/index.php?id=23938}{COS Career Development Framework} program I need you to complete three exercises of your choice. Send me your answers via Slack or email. It does not have to be correct on the first try and you are welcome to get in touch if you are completely stuck. I will provide feedback to help you complete exercises you want to do.
 
 In this tutorial you will learn:
 
@@ -188,8 +190,27 @@ Let’s start by defining a function fahrenheit\_to\_celsius that converts tempe
 \end{kframe}
 \end{knitrout}
 
-After running this code, the function fahrenheit\_to\_celsius exists in your environment
+After running this code, the function fahrenheit\_to\_celsius exists in your environment and you can use it:
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlkwd{fahrenheit_to_celsius}\hlstd{(}\hlnum{99}\hlstd{)}
+\end{alltt}
+\begin{verbatim}
+## [1] 37.22
+\end{verbatim}
+\begin{alltt}
+\hlkwd{fahrenheit_to_celsius}\hlstd{(}\hlnum{451}\hlstd{)}
+\end{alltt}
+\begin{verbatim}
+## [1] 232.8
+\end{verbatim}
+\end{kframe}
+\end{knitrout}
 
+
+Look again at the code defining the function. Everything within \texttt{\{\}} is the code you run. Notice how the name of the argument (\texttt{temp\_F}) is used for a variable inside the function. Arguments are assigned to variables and that is how the code inside the function returns different values when you use different argument values.
+What is inside \texttt{return()} is your function output. In R, if you do not write a \texttt{return()} in your function, the last command within your function will be returned as the output. I recommend you always use \texttt{return()} to be sure you know what your function outputs. 
 
 \begin{Exercise}[difficulty=1, title={Build a first function}]
 Write a function that return the product of three arbitrary numbers together (x*y*z) provided by the user.
@@ -210,8 +231,12 @@ Write a function that return the product of three arbitrary numbers together (x*
 \end{knitrout}
 \end{Answer}
 
+The \texttt{return()} function (yes, it is a function itself!) can output a single object, but often we want to calculate many things at once, not just a single number! So how do you do if you want two or more values out of your function? 
+Remember that in R, objects can be vectors, matrices, lists, data-frames\dots all of which can contain many values, possibly of different types. So you could very well write on object containing several values within your function and include that object within \texttt{return()}.
+
+
 \begin{Exercise}[difficulty=2, title={Multiple values in output}]
-Write a function that return the product of three arbitrary numbers together (x*y*z) as well as their sum (x+y+z).
+Write a function that return the product of three arbitrary numbers together (x*y*z) as well as their sum (x+y+z). Remeber you can create vectors of several values using the function \texttt{c(x,y)}.
 \end{Exercise}
 \begin{Answer}
 \begin{knitrout}
@@ -229,10 +254,256 @@ Write a function that return the product of three arbitrary numbers together (x*
 \end{knitrout}
 \end{Answer}
 
+
+\begin{Exercise}[difficulty=2, title={Write a data-frame of random values in output}]
+Write a function that return a data-frame containing 3 columns of randomly generated normal numbers (use the function \texttt{rnomr}). Your function should have an argument to control how many rows the data-frames has. As a bonus, create arguments to control the mean and standard deviation of each column.
+\end{Exercise}
+\begin{Answer}
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlstd{randomdf} \hlkwb{<-} \hlkwa{function}\hlstd{(}\hlkwc{rows}\hlstd{=}\hlnum{10}\hlstd{)\{}
+  \hlstd{out} \hlkwb{<-} \hlkwd{data.frame}\hlstd{(}\hlkwc{x} \hlstd{=} \hlkwd{rnorm}\hlstd{(}\hlkwc{n}\hlstd{=rows),} \hlkwc{y}\hlstd{=} \hlkwd{rnorm}\hlstd{(}\hlkwc{n}\hlstd{=rows),} \hlkwc{z} \hlstd{=} \hlkwd{rnorm}\hlstd{(}\hlkwc{n}\hlstd{=rows))}
+  \hlkwd{return}\hlstd{(out)}
+\hlstd{\}}
+\hlkwd{randomdf}\hlstd{(}\hlnum{100}\hlstd{)}
+\end{alltt}
+\begin{verbatim}
+##             x        y         z
+## 1   -0.452843 -0.97503 -1.422005
+## 2    1.409066 -0.33377  0.250329
+## 3   -1.443588  0.93419 -0.776165
+## 4    0.527667  0.59460 -0.935301
+## 5   -0.254573  0.87204 -1.631067
+## 6    0.849533  0.08133  0.849666
+## 7   -0.998005  0.54167 -0.200612
+## 8   -0.349994 -0.91270  0.002618
+## 9    0.918310 -0.26207  0.596895
+## 10   0.258133 -0.48864 -0.252332
+## 11   0.839621 -0.18270 -0.208285
+## 12  -1.637728  1.36281  0.877304
+## 13   0.410246 -0.64191 -1.256975
+## 14   0.712481  0.07906  1.693805
+## 15   0.260343 -0.83598  3.095667
+## 16  -2.390733 -1.46274  0.369844
+## 17  -1.363711  1.19851  1.998312
+## 18   1.604266  0.54517  1.101396
+## 19   0.910828  0.58323  0.220755
+## 20   0.675430  0.51408  0.556032
+## 21   0.509047 -0.78520  1.042595
+## 22  -1.769110 -0.55332  2.257107
+## 23  -0.114023  0.30614 -1.468683
+## 24  -0.166047 -1.71567  1.192860
+## 25   0.455043 -0.30356  2.093891
+## 26  -0.987446  1.12962  0.396743
+## 27   1.208467 -0.26632  1.397321
+## 28  -0.219168 -0.98576 -0.887302
+## 29  -0.083067 -1.45111  1.521227
+## 30   0.004798 -0.67394 -0.124594
+## 31   0.304544  1.39851 -0.570963
+## 32  -0.127617  0.82373  1.479856
+## 33   0.327056  0.82995  1.379172
+## 34   1.242160 -1.50634  0.342112
+## 35  -1.024665 -0.37027 -1.437806
+## 36  -1.178892 -1.64163 -0.593277
+## 37  -0.055962 -0.48979  1.868554
+## 38   0.512940 -0.12155 -0.860816
+## 39  -0.608092  0.26083 -0.220782
+## 40   0.837617  0.04576 -2.136607
+## 41   0.080038 -1.36711 -0.271398
+## 42  -0.168557 -1.30959 -0.086814
+## 43   1.639450 -0.27453  0.518761
+## 44   0.065150 -1.06047  0.090324
+## 45   1.611906 -2.10600 -1.111044
+## 46   0.192334  1.87003 -0.136681
+## 47   0.299295  0.39152 -1.680947
+## 48   0.183126  0.59785  0.427528
+## 49   0.367548  0.23816 -0.235139
+## 50   0.153777  1.00678 -1.127503
+## 51   0.488421  1.53282  1.102943
+## 52  -0.364124  0.94425  0.212830
+## 53  -1.084661 -0.12713 -0.589623
+## 54   1.684393  0.65313 -1.243421
+## 55  -0.561068  0.71212  1.923838
+## 56  -0.904712 -0.24738  0.076660
+## 57  -1.515143  1.04410  0.145208
+## 58  -1.144121  0.77968  0.850971
+## 59   0.363608  1.12317 -0.581187
+## 60   0.366906  0.50126 -0.972461
+## 61  -0.279324  1.05730 -1.587287
+## 62  -0.672493 -0.20598  2.096136
+## 63  -0.510454  0.60905 -1.294754
+## 64   0.082353  0.17755  0.238794
+## 65  -0.028955 -1.11944 -0.747656
+## 66   2.126450  0.81455  0.144667
+## 67   0.438577 -0.14537 -1.004122
+## 68   1.353827  1.51647 -0.581580
+## 69   0.786881 -0.07733  0.963158
+## 70   0.448894  1.49353  0.974480
+## 71  -0.323010  0.63972  1.229377
+## 72  -0.220759  0.43856 -1.140518
+## 73   2.099987 -1.29299 -1.116400
+## 74   0.582068  0.91803 -1.079792
+## 75  -0.249695  0.04583  0.348320
+## 76  -0.225404  1.39837  0.585150
+## 77   2.401573  0.50160 -0.930915
+## 78   1.229632  0.57298 -0.040043
+## 79  -0.326428 -0.61471  0.497374
+## 80  -1.059274 -0.66941 -0.311113
+## 81  -1.616777  1.36287 -0.657048
+## 82   0.292618  0.78123 -0.915400
+## 83   0.954898  1.38181  1.513434
+## 84  -1.275416  0.22424 -0.718295
+## 85  -0.654242  1.62984 -0.770336
+## 86  -1.171535 -0.16408  0.218361
+## 87  -1.250382  0.33266 -0.896255
+## 88   0.174157 -1.32216 -1.153310
+## 89  -1.180869 -1.66050 -2.068103
+## 90  -0.310528 -0.09345 -0.671575
+## 91  -1.808222 -0.16571  0.602203
+## 92   0.215768  0.32628  0.886129
+## 93   2.301668  1.82392  0.155273
+## 94   0.259530  0.65948  0.373596
+## 95   0.042818 -0.76626  1.248860
+## 96   0.142835  0.20841  0.079990
+## 97   0.096853  0.51881  1.468975
+## 98   0.461553  0.30753  0.275471
+## 99   0.615818  0.83855  1.358561
+## 100 -1.587795  1.27756 -1.600113
+\end{verbatim}
+\end{kframe}
+\end{knitrout}
+\end{Answer}
 \clearpage
 
+\subsection{Combining functions}
+
+The real power of functions comes from mixing, matching and combining them into ever-larger chunks to get the effect we want.
+
+Let’s define two functions that will convert temperature from Fahrenheit to Kelvin, and Kelvin to Celsius:
+
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlstd{fahr_to_kelvin} \hlkwb{<-} \hlkwa{function}\hlstd{(}\hlkwc{temp}\hlstd{) \{}
+  \hlstd{kelvin} \hlkwb{<-} \hlstd{((temp} \hlopt{-} \hlnum{32}\hlstd{)} \hlopt{*} \hlstd{(}\hlnum{5} \hlopt{/} \hlnum{9}\hlstd{))} \hlopt{+} \hlnum{273.15}
+  \hlkwd{return}\hlstd{(kelvin)}
+\hlstd{\}}
+
+\hlstd{kelvin_to_celsius} \hlkwb{<-} \hlkwa{function}\hlstd{(}\hlkwc{temp}\hlstd{) \{}
+  \hlstd{celsius} \hlkwb{<-} \hlstd{temp} \hlopt{-} \hlnum{273.15}
+  \hlkwd{return}\hlstd{(celsius)}
+\hlstd{\}}
+\end{alltt}
+\end{kframe}
+\end{knitrout}
+
+We can define a function to convert directly from Fahrenheit to Celsius, by reusing these two functions above:
+
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlstd{fahr_to_celsius} \hlkwb{<-} \hlkwa{function}\hlstd{(}\hlkwc{temp}\hlstd{) \{}
+  \hlstd{temp_k} \hlkwb{<-} \hlkwd{fahr_to_kelvin}\hlstd{(temp)}
+  \hlstd{result} \hlkwb{<-} \hlkwd{kelvin_to_celsius}\hlstd{(temp_k)}
+  \hlkwd{return}\hlstd{(result)}
+\hlstd{\}}
+\end{alltt}
+\end{kframe}
+\end{knitrout}
+
+\begin{Exercise}[difficulty=2, title={Combine several functions together}]
+
+Let's say you want to better understand the statistical properties of models you are using on real data. You would like to simulate data of known properties, fit models on these simulated data and visualize if you recover the truth in your data (match between expected and estimated values). That is all a bit complicated so you split the process in several functions. 
+Below I give you working functions for each sub-task. Reuse these functions to create a short function running the whole process at once. Then play with parameter values (beta1 and beta2) and see what happens.
+
+First you simulate data:
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlstd{simul_function} \hlkwb{<-} \hlkwa{function}\hlstd{(}\hlkwc{nbdatasets} \hlstd{=} \hlnum{10}\hlstd{,} \hlkwc{nbsamples}\hlstd{=} \hlnum{500}\hlstd{,} \hlkwc{alpha}\hlstd{=}\hlnum{1}\hlstd{,} \hlkwc{beta1}\hlstd{=}\hlnum{0.5}\hlstd{,} \hlkwc{beta2}\hlstd{=}\hlopt{-}\hlnum{0.5}\hlstd{)}
+\hlstd{\{}
+  \hlstd{alldat} \hlkwb{<-} \hlkwd{list}\hlstd{()}
+  \hlkwa{for} \hlstd{(i} \hlkwa{in} \hlnum{1}\hlopt{:}\hlstd{nbdatasets)}
+  \hlstd{\{}
+    \hlstd{x1} \hlkwb{<-} \hlkwd{rnorm}\hlstd{(}\hlkwc{n} \hlstd{= nbsamples)}
+    \hlstd{x2} \hlkwb{<-} \hlstd{x1} \hlopt{+} \hlkwd{rnorm}\hlstd{(}\hlkwc{n} \hlstd{= nbsamples)}
+    \hlstd{y} \hlkwb{<-} \hlstd{alpha} \hlopt{+} \hlstd{beta1}\hlopt{*}\hlstd{x1} \hlopt{+} \hlstd{beta2}\hlopt{*}\hlstd{x2} \hlopt{+} \hlkwd{rnorm}\hlstd{(}\hlkwc{n} \hlstd{= nbsamples)}
+    \hlstd{alldat[[i]]} \hlkwb{<-} \hlkwd{data.frame}\hlstd{(}\hlkwc{x1}\hlstd{=x1,} \hlkwc{x2}\hlstd{=x2,} \hlkwc{y}\hlstd{=y)}
+  \hlstd{\}}
+  \hlkwd{return}\hlstd{(alldat)}
+\hlstd{\}}\hlcom{#end simul_function()}
+
+\hlstd{datexmple} \hlkwb{<-} \hlkwd{simul_function}\hlstd{()}
+\end{alltt}
+\end{kframe}
+\end{knitrout}
+
+Then you fit different models and extract parameter estimates.
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlstd{models_function} \hlkwb{<-} \hlkwa{function}\hlstd{(}\hlkwc{dat}\hlstd{)}
+\hlstd{\{}
+  \hlstd{res} \hlkwb{<-} \hlkwd{data.frame}\hlstd{(}\hlkwc{model1_alpha}\hlstd{=}\hlkwd{rep}\hlstd{(}\hlnum{NA}\hlstd{,}\hlkwc{times}\hlstd{=}\hlkwd{length}\hlstd{(dat)),}
+                          \hlkwc{model1_beta1}\hlstd{=}\hlnum{NA}\hlstd{,} \hlkwc{model1_beta2}\hlstd{=}\hlnum{NA}\hlstd{,}
+                          \hlkwc{model2_alpha}\hlstd{=}\hlkwd{rep}\hlstd{(}\hlnum{NA}\hlstd{,}\hlkwc{times}\hlstd{=}\hlkwd{length}\hlstd{(dat)),}
+                          \hlkwc{model2_beta1}\hlstd{=}\hlnum{NA}\hlstd{,} \hlkwc{model2_beta2}\hlstd{=}\hlnum{NA}\hlstd{)}
+  \hlkwa{for}\hlstd{(i} \hlkwa{in} \hlnum{1}\hlopt{:}\hlkwd{length}\hlstd{(dat))}
+  \hlstd{\{}
+    \hlstd{model1} \hlkwb{<-} \hlkwd{lm}\hlstd{(y} \hlopt{~} \hlstd{x1} \hlopt{+} \hlstd{x2,} \hlkwc{data} \hlstd{= dat[[i]])}
+
+    \hlstd{model2} \hlkwb{<-} \hlkwd{lm}\hlstd{(y} \hlopt{~} \hlstd{x1,} \hlkwc{data} \hlstd{= dat[[i]])}
+
+    \hlstd{model2bis} \hlkwb{<-} \hlkwd{lm}\hlstd{(}\hlkwd{residuals}\hlstd{(model2)} \hlopt{~} \hlstd{dat[[i]]}\hlopt{$}\hlstd{x2)}
+
+    \hlstd{res[i,]} \hlkwb{<-} \hlkwd{c}\hlstd{(}\hlkwd{coef}\hlstd{(model1),} \hlkwd{coef}\hlstd{(model2),} \hlkwd{coef}\hlstd{(model2bis)[}\hlnum{2}\hlstd{])}
+  \hlstd{\}}
+  \hlkwd{return}\hlstd{(res)}
+\hlstd{\}}\hlcom{#end models_function()}
+
+\hlstd{modelresults} \hlkwb{<-} \hlkwd{models_function}\hlstd{(datexmple)}
+\end{alltt}
+\end{kframe}
+\end{knitrout}
+
+Finally you make boxplots out of pairs of parameter estimates and draw a red line showing the true value used during the simulation.
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlstd{visu_function} \hlkwb{<-} \hlkwa{function}\hlstd{(}\hlkwc{modelsoutput}\hlstd{,} \hlkwc{truevalues} \hlstd{=} \hlkwd{c}\hlstd{(}\hlnum{1}\hlstd{,} \hlnum{0.5}\hlstd{,} \hlopt{-}\hlnum{0.5}\hlstd{))}
+\hlstd{\{}
+  \hlkwd{par}\hlstd{(}\hlkwc{mfrow}\hlstd{=}\hlkwd{c}\hlstd{(}\hlnum{1}\hlstd{,}\hlnum{3}\hlstd{))}
+  \hlkwd{boxplot}\hlstd{(modelsoutput[,}\hlkwd{c}\hlstd{(}\hlnum{1}\hlstd{,}\hlnum{4}\hlstd{)],} \hlkwc{main}\hlstd{=} \hlstr{"Alpha"}\hlstd{,}
+          \hlkwc{names} \hlstd{=} \hlkwd{c}\hlstd{(}\hlstr{"model1"}\hlstd{,} \hlstr{"model2"}\hlstd{))}
+  \hlkwd{abline}\hlstd{(}\hlkwc{h}\hlstd{=truevalues[}\hlnum{1}\hlstd{],} \hlkwc{col}\hlstd{=}\hlstr{"red"}\hlstd{)}
+
+  \hlkwd{boxplot}\hlstd{(modelsoutput[,}\hlkwd{c}\hlstd{(}\hlnum{2}\hlstd{,}\hlnum{5}\hlstd{)],} \hlkwc{main}\hlstd{=} \hlstr{"Beta1"}\hlstd{,}
+          \hlkwc{names} \hlstd{=} \hlkwd{c}\hlstd{(}\hlstr{"model1"}\hlstd{,} \hlstr{"model2"}\hlstd{))}
+  \hlkwd{abline}\hlstd{(}\hlkwc{h}\hlstd{=truevalues[}\hlnum{2}\hlstd{],} \hlkwc{col}\hlstd{=}\hlstr{"red"}\hlstd{)}
+
+  \hlkwd{boxplot}\hlstd{(modelsoutput[,}\hlkwd{c}\hlstd{(}\hlnum{3}\hlstd{,}\hlnum{6}\hlstd{)],} \hlkwc{main}\hlstd{=} \hlstr{"Beta2"}\hlstd{,}
+          \hlkwc{names} \hlstd{=} \hlkwd{c}\hlstd{(}\hlstr{"model1"}\hlstd{,} \hlstr{"model2"}\hlstd{))}
+  \hlkwd{abline}\hlstd{(}\hlkwc{h}\hlstd{=truevalues[}\hlnum{3}\hlstd{],} \hlkwc{col}\hlstd{=}\hlstr{"red"}\hlstd{)}
+\hlstd{\}}\hlcom{#end visu_function}
+
+\hlkwd{visu_function}\hlstd{(modelresults)}
+\end{alltt}
+\end{kframe}
+\includegraphics[width=\maxwidth]{figure/unnamed-chunk-13-1} 
+
+\end{knitrout}
+
+
+\end{Exercise}
+\begin{Answer}
+
+\end{Answer}
+
+\subsection{Turning long complicated code into a function}
+
 \begin{Exercise}[difficulty=2, title={Turning a piece of code into a function}]
-In a previous session we wrote the following piece of code to simulate p-values for a random effect in a mixed model:
+Tthe following piece of code simulate p-values for a random effect in a mixed model:
 \begin{knitrout}
 \definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
 \begin{alltt}
@@ -308,92 +579,6 @@ And output:
 \end{knitrout}
 \end{Answer}
 
-
-\clearpage
-
-\begin{Exercise}[difficulty=2, title={Recover the central-limit theorem}]
-To simplify, the central-limit theorem states that the sum of independent random distributions tends towards a normal distribution even if the original distributions are non-normal.
-Let's write a function that shows that by randomly drawing distributions with random parameters, summing them, and comparing the sum to a Gaussian distribution of same mean and variance.
-
-We can start from the following piece of code:
-\begin{knitrout}
-\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
-\begin{alltt}
-\hlcom{#how many numbers per distribution:}
-\hlstd{n}\hlkwb{=}\hlnum{2000}
-
-\hlcom{# where we will save the sum of distributions:}
-\hlstd{output} \hlkwb{<-} \hlkwd{vector}\hlstd{(}\hlkwc{length} \hlstd{= n)}
-
-\hlcom{# three possible distributions to draw from:}
-\hlstd{rddistri} \hlkwb{<-} \hlkwd{list}\hlstd{(rnorm,runif,rpois)}
-
-\hlcom{# drawing one number at random to tell which distribution we use:}
-\hlstd{choosedistri} \hlkwb{<-} \hlkwd{sample}\hlstd{(}\hlnum{1}\hlopt{:}\hlkwd{length}\hlstd{(rddistri),} \hlkwc{size} \hlstd{=} \hlnum{1}\hlstd{)}
-\hlcom{# a trouble is that the different distributions do not take the }
-\hlcom{#same number or type of arguments, so we need to have a special}
-\hlcom{#piece of code for each of them. For example, for the normal}
-\hlcom{#distribution (rnorm):}
-\hlkwa{if}\hlstd{(choosedistri}\hlopt{==}\hlnum{1}\hlstd{)}
-\hlstd{\{}
-    \hlcom{# Decide how you want to select mean and sd:}
-     \hlstd{output} \hlkwb{<-} \hlstd{output} \hlopt{+} \hlstd{rddistri[[choosedistri]](n,} \hlkwc{mean}\hlstd{=,} \hlkwc{sd}\hlstd{=)}
-\hlstd{\}}
-\hlstd{...}
-\end{alltt}
-\end{kframe}
-\end{knitrout}
-
-We may want to use a for loop. We could include also a plot or a statistical test (e.g., Shapiro.test).
-\end{Exercise}
-\begin{Answer}
-\begin{knitrout}
-\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
-\begin{alltt}
-\hlstd{simclt} \hlkwb{<-} \hlkwa{function}\hlstd{(}\hlkwc{n}\hlstd{=}\hlnum{2000}\hlstd{,} \hlkwc{nbdistri}\hlstd{=}\hlnum{100}\hlstd{)}
-\hlstd{\{}
-  \hlstd{output} \hlkwb{<-} \hlkwd{vector}\hlstd{(}\hlkwc{length} \hlstd{= n)}
-  \hlstd{rddistri} \hlkwb{<-} \hlkwd{list}\hlstd{(rnorm, runif, rpois)}
-
-    \hlkwa{for} \hlstd{(i} \hlkwa{in} \hlnum{1}\hlopt{:}\hlstd{nbdistri)}
-  \hlstd{\{}
-    \hlstd{choosedistri} \hlkwb{<-} \hlkwd{sample}\hlstd{(}\hlnum{1}\hlopt{:}\hlkwd{length}\hlstd{(rddistri),} \hlkwc{size} \hlstd{=} \hlnum{1}\hlstd{)}
-    \hlkwa{if}\hlstd{(choosedistri} \hlopt{%in%} \hlnum{1}\hlstd{)}
-    \hlstd{\{}
-      \hlstd{output} \hlkwb{<-} \hlstd{output} \hlopt{+} \hlstd{rddistri[[choosedistri]](n,} \hlkwd{rnorm}\hlstd{(}\hlnum{1}\hlstd{),} \hlkwd{runif}\hlstd{(}\hlnum{1}\hlstd{,}\hlnum{0}\hlstd{,}\hlnum{1}\hlstd{))}
-    \hlstd{\}}
-    \hlkwa{if}\hlstd{(choosedistri} \hlopt{%in%} \hlnum{2}\hlstd{)}
-    \hlstd{\{}
-      \hlstd{output} \hlkwb{<-} \hlstd{output} \hlopt{+} \hlstd{rddistri[[choosedistri]](n,} \hlnum{0}\hlstd{,} \hlkwd{runif}\hlstd{(}\hlnum{1}\hlstd{,}\hlnum{0.1}\hlstd{,}\hlnum{3}\hlstd{))}
-    \hlstd{\}}
-    \hlkwa{if}\hlstd{(choosedistri} \hlopt{%in%} \hlnum{3}\hlstd{)}
-    \hlstd{\{}
-      \hlstd{output} \hlkwb{<-} \hlstd{output} \hlopt{+} \hlstd{rddistri[[choosedistri]](n,} \hlkwd{exp}\hlstd{(}\hlkwd{runif}\hlstd{(}\hlnum{1}\hlstd{)))}
-    \hlstd{\}}
-  \hlstd{\}}
-  \hlkwd{plot}\hlstd{(}\hlkwd{density}\hlstd{(output))}
-  \hlkwd{lines}\hlstd{(}\hlkwc{x}\hlstd{=}\hlkwd{seq}\hlstd{(}\hlkwd{min}\hlstd{(output),}\hlkwd{max}\hlstd{(output),}\hlkwc{by} \hlstd{=} \hlnum{1}\hlstd{),} \hlkwc{y}\hlstd{=}\hlkwd{dnorm}\hlstd{(}\hlkwd{seq}\hlstd{(}\hlkwd{min}\hlstd{(output),}\hlkwd{max}\hlstd{(output),}\hlkwc{by} \hlstd{=} \hlnum{1}\hlstd{),} \hlkwc{mean} \hlstd{=} \hlkwd{mean}\hlstd{(output),} \hlkwc{sd}\hlstd{=}\hlkwd{sd}\hlstd{(output)),} \hlkwc{col}\hlstd{=}\hlstr{"red"}\hlstd{)}
-  \hlkwd{legend}\hlstd{(}\hlkwc{x}\hlstd{=}\hlstr{"topright"}\hlstd{,} \hlkwc{legend} \hlstd{=} \hlkwd{c}\hlstd{(}\hlstr{"simulation"}\hlstd{,} \hlstr{"Normal distribution"}\hlstd{),} \hlkwc{col}\hlstd{=}\hlkwd{c}\hlstd{(}\hlstr{"black"}\hlstd{,} \hlstr{"red"}\hlstd{),} \hlkwc{lwd}\hlstd{=}\hlnum{1}\hlstd{)}
-  \hlkwd{return}\hlstd{(output)}
-\hlstd{\}}
-
-\hlstd{res} \hlkwb{<-} \hlkwd{simclt}\hlstd{()}
-\end{alltt}
-\end{kframe}
-\includegraphics[width=\maxwidth]{figure/unnamed-chunk-10-1} 
-\begin{kframe}\begin{alltt}
-\hlkwd{shapiro.test}\hlstd{(res)}
-\end{alltt}
-\begin{verbatim}
-## 
-## 	Shapiro-Wilk normality test
-## 
-## data:  res
-## W = 1, p-value = 0.009
-\end{verbatim}
-\end{kframe}
-\end{knitrout}
-\end{Answer}
 
 \section{Funny things}
 
@@ -524,7 +709,7 @@ You can run the function and see if you had guessed right:
 \hlkwd{tree}\hlstd{(}\hlnum{0}\hlstd{,}\hlnum{0}\hlstd{,}\hlnum{2}\hlstd{,}\hlnum{0}\hlstd{,}\hlnum{8}\hlstd{,}\hlnum{12}\hlstd{)}
 \end{alltt}
 \end{kframe}
-\includegraphics[width=\maxwidth]{figure/unnamed-chunk-15-1} 
+\includegraphics[width=\maxwidth]{figure/unnamed-chunk-21-1} 
 
 \end{knitrout}
 
@@ -577,12 +762,24 @@ This is a self-referencing function, it calls itself! Each call to the function 
 \hlkwd{tree}\hlstd{(}\hlnum{0}\hlstd{,}\hlnum{0}\hlstd{,}\hlnum{2}\hlstd{,}\hlnum{0}\hlstd{,}\hlnum{8}\hlstd{,}\hlnum{8}\hlstd{)}
 \end{alltt}
 \end{kframe}
-\includegraphics[width=\maxwidth]{figure/unnamed-chunk-16-1} 
+\includegraphics[width=\maxwidth]{figure/unnamed-chunk-22-1} 
 
 \end{knitrout}
 \end{Answer}
 
-\begin{Exercise}[difficulty=3, title={Find a mistake in a family tree}]
+\begin{Exercise}[difficulty=3, title={Find a mistake in a family tree (Challenging!)}]
+For this exercise you will need to download a file as follows: 
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlkwd{download.file}\hlstd{(}\hlkwc{url}\hlstd{=}\hlstr{"https://raw.githubusercontent.com/timotheenivalis/RSB-R-Stats-Biology/master/04.Functions/wrongpedigree.csv"}\hlstd{,}
+\hlkwc{destfile} \hlstd{=} \hlstr{"wrongpedigree.csv"}\hlstd{)}
+
+\hlstd{ped} \hlkwb{<-} \hlkwd{read.csv}\hlstd{(}\hlstr{"wrongpedigree.csv"}\hlstd{,} \hlkwc{stringsAsFactors} \hlstd{=} \hlnum{FALSE}\hlstd{)}
+\end{alltt}
+\end{kframe}
+\end{knitrout}
+
 The file \texttt{wrongpedigree.csv} contains a pedigree (a family tree) containing a mistake: a function we tried to apply on this data set informed us that the family tree was impossible without more information. We suspect that we have assigned an individual as its own ancestor (this can happen with genetic reconstruction of parentage). Use a self-referencing function to scan the tree and find where the problem is.
 \end{Exercise}
 \begin{Answer}
