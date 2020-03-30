@@ -9,7 +9,7 @@ Topic: Mixed models part 1
 Time: Apr 3, 2020 09:30 PM Canberra, Melbourne, Sydney
 
 Join Zoom Meeting
-https://anu.zoom.us/j/174815969
+[https://anu.zoom.us/j/174815969](https://anu.zoom.us/j/174815969)
 
 Meeting ID: 174 815 969
 
