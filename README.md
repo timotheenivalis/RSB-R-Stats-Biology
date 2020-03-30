@@ -1,5 +1,21 @@
 # RSB-R-Stats-Biology
 
+___
+
+**NEXT ZOOM MEETING INFORMATION**
+You are invited to attend the scheduled Zoom meeting.
+
+Topic: Mixed models part 1
+Time: Apr 3, 2020 09:30 PM Canberra, Melbourne, Sydney
+
+Join Zoom Meeting
+https://anu.zoom.us/j/174815969
+
+Meeting ID: 174 815 969
+
+___
+
+
 Third year of the workshop series on biological statistics in R at ANU. To receive all announcements and get help from other R-Staters drop me an [email](mailto:timotheebonnetc@gmail.com) and I will add you to the workshop Slack. 
 
 
