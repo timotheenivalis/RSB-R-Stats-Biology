@@ -1,0 +1,117 @@
+\documentclass[12pt,a4paper]{scrartcl}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath}
+\usepackage{graphicx}
+\usepackage{tikz}
+%\usepackage{silence}
+\usepackage{mdframed}
+%\WarningFilter{mdframed}{You got a bad break}
+\usepackage[colorinlistoftodos]{todonotes}
+\usepackage{listings}
+\usepackage{color}
+\colorlet{exampcol}{blue!10}
+\usepackage{multicol}
+\usepackage{booktabs}
+
+
+\usepackage{tcolorbox}
+
+
+\usepackage{setspace}
+%\doublespacing
+
+\usepackage[noanswer]{exercise}%[noanswer]
+\renewcommand{\ExerciseHeaderTitle}{\quad---\quad \color{orange!70!black}\ExerciseTitle}
+
+
+\usepackage[autostyle, english = american]{csquotes}
+\MakeOuterQuote{"}
+
+\usepackage{hyperref}
+\hypersetup{
+    colorlinks,
+    citecolor=black,
+    filecolor=black,
+    linkcolor=blue,
+    urlcolor=blue
+}
+
+\title{R-StatProgamming with functions in R}
+\date{\today}
+\author{Timoth\'ee Bonnet, BDSI}
+
+
+\begin{document}
+
+<<echo=FALSE>>=
+options(digits = 4) 
+@
+
+\maketitle
+
+On Friday 03/04/2020 I will be presenting this tutorial live on Zoom. (ask by email/Slack if you do not know how to use Zoom.)
+
+If you have any trouble going through this tutorial then or at a different time you can chat about it on Slack ( rsb-r-stats-biology.slack.com , if you are not a member but would like to be, drop me an email) or email me at \href{mailto:timotheebonnetc@gmail.com}{timotheebonnetc@gmail.com}.
+
+If you do not attend the Zoom meeting but would like to receive credit through the \href{https://wattlecourses.anu.edu.au/enrol/index.php?id=23938}{COS Career Development Framework} program I need you to complete three exercises of your choice. Send me your answers via Slack or email. It does not have to be correct on the first try and you are welcome to get in touch if you are completely stuck. I will provide feedback to help you complete exercises you want to do.
+
+In this tutorial you will learn:
+
+\begin{itemize}
+    \item How unexplained variation in a response variable can compromise statistical inference when that variation is structured.
+    \item How fixed and random effects can correct for structured variation in the response variable.
+    \item How to fit mixed-effects models in R.
+    \item How to choose between fixed and random effects.
+    \item Extract and interpret mixed models output.
+\end{itemize}
+
+\tableofcontents
+\ListOfExerciseInToc
+\ExerciseLevelInToc{subsubsection}
+
+\clearpage
+
+\section{The dangers of unexplained variation}
+
+On 20 March 2020 an article was published in \textbf{International Journal of Antimicrobial Agents}: "Hydroxychloroquine and azithromycin as a treatment of COVID-19: results of an open-label non-randomized clinical trial" by Gautret \dots and Raoult. This has been one of the most commented article worldwide since then; and the most polarizing article too. See for instance \href{https://www.sciencemag.org/news/2020/03/insane-many-scientists-lament-trump-s-embrace-risky-malaria-drugs-coronavirus}{what Science wrote about it}. There are many things to criticize about this paper but let's focus only on the issue of spatial variation.
+
+The study considers people infected by SARS-CoV-2 and attempts to test whether hydroxychloroquine is an effective cure against the virus.
+Patients who were proposed a treatment with hydroxychloroquine were recruited and managed in Marseille (a French city) centre (20 people were treated with hydroxychloroquine there). Controls without hydroxychloroquine treatment were recruited in Nice, Avignon and Briançon centers (these are all French cities) \dots as well as in Marseille if they refused to take hydroxychloroquine (there was a total of 16 control)
+
+Every day patients are tested for SARS-CoV-2 RNA and the proportion of patient infected in the treatment vs. control group is compared using a simple $\chi^2$ test. Here are the results:
+
+\begin{center}
+\includegraphics[width=0.9\textwidth]{figures/resraoult.jpg}
+\end{center}
+
+You can see the proportion of infection in the treatment drop below the control and small p-values from Day 3. It is tempting to conclude that the treatment works, but here is the twist: all patients in the treatment group were selected in the same hospital (Marseille). It is very unlikely that Marseille's hospital is identi
+
+
+
+\section{Fitting random effects}
+
+\begin{tcolorbox}[colback=green!5,colframe=green!40!black,title=Fixed or random effect?]
+ee
+\end{tcolorbox}
+
+\section{}
+
+
+\begin{Exercise}[difficulty=1, title={xxx}]
+
+\end{Exercise}
+\begin{Answer}
+<<>>=
+@
+\end{Answer}
+
+\section{More resources}
+
+
+\href{http://bbolker.github.io/mixedmodels-misc/glmmFAQ.html}{Ben Bolker's GLMM FAQ is a gold mine if you need some technical details about mixed models (generalized or not).}
+
+If you are going to do lots of mixed models consider subscribing to the mailing-list \href{https://stat.ethz.ch/mailman/listinfo/r-sig-mixed-models}, ask questions or search the archive (anyway, Google is likely to directly send you to the archive).
+
+
+
+\end{document}

@@ -1,0 +1,154 @@
+\documentclass[12pt,a4paper]{scrartcl}\usepackage[]{graphicx}\usepackage[]{color}
+% maxwidth is the original width if it is less than linewidth
+% otherwise use linewidth (to make sure the graphics do not exceed the margin)
+\makeatletter
+\def\maxwidth{ %
+  \ifdim\Gin@nat@width>\linewidth
+    \linewidth
+  \else
+    \Gin@nat@width
+  \fi
+}
+\makeatother
+
+\definecolor{fgcolor}{rgb}{0.345, 0.345, 0.345}
+\newcommand{\hlnum}[1]{\textcolor[rgb]{0.686,0.059,0.569}{#1}}%
+\newcommand{\hlstr}[1]{\textcolor[rgb]{0.192,0.494,0.8}{#1}}%
+\newcommand{\hlcom}[1]{\textcolor[rgb]{0.678,0.584,0.686}{\textit{#1}}}%
+\newcommand{\hlopt}[1]{\textcolor[rgb]{0,0,0}{#1}}%
+\newcommand{\hlstd}[1]{\textcolor[rgb]{0.345,0.345,0.345}{#1}}%
+\newcommand{\hlkwa}[1]{\textcolor[rgb]{0.161,0.373,0.58}{\textbf{#1}}}%
+\newcommand{\hlkwb}[1]{\textcolor[rgb]{0.69,0.353,0.396}{#1}}%
+\newcommand{\hlkwc}[1]{\textcolor[rgb]{0.333,0.667,0.333}{#1}}%
+\newcommand{\hlkwd}[1]{\textcolor[rgb]{0.737,0.353,0.396}{\textbf{#1}}}%
+\let\hlipl\hlkwb
+
+\usepackage{framed}
+\makeatletter
+\newenvironment{kframe}{%
+ \def\at@end@of@kframe{}%
+ \ifinner\ifhmode%
+  \def\at@end@of@kframe{\end{minipage}}%
+  \begin{minipage}{\columnwidth}%
+ \fi\fi%
+ \def\FrameCommand##1{\hskip\@totalleftmargin \hskip-\fboxsep
+ \colorbox{shadecolor}{##1}\hskip-\fboxsep
+     % There is no \\@totalrightmargin, so:
+     \hskip-\linewidth \hskip-\@totalleftmargin \hskip\columnwidth}%
+ \MakeFramed {\advance\hsize-\width
+   \@totalleftmargin\z@ \linewidth\hsize
+   \@setminipage}}%
+ {\par\unskip\endMakeFramed%
+ \at@end@of@kframe}
+\makeatother
+
+\definecolor{shadecolor}{rgb}{.97, .97, .97}
+\definecolor{messagecolor}{rgb}{0, 0, 0}
+\definecolor{warningcolor}{rgb}{1, 0, 1}
+\definecolor{errorcolor}{rgb}{1, 0, 0}
+\newenvironment{knitrout}{}{} % an empty environment to be redefined in TeX
+
+\usepackage{alltt}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath}
+\usepackage{graphicx}
+\usepackage{tikz}
+%\usepackage{silence}
+\usepackage{mdframed}
+%\WarningFilter{mdframed}{You got a bad break}
+\usepackage[colorinlistoftodos]{todonotes}
+\usepackage{listings}
+\usepackage{color}
+\colorlet{exampcol}{blue!10}
+\usepackage{multicol}
+\usepackage{booktabs}
+
+
+\usepackage{tcolorbox}
+
+
+\usepackage{setspace}
+%\doublespacing
+
+\usepackage[noanswer]{exercise}%[noanswer]
+\renewcommand{\ExerciseHeaderTitle}{\quad---\quad \color{orange!70!black}\ExerciseTitle}
+
+
+\usepackage[autostyle, english = american]{csquotes}
+\MakeOuterQuote{"}
+
+\usepackage{hyperref}
+\hypersetup{
+    colorlinks,
+    citecolor=black,
+    filecolor=black,
+    linkcolor=blue,
+    urlcolor=blue
+}
+
+\title{R-StatProgamming with functions in R}
+\date{\today}
+\author{Timoth\'ee Bonnet, BDSI}
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\begin{document}
+
+
+
+\maketitle
+
+On Friday 03/04/2020 I will be presenting this tutorial live on Zoom. (ask by email/Slack if you do not know how to use Zoom.)
+
+If you have any trouble going through this tutorial then or at a different time you can chat about it on Slack ( rsb-r-stats-biology.slack.com , if you are not a member but would like to be, drop me an email) or email me at \href{mailto:timotheebonnetc@gmail.com}{timotheebonnetc@gmail.com}.
+
+If you do not attend the Zoom meeting but would like to receive credit through the \href{https://wattlecourses.anu.edu.au/enrol/index.php?id=23938}{COS Career Development Framework} program I need you to complete three exercises of your choice. Send me your answers via Slack or email. It does not have to be correct on the first try and you are welcome to get in touch if you are completely stuck. I will provide feedback to help you complete exercises you want to do.
+
+In this tutorial you will learn:
+
+\begin{itemize}
+    \item How unexplained variation in a response variable can compromise statistical inference when that variation is structured.
+    \item How fixed and random effects can correct for structured variation in the response variable.
+    \item How to fit mixed-effects models in R.
+    \item How to choose between fixed and random effects.
+    \item Extract and interpret mixed models output.
+\end{itemize}
+
+\tableofcontents
+\ListOfExerciseInToc
+\ExerciseLevelInToc{subsubsection}
+
+\clearpage
+
+\section{The dangers of unexplained variation}
+
+On 20 March 2020 an article was published in \textbf{International Journal of Antimicrobial Agents}: "Hydroxychloroquine and azithromycin as a treatment of COVID-19: results of an open-label non-randomized clinical trial" by Gautret \dots and Raoult. This has been one of the most commented article worldwide since then; and the most polarizing article too. See for instance \href{https://www.sciencemag.org/news/2020/03/insane-many-scientists-lament-trump-s-embrace-risky-malaria-drugs-coronavirus}{what Science wrote about it}. There are many things to criticize about this paper but let's focus only on the issue of spatial variation.
+
+The study considers people infected by SARS-CoV-2 and attempts to test whether hydroxychloroquine is an effective cure against the virus.
+Patients who were proposed a treatment with hydroxychloroquine were recruited and managed in Marseille (a French city) centre (20 people were treated with hydroxychloroquine there). Controls without hydroxychloroquine treatment were recruited in Nice, Avignon and Briançon centers (these are all French cities) \dots as well as in Marseille if they refused to take hydroxychloroquine (there was a total of 16 control)
+
+Every day patients are tested for SARS-CoV-2 RNA and the proportion of patient infected in the treatment vs. control group is compared using a simple $\chi^2$ test. Here are the results:
+
+\begin{center}
+\includegraphics[width=0.9\textwidth]{figures/resraoult.jpg}
+\end{center}
+
+You can see the proportion of infection in the treatment drop below the control and small p-values from Day 3. It is tempting to conclude that the treatment works. Unfortunately
+
+
+
+\section{Fitting random effects}
+
+\begin{tcolorbox}[colback=green!5,colframe=green!40!black,title=A nice heading]
+ee
+\end{tcolorbox}
+
+\section{}
+
+
+\begin{Exercise}[difficulty=1, title={xxx}]
+
+\end{Exercise}
+\begin{Answer}
+
+\end{Answer}
+
+\end{document}
