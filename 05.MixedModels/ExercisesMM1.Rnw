@@ -66,6 +66,8 @@ In this tutorial you will learn:
     \item Test for the statistical significance of a random effect.
 \end{itemize}
 
+You will need some data, available at \href{https://github.com/timotheenivalis/RSB-R-Stats-Biology/raw/master/05.MixedModels/Data.zip}{https://github.com/timotheenivalis/RSB-R-Stats-Biology/raw/master/05.MixedModels/Data.zip}. Unzip in your R project directory.
+
 \tableofcontents
 \ListOfExerciseInToc
 \ExerciseLevelInToc{subsubsection}
