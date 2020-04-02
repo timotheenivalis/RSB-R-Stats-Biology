@@ -36,7 +36,7 @@
     urlcolor=blue
 }
 
-\title{R-StatProgamming with functions in R}
+\title{Linear mixed models part 1}
 \date{\today}
 \author{Timoth\'ee Bonnet, BDSI}
 
