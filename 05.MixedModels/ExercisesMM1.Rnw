@@ -63,6 +63,7 @@ In this tutorial you will learn:
     \item How to fit mixed-effects models in R.
     \item How to choose between fixed and random effects.
     \item Extract and interpret mixed models output.
+    \item Test for the statistical significance of a random effect.
 \end{itemize}
 
 \tableofcontents
@@ -72,26 +73,176 @@ In this tutorial you will learn:
 \clearpage
 
 \section{The dangers of unexplained variation}
-
-On 20 March 2020 an article was published in \textbf{International Journal of Antimicrobial Agents}: "Hydroxychloroquine and azithromycin as a treatment of COVID-19: results of an open-label non-randomized clinical trial" by Gautret \dots and Raoult. This has been one of the most commented article worldwide since then; and the most polarizing article too. See for instance \href{https://www.sciencemag.org/news/2020/03/insane-many-scientists-lament-trump-s-embrace-risky-malaria-drugs-coronavirus}{what Science wrote about it}. There are many things to criticize about this paper but let's focus only on the issue of spatial variation.
-
-The study considers people infected by SARS-CoV-2 and attempts to test whether hydroxychloroquine is an effective cure against the virus.
-Patients who were proposed a treatment with hydroxychloroquine were recruited and managed in Marseille (a French city) centre (20 people were treated with hydroxychloroquine there). Controls without hydroxychloroquine treatment were recruited in Nice, Avignon and Briançon centers (these are all French cities) \dots as well as in Marseille if they refused to take hydroxychloroquine (there was a total of 16 control)
-
-Every day patients are tested for SARS-CoV-2 RNA and the proportion of patient infected in the treatment vs. control group is compared using a simple $\chi^2$ test. Here are the results:
-
+Imagine you have measured how much a plant species is attacked by big herbivores as a function of how many thorns the plant grows on stems. You have collected data in 5 locations and visualise the relationship between herbivory and quantity of thorns (in arbitrary units):
 \begin{center}
-\includegraphics[width=0.9\textwidth]{figures/resraoult.jpg}
+  \includegraphics[width=0.8\textwidth]{figures/graph0-1.pdf}
 \end{center}
 
-You can see the proportion of infection in the treatment drop below the control and small p-values from Day 3. It is tempting to conclude that the treatment works, but here is the twist: all patients in the treatment group were selected in the same hospital (Marseille). It is very unlikely that Marseille's hospital is identi
+It looks like the more a plant has thorns, the more it is eaten. Let's check that by fitting a linear regression.
+
+<<>>=
+thorns <- read.csv(file = "Data/thorndata.csv", header=TRUE)
+str(thorns)
+model_0 <- lm(herbivory ~ thorndensity, data = thorns)
+summary(model_0)
+@
+This model confirms a positive relationship between how much a plant has thorns and how much it is consumed by herbivores; which is counter-intuitive.
+
+The twist is that data were collected in 5 different sites, that our two variables have different mean values in different sites, and that our model is not aware of that. 
+We can see the structure in the data by coloring the points by site:
+\begin{center}
+  \includegraphics[width=0.8\textwidth]{figures/graph1-1.pdf}
+\end{center}
+
+Maybe you remember that in a linear model (such as a linear regression) we assume that the residuals follow a normal distribution without any structure (homoscedasticity, independence\dots).
+It is not easy to see patterns by just ploting the residuals:
+<<fig.height=4>>=
+plot(residuals(model_0))
+@
+
+However, in our case, we have data about the missing variable that structure residuals, so we can see clearly that residuals are distributed with structure:
+<<fig.height=4>>=
+plot(thorns$site, residuals(model_0))
+@
+
+We can correct the problem by fititng site in the mode:
+<<fig.height=4>>=
+
+model_1 <- lm(herbivory ~ thorndensity + site, data = thorns)
+summary(model_1)
+@
+
+Now we see a negative relationship between thorn density and herbivory. 
+
+That model corresponds to the plot below:
+\begin{center}
+  \includegraphics[width=0.8\textwidth]{figures/graph2-1.pdf}
+\end{center}
+We have 5 parallel regression lines, one for each site. Differences in the mean values within each sites are accounted for but we estimate the common slope across all sites.
+
+The residuals of that model are more clearly without pattern:
+<<fig.height=4>>=
+
+plot(residuals(model_1))
+plot(thorns$site, residuals(model_1))
+@
 
 
+Note that in the summary of model\_1 we have 4 parameter estimates we did not really care about: the deviations of four site relative to the fifth site. It does not hurt to have them there, but we are not really interested in them because 1) we did not have questions about how sites vary in herbivory, 2) site is just a grouping factor and differences between sites are probably due to numerous processes we have not measured. Given our ignorance on what makes sites different, the values of site effects are essentially random; we fit site only to get a correct inference but do not learn much from the estimated effects of sites.
 
 \section{Fitting random effects}
 
+Now imagine a larger research setting where you would have collected data in 50 sites for a response variable and a predictor.
+<<echo=FALSE, eval=FALSE>>=
+set.seed(123)
+x <- rnorm(10000, 2, 0.5)
+site <- sample(x = 1:50, size = 10000, replace = TRUE)
+y <- 0.2*x + rnorm(10000, 2, 0.5) + rnorm(50,0, 0.1)[site]
+dat <- data.frame(predictor=x, response=y,
+          site=paste0("s",site))
+write.csv(dat, file = "Data/biggerdata.csv", row.names = FALSE, quote = FALSE)
+@
+
+Check what happens if we approach the problem as in the thorn example:
+<<eval=FALSE>>=
+biggerdata <- read.csv("Data/biggerdata.csv")
+str(biggerdata)
+bdmodel <- lm(response ~ predictor + site, data = biggerdata)
+summary(bdmodel)
+@
+
+
+You will find it is a bit of a mess. We have 49 parameter estimates for sites, but we do not really care about those effects, they are essentially random to us. It would be more efficient to fit site as a random effect!
+
+To do so, load (and install if needed) the package \texttt{lme4}. 
+<<>>=
+library(lme4)
+@
+Then you can copy paste the model we called bdmodel, and change two things: 1) change \texttt{lm} to \texttt{lmer}; 2) change \texttt{site} to \texttt{(1|site)}:
+
+<<>>=
+bdmmixedmodel <- lmer(response ~ predictor + (1|site), data = biggerdata)
+@
+That's it, you have fitted a mixed effect model: that is, a model with both fixed and random effect. The syntax (1|something) means that the variable "something" is fitted as a random effect, while the variable "predictor" remains a fixed effect. Check the summary of that model:
+<<>>=
+summary(bdmmixedmodel)
+@
+
+
+
+
+Time for some practice on your own:
+
+\begin{Exercise}[difficulty=1, title={A mixed model for the thorn data set}]
+\begin{enumerate}
+  \item Load the dataset "thorndata.csv" to fit a linear model of "herbivory" as a function of "thorndensity". What is the estimate for the slope?\\
+  \item Add a random effect for site. How does the estimate for the slope changes?\\
+  \item How much variation is explained by differences among sites? How much variation remains unexplained within sites?
+\end{enumerate}
+\end{Exercise}
+
+\begin{Answer}
+Part 1.
+<<>>=
+thorns <- read.csv("Data/thorndata.csv")
+lm(herbivory ~ thorndensity, data=thorns)
+@
+The slope is \Sexpr{coef(lm(herbivory ~ thorndensity, data=thorns))[2]}.\\
+
+Part 2.
+<<>>=
+library(lme4)
+summary(lmer(herbivory ~ thorndensity + (1|site), data=thorns))
+@
+The slope is now \Sexpr{coef(lmer(herbivory ~ thorndensity + (1|site), data=thorns))[2]}.\\
+
+Part 3.
+<<eval=FALSE>>=
+summary(lmer(herbivory ~ thorndensity + (1|site), data=thorns))
+as.numeric(VarCorr(lmer(herbivory ~ thorndensity + (1|site), data=thorns))$site)
+@
+The variance explained by block is \Sexpr{as.numeric(VarCorr(lmer(herbivory ~ thorndensity + (1|site), data=thorns))$block)} (careful, if you extract the standard deviation (Std.Dev.) you need to square it to obtain a variance.). There is no measure of uncertainty for the estimate of variance in block. In the \texttt{summmary} the \texttt{Std.Dev.} is simply the square root of \texttt{Variance}.
+\end{Answer}
+
+
+\begin{tcolorbox}[colback=green!5,colframe=green!40!black,title=How does random effect formula work again?]
+Random effect formula in lme4 and many other R-packages look like (1$|$group).
+
+On the right-hand side of the pipe ($|$) is the variable that groups data points; for instance location, time, species\dots \\
+
+On the left-hand side of the pipe is what varies according to grouping. In today's example we use only $1$, which stands for \textbf{intercept}. In other words we use random-intercept models. You can write other things on the left-hand side to define more complex models ("random interactions", "random regressions",\dots) but we will see that next time.
+
+\end{tcolorbox}
+
+\subsection{Confidence intervals and Tests}
+Sometimes random effects are part of the experimental design and are in the models only to control for confounding effects. But sometimes we care about the value of variance components or we want to report their statistical significance. Let's try a few approaches to evaluate the significance of a random effect. 
+
+
+\begin{Exercise}[difficulty=1, title={CI for variance components in lme4}]
+Use the function \texttt{confint} to estimate confidence intervals for the variance component for "site". Hints: 1) by default confint calculate 95\% confidence intervals for all fixed and random effects as well as for the residual standard deviation which is labelled ".sigma"; 2) confint returns standard deviations for random effects, instead of variances. Take the square of a standard deviation to obtain a variance.
+\end{Exercise}
+\begin{Answer}
+<<>>=
+lmm1 <- lmer(herbivory ~ thorndensity + (1|site), data=thorns)
+conf <- confint(lmm1)
+conf[1,]^2
+@
+\end{Answer}
+
+
+
+
 \begin{tcolorbox}[colback=green!5,colframe=green!40!black,title=Fixed or random effect?]
-ee
+When you want to include a categorical variable as a predictor in a model you can generally 
+\begin{itemize}
+\item First, if the predictor is a numerical variable (like size, temperature, number of species\dots) you will generally want a fixed effect, because the order and distance between values is likely meaningful. A random effect consider values as random "names" for grouping levels.
+\item In general it does not change inference much. Random effects are slightly more efficient because the differences between grouping levels are assumed to come from a normal distribution, instead of being estimated independently from each other. 
+\item A slightly lame but practical reason to use random effects: models output are cleaner with random effects because you get a single parameter estimate for a grouping variable modeled as a random effect, instead of a parameter estimate for each level of the grouping variable when modeled with a fixed effect.
+\item Using a random effect instead of a fixed effect shifts the focus from the effect of each grouping level to variation among grouping levels. What is more interesting to you?
+\item Often we use random effect to "correct" for some structure in the data that is not of interest. But random variance parameters can be of interest in themselves. For instance they can quantify genetic variation, individual repeatability, niche specialisation\dots if a variance parameter is of interest then estimate it using a random effect.
+\item On the other hand, if you are very interested in how different a particular grouping level is from other levels, use fixed effects.
+\item Be careful with random effects if the number of grouping levels is small. You definitely need at least 3, probably at least 5, maybe at least 10\dots With few grouping levels the fitting algorithm could have difficulties estimating the random variance, leading to unstable results (you may get different results from different algorithms) or the random variance being estimated to exactly zero.
+\end{itemize}
 \end{tcolorbox}
 
 \section{}
@@ -110,7 +261,7 @@ ee
 
 \href{http://bbolker.github.io/mixedmodels-misc/glmmFAQ.html}{Ben Bolker's GLMM FAQ is a gold mine if you need some technical details about mixed models (generalized or not).}
 
-If you are going to do lots of mixed models consider subscribing to the mailing-list \href{https://stat.ethz.ch/mailman/listinfo/r-sig-mixed-models}, ask questions or search the archive (anyway, Google is likely to directly send you to the archive).
+If you are going to do lots of mixed models consider subscribing to the mailing-list \href{https://stat.ethz.ch/mailman/listinfo/r-sig-mixed-models}{https://stat.ethz.ch/mailman/listinfo/r-sig-mixed-models}, ask questions or search the archive (anyway, Google is likely to directly send you to the archive).
 
 
 
