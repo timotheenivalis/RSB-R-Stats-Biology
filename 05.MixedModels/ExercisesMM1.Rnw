@@ -352,19 +352,6 @@ On the left-hand side of the pipe is what varies according to grouping. In today
 
 
 
-
-\section{}
-
-
-\begin{Exercise}[difficulty=1, title={xxx}]
-
-\end{Exercise}
-\begin{Answer}
-<<>>=
-@
-\end{Answer}
-
-
 \begin{Exercise}[difficulty=3, title={Do kangaroos have personalities?}]
 <<echo=FALSE, eval=FALSE>>=
 allm <- read.table("AllM.txt", header = TRUE)
