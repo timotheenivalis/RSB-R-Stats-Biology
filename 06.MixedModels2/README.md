@@ -1,23 +1,22 @@
-# Mixed models: why, what, how?
+# Mixed models part 2: practice and random covariates
 
-This session introduces linear mixed models (that is, models that contain random effects and fixed effects), explain why they are useful, give practice with interpreting them, extracting parameters, and fitting different variance structures.
+In this workshop we will:
+* practice interpreting and visualising results from random intercept models
+* introduce more flexible mixed models where random effects are not only on the intercept but also on covariates (you may have heard of that as "random regression", "random interaction", random slope"...)
+* practice with real data sets using lme4
 
-The tutorial is here:
-[https://github.com/timotheenivalis/RSB-R-Stats-Biology/raw/master/05.MixedModels/ExercisesMM1.pdf](https://github.com/timotheenivalis/RSB-R-Stats-Biology/raw/master/05.MixedModels/ExercisesMM1.pdf)
 
-Data for exercises are here:
-[https://github.com/timotheenivalis/RSB-R-Stats-Biology/raw/master/05.MixedModels/Data.zip](https://github.com/timotheenivalis/RSB-R-Stats-Biology/raw/master/05.MixedModels/Data.zip)
+Data for exercises will appear here on Friday 17
+[https://github.com/timotheenivalis/RSB-R-Stats-Biology/raw/master/06.MixedModels2](https://github.com/timotheenivalis/RSB-R-Stats-Biology/raw/master/06.MixedModels2)
 
 
 ___
 
 You are invited to attend the scheduled Zoom meeting.
 
-Topic: Mixed models part 1
-Time: Apr 3, 2020 09:30 PM Canberra, Melbourne, Sydney
+Topic: Mixed models part 2 Time: Apr 17, 2020 09:30 AM Canberra, Melbourne, Sydney
 
-Join Zoom Meeting
-[https://anu.zoom.us/j/174815969](https://anu.zoom.us/j/174815969)
+Join Zoom Meeting [https://anu.zoom.us/j/99477770500](https://anu.zoom.us/j/99477770500)
 
-Meeting ID: 174 815 969
+Meeting ID: 994 7777 0500
 
