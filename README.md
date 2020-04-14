@@ -6,13 +6,14 @@ ___
 
 You are invited to attend the scheduled Zoom meeting.
 
-Topic: **Mixed models part 1**
-Time: Apr 3, 2020 09:30 PM Canberra, Melbourne, Sydney
+Topic: **Mixed models part 2**
+Time: Apr 17, 2020 09:30 AM Canberra, Melbourne, Sydney
+
 
 Join Zoom Meeting
-[https://anu.zoom.us/j/174815969](https://anu.zoom.us/j/174815969)
+[https://anu.zoom.us/j/99477770500](https://anu.zoom.us/j/99477770500)
 
-Meeting ID: 174 815 969
+Meeting ID: 994 7777 0500
 
 ___
 
