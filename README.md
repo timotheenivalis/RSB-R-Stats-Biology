@@ -25,7 +25,8 @@ Workshops so far this year (2020):
 * [Graphics in R](02.Graphics)
 * [Linear regression](03.LinearModels)
 * [Understand and make functions](04.Functions)
-* [Mixed models part 1 (the workshop material will appear soon!)](05.MixedModels)
+* [Mixed models part 1](05.MixedModels)
+* [Mixed models part 2: random covariates](06.MixedModels2)
 
 
 What other topics would you like covered? Just ask and I will try to make it happen!
