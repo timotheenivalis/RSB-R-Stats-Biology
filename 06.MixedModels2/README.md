@@ -7,7 +7,7 @@ In this workshop we will:
 
 
 Data for exercises will appear here on Friday 17
-[https://github.com/timotheenivalis/RSB-R-Stats-Biology/raw/master/06.MixedModels2/DataMM2.zip](https://github.com/timotheenivalis/RSB-R-Stats-Biology/raw/master/06.MixedModels2/)
+[https://github.com/timotheenivalis/RSB-R-Stats-Biology/raw/master/06.MixedModels2/DataMM2.zip](https://github.com/timotheenivalis/RSB-R-Stats-Biology/raw/master/06.MixedModels2/DataMM2.zip)
 
 
 ___
