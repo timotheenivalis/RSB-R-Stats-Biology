@@ -1,6 +1,6 @@
 # Introduction to Bayesian models in R
 
-The workshop material is at [https://github.com/timotheenivalis/RSB-R-Stats-Biology/raw/master/15.IntroBayesian/SlidesData.zip](https://github.com/timotheenivalis/RSB-R-Stats-Biology/raw/master/15.IntroBayesian/SlidesData.zip)
+The workshop material is at [https://github.com/timotheenivalis/RSB-R-Stats-Biology/raw/master/Archive/15.IntroBayesian/SlidesData.zip](https://github.com/timotheenivalis/RSB-R-Stats-Biology/raw/master/Archive/15.IntroBayesian/SlidesData.zip)
 
 
 * The Bayesian philosophy
