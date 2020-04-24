@@ -4,8 +4,8 @@ Coefficients from a multiple regression do not have the same meaning as coeffici
 
 
 Slides, exercises and data can be downloaded as a .zip file here:
-[https://github.com/timotheenivalis/RSB-R-Stats-Biology/raw/master/10.MultipleRegression/SlidesExData.zip](https://github.com/timotheenivalis/RSB-R-Stats-Biology/raw/master/10.MultipleRegression/SlidesExData.zip)
+[https://github.com/timotheenivalis/RSB-R-Stats-Biology/raw/master/Archive/10.MultipleRegression/SlidesExData.zip](https://github.com/timotheenivalis/RSB-R-Stats-Biology/raw/master/Archive/10.MultipleRegression/SlidesExData.zip)
 
 Or see the files individually here:
-[https://github.com/timotheenivalis/RSB-R-Stats-Biology/tree/master/10.MultipleRegression/SlidesExData](https://github.com/timotheenivalis/RSB-R-Stats-Biology/tree/master/10.MultipleRegression/SlidesExData)
+[https://github.com/timotheenivalis/RSB-R-Stats-Biology/tree/master/Archive/10.MultipleRegression/SlidesExData](https://github.com/timotheenivalis/RSB-R-Stats-Biology/tree/master/Archive/10.MultipleRegression/SlidesExData)
 

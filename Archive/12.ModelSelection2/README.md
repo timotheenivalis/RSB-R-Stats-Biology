@@ -1,6 +1,6 @@
 # Model Selection in R, part 2
 
-Download the workshop material at [https://timotheenivalis.github.io/RSB-R-Stats-Biology/12.ModelSelection2/SlidesData.zip](https://timotheenivalis.github.io/RSB-R-Stats-Biology/12.ModelSelection2/SlidesData.zip).
+Download the workshop material at [https://timotheenivalis.github.io/RSB-R-Stats-Biology/Archive/12.ModelSelection2/SlidesData.zip](https://timotheenivalis.github.io/RSB-R-Stats-Biology/Archive/12.ModelSelection2/SlidesData.zip).
 
 In this workshop we will discuss and practice with:
 
